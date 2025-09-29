@@ -5,7 +5,7 @@
         This module adds an option to dialogs to expand it to full screen mode.
         Each user can the initial state of the dialogs in their preferences.
     ''',
-    'version': '18.0.1.0',
+    'version': '18.0.1.0.5',
     'category': 'Tools/UI',
     'license': 'LGPL-3', 
     'author': 'MuK IT',
