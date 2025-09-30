@@ -1,0 +1,44 @@
+v18.15
+-Corrección al utilziar descuentos y notas / seciones
+
+v18.14
+-Permitir agregar conceptos en traslado de exportaciones
+
+v18.13
+-Corregir EquivalenciaDR en PDF
+
+v18.12
+-Calculo de descuentos impuestos incluidos
+
+v18.11
+-Calculo de descuentos
+
+v18.10
+-Configurar campos para no copiar.
+
+v18.09
+-Corrección en número de pago de parcialidad.
+
+v18.08
+-No copiar datos fiscales al duplicar pago, no poner decimales en equivalenciadr.
+
+v18.07
+-Corrección el número de parcialidad
+
+v18.06
+-Correccion campos en timbrado pagos
+
+v18.05
+-Cambiar timbrado por por SSL
+
+v18.04
+-Valores por defecto en reversión de movimientos.
+
+v18.03
+-Agregar mensaje de error al revisar saldo.
+
+v18.02
+-Agregar catálogo de países SAT.
+
+v18.01
+-Versión de producción
