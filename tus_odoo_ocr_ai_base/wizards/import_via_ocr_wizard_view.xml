@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="import_via_ocr_wizard_form" model="ir.ui.view">
+            <field name="name">import.via.ocr.wizard.form</field>
+            <field name="model">import.via.ocr</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field filename="file_upload_name" name="file_upload"/>
+
+                        <field invisible="1" name="status"/>
+                        <button class="oe_highlight btn ml-65" data-hotkey="q" invisible="file_upload == False"
+                                name="send_button_wizard_action" string="Send" type="object"/>
+                        <button class="oe_highlight btn ml-65" data-hotkey="q"
+                                invisible="ocr_response_received == False or file_upload == False or status == False"
+                                name="create_record_button_wizard_action" string="Create Record" type="object"/>
+                        <field invisible="1" name="file_upload_name"/>
+                        <field invisible="1" name="ocr_attachment_id"/>
+                    </group>
+                    <field invisible="1" name="ocr_response_received"/>
+                    <div class="alert alert-warning" role="alert">
+                        Note: Only PDF &amp; Image supported with less than 2 MB of File size.
+                    </div>
+                    <notebook invisible="ocr_response_received == False">
+                        <page string="Response Preview" invisible="file_upload == False">
+                            <field name="response_text" string="Response"/>
+                        </page>
+                        <page string="File Preview" invisible="file_upload == False or status == False">
+                            <field invisible="1" name="mime_type"/>
+                            <field filename="file_upload_name" invisible="mime_type != 'application/pdf'"
+                                   name="file_upload" readonly="1" widget="pdf_viewer"/>
+                            <field filename="file_upload_name" invisible="mime_type not in ['image/jpeg', 'image/png']"
+                                   name="file_upload" options='{"zoom": true}' readonly="1" widget="image"/>
+                        </page>
+                        <page string="Token Details" invisible="file_upload == False or status == False">
+                            <group>
+                                <group>
+                                    <field name="used_token" string="Used Tokens For This Request." readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="total_purchase_token" string="Total Purchase Tokens" readonly="1"/>
+                                    <field name="total_used_token" string="Total Used Tokens" readonly="1"/>
+                                    <field name="total_available_token" string="Total Available Tokens" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button class="btn btn-secondary" data-hotkey="x" special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="import_via_ocr_wizard_action" model="ir.actions.act_window">
+            <field name="name">Import Via OCR</field>
+            <field name="res_model">import.via.ocr</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_model': 'import.via.ocr', 'default_values':
+                create_record_button_wizard_action()}
+            </field>
+        </record>
+    </data>
+</odoo>

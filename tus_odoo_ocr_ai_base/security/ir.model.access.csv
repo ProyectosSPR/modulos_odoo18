@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_odoo_ocr_ai_config,odoo.ocr.ai.config,model_odoo_ocr_ai_config,base.group_user,1,1,1,1
+access_odoo_ocr_ai_config_line,odoo.ocr.ai.config.line,model_odoo_ocr_ai_config_line,base.group_user,1,1,1,1
+access_import_via_ocr,import.via.ocr,model_import_via_ocr,base.group_user,1,1,1,1
+access_odoo_ocr_ai_config_line_child,odoo.ocr.ai.config.line.child,model_odoo_ocr_ai_config_line_child,base.group_user,1,1,1,1
+access_odoo_ocr_api_config,odoo.ocr.api.config,model_odoo_ocr_api_config,base.group_user,1,1,1,1
+access_ir_model_internal_user,access.ir.model.internal.user,base.model_ir_model,base.group_user,1,0,0,0
+access_ir_model_fields_internal_user,access.ir.model.fields.internal.user,base.model_ir_model_fields,base.group_user,1,0,0,0

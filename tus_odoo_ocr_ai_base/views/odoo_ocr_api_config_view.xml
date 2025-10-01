@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="odoo_ocr_api_config_tree_view">
+            <field name="name">odoo.ocr.api.config.tree</field>
+            <field name="model">odoo.ocr.api.config</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="server_url" readonly="True"/>
+                    <field name="company_id"/>
+                    <field name="api_key"/>
+                    <field name="date_format" readonly="True"/>
+                    <button name="test_connection" string="Manage your Accounts" type="object" class="oe_highlight"/>
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="odoo_ocr_api_config_form_view">
+            <field name="name">odoo.ocr.api.config.form</field>
+            <field name="model">odoo.ocr.api.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="server_url" readonly="True"/>
+                                <field name="api_key"/>
+                                <field name="date_format" readonly="True"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="ocr_api_config_action" model="ir.actions.act_window">
+            <field name="name">API Configuration</field>
+            <field name="res_model">odoo.ocr.api.config</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="ocr_api_configuration_menu"
+                  name="API Configuration"
+                  action="ocr_api_config_action"
+                  parent="ocr_ai_integration_main_manu"
+                  sequence="1"/>
+    </data>
+</odoo>
