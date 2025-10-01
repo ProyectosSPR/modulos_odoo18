@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="view_n8n_workflow_instance_tree" model="ir.ui.view">
-        <field name="name">n8n.workflow.instance.tree</field>
+        <field name="name">n8n.workflow.instance.list</field>
         <field name="model">n8n.workflow.instance</field>
         <field name="arch" type="xml">
-            <tree string="Instancias de Workflow">
+            <list string="Instancias de Workflow">
                 <field name="name"/>
                 <field name="partner_id"/>
                 <field name="product_id"/>
                 <field name="order_id"/>
                 <field name="state" widget="badge" decoration-warning="state == 'pending'" decoration-success="state == 'synced'"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -40,7 +40,8 @@
                         </group>
                         <group string="Datos de N8N">
                             <field name="n8n_user_id"/>
-                            <field name="template_workflow_id"/> <field name="n8n_instance_id" string="ID de Workflow Sincronizado"/>
+                            <field name="template_workflow_id"/>
+                            <field name="n8n_instance_id" string="ID de Workflow Sincronizado"/>
                         </group>
                     </group>
                     <div class="alert alert-success" role="alert" invisible="not n8n_invite_url or state == 'synced'">
