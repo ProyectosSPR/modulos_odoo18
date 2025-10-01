@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_n8n_root"
+              name="Mis Automatizaciones"
+              sequence="50"
+              action="action_n8n_workflow_instance"
+              web_icon="n8n-sales,static/description/icon.png"/>
+</odoo>

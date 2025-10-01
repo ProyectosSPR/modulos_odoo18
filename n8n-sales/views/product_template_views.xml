@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_form_n8n" model="ir.ui.view">
+        <field name="name">product.template.form.n8n</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="inside">
+                <group string="Integración N8N" name="n8n_integration">
+                    <field name="n8n_template_selection"/>
+                    <field name="n8n_workflow_template_id" readonly="1" string="ID de Plantilla Seleccionado"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

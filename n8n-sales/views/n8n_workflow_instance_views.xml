@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_n8n_workflow_instance_tree" model="ir.ui.view">
+        <field name="name">n8n.workflow.instance.tree</field>
+        <field name="model">n8n.workflow.instance</field>
+        <field name="arch" type="xml">
+            <tree string="Instancias de Workflow">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="order_id"/>
+                <field name="state" widget="badge" decoration-warning="state == 'pending'" decoration-success="state == 'synced'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_n8n_workflow_instance_form" model="ir.ui.view">
+        <field name="name">n8n.workflow.instance.form</field>
+        <field name="model">n8n.workflow.instance</field>
+        <field name="arch" type="xml">
+            <form string="Instancia de Workflow">
+                <header>
+                    <button name="action_open_sync_wizard"
+                            string="Configurar y Sincronizar"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="state == 'synced'"
+                            data-hotkey="s"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,synced"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Información de Venta">
+                            <field name="partner_id"/>
+                            <field name="product_id"/>
+                            <field name="order_id"/>
+                        </group>
+                        <group string="Datos de N8N">
+                            <field name="n8n_user_id"/>
+                            <field name="template_workflow_id"/> <field name="n8n_instance_id" string="ID de Workflow Sincronizado"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-success" role="alert" invisible="not n8n_invite_url or state == 'synced'">
+                        <h4 class="alert-heading">¡Acción Requerida!</h4>
+                        <p>Para empezar, regístrate en n8n usando tu enlace de invitación personal. Una vez dentro, genera una API Key y úsala en el botón 'Configurar y Sincronizar'.</p>
+                        <hr/>
+                        <field name="n8n_invite_url" widget="url" string="Tu URL de Invitación a n8n" nolabel="1"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_n8n_workflow_instance" model="ir.actions.act_window">
+        <field name="name">Mis Automatizaciones</field>
+        <field name="res_model">n8n.workflow.instance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
