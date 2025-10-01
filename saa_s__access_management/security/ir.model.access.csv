@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_template_saas_fields,access.product.template.saas.fields,product.model_product_template,base.group_system,1,1,1,1
+access_sale_subscription_saas_fields,access.sale.subscription.saas.fields,subscription_oca.model_sale_subscription,base.group_system,1,1,1,1

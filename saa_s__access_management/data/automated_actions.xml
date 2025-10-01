@@ -1,0 +1,88 @@
+<odoo>
+    <data noupdate="1">
+
+        <record id="action_server_provision_saas_user" model="ir.actions.server">
+            <field name="name">SaaS: Aprovisionar acceso de usuario</field>
+            <field name="model_id" ref="subscription_package.model_subscription_package"/>
+            <field name="state">code</field>
+            <field name="code">
+for subscription in records:
+    try:
+        partner = subscription.partner_id
+        user = partner.user_ids and partner.user_ids[0] or None
+        if not user:
+            subscription.message_post(body="Error: El cliente no tiene un usuario de portal asociado.")
+            continue
+
+        company_name = partner.name or "Nueva Compañía SaaS"
+        company = env['res.company'].sudo().search([('name', '=', company_name)], limit=1)
+        if not company:
+            company = env['res.company'].sudo().create({'name': company_name, 'partner_id': partner.id})
+            subscription.message_post(body=f"DEBUG: No se encontró compañía. Creando nueva: '{company.name}'.")
+        else:
+            subscription.message_post(body=f"DEBUG: Compañía existente '{company.name}' encontrada. Reutilizándola.")
+        
+        admin_user = env['res.users'].sudo().browse(2)
+        if admin_user.exists():
+            admin_user.write({'company_ids': [(4, company.id)]})
+
+        # --- CAMBIO CLAVE: Ajusta el campo de las líneas de la suscripción ---
+        # Cambia 'sale_subscription_line_ids' por 'product_line_ids'
+        provisioning_product_tmpl = subscription.product_line_ids.product_id.product_tmpl_id[0]
+        internal_user_group = env.ref('base.group_user', raise_if_not_found=False)
+        groups_to_set = provisioning_product_tmpl.access_group_ids
+        if internal_user_group:
+            groups_to_set |= internal_user_group
+        
+        user.sudo().write({
+            'groups_id': [(6, 0, groups_to_set.ids)],
+            'company_id': company.id,
+            'company_ids': [(6, 0, [company.id])],
+        })
+        
+        subscription.sudo().write({'is_provisioned': True})
+        subscription.message_post(body=f"ÉXITO: Acceso aprovisionado para {user.name} en la compañía {company.name}.")
+    except Exception as e:
+        subscription.message_post(body=f"ERROR CRÍTICO DURANTE EL APROVISIONAMIENTO: {e}")
+            </field>
+        </record>
+        
+        <record id="automation_provision_saas_user" model="base.automation">
+            <field name="name">SaaS: Aprovisionar acceso de usuario</field>
+            <field name="model_id" ref="subscription_package.model_subscription_package"/>
+            <field name="trigger">on_create_or_write</field>
+            <field name="filter_domain">[("stage_category", "=", "progress"), ("is_provisioned", "=", False)]</field>
+            <field name="action_server_ids" eval="[(4, ref('action_server_provision_saas_user'))]"/>
+        </record>
+
+        <record id="action_server_revoke_saas_user" model="ir.actions.server">
+            <field name="name">SaaS: Revocar acceso de usuario</field>
+            <field name="model_id" ref="subscription_package.model_subscription_package"/>
+            <field name="state">code</field>
+            <field name="code">
+for subscription in records:
+    user = subscription.partner_id.user_ids and subscription.partner_id.user_ids[0] or None
+    if user and user.active:
+        try:
+            main_company = env.ref('base.main_company', raise_if_not_found=False) or env.company
+            user.sudo().write({
+                'sel_groups_1_10_11': 10,
+                'company_id': main_company.id,
+                'company_ids': [(6, 0, [main_company.id])],
+            })
+            subscription.message_post(body=f"ÉXITO: El usuario {user.name} ha sido revertido a portal y devuelto a la compañía principal.")
+        except Exception as e:
+            subscription.message_post(body=f"ERROR CRÍTICO al revertir al usuario: {e}")
+    subscription.sudo().write({'is_provisioned': False})
+            </field>
+        </record>
+
+        <record id="automation_revoke_saas_user" model="base.automation">
+            <field name="name">SaaS: Revocar acceso de usuario</field>
+            <field name="model_id" ref="subscription_package.model_subscription_package"/>
+            <field name="trigger">on_write</field>
+            <field name="filter_domain">[("stage_category", "=", "closed"), ("is_provisioned", "=", True)]</field>
+            <field name="action_server_ids" eval="[(4, ref('action_server_revoke_saas_user'))]"/>
+        </record>
+    </data>
+</odoo>
