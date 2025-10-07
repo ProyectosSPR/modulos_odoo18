@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_n8n_sync_wizard_form" model="ir.ui.view">
+        <field name="name">n8n.sync.wizard.form</field>
+        <field name="model">n8n.sync.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Configurar y Sincronizar Workflow">
+                <p class="oe_grey">
+                    <b>Paso 1:</b> Ingresa la API Key de tu cuenta personal de n8n para autorizar la creación del workflow.
+                </p>
+                <group>
+                    <field name="workflow_instance_id" invisible="1"/>
+                    <field name="n8n_api_key" password="True" nolabel="1" placeholder="Pega aquí tu API Key de n8n..."/>
+                </group>
+                <p class="oe_grey">
+                    <b>Paso 2:</b> Elige a qué instancia de Odoo se conectará esta automatización.
+                </p>
+                <field name="odoo_connection_type" widget="radio"/>
+                <group invisible="odoo_connection_type != 'external'" string="Credenciales de Odoo Externo">
+                    <field name="external_odoo_url" placeholder="https://miodoo.com"/>
+                    <field name="external_odoo_db" placeholder="nombre_base_de_datos"/>
+                    <field name="external_odoo_user" placeholder="admin@ejemplo.com"/>
+                    <field name="external_odoo_password"/>
+                </group>
+                <footer>
+                    <button name="action_synchronize" string="Sincronizar" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

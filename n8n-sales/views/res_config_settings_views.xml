@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_n8n" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.n8n</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="N8N Sales" string="N8N Sales" name="n8n_sales">
+                    <block title="Configuración Maestra de N8N" id="n8n_master_config">
+                        <setting string="URL Maestra de n8n" help="La URL base de tu instancia maestra de n8n (ej. https://n8n.midominio.com)">
+                            <div class="content-group">
+                                <field name="n8n_url" placeholder="https://n8n.midominio.com"/>
+                            </div>
+                        </setting>
+                        <setting string="API Key Maestra de n8n" help="API Key con permisos de administrador de tu instancia maestra de n8n.">
+                            <div class="content-group">
+                                <field name="n8n_api_key" password="True"/>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

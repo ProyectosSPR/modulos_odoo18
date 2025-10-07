@@ -1,0 +1,14 @@
+<odoo>
+    <record id="sale_subscription_form_view_saas" model="ir.ui.view">
+        <field name="name">subscription.package.saas.form</field>
+        <field name="model">subscription.package</field>
+        
+        <field name="inherit_id" ref="subscription_package.subscription_package_view_form"/>
+        
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <field name="is_provisioned" widget="boolean_button" readonly="1"/>
+            </div>
+        </field>
+    </record>
+</odoo>
