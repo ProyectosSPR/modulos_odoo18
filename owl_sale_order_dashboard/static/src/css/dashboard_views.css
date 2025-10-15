@@ -1,0 +1,26 @@
+/* Ensure proper scrolling for the dashboard */
+.o_sale_dashboard {
+    height: 100vh;
+}
+
+/* Scrollable content area */
+.overflow-auto {
+    overflow: auto;
+}
+
+/* Fix for chart containers */
+.chart-container {
+    min-height: 250px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .o_sale_dashboard {
+        height: auto;
+        overflow: visible;
+    }
+    
+    .chart-container {
+        height: 200px !important;
+    }
+}
