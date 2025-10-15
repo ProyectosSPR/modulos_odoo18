@@ -20,22 +20,23 @@ class PipCommands(models.TransientModel):
     def install_button(self):
         msg = ''
         try:
-            # Corrección: Se añade '--break-system-packages' a la lista de argumentos
-            command_list = [
-                self.pip_versions,
-                'install',
-                self.library_name,
-                '--break-system-packages'
-            ]
-            result = subprocess.run(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+            # CONSTRUCCIÓN DEL COMANDO CORREGIDO Y MÁS ROBUSTO
+            command = f"{self.pip_versions} install {self.library_name} --break-system-packages"
+            
+            # Ejecutamos el comando usando shell=True para interpretar la cadena completa
+            result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            
             output = result.stdout.decode('utf-8').replace('\n', '<br>')
             msg = f'<div class="alert alert-success text-start" role="alert">{output}</div>'
+            
         except subprocess.CalledProcessError as e:
             # Handle errors here
             output = e.stderr.decode('utf-8').replace('\n', '<br>')
             msg = f'<div class="alert alert-danger text-start" role="alert">Error : {output}</div>'
+        
         if not msg:
             msg = f'<div class="alert alert-info text-start" role="alert">Nothing To install</div>'
+            
         message_id = self.env['message.wizard'].create({'message': msg})
         return {
             'name': 'Message',
