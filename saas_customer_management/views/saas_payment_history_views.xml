@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Payment History Form View -->
     <record id="view_saas_payment_history_form" model="ir.ui.view">
         <field name="name">saas.payment.history.form</field>
         <field name="model">saas.payment.history</field>
@@ -41,13 +40,12 @@
         </field>
     </record>
 
-    <!-- Payment History Tree View -->
     <record id="view_saas_payment_history_tree" model="ir.ui.view">
-        <field name="name">saas.payment.history.tree</field>
+        <field name="name">saas.payment.history.list</field>
         <field name="model">saas.payment.history</field>
         <field name="arch" type="xml">
-            <tree decoration-success="status == 'completed'" 
-                  decoration-warning="status == 'pending'" 
+            <list decoration-success="status == 'completed'"
+                  decoration-warning="status == 'pending'"
                   decoration-danger="status == 'failed'"
                   decoration-muted="status == 'refunded'">
                 <field name="payment_date"/>
@@ -60,11 +58,10 @@
                 <field name="transaction_id"/>
                 <field name="billing_period_start"/>
                 <field name="billing_period_end"/>
-            </tree>
+            </list>
         </field>
     </record>
 
-    <!-- Payment History Search View -->
     <record id="view_saas_payment_history_search" model="ir.ui.view">
         <field name="name">saas.payment.history.search</field>
         <field name="model">saas.payment.history</field>
@@ -78,10 +75,10 @@
                 <filter string="Pending" name="pending" domain="[('status', '=', 'pending')]"/>
                 <filter string="Failed" name="failed" domain="[('status', '=', 'failed')]"/>
                 <separator/>
-                <filter string="This Month" name="this_month" 
+                <filter string="This Month" name="this_month"
                         domain="[('payment_date', '&gt;=', (context_today() - relativedelta(day=1)).strftime('%Y-%m-%d')),
                                  ('payment_date', '&lt;', (context_today() + relativedelta(months=1, day=1)).strftime('%Y-%m-%d'))]"/>
-                <filter string="This Year" name="this_year" 
+                <filter string="This Year" name="this_year"
                         domain="[('payment_date', '&gt;=', time.strftime('%Y-01-01')),
                                  ('payment_date', '&lt;=', time.strftime('%Y-12-31'))]"/>
                 <group string="Group By">

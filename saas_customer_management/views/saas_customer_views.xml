@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Customer Form View -->
     <record id="view_saas_customer_form" model="ir.ui.view">
         <field name="name">saas.customer.form</field>
         <field name="model">saas.customer</field>
@@ -81,12 +80,11 @@
         </field>
     </record>
 
-    <!-- Customer Tree View -->
     <record id="view_saas_customer_tree" model="ir.ui.view">
-        <field name="name">saas.customer.tree</field>
+        <field name="name">saas.customer.list</field>
         <field name="model">saas.customer</field>
         <field name="arch" type="xml">
-            <tree decoration-success="state == 'active'" decoration-warning="state == 'prospect'" decoration-danger="state == 'suspended'">
+            <list decoration-success="state == 'active'" decoration-warning="state == 'prospect'" decoration-danger="state == 'suspended'">
                 <field name="company_name"/>
                 <field name="contact_name"/>
                 <field name="contact_email"/>
@@ -95,11 +93,10 @@
                 <field name="active_instance_count"/>
                 <field name="total_revenue" widget="monetary"/>
                 <field name="date_created"/>
-            </tree>
+            </list>
         </field>
     </record>
 
-    <!-- Customer Search View -->
     <record id="view_saas_customer_search" model="ir.ui.view">
         <field name="name">saas.customer.search</field>
         <field name="model">saas.customer</field>
