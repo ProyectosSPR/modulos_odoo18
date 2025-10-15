@@ -23,4 +23,312 @@ msgstr " Ingrese un nombre descriptivo para la etapa"
 #. module: subscription_package
 #: model:mail.template,body_html:subscription_package.mail_template_subscription_renew
 msgid ""
-"<div style=\"background:#F0F0F
+"<div style=\"background:#F0F0F0;color:#515166;padding:10px 0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;\">\n"
+"                <table style=\"width:600px;margin:5px auto;\">\n"
+"                    <tbody>\n"
+"                        <tr>\n"
+"                            <td style=\"padding:10px 10px 10px 5px;\">\n"
+"                                <img src=\"/logo.png\" alt=\"Logo\" style=\"max-height: 40px;\">\n"
+"                            </td>\n"
+"                        </tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"                <table style=\"width:600px;margin:0px auto;background:white;border:1px solid #e1e1e1;\">\n"
+"                    <tbody>\n"
+"                        <tr>\n"
+"                            <td style=\"padding:15px;\">\n"
+"                                <p>Dear <t t-out=\"object.partner_id.name or ''\">-</t>,</p>\n"
+"                                <p>This is an automated email to inform you that your Subscription <t t-out=\"object.name or ''\">-</t> is going to be expired on <t t-out=\"object.end_date or ''\">-</t>.</p>\n"
+"                                <p>Thank you.</p>\n"
+"                            </td>\n"
+"                        </tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"                <table style=\"width:600px;margin:auto;\">\n"
+"                    <tbody>\n"
+"                        <tr>\n"
+"                            <td style=\"text-align:center;padding:10px 10px 10px 5px;font-size:12px;\">\n"
+"                                <p><t t-out=\"object.company_id.name or ''\">YourCompany</t> · <a t-attf-href=\"#{object.company_id.website or ''}\" style=\"color:#515166;text-decoration:none;\"><t t-out=\"object.company_id.website or ''\">YourWebsite</t></a> · <a t-attf-href=\"mailto:#{object.company_id.email or ''}\" style=\"color:#515166;text-decoration:none;\"><t t-out=\"object.company_id.email or ''\">youremail@example.com</t></a> · <t t-out=\"object.company_id.phone or ''\">+1 123-456-7890</t></p>\n"
+"                            </td>\n"
+"                        </tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"            </div>"
+msgstr ""
+"<div style=\"background:#F0F0F0;color:#515166;padding:10px 0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;\">\n"
+"                <table style=\"width:600px;margin:5px auto;\">\n"
+"                    <tbody>\n"
+"                        <tr>\n"
+"                            <td style=\"padding:10px 10px 10px 5px;\">\n"
+"                                <img src=\"/logo.png\" alt=\"Logo\" style=\"max-height: 40px;\">\n"
+"                            </td>\n"
+"                        </tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"                <table style=\"width:600px;margin:0px auto;background:white;border:1px solid #e1e1e1;\">\n"
+"                    <tbody>\n"
+"                        <tr>\n"
+"                            <td style=\"padding:15px;\">\n"
+"                                <p>Estimado/a <t t-out=\"object.partner_id.name or ''\">-</t>,</p>\n"
+"                                <p>Este es un correo automático para informarle que su Suscripción <t t-out=\"object.name or ''\">-</t> va a expirar el <t t-out=\"object.end_date or ''\">-</t>.</p>\n"
+"                                <p>Gracias.</p>\n"
+"                            </td>\n"
+"                        </tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"                <table style=\"width:600px;margin:auto;\">\n"
+"                    <tbody>\n"
+"                        <tr>\n"
+"                            <td style=\"text-align:center;padding:10px 10px 10px 5px;font-size:12px;\">\n"
+"                                <p><t t-out=\"object.company_id.name or ''\">SuCompañía</t> · <a t-attf-href=\"#{object.company_id.website or ''}\" style=\"color:#515166;text-decoration:none;\"><t t-out=\"object.company_id.website or ''\">SuSitioWeb</t></a> · <a t-attf-href=\"mailto:#{object.company_id.email or ''}\" style=\"color:#515166;text-decoration:none;\"><t t-out=\"object.company_id.email or ''\">suemail@ejemplo.com</t></a> · <t t-out=\"object.company_id.phone or ''\">+1 123-456-7890</t></p>\n"
+"                            </td>\n"
+"                        </tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"            </div>"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__subscription_package__state__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package_plan__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_recurrence_period__duration
+msgid "Amount"
+msgstr "Cantidad"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__recurrence_period__unit__hours
+msgid "Hour(s)"
+msgstr "Hora(s)"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__subscription_package_plan__renewal_period__days
+msgid "Day(s)"
+msgstr "Día(s)"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__recurrence_period__unit__days
+msgid "Days"
+msgstr "Días"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package_plan__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package_stage__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__subscription_package__state__pending
+msgid "Pending"
+msgstr "Pendiente"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__subscription_package_plan__renewal_period__months
+msgid "Month(s)"
+msgstr "Mes(es)"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__recurrence_period__unit__months
+msgid "Months"
+msgstr "Meses"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package_stage__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__subscription_package__state__draft
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__end_date
+msgid "End Date"
+msgstr "Fecha de Fin"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__subscription_package_plan__renewal_period__weeks
+msgid "Week(s)"
+msgstr "Semana(s)"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__recurrence_period__unit__weeks
+msgid "Weeks"
+msgstr "Semanas"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__subscription_package_plan__renewal_period__years
+msgid "Year(s)"
+msgstr "Año(s)"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__recurrence_period__unit__years
+#: model:uom.uom,name:subscription_package.product_uom_years
+msgid "Years"
+msgstr "Años"
+
+#. module: subscription_package
+#: model_terms:ir.ui.view,arch_db:subscription_package.subscription_package_view_form
+msgid "e.g. Monthly Subscriptions"
+msgstr "ej. Suscripciones Mensuales"
+
+#. module: subscription_package
+#: model_terms:ir.ui.view,arch_db:subscription_package.subscription_plan_view_form
+msgid "e.g. Yearly Subscription"
+msgstr "ej. Suscripción Anual"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__recurrence_period__unit__hours
+msgid "hours"
+msgstr "horas"
+
+#. module: subscription_package
+#: model:ir.model.fields,help:subscription_package.field_subscription_package__so_count
+msgid "subscription package sales count"
+msgstr "conteo de ventas del paquete de suscripción"
+
+#. module: subscription_package
+#: model_terms:ir.ui.view,arch_db:subscription_package.subscription_plan_view_form
+msgid "term(s)"
+msgstr "plazo(s)"
+
+#. module: subscription_package
+#: model:ir.model.fields,help:subscription_package.field_subscription_package__recurring_price
+msgid "The price of the subscription"
+msgstr "El precio de la suscripción"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package_plan__term
+msgid "Term"
+msgstr "Plazo"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_recurrence_period__unit
+msgid "Unit"
+msgstr "Unidad"
+
+#. module: subscription_package
+#: model:ir.model.fields.selection,name:subscription_package.selection__subscription_package__state__close
+msgid "Close"
+msgstr "Cerrado"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__code
+msgid "Code"
+msgstr "Código"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__partner_id
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package_stage__fold
+msgid "Folded in Kanban"
+msgstr "Plegado en Kanban"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__product_id
+msgid "Package"
+msgstr "Paquete"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__plan_id
+msgid "Plan"
+msgstr "Plan"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package_plan__product_template_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_recurrence_period__name
+msgid "Recurrence"
+msgstr "Recurrencia"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package_plan__recurrence_id
+msgid "Recurrence"
+msgstr "Recurrencia"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package_plan__renewal
+msgid "Renewal"
+msgstr "Renovación"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__recurring_price
+msgid "Sale Price"
+msgstr "Precio de Venta"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__so_count
+msgid "Sales Count"
+msgstr "Conteo de Ventas"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package_stage__id
+msgid "Stage"
+msgstr "Etapa"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__stage_id
+msgid "Stage"
+msgstr "Etapa"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__start_date
+msgid "Start Date"
+msgstr "Fecha de Inicio"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__state
+msgid "Status"
+msgstr "Estado"
+
+#. module: subscription_package
+#: model,name:subscription_package.model_subscription_package
+msgid "Subscription"
+msgstr "Suscripción"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package_plan__subscription_id
+msgid "Subscription"
+msgstr "Suscripción"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__name
+msgid "Description"
+msgstr "Descripción"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__duration
+msgid "Duration"
+msgstr "Duración"
+
+#. module: subscription_package
+#: model:ir.model.fields,field_description:subscription_package.field_subscription_package__sale_order_id
+msgid "Sale Order"
+msgstr "Orden de Venta"
