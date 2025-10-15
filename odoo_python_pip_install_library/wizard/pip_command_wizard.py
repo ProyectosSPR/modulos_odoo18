@@ -20,7 +20,14 @@ class PipCommands(models.TransientModel):
     def install_button(self):
         msg = ''
         try:
-            result = subprocess.run([self.pip_versions, 'install', self.library_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+            # Corrección: Se añade '--break-system-packages' a la lista de argumentos
+            command_list = [
+                self.pip_versions,
+                'install',
+                self.library_name,
+                '--break-system-packages'
+            ]
+            result = subprocess.run(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
             output = result.stdout.decode('utf-8').replace('\n', '<br>')
             msg = f'<div class="alert alert-success text-start" role="alert">{output}</div>'
         except subprocess.CalledProcessError as e:
@@ -38,4 +45,3 @@ class PipCommands(models.TransientModel):
             'res_id': message_id.id,
             'target': 'new'
         }
- 
