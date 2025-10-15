@@ -255,7 +255,7 @@ msgstr "Empleado"
 #: model:ir.module.category,name:employee_purchase_requisition.employee_requisition
 #: model:ir.ui.menu,name:employee_purchase_requisition.employee_purchase_requisition_menu_root
 msgid "Employee Purchase Requisition"
-msgstr "Requisición de Compra de Empleado"
+msgstr "Requisición de Compra"
 
 #. module: employee_purchase_requisition
 #: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
