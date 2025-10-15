@@ -1,0 +1,875 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* employee_purchase_requisition
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20251008\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-15 19:18+0000\n"
+"PO-Revision-Date: 2025-10-15 19:18+0000\n"
+"Last-Translator: \n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__message_needaction
+msgid "Action Needed"
+msgstr "Acción Requerida"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__activity_ids
+msgid "Activities"
+msgstr "Actividades"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decoración de Excepción de Actividad"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__activity_state
+msgid "Activity State"
+msgstr "Estado de Actividad"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Icono de Tipo de Actividad"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Approve"
+msgstr "Aprobar"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Approve Purchase requisition"
+msgstr "Aprobar Requisición de Compra"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Approve Signature:"
+msgstr "Firma de Aprobación:"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Approve purchase requisition,Submit for Approval for Requisition Head"
+msgstr "Aprobar requisición de compra, Enviar para Aprobación del Jefe de Requisiciones"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields.selection,name:employee_purchase_requisition.selection__employee_purchase_requisition__state__approved
+msgid "Approved"
+msgstr "Aprobado"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__requisition_head_id
+msgid "Approved By"
+msgstr "Aprobado Por"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Approved By:"
+msgstr "Aprobado Por:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__approval_date
+msgid "Approved Date"
+msgstr "Fecha de Aprobación"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Approved Date:"
+msgstr "Fecha de Aprobación:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__message_attachment_count
+msgid "Attachment Count"
+msgstr "Cantidad de Adjuntos"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields.selection,name:employee_purchase_requisition.selection__employee_purchase_requisition__state__cancelled
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__confirm_id
+msgid "Confirmed By"
+msgstr "Confirmado Por"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Confirmed By:"
+msgstr "Confirmado Por:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__confirmed_date
+msgid "Confirmed Date"
+msgstr "Fecha de Confirmación"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Confirmed Date:"
+msgstr "Fecha de Confirmación:"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Create Picking and PO"
+msgstr "Crear Transferencia y OC"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Create Picking/Purchase order"
+msgstr "Crear Transferencia/Orden de Compra"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.actions.act_window,help:employee_purchase_requisition.employee_purchase_requisition_action
+msgid "Create a new record!"
+msgstr "¡Crear un nuevo registro!"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__create_uid
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__create_date
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__requisition_date
+msgid "Date of requisition"
+msgstr "Fecha de la requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__confirmed_date
+msgid "Date of requisition confirmation"
+msgstr "Fecha de confirmación de la requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__delivery_type_id
+msgid "Delivery To"
+msgstr "Entregar a"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Delivery To:"
+msgstr "Entregar a:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model,name:employee_purchase_requisition.model_hr_department
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__dept_id
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_search
+msgid "Department"
+msgstr "Departamento"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__department_approval_date
+msgid "Department Approval Date"
+msgstr "Fecha de Aprobación del Departamento"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Department Approval Date:"
+msgstr "Fecha de Aprobación del Departamento:"
+
+#. module: employee_purchase_requisition
+#: model:res.groups,name:employee_purchase_requisition.employee_requisition_head
+msgid "Department Head"
+msgstr "Jefe de Departamento"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__manager_id
+msgid "Department Manager"
+msgstr "Gerente de Departamento"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Department Manager:"
+msgstr "Gerente de Departamento:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__department_approval_date
+msgid "Department approval date"
+msgstr "Fecha de aprobación del departamento"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Department:"
+msgstr "Departamento:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__description
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Description"
+msgstr "Descripción"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__destination_location_id
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_hr_department__department_location_id
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_hr_employee__employee_location_id
+msgid "Destination Location"
+msgstr "Ubicación de Destino"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Destination Location:"
+msgstr "Ubicación de Destino:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__destination_location_id
+msgid "Destination location of requisition."
+msgstr "Ubicación de destino de la requisición."
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__display_name
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__display_name
+msgid "Display Name"
+msgstr "Nombre a Mostrar"
+
+#. module: employee_purchase_requisition
+#: model:ir.model,name:employee_purchase_requisition.model_hr_employee
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__employee_id
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_search
+msgid "Employee"
+msgstr "Empleado"
+
+#. module: employee_purchase_requisition
+#: model:ir.model,name:employee_purchase_requisition.model_employee_purchase_requisition
+#: model:ir.module.category,name:employee_purchase_requisition.employee_requisition
+#: model:ir.ui.menu,name:employee_purchase_requisition.employee_purchase_requisition_menu_root
+msgid "Employee Purchase Requisition"
+msgstr "Requisición de Compra de Empleado"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Employee Signature:"
+msgstr "Firma del Empleado:"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Employee:"
+msgstr "Empleado:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__requisition_deadline
+msgid "End date of purchase requisition"
+msgstr "Fecha de fin de la requisición de compra"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Contactos)"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Icono de Font Awesome, ej. fa-tasks"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__has_message
+msgid "Has Message"
+msgstr "Tiene Mensaje"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__id
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__id
+msgid "ID"
+msgstr "ID"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__activity_exception_icon
+msgid "Icon"
+msgstr "Icono"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Icono para indicar una actividad de excepción."
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si está marcado, los nuevos mensajes requieren su atención."
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__message_has_error
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si está marcado, algunos mensajes tienen un error de entrega."
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__internal_picking_id
+msgid "Internal Picking"
+msgstr "Transferencia Interna"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields.selection,name:employee_purchase_requisition.selection__requisition_order__requisition_type__internal_transfer
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Internal Transfer"
+msgstr "Transferencia Interna"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__internal_transfer_count
+msgid "Internal Transfer count"
+msgstr "Recuento de Transferencias Internas"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Internal Transfer:"
+msgstr "Transferencia Interna:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__internal_transfer_count
+msgid "Internal transfer count"
+msgstr "Recuento de transferencias internas"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__message_is_follower
+msgid "Is Follower"
+msgstr "Es Seguidor"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__write_uid
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__write_date
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Manager Signature:"
+msgstr "Firma del Gerente:"
+
+#. module: employee_purchase_requisition
+#: model:ir.actions.report,name:employee_purchase_requisition.action_report_purchase_requisition
+msgid "Material Purchase Requisition Report"
+msgstr "Informe de Requisición de Compra de Materiales"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__message_has_error
+msgid "Message Delivery error"
+msgstr "Error de Entrega de Mensaje"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__message_ids
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Fecha Límite de Mi Actividad"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields.selection,name:employee_purchase_requisition.selection__employee_purchase_requisition__state__new
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "New"
+msgstr "Nuevo"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Próximo Evento de Calendario de Actividad"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Próxima Fecha Límite de Actividad"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumen de Próxima Actividad"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipo de Próxima Actividad"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de Acciones"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de errores"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Número de mensajes que requieren acción"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de entrega"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Other Info"
+msgstr "Otra Información"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Other Information"
+msgstr "Otra Información"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Picking Details"
+msgstr "Detalles de la Transferencia"
+
+#. module: employee_purchase_requisition
+#: model:ir.actions.server,name:employee_purchase_requisition.print_requisition_order_pdf
+msgid "Print Requisition Order"
+msgstr "Imprimir Orden de Requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__product_id
+#: model:ir.model.fields,help:employee_purchase_requisition.field_requisition_order__product_id
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Product"
+msgstr "Producto"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_requisition_order__description
+msgid "Product description"
+msgstr "Descripción del producto"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_requisition_order__quantity
+msgid "Product quantity"
+msgstr "Cantidad del producto"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_requisition_order__uom
+msgid "Product unit of measure"
+msgstr "Unidad de medida del producto"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__purchase_count
+msgid "Purchase Count"
+msgstr "Recuento de Compras"
+
+#. module: employee_purchase_requisition
+#: model:ir.model,name:employee_purchase_requisition.model_purchase_order
+#: model:ir.model.fields.selection,name:employee_purchase_requisition.selection__requisition_order__requisition_type__purchase_order
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Purchase Order"
+msgstr "Orden de Compra"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields.selection,name:employee_purchase_requisition.selection__employee_purchase_requisition__state__purchase_order_created
+msgid "Purchase Order Created"
+msgstr "Orden de Compra Creada"
+
+#. module: employee_purchase_requisition
+#: model:ir.actions.act_window,name:employee_purchase_requisition.employee_purchase_requisition_action
+#: model:ir.ui.menu,name:employee_purchase_requisition.employee_purchase_requisition_menu_create_purchase_requisition
+msgid "Purchase Requisition"
+msgstr "Requisición de Compra"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.view_employee_form
+msgid "Purchase Requisition Settings"
+msgstr "Configuración de Requisición de Compra"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Purchase Requisition:"
+msgstr "Requisición de Compra:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__purchase_count
+msgid "Purchase count"
+msgstr "Recuento de compras"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__quantity
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__rating_ids
+msgid "Ratings"
+msgstr "Calificaciones"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__requisition_description
+msgid "Reason For Requisition"
+msgstr "Motivo de la Requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields.selection,name:employee_purchase_requisition.selection__employee_purchase_requisition__state__received
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Received"
+msgstr "Recibido"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__receive_date
+msgid "Received Date"
+msgstr "Fecha de Recepción"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Received Date:"
+msgstr "Fecha de Recepción:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__receive_date
+msgid "Received date"
+msgstr "Fecha de recepción"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__name
+msgid "Reference No"
+msgstr "Nº de Referencia"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Reject"
+msgstr "Rechazar"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Reject Purchase Requisition"
+msgstr "Rechazar Requisición de Compra"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__rejected_user_id
+msgid "Rejected By"
+msgstr "Rechazado Por"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Rejected By:"
+msgstr "Rechazado Por:"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Rejected Date:"
+msgstr "Fecha de Rechazo:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__reject_date
+msgid "Rejection Date"
+msgstr "Fecha de Rechazo"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid ""
+"Requisition\n"
+"                                        Action"
+msgstr ""
+"Requisición\n"
+"                                        Acción"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__requisition_date
+msgid "Requisition Date"
+msgstr "Fecha de Requisición"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Requisition Date:"
+msgstr "Fecha de Requisición:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__requisition_deadline
+msgid "Requisition Deadline"
+msgstr "Fecha Límite de Requisición"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Requisition Deadline:"
+msgstr "Fecha Límite de Requisición:"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Requisition Lines"
+msgstr "Líneas de Requisición"
+
+#. module: employee_purchase_requisition
+#: model:res.groups,name:employee_purchase_requisition.employee_requisition_manager
+msgid "Requisition Manager"
+msgstr "Gerente de Requisiciones"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__requisition_order_ids
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_purchase_order__requisition_order
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_stock_picking__requisition_order
+msgid "Requisition Order"
+msgstr "Orden de Requisición"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Requisition Orders"
+msgstr "Órdenes de Requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__requisition_product_id
+msgid "Requisition Product"
+msgstr "Producto de Requisición"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Requisition Responsible:"
+msgstr "Responsable de la Requisición:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__requisition_type
+msgid "Requisition Type"
+msgstr "Tipo de Requisición"
+
+#. module: employee_purchase_requisition
+#: model:res.groups,name:employee_purchase_requisition.employee_requisition_user
+msgid "Requisition Users"
+msgstr "Usuarios de Requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__approval_date
+msgid "Requisition approval date"
+msgstr "Fecha de aprobación de la requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model,name:employee_purchase_requisition.model_requisition_order
+msgid "Requisition order"
+msgstr "Orden de requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_stock_picking__requisition_order
+msgid "Requisition order sequence"
+msgstr "Secuencia de orden de requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_requisition_order__requisition_product_id
+msgid "Requisition product."
+msgstr "Producto de la requisición."
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__reject_date
+msgid "Requisition rejected date"
+msgstr "Fecha de rechazo de la requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__user_id
+msgid "Responsible"
+msgstr "Responsable"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__activity_user_id
+msgid "Responsible User"
+msgstr "Usuario Responsable"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Error de Entrega de SMS"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_search
+msgid "Search Tips"
+msgstr "Consejos de Búsqueda"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__company_id
+msgid "Select a company"
+msgstr "Seleccione una compañía"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_hr_department__department_location_id
+msgid "Select a department location from the list of locations."
+msgstr "Seleccione una ubicación de departamento de la lista de ubicaciones."
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__manager_id
+msgid "Select a department manager"
+msgstr "Seleccione un gerente de departamento"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_hr_employee__employee_location_id
+msgid "Select a employee location from the location list"
+msgstr "Seleccione una ubicación de empleado de la lista de ubicaciones"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__user_id
+msgid "Select a user who is responsible for requisition"
+msgstr "Seleccione un usuario que sea responsable de la requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__dept_id
+msgid "Select an department"
+msgstr "Seleccione un departamento"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__employee_id
+msgid "Select an employee"
+msgstr "Seleccione un empleado"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_purchase_order__requisition_order
+msgid "Set a requisition Order"
+msgstr "Establecer una Orden de Requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__source_location_id
+msgid "Source Location"
+msgstr "Ubicación de Origen"
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Source Location:"
+msgstr "Ubicación de Origen:"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__source_location_id
+msgid "Source location of requisition."
+msgstr "Ubicación de origen de la requisición."
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__state
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__state
+msgid "State"
+msgstr "Estado"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Estado basado en actividades\n"
+"Vencido: La fecha de vencimiento ya pasó\n"
+"Hoy: La fecha de la actividad es hoy\n"
+"Planeado: Actividades futuras."
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.employee_purchase_requisition_view_form
+msgid "Submit to Department Approval"
+msgstr "Enviar a Aprobación del Departamento"
+
+#. module: employee_purchase_requisition
+#: model:ir.model,name:employee_purchase_requisition.model_stock_picking
+msgid "Transfer"
+msgstr "Transferencia"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__delivery_type_id
+msgid "Type of delivery."
+msgstr "Tipo de entrega."
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_requisition_order__requisition_type
+msgid "Type of requisition"
+msgstr "Tipo de requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo de la actividad de excepción en el registro."
+
+#. module: employee_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:employee_purchase_requisition.report_purchase_requisition
+msgid "Unit Of Measure"
+msgstr "Unidad de Medida"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__uom
+msgid "Unit of Measure"
+msgstr "Unidad de Medida"
+
+#. module: employee_purchase_requisition
+#: model:ir.module.category,description:employee_purchase_requisition.employee_requisition
+msgid ""
+"User access level for Material Request\n"
+"            module\n"
+"        "
+msgstr ""
+"Nivel de acceso de usuario para el módulo de\n"
+"            Solicitud de Material\n"
+"        "
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__requisition_head_id
+msgid "User who approved the requisition."
+msgstr "Usuario que aprobó la requisición."
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__confirm_id
+msgid "User who confirmed the requisition."
+msgstr "Usuario que confirmó la requisición."
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__rejected_user_id
+msgid "User who rejected the requisition"
+msgstr "Usuario que rechazó la requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_requisition_order__partner_id
+msgid "Vendor"
+msgstr "Proveedor"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_requisition_order__partner_id
+msgid "Vendor for the requisition"
+msgstr "Proveedor para la requisición"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields.selection,name:employee_purchase_requisition.selection__employee_purchase_requisition__state__waiting_department_approval
+msgid "Waiting Department Approval"
+msgstr "Esperando Aprobación del Departamento"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields.selection,name:employee_purchase_requisition.selection__employee_purchase_requisition__state__waiting_head_approval
+msgid "Waiting Head Approval"
+msgstr "Esperando Aprobación del Jefe"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,field_description:employee_purchase_requisition.field_employee_purchase_requisition__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del Sitio Web"
+
+#. module: employee_purchase_requisition
+#: model:ir.model.fields,help:employee_purchase_requisition.field_employee_purchase_requisition__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicación del sitio web"
