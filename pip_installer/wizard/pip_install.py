@@ -39,7 +39,8 @@ class PipInstall(models.TransientModel):
         try:
             if command.startswith("pip"):
                 process = subprocess.Popen(['yes'], stdout=subprocess.PIPE)
-                result = subprocess.run(command, shell=True, check=True,
+                # MODIFICACIÓN: Se agrega --break-system-packages al comando
+                result = subprocess.run(f"{command} --break-system-packages", shell=True, check=True,
                                         stdin=process.stdout,
                                         stdout=subprocess.PIPE, text=True)
                 message = self.env['import.message'].create([{'message': result.stdout}])
