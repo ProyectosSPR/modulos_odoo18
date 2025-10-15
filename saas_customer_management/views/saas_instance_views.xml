@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Instance Form View -->
+    <record id="view_saas_instance_form" model="ir.ui.view">
+        <field name="name">saas.instance.form</field>
+        <field name="model">saas.instance</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_activate" string="Activate" type="object" class="btn-primary" 
+                            invisible="status in ('active', 'terminated')"/>
+                    <button name="action_suspend" string="Suspend" type="object" class="btn-warning" 
+                            invisible="status in ('suspended', 'terminated')"/>
+                    <button name="action_terminate" string="Terminate" type="object" class="btn-danger" 
+                            invisible="status == 'terminated'"/>
+                    <button name="action_extend_trial" string="Extend Trial" type="object" class="btn-secondary" 
+                            invisible="status != 'trial'"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_payment_history" type="object" class="oe_stat_button" icon="fa-credit-card">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Payment History</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Instance Information">
+                            <field name="instance_name"/>
+                            <field name="subdomain"/>
+                            <field name="full_url" widget="url"/>
+                            <field name="database_id"/>
+                        </group>
+                        <group string="Customer &amp; Package">
+                            <field name="customer_id"/>
+                            <field name="service_package_id"/>
+                            <field name="billing_cycle"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Technical Details">
+                            <field name="odoo_version"/>
+                            <field name="server_location"/>
+                            <field name="date_created"/>
+                            <field name="date_activated"/>
+                        </group>
+                        <group string="Subscription &amp; Usage">
+                            <field name="trial_end_date"/>
+                            <field name="subscription_end_date"/>
+                            <field name="days_until_expiry"/>
+                            <field name="current_users"/>
+                            <field name="storage_used_gb"/>
+                            <field name="storage_percentage" widget="progressbar"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Instance Tree View -->
+    <record id="view_saas_instance_tree" model="ir.ui.view">
+        <field name="name">saas.instance.tree</field>
+        <field name="model">saas.instance</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="status == 'active'" 
+                  decoration-warning="status == 'trial'" 
+                  decoration-danger="status in ('suspended', 'expired')"
+                  decoration-muted="status == 'terminated'">
+                <field name="instance_name"/>
+                <field name="customer_id"/>
+                <field name="status"/>
+                <field name="odoo_version"/>
+                <field name="service_package_id"/>
+                <field name="subscription_end_date"/>
+                <field name="days_until_expiry"/>
+                <field name="current_users"/>
+                <field name="storage_percentage" widget="progressbar"/>
+                <field name="full_url" widget="url"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Instance Search View -->
+    <record id="view_saas_instance_search" model="ir.ui.view">
+        <field name="name">saas.instance.search</field>
+        <field name="model">saas.instance</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="instance_name"/>
+                <field name="customer_id"/>
+                <field name="subdomain"/>
+                <field name="database_id"/>
+                <filter string="Active" name="active" domain="[('status', '=', 'active')]"/>
+                <filter string="Trial" name="trial" domain="[('status', '=', 'trial')]"/>
+                <filter string="Suspended" name="suspended" domain="[('status', '=', 'suspended')]"/>
+                <filter string="Expired" name="expired" domain="[('status', '=', 'expired')]"/>
+                <separator/>
+                <filter string="Has Subscription End Date" name="has_end_date" domain="[('subscription_end_date', '!=', False)]"/>
+                <group string="Group By">
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Customer" name="group_customer" context="{'group_by': 'customer_id'}"/>
+                    <filter string="Service Package" name="group_package" context="{'group_by': 'service_package_id'}"/>
+                    <filter string="Odoo Version" name="group_version" context="{'group_by': 'odoo_version'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

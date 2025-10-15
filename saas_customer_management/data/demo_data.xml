@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Demo Customers -->
+        <record id="demo_customer_1" model="saas.customer">
+            <field name="company_name">Tech Solutions Ltd</field>
+            <field name="tax_code">123456789</field>
+            <field name="address">123 Business Street, Tech City, TC 12345</field>
+            <field name="phone">+1-555-0123</field>
+            <field name="email">info@techsolutions.com</field>
+            <field name="website">www.techsolutions.com</field>
+            <field name="contact_name">John Smith</field>
+            <field name="contact_email">john.smith@techsolutions.com</field>
+            <field name="contact_phone">+1-555-0124</field>
+            <field name="contact_position">IT Manager</field>
+            <field name="state">active</field>
+        </record>
+
+        <record id="demo_customer_2" model="saas.customer">
+            <field name="company_name">Global Trading Inc</field>
+            <field name="tax_code">987654321</field>
+            <field name="address">456 Commerce Ave, Business City, BC 67890</field>
+            <field name="phone">+1-555-0456</field>
+            <field name="email">contact@globaltrading.com</field>
+            <field name="contact_name">Sarah Johnson</field>
+            <field name="contact_email">sarah@globaltrading.com</field>
+            <field name="contact_phone">+1-555-0457</field>
+            <field name="contact_position">Operations Director</field>
+            <field name="state">prospect</field>
+        </record>
+
+        <!-- Demo Instances -->
+        <record id="demo_instance_1" model="saas.instance">
+            <field name="instance_name">TechSolutions Production</field>
+            <field name="subdomain">techsolutions</field>
+            <field name="database_id">db_tech_001</field>
+            <field name="customer_id" ref="demo_customer_1"/>
+            <field name="service_package_id" ref="service_package_professional"/>
+            <field name="status">active</field>
+            <field name="odoo_version">17.0</field>
+            <field name="billing_cycle">yearly</field>
+            <field name="current_users">8</field>
+            <field name="storage_used_gb">12.5</field>
+            <field name="subscription_end_date">2025-12-31</field>
+        </record>
+
+        <record id="demo_instance_2" model="saas.instance">
+            <field name="instance_name">GlobalTrading Trial</field>
+            <field name="subdomain">globaltrading-trial</field>
+            <field name="database_id">db_global_trial_001</field>
+            <field name="customer_id" ref="demo_customer_2"/>
+            <field name="service_package_id" ref="service_package_basic"/>
+            <field name="status">trial</field>
+            <field name="odoo_version">17.0</field>
+            <field name="billing_cycle">monthly</field>
+            <field name="current_users">2</field>
+            <field name="storage_used_gb">1.2</field>
+            <field name="trial_end_date">2025-07-13</field>
+        </record>
+
+        <!-- Demo Payment History -->
+        <record id="demo_payment_1" model="saas.payment.history">
+            <field name="customer_id" ref="demo_customer_1"/>
+            <field name="instance_id" ref="demo_instance_1"/>
+            <field name="payment_date">2025-01-15</field>
+            <field name="amount">790.0</field>
+            <field name="payment_method">credit_card</field>
+            <field name="transaction_id">TXN_2025_001</field>
+            <field name="status">completed</field>
+            <field name="billing_period_start">2025-01-01</field>
+            <field name="billing_period_end">2025-12-31</field>
+            <field name="description">Annual subscription payment for Professional Plan</field>
+        </record>
+
+        <record id="demo_payment_2" model="saas.payment.history">
+            <field name="customer_id" ref="demo_customer_1"/>
+            <field name="instance_id" ref="demo_instance_1"/>
+            <field name="payment_date">2025-01-15</field>
+            <field name="amount">50.0</field>
+            <field name="payment_method">credit_card</field>
+            <field name="transaction_id">TXN_2025_002</field>
+            <field name="status">completed</field>
+            <field name="description">Setup fee for Professional Plan</field>
+        </record>
+    </data>
+</odoo>

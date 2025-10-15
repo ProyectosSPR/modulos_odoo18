@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Basic Package -->
+        <record id="service_package_basic" model="saas.service.package">
+            <field name="name">Basic Plan</field>
+            <field name="code">BASIC</field>
+            <field name="sequence">10</field>
+            <field name="description">Perfect for small businesses starting with Odoo</field>
+            <field name="max_users">3</field>
+            <field name="storage_gb">5</field>
+            <field name="backup_frequency">weekly</field>
+            <field name="monthly_price">29.0</field>
+            <field name="yearly_price">290.0</field>
+            <field name="setup_fee">0.0</field>
+            <field name="custom_domain">False</field>
+            <field name="ssl_certificate">True</field>
+            <field name="api_access">False</field>
+            <field name="priority_support">False</field>
+        </record>
+
+        <!-- Professional Package -->
+        <record id="service_package_professional" model="saas.service.package">
+            <field name="name">Professional Plan</field>
+            <field name="code">PRO</field>
+            <field name="sequence">20</field>
+            <field name="description">For growing businesses that need more features</field>
+            <field name="max_users">10</field>
+            <field name="storage_gb">20</field>
+            <field name="backup_frequency">daily</field>
+            <field name="monthly_price">79.0</field>
+            <field name="yearly_price">790.0</field>
+            <field name="setup_fee">50.0</field>
+            <field name="custom_domain">True</field>
+            <field name="ssl_certificate">True</field>
+            <field name="api_access">True</field>
+            <field name="priority_support">False</field>
+        </record>
+
+        <!-- Enterprise Package -->
+        <record id="service_package_enterprise" model="saas.service.package">
+            <field name="name">Enterprise Plan</field>
+            <field name="code">ENT</field>
+            <field name="sequence">30</field>
+            <field name="description">For large organizations with advanced requirements</field>
+            <field name="max_users">50</field>
+            <field name="storage_gb">100</field>
+            <field name="backup_frequency">daily</field>
+            <field name="monthly_price">199.0</field>
+            <field name="yearly_price">1990.0</field>
+            <field name="setup_fee">100.0</field>
+            <field name="custom_domain">True</field>
+            <field name="ssl_certificate">True</field>
+            <field name="api_access">True</field>
+            <field name="priority_support">True</field>
+        </record>
+    </data>
+</odoo>

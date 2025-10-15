@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Customer Form View -->
+    <record id="view_saas_customer_form" model="ir.ui.view">
+        <field name="name">saas.customer.form</field>
+        <field name="model">saas.customer</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_instances" type="object" class="oe_stat_button" icon="fa-server">
+                            <field name="instance_count" widget="statinfo" string="Instances"/>
+                        </button>
+                        <button name="action_view_active_instances" type="object" class="oe_stat_button" icon="fa-check-circle">
+                            <field name="active_instance_count" widget="statinfo" string="Active"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Company Information">
+                            <field name="company_name"/>
+                            <field name="tax_code"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="website"/>
+                        </group>
+                        <group string="Primary Contact">
+                            <field name="contact_name"/>
+                            <field name="contact_email"/>
+                            <field name="contact_phone"/>
+                            <field name="contact_position"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Support Information">
+                            <field name="support_contact"/>
+                            <field name="support_email"/>
+                            <field name="support_phone"/>
+                        </group>
+                        <group string="Financial">
+                            <field name="total_revenue" widget="monetary"/>
+                            <field name="date_created"/>
+                            <field name="date_updated"/>
+                        </group>
+                    </group>
+                    <group string="Address">
+                        <field name="address" nolabel="1" colspan="2"/>
+                    </group>
+                    <notebook>
+                        <page string="Instances">
+                            <field name="instance_ids" readonly="1">
+                                <tree decoration-success="status == 'active'" decoration-warning="status == 'trial'" decoration-danger="status == 'suspended'">
+                                    <field name="instance_name"/>
+                                    <field name="status"/>
+                                    <field name="odoo_version"/>
+                                    <field name="service_package_id"/>
+                                    <field name="subscription_end_date"/>
+                                    <field name="days_until_expiry"/>
+                                    <field name="full_url"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Payment History">
+                            <field name="payment_history_ids" readonly="1">
+                                <tree decoration-success="status == 'completed'" decoration-warning="status == 'pending'" decoration-danger="status == 'failed'">
+                                    <field name="payment_date"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="currency_id"/>
+                                    <field name="payment_method"/>
+                                    <field name="status"/>
+                                    <field name="instance_id"/>
+                                    <field name="transaction_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Customer Tree View -->
+    <record id="view_saas_customer_tree" model="ir.ui.view">
+        <field name="name">saas.customer.tree</field>
+        <field name="model">saas.customer</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'active'" decoration-warning="state == 'prospect'" decoration-danger="state == 'suspended'">
+                <field name="company_name"/>
+                <field name="contact_name"/>
+                <field name="contact_email"/>
+                <field name="state"/>
+                <field name="instance_count"/>
+                <field name="active_instance_count"/>
+                <field name="total_revenue" widget="monetary"/>
+                <field name="date_created"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Customer Search View -->
+    <record id="view_saas_customer_search" model="ir.ui.view">
+        <field name="name">saas.customer.search</field>
+        <field name="model">saas.customer</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="company_name"/>
+                <field name="contact_name"/>
+                <field name="contact_email"/>
+                <field name="tax_code"/>
+                <filter string="Active" name="active" domain="[('state', '=', 'active')]"/>
+                <filter string="Prospect" name="prospect" domain="[('state', '=', 'prospect')]"/>
+                <filter string="Suspended" name="suspended" domain="[('state', '=', 'suspended')]"/>
+                <separator/>
+                <filter string="Has Instances" name="has_instances" domain="[('instance_count', '>', 0)]"/>
+                <group string="Group By">
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Created Date" name="group_date_created" context="{'group_by': 'date_created'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

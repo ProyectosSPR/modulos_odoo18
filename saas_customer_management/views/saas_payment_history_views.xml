@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Payment History Form View -->
+    <record id="view_saas_payment_history_form" model="ir.ui.view">
+        <field name="name">saas.payment.history.form</field>
+        <field name="model">saas.payment.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Payment Information">
+                            <field name="customer_id"/>
+                            <field name="instance_id"/>
+                            <field name="payment_date"/>
+                            <field name="amount" widget="monetary"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group string="Transaction Details">
+                            <field name="payment_method"/>
+                            <field name="transaction_id"/>
+                            <field name="invoice_number"/>
+                        </group>
+                    </group>
+                    <group string="Billing Period">
+                        <group>
+                            <field name="billing_period_start"/>
+                            <field name="billing_period_end"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1" colspan="2"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Payment History Tree View -->
+    <record id="view_saas_payment_history_tree" model="ir.ui.view">
+        <field name="name">saas.payment.history.tree</field>
+        <field name="model">saas.payment.history</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="status == 'completed'" 
+                  decoration-warning="status == 'pending'" 
+                  decoration-danger="status == 'failed'"
+                  decoration-muted="status == 'refunded'">
+                <field name="payment_date"/>
+                <field name="customer_name"/>
+                <field name="instance_name"/>
+                <field name="amount" widget="monetary"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="payment_method"/>
+                <field name="status"/>
+                <field name="transaction_id"/>
+                <field name="billing_period_start"/>
+                <field name="billing_period_end"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Payment History Search View -->
+    <record id="view_saas_payment_history_search" model="ir.ui.view">
+        <field name="name">saas.payment.history.search</field>
+        <field name="model">saas.payment.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="customer_id"/>
+                <field name="instance_id"/>
+                <field name="transaction_id"/>
+                <field name="invoice_number"/>
+                <filter string="Completed" name="completed" domain="[('status', '=', 'completed')]"/>
+                <filter string="Pending" name="pending" domain="[('status', '=', 'pending')]"/>
+                <filter string="Failed" name="failed" domain="[('status', '=', 'failed')]"/>
+                <separator/>
+                <filter string="This Month" name="this_month" 
+                        domain="[('payment_date', '&gt;=', (context_today() - relativedelta(day=1)).strftime('%Y-%m-%d')),
+                                 ('payment_date', '&lt;', (context_today() + relativedelta(months=1, day=1)).strftime('%Y-%m-%d'))]"/>
+                <filter string="This Year" name="this_year" 
+                        domain="[('payment_date', '&gt;=', time.strftime('%Y-01-01')),
+                                 ('payment_date', '&lt;=', time.strftime('%Y-12-31'))]"/>
+                <group string="Group By">
+                    <filter string="Customer" name="group_customer" context="{'group_by': 'customer_id'}"/>
+                    <filter string="Instance" name="group_instance" context="{'group_by': 'instance_id'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Payment Method" name="group_method" context="{'group_by': 'payment_method'}"/>
+                    <filter string="Payment Date" name="group_date" context="{'group_by': 'payment_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

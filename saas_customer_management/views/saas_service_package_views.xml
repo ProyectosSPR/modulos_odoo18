@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Service Package Form View -->
+    <record id="view_saas_service_package_form" model="ir.ui.view">
+        <field name="name">saas.service.package.form</field>
+        <field name="model">saas.service.package</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_instances" type="object" class="oe_stat_button" icon="fa-server">
+                            <field name="instance_count" widget="statinfo" string="Instances"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Package Information">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Resources">
+                            <field name="max_users"/>
+                            <field name="storage_gb"/>
+                            <field name="backup_frequency"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Pricing">
+                            <field name="currency_id"/>
+                            <field name="monthly_price" widget="monetary"/>
+                            <field name="yearly_price" widget="monetary"/>
+                            <field name="setup_fee" widget="monetary"/>
+                        </group>
+                        <group string="Features">
+                            <field name="custom_domain"/>
+                            <field name="ssl_certificate"/>
+                            <field name="api_access"/>
+                            <field name="priority_support"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1" colspan="2"/>
+                    </group>
+                    <notebook>
+                        <page string="Active Instances">
+                            <field name="instance_ids" readonly="1">
+                                <tree>
+                                    <field name="instance_name"/>
+                                    <field name="customer_id"/>
+                                    <field name="status"/>
+                                    <field name="odoo_version"/>
+                                    <field name="subscription_end_date"/>
+                                    <field name="current_users"/>
+                                    <field name="storage_used_gb"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Service Package Tree View -->
+    <record id="view_saas_service_package_tree" model="ir.ui.view">
+        <field name="name">saas.service.package.tree</field>
+        <field name="model">saas.service.package</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="max_users"/>
+                <field name="storage_gb"/>
+                <field name="monthly_price" widget="monetary"/>
+                <field name="yearly_price" widget="monetary"/>
+                <field name="instance_count"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Service Package Search View -->
+    <record id="view_saas_service_package_search" model="ir.ui.view">
+        <field name="name">saas.service.package.search</field>
+        <field name="model">saas.service.package</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+                <group string="Group By">
+                    <filter string="Backup Frequency" name="group_backup" context="{'group_by': 'backup_frequency'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

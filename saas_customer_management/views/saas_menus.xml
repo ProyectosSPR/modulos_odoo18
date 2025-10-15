@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Actions -->
+    <record id="action_saas_customer" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="res_model">saas.customer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first SaaS customer!
+            </p>
+            <p>
+                Track customer information, instances, and payments all in one place.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_saas_instance" model="ir.actions.act_window">
+        <field name="name">Instances</field>
+        <field name="res_model">saas.instance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No instances found!
+            </p>
+            <p>
+                Create and manage Odoo SaaS instances for your customers.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_saas_service_package" model="ir.actions.act_window">
+        <field name="name">Service Packages</field>
+        <field name="res_model">saas.service.package</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first service package!
+            </p>
+            <p>
+                Define different SaaS plans with features and pricing.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_saas_payment_history" model="ir.actions.act_window">
+        <field name="name">Payment History</field>
+        <field name="res_model">saas.payment.history</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_this_month': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No payments recorded yet!
+            </p>
+            <p>
+                Track all customer payments and billing history.
+            </p>
+        </field>
+    </record>
+
+    <!-- Main Menu -->
+    <menuitem id="menu_saas_management" 
+              name="SaaS Management" 
+              sequence="50"
+              web_icon="saas_customer_management,static/description/icon.png"/>
+    
+    <!-- Customer Management Sub Menu -->
+    <menuitem id="menu_saas_customers_main" 
+              name="Customers" 
+              parent="menu_saas_management" 
+              sequence="10"/>
+    
+    <menuitem id="menu_saas_customers" 
+              name="Customers" 
+              parent="menu_saas_customers_main" 
+              action="action_saas_customer" 
+              sequence="10"/>
+    
+    <menuitem id="menu_saas_instances" 
+              name="Instances" 
+              parent="menu_saas_customers_main" 
+              action="action_saas_instance" 
+              sequence="20"/>
+    
+    <!-- Configuration Sub Menu -->
+    <menuitem id="menu_saas_configuration" 
+              name="Configuration" 
+              parent="menu_saas_management" 
+              sequence="90"/>
+    
+    <menuitem id="menu_saas_service_packages" 
+              name="Service Packages" 
+              parent="menu_saas_configuration" 
+              action="action_saas_service_package" 
+              sequence="10"/>
+    
+    <!-- Reporting Sub Menu -->
+    <menuitem id="menu_saas_reporting" 
+              name="Reporting" 
+              parent="menu_saas_management" 
+              sequence="80"/>
+    
+    <menuitem id="menu_saas_payment_history" 
+              name="Payment History" 
+              parent="menu_saas_reporting" 
+              action="action_saas_payment_history" 
+              sequence="10"/>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_saas_customer,saas.customer,model_saas_customer,base.group_user,1,1,1,1
+access_saas_service_package,saas.service.package,model_saas_service_package,base.group_user,1,1,1,1
+access_saas_instance,saas.instance,model_saas_instance,base.group_user,1,1,1,1
+access_saas_payment_history,saas.payment.history,model_saas_payment_history,base.group_user,1,1,1,1
