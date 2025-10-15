@@ -50,7 +50,7 @@
                     <notebook>
                         <page string="Instances">
                             <field name="instance_ids" readonly="1">
-                                <tree decoration-success="status == 'active'" decoration-warning="status == 'trial'" decoration-danger="status == 'suspended'">
+                                <list decoration-success="status == 'active'" decoration-warning="status == 'trial'" decoration-danger="status == 'suspended'">
                                     <field name="instance_name"/>
                                     <field name="status"/>
                                     <field name="odoo_version"/>
@@ -58,12 +58,12 @@
                                     <field name="subscription_end_date"/>
                                     <field name="days_until_expiry"/>
                                     <field name="full_url"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Payment History">
                             <field name="payment_history_ids" readonly="1">
-                                <tree decoration-success="status == 'completed'" decoration-warning="status == 'pending'" decoration-danger="status == 'failed'">
+                                <list decoration-success="status == 'completed'" decoration-warning="status == 'pending'" decoration-danger="status == 'failed'">
                                     <field name="payment_date"/>
                                     <field name="amount" widget="monetary"/>
                                     <field name="currency_id"/>
@@ -71,7 +71,7 @@
                                     <field name="status"/>
                                     <field name="instance_id"/>
                                     <field name="transaction_id"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>

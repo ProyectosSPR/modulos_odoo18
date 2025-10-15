@@ -44,7 +44,7 @@
                     <notebook>
                         <page string="Active Instances">
                             <field name="instance_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="instance_name"/>
                                     <field name="customer_id"/>
                                     <field name="status"/>
@@ -52,7 +52,7 @@
                                     <field name="subscription_end_date"/>
                                     <field name="current_users"/>
                                     <field name="storage_used_gb"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
