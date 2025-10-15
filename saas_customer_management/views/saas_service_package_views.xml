@@ -26,7 +26,7 @@
                     </group>
                     <group>
                         <group string="Pricing">
-                            <field name="currency_id"/>
+                            <field name="currency_id" invisible="1"/>
                             <field name="monthly_price" widget="monetary"/>
                             <field name="yearly_price" widget="monetary"/>
                             <field name="setup_fee" widget="monetary"/>
@@ -71,6 +71,7 @@
                 <field name="code"/>
                 <field name="max_users"/>
                 <field name="storage_gb"/>
+                <field name="currency_id" invisible="1"/>
                 <field name="monthly_price" widget="monetary"/>
                 <field name="yearly_price" widget="monetary"/>
                 <field name="instance_count"/>
