@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Export Wizard Form View -->
+    <record id="view_odash_config_export_wizard_form" model="ir.ui.view">
+        <field name="name">odash.config.export.wizard.form</field>
+        <field name="model">odash.config.export.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Export Dashboard Configurations">
+                <div class="alert alert-info" role="alert">
+                    <strong>Export Dashboard Configurations</strong><br/>
+                    Choose what you want to export and customize your export options below.
+                    <ul class="mt-2 mb-0">
+                        <li><strong>All Pages:</strong> Export all pages with their components</li>
+                        <li><strong>Specific Pages:</strong> Select one or multiple pages to export with their components</li>
+                        <li><strong>Single Configuration:</strong> Export one specific page or component</li>
+                    </ul>
+                </div>
+                
+                <sheet>
+                    <group>
+                        <group string="Export Selection" class="col-12">
+                            <field name="export_type" widget="radio" options="{'horizontal': false}"/>
+                            
+                            <!-- Page selection for specific pages export -->
+                            <field name="page_ids" 
+                                   invisible="export_type != 'specific_pages'"
+                                   required="export_type == 'specific_pages'"
+                                   placeholder="Select pages to export with their components..."
+                                   options="{'no_create': True, 'no_edit': True}"
+                                   widget="many2many_tags"/>
+                            
+                            <!-- Single config selection -->
+                            <field name="config_id" 
+                                   invisible="export_type != 'single_config'"
+                                   required="export_type == 'single_config'"
+                                   placeholder="Select a configuration to export..."
+                                   options="{'no_create': True, 'no_edit': True}"/>
+                        </group>
+                    </group>
+
+                    <group string="Export Options">
+                        <group>
+                            <field name="include_security" widget="boolean_toggle"/>
+                            <field name="include_metadata" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+
+                    <!-- Preview Section -->
+                    <group string="Export Preview" invisible="not show_preview">
+                        <div class="alert alert-success" role="alert" invisible="config_count == 0">
+                            <i class="fa fa-check-circle" title="Export Preview"/> <strong><field name="config_count" class="oe_inline"/> configuration(s)</strong> will be exported.
+                        </div>
+                        <div class="alert alert-warning" role="alert" invisible="config_count != 0">
+                            <i class="fa fa-exclamation-triangle" title="Export Preview"/> No configurations found for the selected export type.
+                        </div>
+                        <field name="preview_data" widget="text" readonly="1" 
+                               options="{'resizable': false}" 
+                               style="font-family: monospace; font-size: 12px; background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; border-radius: 4px; min-height: 200px;"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button string="Export" 
+                            name="action_export" 
+                            type="object" 
+                            class="btn-primary"
+                            icon="fa-download"
+                            invisible="config_count == 0"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Export Wizard Action -->
+    <record id="action_odash_config_export_wizard" model="ir.actions.act_window">
+        <field name="name">Export Dashboard Configurations</field>
+        <field name="res_model">odash.config.export.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

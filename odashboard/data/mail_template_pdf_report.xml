@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Email template for PDF reports -->
+        <record id="mail_template_pdf_report" model="mail.template">
+            <field name="name">O'Dashboard PDF Report</field>
+            <field name="model_id" ref="model_odash_pdf_report"/>
+            <field name="subject">Dashboard Report: {{object.name}}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+                    <!-- Header -->
+                    <div style="background-color: #f8f9fa; padding: 20px; border-bottom: 1px solid #dee2e6;">
+                        <h2 style="margin: 0; color: #495057;">O'Dashboard Report</h2>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div style="padding: 30px 20px;">
+                        <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.5;">
+                            Your scheduled dashboard report is ready.
+                        </p>
+                        
+                        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 4px; margin: 20px 0;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="padding: 5px 0; font-weight: bold; width: 120px;">Report:</td>
+                                    <td style="padding: 5px 0;"><t t-out="object.name">Report Name</t></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 5px 0; font-weight: bold;">Period:</td>
+                                    <td style="padding: 5px 0;"><t t-out="object.period">Daily</t></td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <p style="margin: 20px 0 0 0; font-size: 14px; color: #6c757d;">
+                            The PDF report is attached to this email.
+                        </p>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div style="background-color: #f8f9fa; padding: 15px 20px; border-top: 1px solid #dee2e6; font-size: 12px; color: #6c757d;">
+                        <p style="margin: 0;">
+                            This is an automated message from O'Dashboard. Please do not reply to this email.
+                        </p>
+                    </div>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">{{ctx.get('recipient_lang')}}</field>
+            <field name="description">Your scheduled dashboard report is ready.</field>
+        </record>
+    </data>
+</odoo>

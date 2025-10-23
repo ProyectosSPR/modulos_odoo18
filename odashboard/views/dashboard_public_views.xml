@@ -1,0 +1,16 @@
+<odoo>
+  <template id="dashboard_public_view" name="Dashboard Public View">
+    <html>
+      <head>
+        <title>My Empty Page</title>
+        <style>
+          * { padding: 0; margin: 0; outline: 0; border: 0; box-sizing: border-box; }
+          html, body { height: 100%; }
+        </style>
+      </head>
+      <body>
+        <iframe style="width: 100%; height: 100svh" t-att-src="connection_url" />
+      </body>
+    </html>
+  </template>
+</odoo>

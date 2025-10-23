@@ -1,0 +1,7 @@
+<templates xml:space="preserve">
+    <t t-name="OdashboardIframeWidgetTemplate">
+        <div class="odashboard-iframe-container">
+            <iframe t-att-src="iframeSrc" class="odashboard-iframe"></iframe>
+        </div>
+    </t>
+</templates>

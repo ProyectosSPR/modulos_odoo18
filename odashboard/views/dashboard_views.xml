@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_dashboard_custom_iframe" model="ir.ui.view">
+        <field name="name">dashboard.iframe.view</field>
+        <field name="model">odash.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Custom Iframe" class="o_form_full_width" create="false" edit="false" delete="false">
+                <field name="connection_url" invisible="1"/>
+                <widget name="odashboard_iframe_widget"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_odash_dashboard" model="ir.actions.server">
+        <field name="name">Get User Dashboard</field>
+        <field name="model_id" ref="model_odash_dashboard"/>
+        <field name="state">code</field>
+        <field name="code">action = env['odash.dashboard'].get_dashboard_for_user()</field>
+    </record>
+
+    <record id="action_odashboard_settings" model="ir.actions.act_window">
+        <field name="name">Odashboard Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'odashboard'}</field>
+    </record>
+
+</odoo>

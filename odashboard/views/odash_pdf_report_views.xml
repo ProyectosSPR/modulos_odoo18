@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- PDF Report Form View -->
+        <record id="view_odash_pdf_report_form" model="ir.ui.view">
+            <field name="name">odash.pdf.report.form</field>
+            <field name="model">odash.pdf.report</field>
+            <field name="arch" type="xml">
+                <form string="PDF Report Configuration">
+                    <header>
+                        <button name="action_send_now" string="Send Now" type="object" class="oe_highlight"
+                                invisible="not active"/>
+                        <button name="action_preview_report" string="Preview PDF" type="object" class="btn-secondary"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box"/>
+
+                        <field name="last_execution_status" widget="badge" class="float-end"
+                               decoration-success="last_execution_status == 'success'"
+                               decoration-danger="last_execution_status == 'error'"
+                               decoration-info="last_execution_status == 'pending'"/>
+
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                invisible="active"/>
+
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="Report Name"/></h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="active" invisible="True"/>
+                                <field name="description" placeholder="Type any description here..."/>
+                            </group>
+                            <group>
+                                <field name="last_sent_date" readonly="1"/>
+                                <field name="next_send_date" readonly="1"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Schedule Configuration" name="schedule">
+                                <group>
+                                    <group string="Timing">
+                                        <field name="period"/>
+                                        <field name="send_time" widget="float_time"/>
+                                        <field name="weekday" invisible="period != 'weekly'"
+                                               required="period == 'weekly'"/>
+                                        <field name="day_of_month" invisible="period not in ['monthly', 'quarterly']"
+                                               required="period in ['monthly', 'quarterly']"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Recipients" name="recipients">
+                                <group>
+                                    <group string="User Recipients">
+                                        <field name="recipient_user_ids" widget="many2many_tags"
+                                               options="{'no_create': True}"/>
+                                    </group>
+                                    <group string="Additional Email Recipients">
+                                        <field name="recipient_emails"
+                                               placeholder="user1@example.com&#10;user2@example.com&#10;..."
+                                               nolabel="1"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Dashboard Pages" name="pages">
+                                <group>
+                                    <field name="include_all_pages" widget="boolean_toggle"/>
+                                </group>
+                                <field name="page_ids" invisible="include_all_pages" options="{'no_create': True}">
+                                    <list>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                        <field name="access_summary"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <page string="Execution Log" name="execution_log">
+                                <group>
+                                    <div role="alert" class="alert alert-warning">
+                                        Make sure an email server is configured and active to send PDF reports.<br/>
+                                        Also make sure all the recipients are valid email addresses.
+                                    </div>
+                                </group>
+                                <group>
+                                    <group string="Last Execution">
+                                        <field name="last_execution_status"/>
+                                        <field name="last_error_message" invisible="not last_error_message"
+                                               readonly="1"/>
+                                    </group>
+                                    <group string="Statistics">
+                                        <field name="send_count" readonly="1"/>
+                                        <field name="last_sent_date" readonly="1"/>
+                                        <field name="next_send_date" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- PDF Report list View -->
+        <record id="view_odash_pdf_report_list" model="ir.ui.view">
+            <field name="name">odash.pdf.report.list</field>
+            <field name="model">odash.pdf.report</field>
+            <field name="arch" type="xml">
+                <list string="PDF Reports" decoration-muted="not active">
+                    <field name="name"/>
+                    <field name="period"/>
+                    <field name="next_send_date"/>
+                    <field name="last_sent_date"/>
+                    <field name="send_count"/>
+                    <field name="last_execution_status" widget="badge"
+                           decoration-success="last_execution_status == 'success'"
+                           decoration-danger="last_execution_status == 'error'"
+                           decoration-info="last_execution_status == 'pending'"/>
+                    <field name="active"/>
+                    <button name="action_send_now" string="Send Now" type="object" icon="fa-paper-plane"
+                            invisible="not active"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- PDF Report Search View -->
+        <record id="view_odash_pdf_report_search" model="ir.ui.view">
+            <field name="name">odash.pdf.report.search</field>
+            <field name="model">odash.pdf.report</field>
+            <field name="arch" type="xml">
+                <search string="PDF Reports">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="recipient_user_ids"/>
+                    <field name="page_ids"/>
+
+                    <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+
+                    <separator/>
+                    <filter string="Daily" name="daily" domain="[('period', '=', 'daily')]"/>
+                    <filter string="Weekly" name="weekly" domain="[('period', '=', 'weekly')]"/>
+                    <filter string="Monthly" name="monthly" domain="[('period', '=', 'monthly')]"/>
+                    <filter string="Quarterly" name="quarterly" domain="[('period', '=', 'quarterly')]"/>
+
+                    <separator/>
+                    <filter string="Success" name="success" domain="[('last_execution_status', '=', 'success')]"/>
+                    <filter string="Error" name="error" domain="[('last_execution_status', '=', 'error')]"/>
+                    <filter string="Pending" name="pending" domain="[('last_execution_status', '=', 'pending')]"/>
+
+                    <separator/>
+                    <filter string="Due Soon" name="due_soon"
+                            domain="[('next_send_date', '&lt;=', (context_today() + datetime.timedelta(days=1)).strftime('%Y-%m-%d 23:59:59'))]"/>
+
+                    <group expand="0" string="Group By">
+                        <filter string="Period" name="group_period" context="{'group_by': 'period'}"/>
+                        <filter string="Status" name="group_status" context="{'group_by': 'last_execution_status'}"/>
+                        <filter string="Active" name="group_active" context="{'group_by': 'active'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- PDF Report Kanban View -->
+        <record id="view_odash_pdf_report_kanban" model="ir.ui.view">
+            <field name="name">odash.pdf.report.kanban</field>
+            <field name="model">odash.pdf.report</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_dashboard o_kanban_small_column" default_group_by="period" quick_create="false">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="period"/>
+                    <field name="next_send_date"/>
+                    <field name="last_sent_date"/>
+                    <field name="last_execution_status"/>
+                    <field name="active"/>
+                    <field name="send_count"/>
+                    <field name="recipient_user_ids"/>
+                    <field name="page_ids"/>
+                    <field name="include_all_pages"/>
+
+                    <templates>
+                        <t t-name="menu" groups="odashboard.group_odashboard_editor">
+                            <div class="container">
+                                <div class="row">
+                                    <div name="card_menu_actions" class="col-6">
+                                        <h5 role="menuitem" class="o_kanban_card_manage_title">
+                                            <span>Actions</span>
+                                        </h5>
+                                        <div role="menuitem">
+                                            <a name="action_preview_report" type="object">Preview PDF</a>
+                                        </div>
+                                        <div role="menuitem" t-if="record.active.raw_value">
+                                            <a name="action_send_now" type="object">Send Now</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <h5 role="menuitem" class="o_kanban_card_manage_title">
+                                            <span>Management</span>
+                                        </h5>
+                                        <div role="menuitem">
+                                            <a type="edit">Edit Configuration</a>
+                                        </div>
+                                        <div role="menuitem">
+                                            <a type="object" name="copy">Duplicate</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_card_manage_settings row" t-if="!record.active.raw_value">
+                                    <div role="menuitem" class="col-12">
+                                        <a class="dropdown-item text-danger" role="menuitem" type="delete">
+                                            <i title="Delete" class="fa fa-trash mr-2"/>Delete Report
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-name="card">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click o_kanban_record_has_image_fill #{!record.active.raw_value ? 'o_kanban_color_2' : ''}">
+                                <!-- Status indicator strip -->
+                                <div class="o_kanban_image_fill_left d-flex align-items-center justify-content-center"
+                                     t-attf-style="background-color: #{record.last_execution_status.raw_value == 'success' ? '#28a745' : record.last_execution_status.raw_value == 'error' ? '#dc3545' : '#17a2b8'}; width: 6px;">
+                                </div>
+
+                                <!-- Card Content -->
+                                <div class="oe_kanban_details">
+                                    <!-- Header -->
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <field name="name"/>
+                                                <span t-if="!record.active.raw_value"
+                                                      class="badge badge-warning badge-pill ml-2">
+                                                    <i title="Inactive" class="fa fa-pause"/> Inactive
+                                                </span>
+                                            </strong>
+                                            <div class="o_kanban_record_subtitle text-muted small"
+                                                 t-if="record.description.raw_value">
+                                                <t t-esc="record.description.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Main content -->
+                                    <div class="o_kanban_record_body">
+                                        <!-- Schedule and status info -->
+                                        <div class="my-2">
+                                            <span class="badge badge-light border">
+                                                <i title="Period" class="fa fa-clock-o text-primary ms-1"/> <t
+                                                    t-esc="record.period.value"/>
+                                            </span>
+                                        </div>
+
+                                        <!-- Next send date -->
+                                        <div class="mb-2"
+                                             t-if="record.next_send_date.raw_value and record.active.raw_value">
+                                            <div class="d-flex align-items-center">
+                                                <i title="Next send date" class="fa fa-calendar text-primary me-2"/>
+                                                <small class="text-muted">
+                                                    Next: <strong class="text-dark"><t
+                                                        t-esc="record.next_send_date.value"/></strong>
+                                                </small>
+                                            </div>
+                                        </div>
+
+                                        <!-- Last sent info -->
+                                        <div class="mb-2" t-if="record.last_sent_date.raw_value">
+                                            <div class="d-flex align-items-center">
+                                                <i title="Last sent date" class="fa fa-history text-muted me-2"/>
+                                                <small class="text-muted">
+                                                    Last: <t t-esc="record.last_sent_date.value"/>
+                                                </small>
+                                            </div>
+                                        </div>
+
+                                        <!-- Recipients and pages summary -->
+                                        <div class="d-flex justify-content-between text-muted small mt-2">
+                                            <div class="d-flex align-items-center">
+                                                <i title="Recipients" class="fa fa-users me-2"/>
+                                                <span><t t-esc="record.recipient_user_ids.raw_value.length"/>
+                                                    recipients</span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i title="Pages" class="fa fa-file-text-o me-2"/>
+                                                <span>
+                                                    <t t-if="record.include_all_pages.raw_value">All pages</t>
+                                                    <t t-else=""><t t-esc="record.page_ids.raw_value.length"/> pages</t>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer with send count -->
+                                    <div class="o_kanban_record_bottom mt-2">
+                                        <div class="oe_kanban_bottom_left">
+                                            <small class="text-muted">
+                                                <i title="Send count" class="fa fa-envelope-o me-2"/>
+                                                Sent <strong><t t-esc="record.send_count.value"/></strong> times
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- PDF Report Actions -->
+        <record id="action_odash_pdf_report" model="ir.actions.act_window">
+            <field name="name">PDF Reports</field>
+            <field name="res_model">odash.pdf.report</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="context">{'search_default_active': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first PDF Report configuration!
+                </p>
+                <p>
+                    PDF Reports allow you to automatically send dashboard pages as PDF attachments
+                    to specified recipients on a scheduled basis.
+                </p>
+                <p>
+                    Configure the sending period, select recipients, choose which dashboard pages
+                    to include, and customize the PDF format to meet your reporting needs.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

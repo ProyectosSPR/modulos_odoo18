@@ -1,0 +1,62 @@
+/* Odashboard Iframe Widget Styles */
+
+.odashboard-iframe-container {
+    width: 100%;
+    height: calc(100vh - 50px);
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border-top: 1px solid rgb(216, 218, 221);
+    /* Default: 50px top when no neutralize banner */
+}
+
+.odashboard-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Handle the case when neutralize banner is active - specific selector */
+body:has(span#oe_neutralize_banner) .odashboard-iframe-container {
+    /* 70px top when neutralize banner is present */
+    top: 70px;
+    height: calc(100vh - 70px);
+}
+
+/* Fallback for older browsers without :has() support */
+@supports not (selector(:has(*))) {
+    .odashboard-iframe-container {
+        top: 50px;
+        height: calc(100vh - 50px);
+    }
+    
+    /* JavaScript-based detection fallback */
+    body.o_neutralize_banner_active .odashboard-iframe-container {
+        top: 70px;
+        height: calc(100vh - 70px);
+    }
+}
+
+/* JavaScript detection class - for browsers without :has() support */
+.o_neutralize_banner_active .odashboard-iframe-container {
+    top: 70px;
+    height: calc(100vh - 70px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .odashboard-iframe-container {
+        top: 50px;
+        height: calc(100vh - 50px);
+    }
+    
+    /* Mobile with neutralize banner */
+    body:has(span#oe_neutralize_banner) .odashboard-iframe-container {
+        top: 70px;
+        height: calc(100vh - 70px);
+    }
+}

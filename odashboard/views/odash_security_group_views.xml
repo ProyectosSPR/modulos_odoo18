@@ -1,0 +1,40 @@
+<odoo>
+    <record id="view_odash_security_group_list" model="ir.ui.view">
+        <field name="name">odash.security.group.list</field>
+        <field name="model">odash.security.group</field>
+        <field name="arch" type="xml">
+            <list string="Security groups">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="user_count"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_odash_security_group_form" model="ir.ui.view">
+        <field name="name">odash.security.group.form</field>
+        <field name="model">odash.security.group</field>
+        <field name="arch" type="xml">
+            <form string="Security group">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                    <notebook>
+                        <page name="Users">
+                            <field name="user_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_odash_security" model="ir.actions.act_window">
+        <field name="name">Security groups</field>
+        <field name="res_model">odash.security.group</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

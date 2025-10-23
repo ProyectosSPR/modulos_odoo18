@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_odash_config_import_wizard_form" model="ir.ui.view">
+        <field name="name">odash.config.import.wizard.form</field>
+        <field name="model">odash.config.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Dashboard Configurations">
+                <header>
+                    <div class="o_form_header_info" style="margin-bottom: 16px;">
+                        <h1 style="margin: 0; font-size: 28px; font-weight: 300; color: #2c3e50;">
+                            Import Configurations
+                        </h1>
+                        <p style="margin: 8px 0 0 0; color: #7f8c8d; font-size: 14px;">
+                            Upload and restore your dashboard configurations
+                        </p>
+                    </div>
+                </header>
+                
+                <sheet style="padding: 24px;">
+                    <!-- File Upload Section -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div style="background: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 12px; padding: 32px; text-align: center; transition: all 0.3s ease;">
+                                <div style="margin-bottom: 12px;">
+                                    <i class="fa fa-cloud-upload" style="font-size: 48px; color: #6c757d; margin-bottom: 16px;" title="Upload File"/>
+                                </div>
+                                <field name="import_file" filename="filename"
+                                       style="margin-bottom: 8px;"
+                                       options="{'accepted_file_extensions': '.json'}"/>
+                                <field name="filename" invisible="1"/>
+                                <div style="color: #6c757d; font-size: 13px; margin-top: 8px;">
+                                    Select a JSON configuration file exported from Odashboard
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Import Mode Section -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h3 style="font-size: 18px; font-weight: 500; color: #2c3e50; margin-bottom: 16px;">
+                                Import Strategy
+                            </h3>
+                            <field name="import_mode" widget="radio" 
+                                   options="{'horizontal': true}"
+                                   style="margin-bottom: 16px;"/>
+                            
+                            <!-- Mode descriptions with modern cards -->
+                            <div class="row">
+                                <div class="col-md-4" invisible="import_mode != 'replace'">
+                                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 16px; margin-bottom: 8px;">
+                                        <strong style="color: #856404;">Replace All</strong>
+                                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #856404;">
+                                            Delete existing configurations and import new ones
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" invisible="import_mode != 'merge'">
+                                    <div style="background: #d1ecf1; border: 1px solid #74c0fc; border-radius: 8px; padding: 16px; margin-bottom: 8px;">
+                                        <strong style="color: #0c5460;">Merge</strong>
+                                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #0c5460;">
+                                            Update existing and add new configurations
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" invisible="import_mode != 'skip_existing'">
+                                    <div style="background: #d4edda; border: 1px solid #51cf66; border-radius: 8px; padding: 16px; margin-bottom: 8px;">
+                                        <strong style="color: #155724;">Skip Existing</strong>
+                                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #155724;">
+                                            Only import new configurations
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Preview Section -->
+                    <div class="row" invisible="not show_preview">
+                        <div class="col-12">
+                            <h3 style="font-size: 18px; font-weight: 500; color: #2c3e50; margin-bottom: 16px;">
+                                Preview
+                            </h3>
+                            <div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 20px;">
+                                <field name="show_preview" invisible="1"/>
+                                <field name="preview_data" widget="text" readonly="1" nolabel="1"
+                                       style="font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; font-size: 13px; line-height: 1.5; background: transparent; border: none; resize: none;"/>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+                
+                <footer>
+                    <div>
+                        <div></div>
+                        <div>
+                            <button string="Cancel" class="btn btn-light me-2" special="cancel"/>
+                            <button name="action_import" string="Import Configurations" type="object" 
+                                    class="btn btn-primary"/>
+                        </div>
+                    </div>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

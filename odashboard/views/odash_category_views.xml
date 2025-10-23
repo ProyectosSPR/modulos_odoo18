@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- List View -->
+    <record id="view_odash_category_list" model="ir.ui.view">
+        <field name="name">odash.category.list</field>
+        <field name="model">odash.category</field>
+        <field name="arch" type="xml">
+            <list string="Categories">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="page_count"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_odash_category_form" model="ir.ui.view">
+        <field name="name">odash.category.form</field>
+        <field name="model">odash.category</field>
+        <field name="arch" type="xml">
+            <form string="Category">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_view_pages"
+                                invisible="not page_ids"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-text-o">
+                            <field name="page_count" widget="statinfo" string="Pages"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="e.g., Sales, Support, Finance"/>
+                            <field name="sequence"/>
+                            <field name="icon" placeholder="e.g., fa-chart-line, fa-users"/>
+                        </group>
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="page_ids" invisible="True"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Brief description of this category..."/>
+                    </group>
+                    <notebook>
+                        <page name="security" string="Security">
+                            <group>
+                                <field name="security_group_ids" widget="many2many_tags"
+                                       placeholder="Select security groups (leave empty for all users)"/>
+                                <field name="user_ids" widget="many2many_avatar_user"
+                                       placeholder="Select users to have access this category (leave empty for default access)"/>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                <p><strong>Access Control:</strong></p>
+                                <ul>
+                                    <li>If no security groups are selected, all users can access this category.</li>
+                                    <li>If security groups are selected, only users belonging to those groups can access
+                                        this category.</li>
+                                    <li>If specific users are selected, only those users can access this category.</li>
+                                    <li>You can combine both security groups and individual users.</li>
+                                    <li>Editors always have access to all categories.</li>
+                                    <li>Users without access to a category will not see the pages within that
+                                        category.</li>
+                                </ul>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_odash_category_search" model="ir.ui.view">
+        <field name="name">odash.category.search</field>
+        <field name="model">odash.category</field>
+        <field name="arch" type="xml">
+            <search string="Categories">
+                <field name="name" string="Category" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="description"/>
+                <separator/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter string="With Pages" name="with_pages" domain="[('page_count', '>', 0)]"/>
+                <filter string="Empty" name="empty" domain="[('page_count', '=', 0)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Active Status" name="group_active" context="{'group_by': 'active'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_odash_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">odash.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first dashboard category
+            </p>
+            <p>
+                Categories help you organize your dashboard pages by grouping related pages together.
+                For example: Sales, Support, Finance, Operations, etc.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,89 @@
+<odoo>
+    <record id="view_odash_config_list" model="ir.ui.view">
+        <field name="name">odash.config.list</field>
+        <field name="model">odash.config</field>
+        <field name="arch" type="xml">
+            <list string="Configurations" create="0" multi_edit="1">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="category_id" optional="show"/>
+                <field name="access_summary"/>
+                <field name="allow_public_access" widget="boolean_toggle" />
+                <field name="public_url" widget="CopyClipboardURL" width="200px" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_odash_config_search" model="ir.ui.view">
+        <field name="name">odash.config.search</field>
+        <field name="model">odash.config</field>
+        <field name="arch" type="xml">
+            <search string="Pages">
+                <field name="name" string="Page" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="category_id"/>
+                <separator/>
+                <filter string="Public Access" name="public_access" domain="[('allow_public_access', '=', True)]"/>
+                <separator/>
+                <filter string="Uncategorized" name="uncategorized" domain="[('category_id', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Category" name="group_category" context="{'group_by': 'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_odash_config_form" model="ir.ui.view">
+        <field name="name">odash.config.form</field>
+        <field name="model">odash.config</field>
+        <field name="arch" type="xml">
+            <form string="Configuration">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="category_id"/>
+                        </group>
+                        <group>
+                            <field name="allow_public_access" widget="boolean_toggle" />
+                            <field name="public_url" invisible="not allow_public_access" widget="CopyClipboardURL" />
+                            <field name="access_summary" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="Security groups">
+                            <field name="security_group_ids"/>
+                        </page>
+                        <page name="Users">
+                            <field name="user_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_odash_config" model="ir.actions.act_window">
+        <field name="name">Pages</field>
+        <field name="res_model">odash.config</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_page_config', '=', True)]</field>
+    </record>
+
+    <!-- Export Configuration Action -->
+    <record id="action_export_odash_config" model="ir.actions.server">
+        <field name="name">Export Configurations</field>
+        <field name="model_id" ref="model_odash_config"/>
+        <field name="binding_model_id" ref="model_odash_config"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_export_configs()</field>
+    </record>
+
+    <!-- Import Configuration Action -->
+    <record id="action_import_odash_config" model="ir.actions.server">
+        <field name="name">Import Configurations</field>
+        <field name="model_id" ref="model_odash_config"/>
+        <field name="binding_model_id" ref="model_odash_config"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_import_configs()</field>
+    </record>
+</odoo>

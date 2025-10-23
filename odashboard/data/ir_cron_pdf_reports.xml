@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Cron job for sending scheduled PDF reports -->
+        <record id="ir_cron_send_pdf_reports" model="ir.cron">
+            <field name="name">Send Scheduled Dashboard PDF Reports</field>
+            <field name="model_id" ref="model_odash_pdf_report"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_send_scheduled_reports()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

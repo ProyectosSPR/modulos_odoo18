@@ -1,0 +1,87 @@
+<odoo>
+    <data>
+        <menuitem name="Odashboard"
+                  groups="odashboard.group_odashboard_viewer,base.group_system"
+                  id="menu_odash_dashboard_root"
+                  action="action_odash_dashboard"
+                  web_icon="odashboard,static/description/icon.png"/>
+
+        <menuitem name="Dashboards"
+                  groups="odashboard.group_odashboard_editor,base.group_system"
+                  id="menu_odash_dashboard_list"
+                  action="action_odash_dashboard"
+                  parent="menu_odash_dashboard_root"
+                  sequence="5"
+        />
+
+        <menuitem name="Configuration"
+                  groups="odashboard.group_odashboard_editor,base.group_system"
+                  id="menu_odash_configuration_root"
+                  parent="menu_odash_dashboard_root"
+                  sequence="100"
+        />
+        <menuitem name="Settings"
+                  groups="odashboard.group_odashboard_editor,base.group_system"
+                  id="menu_odash_settings"
+                  action="odashboard.action_odashboard_settings"
+                  parent="menu_odash_configuration_root"
+                  sequence="1"
+        />
+
+        <menuitem name="Security groups"
+                  groups="odashboard.group_odashboard_editor,base.group_system"
+                  id="menu_odash_security_root"
+                  action="action_odash_security"
+                  parent="menu_odash_configuration_root"
+                  sequence="10"
+        />
+        
+        <menuitem name="Pages categories"
+                  groups="odashboard.group_odashboard_editor,base.group_system"
+                  id="menu_odash_category_root"
+                  action="action_odash_category"
+                  parent="menu_odash_configuration_root"
+                  sequence="15"
+        />
+        
+        <menuitem name="Pages"
+                  groups="odashboard.group_odashboard_editor,base.group_system"
+                  id="menu_odash_config_root"
+                  action="action_odash_config"
+                  parent="menu_odash_configuration_root"
+                  sequence="20"
+        />
+
+        <menuitem name="Access"
+                  groups="odashboard.group_odashboard_editor,base.group_system"
+                  id="menu_odash_dashboard_accesses_root"
+                  action="action_odash_dashboard_accesses"
+                  parent="menu_odash_configuration_root"
+                  sequence="25"
+        />
+
+        <menuitem name="Export Configurations"
+                  groups="odashboard.group_odashboard_editor,base.group_system"
+                  id="menu_odash_export_config"
+                  action="action_odash_config_export_wizard"
+                  parent="menu_odash_configuration_root"
+                  sequence="30"
+        />
+
+        <menuitem name="Import Configurations"
+                  groups="odashboard.group_odashboard_editor,base.group_system"
+                  id="menu_odash_import_config"
+                  action="action_import_odash_config"
+                  parent="menu_odash_configuration_root"
+                  sequence="31"
+        />
+
+        <menuitem name="PDF Reports"
+                  groups="odashboard.group_odashboard_editor,base.group_system"
+                  id="menu_odash_pdf_reports"
+                  action="action_odash_pdf_report"
+                  parent="menu_odash_configuration_root"
+                  sequence="40"
+        />
+    </data>
+</odoo>

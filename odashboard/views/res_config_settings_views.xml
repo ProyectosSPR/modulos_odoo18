@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_odashboard"
+                model="ir.ui.view">
+            <field name="name">
+                res.config.settings.view.form.inherit.odashboard
+            </field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <field name="is_root_company" invisible="1"/>
+                    <app data-string="Odashboard"
+                         string="Odashboard" name="odashboard"
+                         logo="/odashboard/static/description/icon.png">
+
+                        <div id="odashboard_key">
+                            <block title="License"
+                                   name="odashboard_key_container">
+                                <div class="d-flex justify-content-end">
+                                    <button name="action_manage_plan"
+                                            string="Manage my plan"
+                                            type="object"
+                                            icon="fa-bullseye"
+                                            class="btn btn-link"
+                                            invisible="not odashboard_key_synchronized"/>
+                                </div>
+                                <div class="row mt16 o_settings_container"
+                                     id="odashboard_settings">
+                                    <div class="col-12 col-lg-6 o_setting_box"
+                                         id="odashboard_key_settings">
+                                        <div class="o_setting_left_pane"/>
+                                        <div class="o_setting_right_pane">
+                                            <span class="o_form_label">Odashboard License key
+                                            </span>
+                                            <div class="text-muted">Enter your
+                                                Odashboard license key here
+                                            </div>
+                                            <field name="odashboard_key"
+                                                   placeholder="Enter your key"
+                                                   readonly="odashboard_key_synchronized"
+                                                   class="oe_input_key"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-6 o_setting_box"
+                                         id="odashboard_actions">
+                                        <div class="o_setting_left_pane"/>
+                                        <div class="o_setting_right_pane">
+                                            <span class="o_form_label">Actions
+                                            </span>
+                                            <div class="text-muted">Synchronize
+                                                or
+                                                desynchronize your key
+                                            </div>
+                                            <button name="synchronize_key"
+                                                    string="Synchronize key"
+                                                    noSaveDialog="true"
+                                                    type="object"
+                                                    class="btn btn-primary"
+                                                    invisible="odashboard_key_synchronized"/>
+                                            <span class="mx-3" invisible="odashboard_key_synchronized">or</span>
+                                            <button name="get_my_key"
+                                                    string="Get my key"
+                                                    noSaveDialog="true"
+                                                    type="object"
+                                                    class="btn btn-outline-secondary"
+                                                    invisible="odashboard_key_synchronized"/>
+                                            <button name="desynchronize_key"
+                                                    string="Desynchronize key"
+                                                    type="object"
+                                                    class="btn btn-secondary"
+                                                    invisible="not odashboard_key_synchronized"/>
+                                            <div class="mt8 text-success"
+                                                 invisible="not odashboard_key_synchronized">
+                                                <span class="fa fa-check"/>
+                                                key is synchronized
+                                            </div>
+                                            <field name="odashboard_key_synchronized" invisible="True"/>
+                                            <field name="odashboard_plan" invisible="True"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-6 o_setting_box"
+                                         id="odashboard_uuid">
+                                        <div class="o_setting_left_pane"/>
+                                        <div class="o_setting_right_pane">
+                                            <span class="o_form_label">Instance
+                                                UUID
+                                            </span>
+                                            <div class="text-muted">Unique
+                                                identifier
+                                                for this Odoo instance (for
+                                                support)
+                                            </div>
+                                            <field name="odashboard_uuid"
+                                                   readonly="1"
+                                                   class="oe_input_uuid"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-6 o_setting_box"
+                                         id="odashboard_plan">
+                                        <div class="o_setting_left_pane"/>
+                                        <div class="o_setting_right_pane">
+                                            <span class="o_form_label">
+                                                Plan
+                                            </span>
+                                            <div class="text-muted">
+                                                Your odashboard plan
+                                            </div>
+                                            <span invisible="odashboard_plan != 'freemium'"
+                                                  readonly="1"
+                                                  class="badge bg-black text-white rounded">
+                                                Freemium
+                                            </span>
+                                            <span invisible="odashboard_plan not in ['pro', 'partner']"
+                                                  readonly="1"
+                                                  class="badge bg-success text-white rounded">
+                                                Pro
+                                            </span>
+                                            <span invisible="odashboard_key_synchronized or odashboard_plan">
+                                                Key is not synchronized.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </block>
+
+                            <block title="Engine Management"
+                                   name="odashboard_engine_container">
+                                <div class="row mt16 o_settings_container"
+                                     id="odashboard_engine_settings">
+                                    <div class="col-12 col-lg-6 o_setting_box"
+                                         id="odashboard_engine_version">
+                                        <div class="o_setting_left_pane"/>
+                                        <div class="o_setting_right_pane">
+                                            <span class="o_form_label">Engine
+                                                Version
+                                            </span>
+                                            <div class="text-muted">
+                                                Current version of the
+                                                Odashboard visualization engine
+                                            </div>
+                                            <div class="content-group">
+                                                <div class="mt16">
+                                                    <field name="odashboard_engine_version"
+                                                           readonly="1"
+                                                           class="o_form_field"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-6 o_setting_box"
+                                         id="odashboard_engine_actions">
+                                        <div class="o_setting_left_pane"/>
+                                        <div class="o_setting_right_pane">
+                                            <span class="o_form_label">Engine
+                                                Updates
+                                            </span>
+                                            <div class="text-muted">
+                                                Check for and apply the latest
+                                                version of the visualization
+                                                engine
+                                            </div>
+                                            <div class="mt16 d-flex align-items-center">
+                                                <button name="action_check_engine_updates"
+                                                        string="Check for Updates"
+                                                        type="object"
+                                                        class="btn btn-primary me-2"/>
+                                                <a href="https://odashboard.app/devblog"
+                                                   target="_blank"
+                                                   class="btn btn-secondary"
+                                                   role="button">
+                                                    <i class="fa fa-external-link"></i>
+                                                    Dev Blog
+                                                </a>
+                                            </div>
+                                            <div class="text-muted mt-2">
+                                                Visit our Developer Blog to
+                                                learn about the latest features
+                                                and improvements
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </block>
+                        </div>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

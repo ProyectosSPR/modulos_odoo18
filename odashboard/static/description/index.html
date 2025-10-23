@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Odashboard - Live Analytics Dashboards for Odoo</title>
+
+        <!-- Bootstrap 5 CSS CDN - VERSION PREVIEW POUR TEST LOCAL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS CDN -->
+    <span href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"></span>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: #2c3e50;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+
+        .usecases-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .stats-section {
+            background-color: #1a202c;
+            color: white;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="text-center" style="background-color:#764ba2; color: white; padding-top: 80px; padding-bottom: 80px;border-radius:20px; margin-top:10px;">
+        <div class="container">
+            <div class="mb-3">
+                <span style="font-size: 0.9rem; padding: 8px 20px; background-color: rgba(255,255,255,0.2); border-radius: 50px; display: inline-block; font-weight: 500;">
+                    🚀 No Code Required
+                </span>
+            </div>
+            <h1 class="mb-4" style="font-size: 3.5rem; font-weight: 800; color: white;">
+                Live Analytics Dashboards<br/>Made Simple
+            </h1>
+            <p class="lead mb-4" style="font-size: 1.3rem; max-width: 700px; margin-left: auto; margin-right: auto; color: white;">
+                Create beautiful, real-time dashboards in Odoo without coding or complex setup. Drag, drop, and visualize your data instantly.
+            </p>
+
+            <!-- Video -->
+            <div style="max-width: 800px; margin-left: auto; margin-right: auto; margin-top: 40px; border-radius: 16px;">
+                <a href="https://youtu.be/8bpyYbYPUno" target="_blank" rel="noopener">
+                    <img src="youtube-link.png" alt="Odashboard Demo Video - Click to Watch" class="img-fluid" style="border: 3px solid white; border-radius: 16px;">
+                </a>
+            </div>
+            <p style="font-size: 1rem; margin-top: 20px; color: white;">
+                🎥 Watch the full demo to discover all features
+            </p>
+        </div>
+    </section>
+
+        <section class="py-5" style="border-radius:10px; margin-top:10px;">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <h3 class="mb-2" style="font-size: 2.5rem; font-weight: 800; color: #667eea;">
+                        5 min
+                    </h3>
+                    <p style="color: #a0aec0;">Average dashboard creation time</p>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <h3 class="mb-2" style="font-size: 2.5rem; font-weight: 800; color: #667eea;">
+                        0
+                    </h3>
+                    <p style="color: #a0aec0;">Lines of code required</p>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <h3 class="mb-2" style="font-size: 2.5rem; font-weight: 800; color: #667eea;">
+                        100%
+                    </h3>
+                    <p style="color: #a0aec0;">Real-time data sync</p>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <h3 class="mb-2" style="font-size: 2.5rem; font-weight: 800; color: #667eea;">
+                        ∞
+                    </h3>
+                    <p style="color: #a0aec0;">Customization possibilities</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5" style="background-color: #f3ebff; padding-left: 30px; padding-right: 30px; border-radius:20px;">
+        <div class="container">
+            <h2 class="text-center mb-3" style="font-size: 2.5rem; font-weight: 700; color: #1a202c; ">
+                Powerful Features, Zero Complexity
+            </h2>
+            <p class="text-center mb-5" style="font-size: 1.1rem; color: #718096; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Everything you need to transform your Odoo data into actionable insights
+            </p>
+
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">🎨</div>
+                            <h3 class="mb-3" style="font-size: 1.4rem; font-weight: 600; color: #1a202c;">
+                                Drag & Drop Builder
+                            </h3>
+                            <p style="color: #4a5568;">
+                                Build professional dashboards in minutes with our intuitive drag-and-drop interface. No technical skills required.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">⚡</div>
+                            <h3 class="mb-3" style="font-size: 1.4rem; font-weight: 600; color: #1a202c;">
+                                Real-Time Data Sync
+                            </h3>
+                            <p style="color: #4a5568;">
+                                Your dashboards automatically update with live data from your Odoo database. Always current, always accurate.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">🎯</div>
+                            <h3 class="mb-3" style="font-size: 1.4rem; font-weight: 600; color: #1a202c;">
+                                Fully Customizable
+                            </h3>
+                            <p style="color: #4a5568;">
+                                Adapt every dashboard to your specific business needs. Choose from multiple visualization types and layouts.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">🔒</div>
+                            <h3 class="mb-3" style="font-size: 1.4rem; font-weight: 600; color: #1a202c;">
+                                Enterprise Security
+                            </h3>
+                            <p style="color: #4a5568;">
+                                Bank-level encryption, GDPR compliance, and granular access controls keep your data safe and secure.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">📊</div>
+                            <h3 class="mb-3" style="font-size: 1.4rem; font-weight: 600; color: #1a202c;">
+                                Rich Visualizations
+                            </h3>
+                            <p style="color: #4a5568;">
+                                Display your data with charts, graphs, tables, KPI blocks, and more. Make data beautiful and understandable.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">🌐</div>
+                            <h3 class="mb-3" style="font-size: 1.4rem; font-weight: 600; color: #1a202c;">
+                                Share & Collaborate
+                            </h3>
+                            <p style="color: #4a5568;">
+                                Share dashboards with your team or clients. Control permissions and keep everyone on the same page.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-info mt-4" style="border-left: 4px solid #667eea; border-radius: 8px;">
+                <h4 class="mb-2" style="color: #667eea; font-weight: 600;">
+                    💡 Built for Odoo Users
+                </h4>
+                <p class="mb-0" style="color: #4a5568;">
+                    Odashboard is designed specifically for Odoo, ensuring seamless integration with all your modules - from Sales and CRM to Inventory, Accounting, and beyond.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-3" style="font-size: 2.5rem; font-weight: 700; color: #1a202c;">
+                Why Choose Odashboard?
+            </h2>
+            <p class="text-center mb-5" style="font-size: 1.1rem; color: #718096; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Stop exporting data to spreadsheets. Start making decisions with live insights.
+            </p>
+
+            <div class="row text-center">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div style="font-size: 3rem; margin-bottom: 10px;">⏱️</div>
+                    <h4 class="mb-2" style="font-size: 1.2rem; font-weight: 600; color: #1a202c;">
+                        Save Time
+                    </h4>
+                    <p style="color: #718096;">
+                        Build dashboards in minutes, not days. No waiting for IT or developers.
+                    </p>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div style="font-size: 3rem; margin-bottom: 10px;">💰</div>
+                    <h4 class="mb-2" style="font-size: 1.2rem; font-weight: 600; color: #1a202c;">
+                        Reduce Costs
+                    </h4>
+                    <p style="color: #718096;">
+                        Eliminate expensive BI tools and manual reporting processes.
+                    </p>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div style="font-size: 3rem; margin-bottom: 10px;">📈</div>
+                    <h4 class="mb-2" style="font-size: 1.2rem; font-weight: 600; color: #1a202c;">
+                        Better Decisions
+                    </h4>
+                    <p style="color: #718096;">
+                        Access real-time data to make informed business decisions faster.
+                    </p>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div style="font-size: 3rem; margin-bottom: 10px;">👥</div>
+                    <h4 class="mb-2" style="font-size: 1.2rem; font-weight: 600; color: #1a202c;">
+                        Empower Teams
+                    </h4>
+                    <p style="color: #718096;">
+                        Give every team member the data they need, when they need it.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="py-5" style="background-color: #f3ebff; padding-left: 30px; padding-right: 30px;border-radius:20px; margin-top:10px;">
+        <div class="container">
+            <h2 class="text-center mb-3" style="font-size: 2.5rem; font-weight: 700; color: #1a202c;">
+                Perfect For Every Department
+            </h2>
+            <p class="text-center mb-5" style="font-size: 1.1rem; color: #718096;">
+                From sales to operations, Odashboard helps every team succeed
+            </p>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0; background-color: white;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 2.5rem; margin-bottom: 15px;">📊</div>
+                            <h4 class="mb-3" style="font-size: 1.3rem; font-weight: 600; color: #1a202c;">
+                                Sales & CRM
+                            </h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-2" style="color: #4a5568;">✓ Track revenue & pipeline</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Monitor conversion rates</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Analyze sales performance</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Forecast future revenue</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0; background-color: white;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 2.5rem; margin-bottom: 15px;">📦</div>
+                            <h4 class="mb-3" style="font-size: 1.3rem; font-weight: 600; color: #1a202c;">
+                                Inventory & Operations
+                            </h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-2" style="color: #4a5568;">✓ Stock levels & movements</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Warehouse performance</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Supply chain metrics</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Delivery tracking</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0; background-color: white;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 2.5rem; margin-bottom: 15px;">💼</div>
+                            <h4 class="mb-3" style="font-size: 1.3rem; font-weight: 600; color: #1a202c;">
+                                Finance & Accounting
+                            </h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-2" style="color: #4a5568;">✓ Cash flow analysis</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ P&L statements</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Budget vs actual</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Aged receivables/payables</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0; background-color: white;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 2.5rem; margin-bottom: 15px;">🛒</div>
+                            <h4 class="mb-3" style="font-size: 1.3rem; font-weight: 600; color: #1a202c;">
+                                E-commerce
+                            </h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-2" style="color: #4a5568;">✓ Online sales tracking</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Customer behavior analysis</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Product performance</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Conversion funnels</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0; background-color: white;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 2.5rem; margin-bottom: 15px;">👨‍💼</div>
+                            <h4 class="mb-3" style="font-size: 1.3rem; font-weight: 600; color: #1a202c;">
+                                Management
+                            </h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-2" style="color: #4a5568;">✓ Executive dashboards</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Company-wide KPIs</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Department performance</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Strategic insights</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100" style="border-radius: 16px; border: 1px solid #e2e8f0; background-color: white;">
+                        <div class="card-body" style="padding: 35px;">
+                            <div style="font-size: 2.5rem; margin-bottom: 15px;">🎯</div>
+                            <h4 class="mb-3" style="font-size: 1.3rem; font-weight: 600; color: #1a202c;">
+                                Marketing
+                            </h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-2" style="color: #4a5568;">✓ Campaign performance</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Lead generation metrics</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ ROI tracking</li>
+                                <li class="mb-2" style="color: #4a5568;">✓ Customer acquisition cost</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-3" style="font-size: 2.5rem; font-weight: 700; color: #1a202c;">
+                Enterprise-Grade Security & Compliance
+            </h2>
+            <p class="text-center mb-5" style="font-size: 1.1rem; color: #718096; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Your data security is our top priority
+            </p>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="d-flex">
+                        <div class="me-3" style="font-size: 2rem;">🔐</div>
+                        <div>
+                            <h4 class="mb-2" style="font-weight: 600; color: #1a202c;">
+                                Encrypted Access
+                            </h4>
+                            <p style="color: #718096; font-size: 0.95rem;">
+                                Bank-level encryption with secure token-based authentication for all dashboard access.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="d-flex">
+                        <div class="me-3" style="font-size: 2rem;">🛡️</div>
+                        <div>
+                            <h4 class="mb-2" style="font-weight: 600; color: #1a202c;">
+                                GDPR Compliant
+                            </h4>
+                            <p style="color: #718096; font-size: 0.95rem;">
+                                Fully compliant with GDPR and international data protection regulations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="d-flex">
+                        <div class="me-3" style="font-size: 2rem;">👤</div>
+                        <div>
+                            <h4 class="mb-2" style="font-weight: 600; color: #1a202c;">
+                                Access Control
+                            </h4>
+                            <p style="color: #718096; font-size: 0.95rem;">
+                                Granular permissions let you control exactly who sees what data.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="d-flex">
+                        <div class="me-3" style="font-size: 2rem;">📋</div>
+                        <div>
+                            <h4 class="mb-2" style="font-weight: 600; color: #1a202c;">
+                                Audit Trail
+                            </h4>
+                            <p style="color: #718096; font-size: 0.95rem;">
+                                Complete logging of all dashboard access and modifications for accountability.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 text-center" style="background-color:#764ba2; color: white;border-radius:20px; margin-top:10px;">
+        <div class="container">
+            <h2 class="mb-3" style="font-size: 2.5rem; font-weight: 700; color: white;">
+                Ready to Transform Your Odoo Data?
+            </h2>
+            <p class="mb-4" style="font-size: 1.2rem; color: white;">
+                Join hundreds of companies already using Odashboard to make better business decisions
+            </p>
+            <p style="font-size: 0.95rem; margin-top: 20px; color: white;">
+                ✓ No credit card required • ✓ Full feature access • ✓ 5-minute setup
+            </p>
+        </div>
+    </section>
+
+</body>
+</html>
