@@ -10,7 +10,7 @@
                     <div class="oe_button_box" name="button_box">
                         <button name="%(action_subscription_package)d" type="action"
                                 class="oe_stat_button" icon="fa-refresh"
-                                context="{'search_default_plan_id': active_id}">
+                                context="{'search_default_plan_id': id}">
                             <field name="subscription_count" widget="statinfo" string="Subscriptions"/>
                         </button>
                     </div>
