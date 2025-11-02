@@ -105,7 +105,7 @@
         <field name="name">saas.customer.tree</field>
         <field name="model">saas.customer</field>
         <field name="arch" type="xml">
-            <tree string="SaaS Customers"
+            <list string="SaaS Customers"
                   decoration-success="state=='active'"
                   decoration-warning="state=='prospect'"
                   decoration-danger="state=='suspended'"
@@ -124,7 +124,7 @@
                 <field name="date_created"/>
                 <field name="user_id" widget="many2one_avatar_user"/>
                 <field name="currency_id" column_invisible="True"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -202,7 +202,7 @@
     <record id="action_saas_customer" model="ir.actions.act_window">
         <field name="name">SaaS Customers</field>
         <field name="res_model">saas.customer</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="context">{'search_default_active': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

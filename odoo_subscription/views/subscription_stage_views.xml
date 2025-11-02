@@ -26,12 +26,12 @@
         <field name="name">subscription.stage.tree</field>
         <field name="model">subscription.stage</field>
         <field name="arch" type="xml">
-            <tree string="Subscription Stages" editable="bottom">
+            <list string="Subscription Stages" editable="bottom">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="category"/>
                 <field name="is_fold"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -39,7 +39,7 @@
     <record id="action_subscription_stage" model="ir.actions.act_window">
         <field name="name">Subscription Stages</field>
         <field name="res_model">subscription.stage</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <!-- Stop Reason Tree View -->
@@ -47,10 +47,10 @@
         <field name="name">subscription.stop.reason.tree</field>
         <field name="model">subscription.stop.reason</field>
         <field name="arch" type="xml">
-            <tree string="Stop Reasons" editable="bottom">
+            <list string="Stop Reasons" editable="bottom">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -58,6 +58,6 @@
     <record id="action_subscription_stop_reason" model="ir.actions.act_window">
         <field name="name">Stop Reasons</field>
         <field name="res_model">subscription.stop.reason</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>

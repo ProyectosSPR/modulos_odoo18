@@ -33,7 +33,7 @@ class SaasCustomer(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Licenses',
             'res_model': 'saas.license',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('customer_id', '=', self.id)],
             'context': {'default_customer_id': self.id},
         }

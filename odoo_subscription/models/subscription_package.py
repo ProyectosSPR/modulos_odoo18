@@ -227,7 +227,7 @@ class SubscriptionPackage(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('Invoices'),
             'res_model': 'account.move',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', 'in', self.invoice_ids.ids)],
             'context': {'default_move_type': 'out_invoice', 'default_subscription_id': self.id},
         }
@@ -239,7 +239,7 @@ class SubscriptionPackage(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('SaaS Instances'),
             'res_model': 'saas.instance',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', 'in', self.saas_instance_ids.ids)],
         }
 

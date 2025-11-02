@@ -69,7 +69,7 @@
         <field name="name">subscription.plan.tree</field>
         <field name="model">subscription.plan</field>
         <field name="arch" type="xml">
-            <tree string="Subscription Plans">
+            <list string="Subscription Plans">
                 <field name="short_code"/>
                 <field name="name"/>
                 <field name="renewal_value"/>
@@ -79,7 +79,7 @@
                 <field name="invoice_mode"/>
                 <field name="subscription_count"/>
                 <field name="active" widget="boolean_toggle"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -107,7 +107,7 @@
     <record id="action_subscription_plan" model="ir.actions.act_window">
         <field name="name">Subscription Plans</field>
         <field name="res_model">subscription.plan</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'search_default_active': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

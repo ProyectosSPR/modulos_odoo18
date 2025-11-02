@@ -135,7 +135,7 @@ class SaasCustomer(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('Instances'),
             'res_model': 'saas.instance',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('customer_id', '=', self.id)],
             'context': {'default_customer_id': self.id},
         }
@@ -147,7 +147,7 @@ class SaasCustomer(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('Active Instances'),
             'res_model': 'saas.instance',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('customer_id', '=', self.id), ('status', '=', 'active')],
             'context': {'default_customer_id': self.id},
         }

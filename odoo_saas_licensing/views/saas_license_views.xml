@@ -89,7 +89,7 @@
                     <notebook>
                         <page string="Licensed Companies" name="companies">
                             <field name="licensed_company_ids">
-                                <tree decoration-muted="is_active == False">
+                                <list decoration-muted="is_active == False">
                                     <field name="company_id"/>
                                     <field name="date_added"/>
                                     <field name="users_count"/>
@@ -99,7 +99,7 @@
                                             icon="fa-times" invisible="is_active == False"/>
                                     <button name="action_activate" string="Activate" type="object"
                                             icon="fa-check" invisible="is_active == True"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Notes" name="notes">
@@ -121,7 +121,7 @@
         <field name="name">saas.license.tree</field>
         <field name="model">saas.license</field>
         <field name="arch" type="xml">
-            <tree string="SaaS Licenses"
+            <list string="SaaS Licenses"
                   decoration-success="state == 'active'"
                   decoration-warning="company_usage_percent >= alert_threshold"
                   decoration-danger="state == 'suspended'">
@@ -137,7 +137,7 @@
                        decoration-danger="state == 'suspended'"/>
                 <field name="currency_id" column_invisible="True"/>
                 <field name="alert_threshold" column_invisible="True"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -218,7 +218,7 @@
     <record id="action_saas_license" model="ir.actions.act_window">
         <field name="name">SaaS Licenses</field>
         <field name="res_model">saas.license</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="context">{'search_default_active': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

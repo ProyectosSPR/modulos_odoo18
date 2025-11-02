@@ -120,7 +120,7 @@ class SaasServicePackage(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('Instances'),
             'res_model': 'saas.instance',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('service_package_id', '=', self.id)],
             'context': {'default_service_package_id': self.id},
         }
@@ -132,7 +132,7 @@ class SaasServicePackage(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('Products'),
             'res_model': 'product.template',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('saas_package_id', '=', self.id)],
             'context': {'default_saas_package_id': self.id},
         }

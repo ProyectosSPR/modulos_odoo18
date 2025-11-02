@@ -51,7 +51,7 @@
         <field name="name">saas.license.type.tree</field>
         <field name="model">saas.license.type</field>
         <field name="arch" type="xml">
-            <tree string="License Types">
+            <list string="License Types">
                 <field name="sequence" widget="handle"/>
                 <field name="code"/>
                 <field name="name"/>
@@ -60,7 +60,7 @@
                 <field name="default_base_price" widget="monetary"/>
                 <field name="active" widget="boolean_toggle"/>
                 <field name="currency_id" column_invisible="True"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -68,7 +68,7 @@
     <record id="action_saas_license_type" model="ir.actions.act_window">
         <field name="name">License Types</field>
         <field name="res_model">saas.license.type</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'search_default_active': 1}</field>
     </record>
 </odoo>

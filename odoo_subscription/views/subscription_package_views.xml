@@ -80,7 +80,7 @@
                     <notebook>
                         <page string="Products" name="products">
                             <field name="product_line_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id" options="{'no_create': True}"/>
                                     <field name="product_qty"/>
@@ -92,7 +92,7 @@
                                     <field name="price_tax" widget="monetary"/>
                                     <field name="price_total" widget="monetary"/>
                                     <field name="currency_id" column_invisible="True"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
 
@@ -101,7 +101,7 @@
                                 <field name="enable_metering" widget="boolean_toggle"/>
                             </group>
                             <field name="metering_ids">
-                                <tree>
+                                <list>
                                     <field name="date"/>
                                     <field name="metric_type"/>
                                     <field name="metric_value"/>
@@ -109,7 +109,7 @@
                                     <field name="total_amount" widget="monetary"/>
                                     <field name="invoiced" widget="boolean_toggle"/>
                                     <field name="currency_id" column_invisible="True"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
 
@@ -147,7 +147,7 @@
         <field name="name">subscription.package.tree</field>
         <field name="model">subscription.package</field>
         <field name="arch" type="xml">
-            <tree string="Subscriptions"
+            <list string="Subscriptions"
                   decoration-warning="is_to_renew == True"
                   decoration-muted="is_closed == True">
                 <field name="reference_code"/>
@@ -161,7 +161,7 @@
                 <field name="is_to_renew" widget="boolean_toggle"/>
                 <field name="is_closed" column_invisible="True"/>
                 <field name="currency_id" column_invisible="True"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -246,7 +246,7 @@
     <record id="action_subscription_package" model="ir.actions.act_window">
         <field name="name">Subscriptions</field>
         <field name="res_model">subscription.package</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="context">{'search_default_in_progress': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

@@ -145,7 +145,7 @@ class SaasLicense(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('Licensed Companies'),
             'res_model': 'saas.licensed.company',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('license_id', '=', self.id)],
             'context': {'default_license_id': self.id},
         }

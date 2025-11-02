@@ -116,7 +116,7 @@
         <field name="name">saas.instance.tree</field>
         <field name="model">saas.instance</field>
         <field name="arch" type="xml">
-            <tree string="SaaS Instances"
+            <list string="SaaS Instances"
                   decoration-success="status=='active'"
                   decoration-warning="status=='trial'"
                   decoration-danger="status in ['suspended','expired']"
@@ -137,7 +137,7 @@
                 <field name="storage_percentage" widget="progressbar"/>
                 <field name="is_provisioned" widget="boolean_toggle"/>
                 <field name="active" column_invisible="True"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -217,7 +217,7 @@
     <record id="action_saas_instance" model="ir.actions.act_window">
         <field name="name">SaaS Instances</field>
         <field name="res_model">saas.instance</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="context">{'search_default_active': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

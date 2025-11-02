@@ -20,13 +20,13 @@
                         <field name="total_licensed_companies"/>
                     </group>
                     <field name="license_ids" readonly="1">
-                        <tree>
+                        <list>
                             <field name="reference"/>
                             <field name="license_type_id"/>
                             <field name="current_companies"/>
                             <field name="max_companies"/>
                             <field name="state" widget="badge"/>
-                        </tree>
+                        </list>
                     </field>
                 </page>
             </xpath>
