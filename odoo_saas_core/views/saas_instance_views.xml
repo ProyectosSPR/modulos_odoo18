@@ -197,8 +197,6 @@
                 <filter string="Provisioned" name="provisioned" domain="[('is_provisioned','=',True)]"/>
                 <filter string="Not Provisioned" name="not_provisioned" domain="[('is_provisioned','=',False)]"/>
                 <separator/>
-                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
-                <separator/>
                 <group expand="0" string="Group By">
                     <filter string="Customer" name="group_customer" context="{'group_by':'customer_id'}"/>
                     <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
