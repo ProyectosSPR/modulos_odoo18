@@ -9,7 +9,6 @@
             <field name="code">model._cron_check_trial_expiry()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
             <field name="active" eval="True"/>
         </record>
 
@@ -21,7 +20,6 @@
             <field name="code">model._cron_check_subscription_expiry()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
             <field name="active" eval="True"/>
         </record>
     </data>
