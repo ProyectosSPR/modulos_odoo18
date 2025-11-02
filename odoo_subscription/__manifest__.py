@@ -52,14 +52,16 @@
         'views/subscription_metering_views.xml',
         'views/sale_order_views.xml',
         'views/product_template_views.xml',
+
+        # Reports (before menus, as menus reference report actions)
+        'report/subscription_report_views.xml',
+
+        # Menus (must be loaded after actions)
         'views/subscription_menus.xml',
 
         # Wizards
         'wizards/subscription_close_wizard_views.xml',
         'wizards/subscription_upgrade_wizard_views.xml',
-
-        # Reports
-        'report/subscription_report_views.xml',
     ],
     'demo': [
         'data/demo_data.xml',
