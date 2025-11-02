@@ -26,10 +26,6 @@
                                 class="oe_stat_button" icon="fa-check-circle">
                             <field name="active_instance_count" widget="statinfo" string="Active"/>
                         </button>
-                        <button name="action_view_subscriptions" type="object"
-                                class="oe_stat_button" icon="fa-refresh">
-                            <field name="subscription_count" widget="statinfo" string="Subscriptions"/>
-                        </button>
                     </div>
 
                     <div class="oe_title">

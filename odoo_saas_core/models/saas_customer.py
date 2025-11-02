@@ -63,11 +63,6 @@ class SaasCustomer(models.Model):
         'customer_id',
         string='Instances'
     )
-    subscription_ids = fields.One2many(
-        'subscription.package',
-        'saas_customer_id',
-        string='Subscriptions'
-    )
 
     # Computed Fields
     instance_count = fields.Integer(
@@ -77,10 +72,6 @@ class SaasCustomer(models.Model):
     active_instance_count = fields.Integer(
         string='Active Instances',
         compute='_compute_active_instance_count'
-    )
-    subscription_count = fields.Integer(
-        string='Subscriptions',
-        compute='_compute_subscription_count'
     )
     total_revenue = fields.Monetary(
         string='Total Revenue',
@@ -127,17 +118,11 @@ class SaasCustomer(models.Model):
                 record.instance_ids.filtered(lambda i: i.status == 'active')
             )
 
-    @api.depends('subscription_ids')
-    def _compute_subscription_count(self):
-        for record in self:
-            record.subscription_count = len(record.subscription_ids)
-
-    @api.depends('subscription_ids', 'subscription_ids.total_with_tax')
     def _compute_total_revenue(self):
+        """Compute total revenue - can be extended by other modules"""
         for record in self:
-            record.total_revenue = sum(
-                record.subscription_ids.mapped('total_with_tax')
-            )
+            # Base implementation - can be extended by subscription module
+            record.total_revenue = 0.0
 
     def write(self, vals):
         vals['date_updated'] = fields.Datetime.now()
@@ -165,18 +150,6 @@ class SaasCustomer(models.Model):
             'view_mode': 'tree,form',
             'domain': [('customer_id', '=', self.id), ('status', '=', 'active')],
             'context': {'default_customer_id': self.id},
-        }
-
-    def action_view_subscriptions(self):
-        """Open subscriptions list view"""
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': _('Subscriptions'),
-            'res_model': 'subscription.package',
-            'view_mode': 'tree,form',
-            'domain': [('saas_customer_id', '=', self.id)],
-            'context': {'default_saas_customer_id': self.id},
         }
 
     def action_activate(self):
