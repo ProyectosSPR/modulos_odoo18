@@ -187,7 +187,6 @@
                 <filter string="Active" name="active" domain="[('state','=','active')]"/>
                 <filter string="Prospect" name="prospect" domain="[('state','=','prospect')]"/>
                 <filter string="Suspended" name="suspended" domain="[('state','=','suspended')]"/>
-                <filter string="Has Instances" name="has_instances" domain="[('instance_count','>',0)]"/>
                 <separator/>
                 <group expand="0" string="Group By">
                     <filter string="Status" name="group_state" context="{'group_by':'state'}"/>
