@@ -18,16 +18,8 @@ class SaleOrder(models.Model):
         compute='_compute_saas_customer_id',
         store=True
     )
-    saas_instance_ids = fields.One2many(
-        'saas.instance',
-        'subscription_id',
-        compute='_compute_saas_instance_ids',
-        string='SaaS Instances'
-    )
-    instance_count = fields.Integer(
-        string='Instances',
-        compute='_compute_instance_count'
-    )
+    # Note: instance_count will be added by odoo_subscription module
+    # when it extends sale.order with subscription_id field
 
     @api.depends('order_line', 'order_line.product_id', 'order_line.product_id.is_saas_product')
     def _compute_is_saas_order(self):
@@ -43,22 +35,6 @@ class SaleOrder(models.Model):
                 ('partner_id', '=', order.partner_id.id)
             ], limit=1)
             order.saas_customer_id = saas_customer.id if saas_customer else False
-
-    @api.depends('subscription_id')
-    def _compute_saas_instance_ids(self):
-        for order in self:
-            if hasattr(order, 'subscription_id') and order.subscription_id:
-                instances = self.env['saas.instance'].search([
-                    ('subscription_id', '=', order.subscription_id.id)
-                ])
-                order.saas_instance_ids = instances
-            else:
-                order.saas_instance_ids = False
-
-    @api.depends('saas_instance_ids')
-    def _compute_instance_count(self):
-        for order in self:
-            order.instance_count = len(order.saas_instance_ids)
 
     def action_confirm(self):
         """Override to create SaaS customers and instances"""
@@ -146,14 +122,3 @@ class SaleOrder(models.Model):
         }
 
         return vals
-
-    def action_view_instances(self):
-        """View SaaS instances"""
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': _('SaaS Instances'),
-            'res_model': 'saas.instance',
-            'view_mode': 'tree,form',
-            'domain': [('id', 'in', self.saas_instance_ids.ids)],
-        }

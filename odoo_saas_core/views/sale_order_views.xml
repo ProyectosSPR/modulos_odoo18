@@ -6,13 +6,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='action_quotation_send']" position="after">
-                <button name="action_view_instances" string="Instances" type="object"
-                        class="oe_stat_button" icon="fa-server"
-                        invisible="instance_count == 0">
-                    <field name="instance_count" widget="statinfo" string="Instances"/>
-                </button>
-            </xpath>
+            <!-- Instance count button will be added by odoo_subscription module -->
 
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="is_saas_order" invisible="1"/>
