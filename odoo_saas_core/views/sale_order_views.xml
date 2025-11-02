@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sale Order Form View - SaaS Extension -->
+    <record id="view_sale_order_form_saas" model="ir.ui.view">
+        <field name="name">sale.order.form.saas</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_quotation_send']" position="after">
+                <button name="action_view_instances" string="Instances" type="object"
+                        class="oe_stat_button" icon="fa-server"
+                        invisible="instance_count == 0">
+                    <field name="instance_count" widget="statinfo" string="Instances"/>
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_saas_order" invisible="1"/>
+                <field name="saas_customer_id" readonly="1"
+                       invisible="saas_customer_id == False"/>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="context">{'show_saas_customer': True}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

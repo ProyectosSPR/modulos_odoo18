@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Demo License -->
+        <record id="demo_license_1" model="saas.license">
+            <field name="customer_id" ref="odoo_saas_core.demo_customer_1"/>
+            <field name="license_type_id" ref="license_type_per_company"/>
+            <field name="max_companies">10</field>
+            <field name="base_price">50.00</field>
+            <field name="price_per_company">20.00</field>
+            <field name="state">active</field>
+            <field name="date_activated" eval="(datetime.now()).strftime('%Y-%m-%d')"/>
+        </record>
+    </data>
+</odoo>

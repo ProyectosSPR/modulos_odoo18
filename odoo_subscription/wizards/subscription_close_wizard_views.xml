@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Subscription Close Wizard Form -->
+    <record id="view_subscription_close_wizard_form" model="ir.ui.view">
+        <field name="name">subscription.close.wizard.form</field>
+        <field name="model">subscription.close.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Close Subscription">
+                <group>
+                    <group string="Subscription Information">
+                        <field name="subscription_id" readonly="1"/>
+                    </group>
+                </group>
+
+                <group string="Closure Information">
+                    <group>
+                        <field name="close_reason_id" options="{'no_create': True}"/>
+                        <field name="close_date"/>
+                    </group>
+                    <group>
+                        <field name="closed_by" readonly="1"/>
+                    </group>
+                </group>
+
+                <group>
+                    <field name="notes" placeholder="Additional notes or reason for closure..." nolabel="1"/>
+                </group>
+
+                <footer>
+                    <button string="Close Subscription" name="action_close_subscription" type="object"
+                            class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"
+                            data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

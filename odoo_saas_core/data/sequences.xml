@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequence for SaaS Instances -->
+        <record id="seq_saas_instance" model="ir.sequence">
+            <field name="name">SaaS Instance Sequence</field>
+            <field name="code">saas.instance</field>
+            <field name="prefix">INST-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <!-- Sequence for SaaS Customers -->
+        <record id="seq_saas_customer" model="ir.sequence">
+            <field name="name">SaaS Customer Sequence</field>
+            <field name="code">saas.customer</field>
+            <field name="prefix">CUST-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>

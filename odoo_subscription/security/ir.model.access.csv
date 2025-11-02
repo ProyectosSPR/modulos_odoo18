@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_subscription_package_user,subscription.package.user,model_subscription_package,group_subscription_user,1,1,1,0
+access_subscription_package_manager,subscription.package.manager,model_subscription_package,group_subscription_manager,1,1,1,1
+access_subscription_plan_user,subscription.plan.user,model_subscription_plan,group_subscription_user,1,0,0,0
+access_subscription_plan_manager,subscription.plan.manager,model_subscription_plan,group_subscription_manager,1,1,1,1
+access_subscription_product_line_user,subscription.product.line.user,model_subscription_product_line,group_subscription_user,1,1,1,1
+access_subscription_stage_user,subscription.stage.user,model_subscription_stage,group_subscription_user,1,0,0,0
+access_subscription_stage_manager,subscription.stage.manager,model_subscription_stage,group_subscription_manager,1,1,1,1
+access_subscription_stop_reason_user,subscription.stop.reason.user,model_subscription_stop_reason,group_subscription_user,1,0,0,0
+access_subscription_stop_reason_manager,subscription.stop.reason.manager,model_subscription_stop_reason,group_subscription_manager,1,1,1,1
+access_subscription_metering_user,subscription.metering.user,model_subscription_metering,group_subscription_user,1,1,1,1

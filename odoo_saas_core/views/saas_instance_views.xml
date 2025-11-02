@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- SaaS Instance Form View -->
+    <record id="view_saas_instance_form" model="ir.ui.view">
+        <field name="name">saas.instance.form</field>
+        <field name="model">saas.instance</field>
+        <field name="arch" type="xml">
+            <form string="SaaS Instance">
+                <header>
+                    <button name="action_activate" string="Activate" type="object"
+                            class="oe_highlight" invisible="status != 'trial'"/>
+                    <button name="action_extend_trial" string="Extend Trial" type="object"
+                            invisible="status != 'trial'"/>
+                    <button name="action_suspend" string="Suspend" type="object"
+                            invisible="status not in ['trial','active']"
+                            confirm="Are you sure you want to suspend this instance?"/>
+                    <button name="action_terminate" string="Terminate" type="object"
+                            invisible="status == 'terminated'"
+                            confirm="Are you sure you want to terminate this instance?"/>
+                    <button name="action_provision_access" string="Provision Access" type="object"
+                            class="btn-primary" invisible="is_provisioned == True"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="trial,active,suspended"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+
+                    <widget name="web_ribbon" title="Provisioned" bg_color="text-bg-success"
+                            invisible="is_provisioned == False"/>
+                    <widget name="web_ribbon" title="Trial" bg_color="text-bg-warning"
+                            invisible="status != 'trial'"/>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Instance Name"/>
+                        </h1>
+                        <h3>
+                            <field name="full_url" widget="url" placeholder="Will be generated from subdomain"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group name="instance_info" string="Instance Information">
+                            <field name="subdomain"/>
+                            <field name="database_id" readonly="1"/>
+                            <field name="odoo_version"/>
+                            <field name="server_location"/>
+                        </group>
+                        <group name="customer_info" string="Customer &amp; Package">
+                            <field name="customer_id" options="{'no_create': True}"/>
+                            <field name="partner_id" invisible="1"/>
+                            <field name="service_package_id" options="{'no_create': True}"/>
+                            <field name="subscription_id" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group name="dates" string="Dates">
+                            <field name="date_created"/>
+                            <field name="date_activated"/>
+                            <field name="trial_end_date" invisible="status != 'trial'"/>
+                            <field name="subscription_end_date"/>
+                            <field name="days_until_expiry"
+                                   decoration-danger="days_until_expiry &lt; 7"
+                                   decoration-warning="days_until_expiry &lt; 30"/>
+                        </group>
+                        <group name="billing" string="Billing">
+                            <field name="billing_cycle"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <group name="resources" string="Resource Usage">
+                        <group>
+                            <label for="current_users"/>
+                            <div class="o_row">
+                                <field name="current_users"/> / <field name="max_users" readonly="1"/>
+                            </div>
+                            <field name="users_percentage" widget="progressbar"/>
+                        </group>
+                        <group>
+                            <label for="storage_used_gb"/>
+                            <div class="o_row">
+                                <field name="storage_used_gb"/> / <field name="max_storage_gb" readonly="1"/> GB
+                            </div>
+                            <field name="storage_percentage" widget="progressbar"/>
+                        </group>
+                    </group>
+
+                    <group name="provisioning" string="Provisioning Status" invisible="is_provisioned == False">
+                        <field name="is_provisioned" readonly="1"/>
+                        <field name="provisioned_company_id" readonly="1"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Instance notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- SaaS Instance Tree View -->
+    <record id="view_saas_instance_tree" model="ir.ui.view">
+        <field name="name">saas.instance.tree</field>
+        <field name="model">saas.instance</field>
+        <field name="arch" type="xml">
+            <tree string="SaaS Instances"
+                  decoration-success="status=='active'"
+                  decoration-warning="status=='trial'"
+                  decoration-danger="status in ['suspended','expired']"
+                  decoration-muted="status=='terminated'">
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="subdomain"/>
+                <field name="full_url" widget="url"/>
+                <field name="status" widget="badge"
+                       decoration-success="status=='active'"
+                       decoration-warning="status=='trial'"
+                       decoration-danger="status in ['suspended','expired']"/>
+                <field name="odoo_version"/>
+                <field name="service_package_id"/>
+                <field name="date_created"/>
+                <field name="subscription_end_date"/>
+                <field name="current_users"/>
+                <field name="storage_percentage" widget="progressbar"/>
+                <field name="is_provisioned" widget="boolean_toggle"/>
+                <field name="active" column_invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- SaaS Instance Kanban View -->
+    <record id="view_saas_instance_kanban" model="ir.ui.view">
+        <field name="name">saas.instance.kanban</field>
+        <field name="model">saas.instance</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="status"/>
+                <field name="full_url"/>
+                <field name="storage_percentage"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_top mb-2">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                    <br/>
+                                    <small><field name="customer_id"/></small>
+                                </div>
+                                <span class="badge rounded-pill float-end"
+                                      t-att-class="{'bg-success': record.status.raw_value == 'active',
+                                                   'bg-warning': record.status.raw_value == 'trial',
+                                                   'bg-danger': record.status.raw_value in ['suspended','expired']}">
+                                    <field name="status"/>
+                                </span>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <field name="full_url" widget="url"/>
+                                <div class="mt-2">
+                                    Storage: <field name="storage_percentage"/>%
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- SaaS Instance Search View -->
+    <record id="view_saas_instance_search" model="ir.ui.view">
+        <field name="name">saas.instance.search</field>
+        <field name="model">saas.instance</field>
+        <field name="arch" type="xml">
+            <search string="Search Instances">
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="subdomain"/>
+                <field name="database_id"/>
+                <separator/>
+                <filter string="Trial" name="trial" domain="[('status','=','trial')]"/>
+                <filter string="Active" name="active" domain="[('status','=','active')]"/>
+                <filter string="Suspended" name="suspended" domain="[('status','=','suspended')]"/>
+                <filter string="Expired" name="expired" domain="[('status','=','expired')]"/>
+                <separator/>
+                <filter string="Provisioned" name="provisioned" domain="[('is_provisioned','=',True)]"/>
+                <filter string="Not Provisioned" name="not_provisioned" domain="[('is_provisioned','=',False)]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Customer" name="group_customer" context="{'group_by':'customer_id'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
+                    <filter string="Package" name="group_package" context="{'group_by':'service_package_id'}"/>
+                    <filter string="Version" name="group_version" context="{'group_by':'odoo_version'}"/>
+                    <filter string="Created Date" name="group_date" context="{'group_by':'date_created'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- SaaS Instance Action -->
+    <record id="action_saas_instance" model="ir.actions.act_window">
+        <field name="name">SaaS Instances</field>
+        <field name="res_model">saas.instance</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first SaaS Instance
+            </p>
+            <p>
+                Instances represent individual Odoo installations for your SaaS customers.
+            </p>
+        </field>
+    </record>
+</odoo>

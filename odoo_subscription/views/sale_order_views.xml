@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sale Order Form - Subscription Extension -->
+    <record id="view_sale_order_form_subscription" model="ir.ui.view">
+        <field name="name">sale.order.form.subscription</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="subscription_id" readonly="1" invisible="subscription_id == False"/>
+                <field name="is_subscription" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

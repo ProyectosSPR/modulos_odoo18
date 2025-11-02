@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- SaaS Customer Form - License Extension -->
+    <record id="view_saas_customer_form_license" model="ir.ui.view">
+        <field name="name">saas.customer.form.license</field>
+        <field name="model">saas.customer</field>
+        <field name="inherit_id" ref="odoo_saas_core.view_saas_customer_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_licenses" type="object"
+                        class="oe_stat_button" icon="fa-key"
+                        invisible="license_count == 0">
+                    <field name="license_count" widget="statinfo" string="Licenses"/>
+                </button>
+            </xpath>
+
+            <xpath expr="//page[@name='instances']" position="after">
+                <page string="Licenses" name="licenses" invisible="license_count == 0">
+                    <group>
+                        <field name="total_licensed_companies"/>
+                    </group>
+                    <field name="license_ids" readonly="1">
+                        <tree>
+                            <field name="reference"/>
+                            <field name="license_type_id"/>
+                            <field name="current_companies"/>
+                            <field name="max_companies"/>
+                            <field name="state" widget="badge"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

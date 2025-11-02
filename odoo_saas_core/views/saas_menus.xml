@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main SaaS Menu -->
+    <menuitem id="menu_saas_root"
+              name="SaaS Management"
+              sequence="10"
+              web_icon="odoo_saas_core,static/description/icon.png"/>
+
+    <!-- Customers Submenu -->
+    <menuitem id="menu_saas_customers"
+              name="Customers"
+              parent="menu_saas_root"
+              sequence="10"/>
+
+    <menuitem id="menu_saas_customer_list"
+              name="Customers"
+              parent="menu_saas_customers"
+              action="action_saas_customer"
+              sequence="10"/>
+
+    <menuitem id="menu_saas_instance_list"
+              name="Instances"
+              parent="menu_saas_customers"
+              action="action_saas_instance"
+              sequence="20"/>
+
+    <!-- Configuration Submenu -->
+    <menuitem id="menu_saas_configuration"
+              name="Configuration"
+              parent="menu_saas_root"
+              sequence="90"
+              groups="base.group_system"/>
+
+    <menuitem id="menu_saas_service_packages"
+              name="Service Packages"
+              parent="menu_saas_configuration"
+              action="action_saas_service_package"
+              sequence="10"/>
+</odoo>

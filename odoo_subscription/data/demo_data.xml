@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Demo Plan -->
+        <record id="demo_plan_monthly" model="subscription.plan">
+            <field name="name">Monthly Plan</field>
+            <field name="renewal_value">1</field>
+            <field name="renewal_period">months</field>
+            <field name="limit_choice">manual</field>
+            <field name="invoice_mode">draft_invoice</field>
+        </record>
+
+        <!-- Demo Subscription -->
+        <record id="demo_subscription_1" model="subscription.package">
+            <field name="partner_id" ref="base.res_partner_12"/>
+            <field name="plan_id" ref="demo_plan_monthly"/>
+            <field name="start_date" eval="(datetime.now()).strftime('%Y-%m-%d')"/>
+            <field name="stage_id" ref="subscription_stage_progress"/>
+        </record>
+    </data>
+</odoo>

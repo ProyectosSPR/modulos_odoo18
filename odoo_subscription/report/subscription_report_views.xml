@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Subscription Analysis Pivot View -->
+    <record id="view_subscription_package_pivot" model="ir.ui.view">
+        <field name="name">subscription.package.pivot</field>
+        <field name="model">subscription.package</field>
+        <field name="arch" type="xml">
+            <pivot string="Subscription Analysis">
+                <field name="partner_id" type="row"/>
+                <field name="plan_id" type="col"/>
+                <field name="total_with_tax" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Subscription Analysis Graph View -->
+    <record id="view_subscription_package_graph" model="ir.ui.view">
+        <field name="name">subscription.package.graph</field>
+        <field name="model">subscription.package</field>
+        <field name="arch" type="xml">
+            <graph string="Subscription Analysis" type="bar">
+                <field name="plan_id"/>
+                <field name="total_with_tax" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Subscription Analysis Action -->
+    <record id="action_subscription_analysis" model="ir.actions.act_window">
+        <field name="name">Subscription Analysis</field>
+        <field name="res_model">subscription.package</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="context">{'search_default_in_progress': 1}</field>
+    </record>
+</odoo>

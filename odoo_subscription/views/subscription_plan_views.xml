@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Subscription Plan Form View -->
+    <record id="view_subscription_plan_form" model="ir.ui.view">
+        <field name="name">subscription.plan.form</field>
+        <field name="model">subscription.plan</field>
+        <field name="arch" type="xml">
+            <form string="Subscription Plan">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_subscription_package)d" type="action"
+                                class="oe_stat_button" icon="fa-refresh"
+                                context="{'search_default_plan_id': active_id}">
+                            <field name="subscription_count" widget="statinfo" string="Subscriptions"/>
+                        </button>
+                    </div>
+
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active == True"/>
+
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Monthly Plan"/>
+                        </h1>
+                        <h3>
+                            <field name="short_code" readonly="1"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group name="renewal" string="Renewal Configuration">
+                            <label for="renewal_value"/>
+                            <div class="o_row">
+                                <field name="renewal_value" class="oe_inline"/>
+                                <field name="renewal_period" class="oe_inline"/>
+                            </div>
+                            <field name="renewal_time" readonly="1"/>
+                        </group>
+                        <group name="billing" string="Billing Configuration">
+                            <field name="limit_choice"/>
+                            <field name="limit_count" invisible="limit_choice != 'custom'"/>
+                            <field name="days_to_end" readonly="1"/>
+                            <field name="invoice_mode"/>
+                            <field name="journal_id" domain="[('type','=','sale')]"
+                                   options="{'no_create': True}"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group name="company">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Terms &amp; Conditions" name="terms">
+                            <field name="terms_and_conditions" placeholder="Enter terms and conditions..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Subscription Plan Tree View -->
+    <record id="view_subscription_plan_tree" model="ir.ui.view">
+        <field name="name">subscription.plan.tree</field>
+        <field name="model">subscription.plan</field>
+        <field name="arch" type="xml">
+            <tree string="Subscription Plans">
+                <field name="short_code"/>
+                <field name="name"/>
+                <field name="renewal_value"/>
+                <field name="renewal_period"/>
+                <field name="renewal_time"/>
+                <field name="limit_choice"/>
+                <field name="invoice_mode"/>
+                <field name="subscription_count"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Subscription Plan Search View -->
+    <record id="view_subscription_plan_search" model="ir.ui.view">
+        <field name="name">subscription.plan.search</field>
+        <field name="model">subscription.plan</field>
+        <field name="arch" type="xml">
+            <search string="Search Plans">
+                <field name="name"/>
+                <field name="short_code"/>
+                <separator/>
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Renewal Period" name="group_period" context="{'group_by':'renewal_period'}"/>
+                    <filter string="Invoice Mode" name="group_invoice" context="{'group_by':'invoice_mode'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Subscription Plan Action -->
+    <record id="action_subscription_plan" model="ir.actions.act_window">
+        <field name="name">Subscription Plans</field>
+        <field name="res_model">subscription.plan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Subscription Plan
+            </p>
+            <p>
+                Define renewal periods, billing rules, and limits for your subscription packages.
+            </p>
+        </field>
+    </record>
+</odoo>

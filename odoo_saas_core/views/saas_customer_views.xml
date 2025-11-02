@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- SaaS Customer Form View -->
+    <record id="view_saas_customer_form" model="ir.ui.view">
+        <field name="name">saas.customer.form</field>
+        <field name="model">saas.customer</field>
+        <field name="arch" type="xml">
+            <form string="SaaS Customer">
+                <header>
+                    <button name="action_activate" string="Activate" type="object"
+                            class="oe_highlight" invisible="state != 'prospect'"/>
+                    <button name="action_suspend" string="Suspend" type="object"
+                            invisible="state not in ['active']" confirm="Are you sure you want to suspend this customer?"/>
+                    <button name="action_terminate" string="Terminate" type="object"
+                            invisible="state == 'terminated'" confirm="Are you sure you want to terminate this customer? All instances will be terminated."/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="prospect,active,suspended,terminated"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_instances" type="object"
+                                class="oe_stat_button" icon="fa-server">
+                            <field name="instance_count" widget="statinfo" string="Instances"/>
+                        </button>
+                        <button name="action_view_active_instances" type="object"
+                                class="oe_stat_button" icon="fa-check-circle">
+                            <field name="active_instance_count" widget="statinfo" string="Active"/>
+                        </button>
+                        <button name="action_view_subscriptions" type="object"
+                                class="oe_stat_button" icon="fa-refresh">
+                            <field name="subscription_count" widget="statinfo" string="Subscriptions"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Customer Name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group name="company_info" string="Company Information">
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="company_name"/>
+                            <field name="tax_code"/>
+                            <field name="email" widget="email"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="website" widget="url"/>
+                        </group>
+                        <group name="management" string="Management">
+                            <field name="user_id" options="{'no_create': True}"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="date_created"/>
+                            <field name="date_updated"/>
+                            <field name="date_activated"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group name="primary_contact" string="Primary Contact">
+                            <field name="contact_name"/>
+                            <field name="contact_email" widget="email"/>
+                            <field name="contact_phone" widget="phone"/>
+                            <field name="contact_position"/>
+                        </group>
+                        <group name="support_contact" string="Support Contact">
+                            <field name="support_contact"/>
+                            <field name="support_email" widget="email"/>
+                            <field name="support_phone" widget="phone"/>
+                        </group>
+                    </group>
+
+                    <group name="financial" string="Financial Overview">
+                        <group>
+                            <field name="total_revenue" widget="monetary"/>
+                        </group>
+                    </group>
+
+                    <group name="address">
+                        <field name="address" placeholder="Full address..."/>
+                    </group>
+
+                    <notebook>
+                        <page string="Instances" name="instances">
+                            <field name="instance_ids" readonly="1">
+                                <tree decoration-success="status=='active'"
+                                      decoration-warning="status=='trial'"
+                                      decoration-danger="status in ['suspended','expired']"
+                                      decoration-muted="status=='terminated'">
+                                    <field name="name"/>
+                                    <field name="subdomain"/>
+                                    <field name="full_url" widget="url"/>
+                                    <field name="status" widget="badge"
+                                           decoration-success="status=='active'"
+                                           decoration-warning="status=='trial'"
+                                           decoration-danger="status in ['suspended','expired']"/>
+                                    <field name="service_package_id"/>
+                                    <field name="odoo_version"/>
+                                    <field name="current_users"/>
+                                    <field name="storage_used_gb"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Tags &amp; Notes" name="notes">
+                            <group>
+                                <field name="tag_ids" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="notes" placeholder="Internal notes..." nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- SaaS Customer Tree View -->
+    <record id="view_saas_customer_tree" model="ir.ui.view">
+        <field name="name">saas.customer.tree</field>
+        <field name="model">saas.customer</field>
+        <field name="arch" type="xml">
+            <tree string="SaaS Customers"
+                  decoration-success="state=='active'"
+                  decoration-warning="state=='prospect'"
+                  decoration-danger="state=='suspended'"
+                  decoration-muted="state=='terminated'">
+                <field name="name"/>
+                <field name="contact_name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="state" widget="badge"
+                       decoration-success="state=='active'"
+                       decoration-warning="state=='prospect'"
+                       decoration-danger="state=='suspended'"/>
+                <field name="instance_count"/>
+                <field name="active_instance_count"/>
+                <field name="total_revenue" widget="monetary"/>
+                <field name="date_created"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="currency_id" column_invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- SaaS Customer Kanban View -->
+    <record id="view_saas_customer_kanban" model="ir.ui.view">
+        <field name="name">saas.customer.kanban</field>
+        <field name="model">saas.customer</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="state"/>
+                <field name="instance_count"/>
+                <field name="total_revenue"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                </div>
+                                <span class="badge rounded-pill"
+                                      t-att-class="{'bg-success': record.state.raw_value == 'active',
+                                                   'bg-warning': record.state.raw_value == 'prospect',
+                                                   'bg-danger': record.state.raw_value == 'suspended'}">
+                                    <field name="state"/>
+                                </span>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <field name="email"/>
+                                <div>
+                                    <i class="fa fa-server"/> <field name="instance_count"/> Instances
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="total_revenue" widget="monetary"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- SaaS Customer Search View -->
+    <record id="view_saas_customer_search" model="ir.ui.view">
+        <field name="name">saas.customer.search</field>
+        <field name="model">saas.customer</field>
+        <field name="arch" type="xml">
+            <search string="Search SaaS Customers">
+                <field name="name" string="Customer"
+                       filter_domain="['|','|',('name','ilike',self),('company_name','ilike',self),('email','ilike',self)]"/>
+                <field name="contact_name"/>
+                <field name="email"/>
+                <field name="tax_code"/>
+                <field name="user_id"/>
+                <separator/>
+                <filter string="Active" name="active" domain="[('state','=','active')]"/>
+                <filter string="Prospect" name="prospect" domain="[('state','=','prospect')]"/>
+                <filter string="Suspended" name="suspended" domain="[('state','=','suspended')]"/>
+                <filter string="Has Instances" name="has_instances" domain="[('instance_count','>',0)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_state" context="{'group_by':'state'}"/>
+                    <filter string="Account Manager" name="group_user" context="{'group_by':'user_id'}"/>
+                    <filter string="Created Date" name="group_date" context="{'group_by':'date_created'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- SaaS Customer Action -->
+    <record id="action_saas_customer" model="ir.actions.act_window">
+        <field name="name">SaaS Customers</field>
+        <field name="res_model">saas.customer</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first SaaS Customer
+            </p>
+            <p>
+                Manage your SaaS customers, their instances, and subscriptions all in one place.
+            </p>
+        </field>
+    </record>
+</odoo>
