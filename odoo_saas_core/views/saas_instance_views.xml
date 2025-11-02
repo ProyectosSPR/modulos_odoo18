@@ -24,9 +24,7 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
-                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
-                        </button>
+                        <!-- Status managed through header buttons -->
                     </div>
 
                     <widget name="web_ribbon" title="Provisioned" bg_color="text-bg-success"
@@ -136,7 +134,6 @@
                 <field name="current_users"/>
                 <field name="storage_percentage" widget="progressbar"/>
                 <field name="is_provisioned" widget="boolean_toggle"/>
-                <field name="active" column_invisible="True"/>
             </list>
         </field>
     </record>
