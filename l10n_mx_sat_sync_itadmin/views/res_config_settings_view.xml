@@ -5,7 +5,7 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="account.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@id='account_invoicing']" position="after">
+            <xpath expr="//app[@data-key='account']" position="inside">
                 <h2>SAT Synchronization</h2>
                 <div class="row mt16 o_settings_container" id="settings_sat_sync_configuration">
                     <div class="col-12 col-lg-6 o_setting_box" title="The parameters to configure the MX E-Signature.">
