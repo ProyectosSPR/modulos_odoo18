@@ -3,9 +3,9 @@
     <record id="res_config_settings_view_form_l10n_mx_sat_sync_itadmin" model="ir.ui.view">
         <field name="name">res.config.settings.view.form.inherit.l10n.mx.sat.sync</field>
         <field name="model">res.config.settings</field>
-        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//app[@data-key='account']" position="inside">
+            <xpath expr="//form[@class='oe_form_configuration']" position="inside">
                 <h2>SAT Synchronization</h2>
                 <div class="row mt16 o_settings_container" id="settings_sat_sync_configuration">
                     <div class="col-12 col-lg-6 o_setting_box" title="The parameters to configure the MX E-Signature.">
