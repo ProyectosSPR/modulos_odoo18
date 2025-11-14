@@ -320,6 +320,11 @@ class ResCompany(models.Model):
         # 4, Error
         # 5, Rechazada
         # 6, Vencida
+
+        _logger.info('Estado de verificación: %s - Código: %s - Mensaje: %s - Num CFDIs: %s',
+                     estado_verificacion, verificacion.get('cod_estatus'),
+                     verificacion.get('mensaje'), verificacion.get('numero_cfdis'))
+
         solicitud_ws = self.env['solicitud.ws'].search([('id_solicitud','=', solicitud['id_solicitud'])], limit=1)
         solicitud_ws.write({'cod_verifica': verificacion['cod_estatus'], 
                             'estado_solicitud': verificacion['estado_solicitud'], 
@@ -330,6 +335,7 @@ class ResCompany(models.Model):
 
         # Si el estatus es 3 se trata de descargar los paquetes
         if estado_verificacion == 3:
+                _logger.info('Solicitud terminada, descargando %s paquete(s)', len(verificacion.get('paquetes', [])))
                 for paquete in verificacion['paquetes']:
                     descarga = sat_obj.soap_download_package(esignature.holder_vat, paquete, token)
                     solicitud_ws.write({'cod_descarga': descarga['cod_estatus'],
@@ -337,14 +343,25 @@ class ResCompany(models.Model):
                     if descarga['cod_estatus'] == '5000':
                        content.append(descarga['paquete_b64'])
                        solicitud_ws.write({'paquete_b64': descarga['paquete_b64'],})
+                       _logger.info('Paquete descargado exitosamente')
+                    else:
+                       _logger.warning('Error al descargar paquete: %s - %s', descarga['cod_estatus'], descarga['mensaje'])
                 solicitud_ws.write({'state':'done'})
+        elif estado_verificacion == 2:
+                _logger.info('Solicitud aún en proceso, se debe esperar y verificar nuevamente')
+                solicitud_ws.write({'state':'draft'})
+        elif estado_verificacion == 1:
+                _logger.info('Solicitud aceptada, aún no está lista para descarga')
+                solicitud_ws.write({'state':'draft'})
         elif estado_verificacion >= 4: # or estado_verificacion == 0:
+                _logger.warning('Solicitud con error o rechazada - Estado: %s', estado_verificacion)
                 solicitud_ws.write({'state':'done'})
         if solicitud_ws.fecha:
            if datetime.today() > solicitud_ws.fecha + timedelta(days=3):
                solicitud_ws.write({'state':'cancel'})
 
         if not content:
+            _logger.info('No hay contenido para procesar (la solicitud aún no está lista o no tiene CFDIs)')
             return True
         attachment_obj = self.env['ir.attachment'].sudo()
         invoice_obj = self.env['account.move'].sudo()
