@@ -162,6 +162,17 @@ class CfdiInvoiceAttachment(models.TransientModel):
                     continue
                 imported_attachment.append(attachment.name)
 
+            # Si solo se importó una factura exitosamente, abrir directamente la factura
+            if len(create_invoice_ids) == 1 and not existed_attachment and not not_imported_attachment:
+                action = self.env.ref('account.action_move_in_invoice_type').sudo()
+                result = action.read()[0]
+                res = self.env.ref('account.view_move_form', False)
+                result['views'] = [(res and res.id or False, 'form')]
+                result['res_id'] = create_invoice_ids[0]
+                result['target'] = 'current'
+                return result
+
+            # Si se importaron múltiples facturas o hubo errores, mostrar el mensaje de resultado
             ctx = {'create_invoice_ids': create_invoice_ids}
             if existed_attachment:
                 ctx.update({'existed_attachment': '<p>' + '<p></p>'.join(existed_attachment) + '</p>'})
@@ -171,13 +182,12 @@ class CfdiInvoiceAttachment(models.TransientModel):
                     content += '<p>' + attachment.name + ':</p> <p><strong style="color:red;">&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;bull; Error : </strong> %s </p>' % (
                         error)
 
-                ctx.update({'not_imported_attachment': content})  # '<p>'+'<p></p>'.join(not_imported_attachment)+'</p>'
+                ctx.update({'not_imported_attachment': content})
 
             if imported_attachment:
                 ctx.update({'imported_attachment': '<p>' + '<p></p>'.join(imported_attachment) + '</p>'})
             return {
                 'name': "Resultado de importación",
-                'view_type': 'form',
                 'view_mode': 'form',
                 'res_model': 'import.invoice.process.message',
                 'type': 'ir.actions.act_window',
