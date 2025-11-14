@@ -90,10 +90,42 @@ class ResCompany(models.Model):
 
     @api.model
     def import_current_company_invoice(self):
-        if self.env['ir.config_parameter'].sudo().get_param('l10n_mx_sat_sync_itadmin.download_type') == 'API':
-           self.env.company.with_user(self.env.user).download_cfdi_invoices_api()
-        else:
-           self.env.company.with_user(self.env.user).download_cfdi_invoices_web()
+        company = self.env.company
+
+        # Verificar que tenga FIEL configurada
+        if not company.l10n_mx_esignature_ids:
+            raise UserError(_('No se ha configurado ningún certificado FIEL para esta compañía.\n'
+                            'Por favor ve a Contabilidad > Configuración > SAT Synchronization y configura tu FIEL.'))
+
+        # Obtener certificado válido
+        esignature = company.l10n_mx_esignature_ids.with_user(self.env.user).get_valid_certificate()
+        if not esignature:
+            raise UserError(_('No se encontró un certificado FIEL válido.\n'
+                            'Por favor verifica que el certificado no haya expirado.'))
+
+        # Verificar tipo de descarga
+        download_type = self.env['ir.config_parameter'].sudo().get_param('l10n_mx_sat_sync_itadmin.download_type')
+
+        _logger.info('Iniciando descarga de CFDI para compañía: %s - Método: %s', company.name, download_type)
+
+        try:
+            if download_type == 'API':
+                company.with_user(self.env.user).download_cfdi_invoices_api()
+            else:
+                company.with_user(self.env.user).download_cfdi_invoices_web()
+
+            # Enviar notificación de éxito
+            self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification',
+                                         {'type': 'success', 'title': "Sincronización SAT",
+                                          'message': 'La descarga de CFDIs ha sido iniciada correctamente.', 'sticky': False})
+        except Exception as e:
+            _logger.error('Error al sincronizar con el SAT: %s', str(e))
+            # Enviar notificación de error
+            self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification',
+                                         {'type': 'danger', 'title': "Error",
+                                          'message': f'Error al sincronizar: {str(e)}', 'sticky': True})
+            raise
+
         return True
 
     def _xml2capitalize(self, xml):

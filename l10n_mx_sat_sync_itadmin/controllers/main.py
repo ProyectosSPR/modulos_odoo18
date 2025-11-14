@@ -11,8 +11,8 @@ class ActionSatSync(Action):
     _description = 'ActionSatSync'
 
     @route('/web/action/load', type='json', auth="user")
-    def load(self, action_id, additional_context=None):
-        value = super(ActionSatSync, self).load(action_id, additional_context)
+    def load(self, action_id, additional_context=None, **kw):
+        value = super(ActionSatSync, self).load(action_id, additional_context=additional_context)
         if value and value.get('xml_id', '') == 'l10n_mx_sat_sync_itadmin.action_attachment_cfdi_supplier_invoices':
             try:
                 ctx = value.get('context', '{}')
