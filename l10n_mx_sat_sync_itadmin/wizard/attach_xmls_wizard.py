@@ -43,7 +43,7 @@ class AttachXmlsWizard(models.TransientModel):
                 new_attrib = "%s%s" % (attrib[0].upper(), attrib[1:])
                 element.attrib.update({new_attrib: value})
 
-            for child in element.getchildren():
+            for child in element:
                 child = recursive_lxml(child)
             return element
         return recursive_lxml(xml)

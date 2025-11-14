@@ -105,7 +105,7 @@ class ResCompany(models.Model):
                 new_attrib = "%s%s" % (attrib[0].upper(), attrib[1:])
                 element.attrib.update({new_attrib: value})
 
-            for child in element.getchildren():
+            for child in element:
                 child = recursive_lxml(child)
             return element
 
@@ -328,7 +328,7 @@ class ResCompany(models.Model):
                         tree = etree.fromstring(xml_content)
                     except Exception as e:
                         self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification',
-                                             {'title': "Error", 'message': "No pudo leer un XML descargado", 'sticky': False, 'warning': True})
+                                             {'type': 'warning', 'title': "Error", 'message': "No pudo leer un XML descargado", 'sticky': False})
                         _logger.error('error etree.fromstring: ' + str(e))
                         continue
                     try:
@@ -545,14 +545,14 @@ class ResCompany(models.Model):
                     xml_content = xml_content.replace(b'xmlns:schemaLocation', b'xsi:schemaLocation')
                 elif b'Ya no puedes descargar' in xml_content:
                     self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification',
-                                             {'title': "Error", 'message': 'Límite de descarga alcanzado', 'sticky': False, 'warning': True})
+                                             {'type': 'warning', 'title': "Error", 'message': 'Límite de descarga alcanzado', 'sticky': False})
                     _logger.info('Ya no puedes descargar más documentos. El SAT permite descargar un máximo de 2,000 archivos por día.')
                     continue
                 try:
                     tree = etree.fromstring(xml_content)
                 except Exception as e:
                     self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification',
-                                             {'title': "Error", 'message': "No pudo leer un XML descargado", 'sticky': False, 'warning': True})
+                                             {'type': 'warning', 'title': "Error", 'message': "No pudo leer un XML descargado", 'sticky': False})
                     _logger.error('error recibida schema: ' + str(e))
                     continue
                 try:
@@ -670,7 +670,7 @@ class ResCompany(models.Model):
                     tree = etree.fromstring(xml_content)
                 except Exception as e:
                     self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification',
-                                             {'title': "Error", 'message': "No pudo leer un XML descargado", 'sticky': False, 'warning': True})
+                                             {'type': 'warning', 'title': "Error", 'message': "No pudo leer un XML descargado", 'sticky': False})
                     _logger.error('error emitida schema: ' + str(e))
                     continue
                 try:
