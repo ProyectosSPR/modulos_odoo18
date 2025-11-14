@@ -15,7 +15,7 @@ import { FileUploader } from "@web/views/fields/file_handler";
 export class ListItadmin extends ListController {
     setup() {
         super.setup();
-        this.rpc = useService("rpc");
+        this.orm = useService("orm");
         this.action = useService("action");
     }
 
@@ -45,22 +45,12 @@ export class ListItadmin extends ListController {
 
     async _onImportFIELSatInvoice (event) {
         event.stopPropagation();
-        await this.rpc('/web/dataset/call_kw/res.company/import_current_company_invoice', {
-            model: 'res.company',
-            method: 'import_current_company_invoice',
-            args: [],
-            kwargs: {}
-        });
+        await this.orm.call('res.company', 'import_current_company_invoice', []);
     }
 
     async _onClickSincronizarDocumentos (event) {
         event.stopPropagation();
-        await this.rpc('/web/dataset/call_kw/ir.attachment/update_status_from_ir_attachment_document', {
-            model: 'ir.attachment',
-            method: 'update_status_from_ir_attachment_document',
-            args: [],
-            kwargs: {}
-        });
+        await this.orm.call('ir.attachment', 'update_status_from_ir_attachment_document', []);
     }
 }
 
