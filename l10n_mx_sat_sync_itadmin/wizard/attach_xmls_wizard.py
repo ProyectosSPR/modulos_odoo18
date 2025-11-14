@@ -20,8 +20,50 @@ TYPE_CFDI22_TO_CFDI33 = {
 class AttachXmlsWizard(models.TransientModel):
     _name = 'multi.file.attach.xmls.wizard'
     _description = 'AttachXmlsWizard'
-    
-    dragndrop = fields.Char()
+
+    xml_files = fields.Many2many('ir.attachment', string='XML Files')
+
+    def action_import_xmls(self):
+        """Importar los archivos XML cargados"""
+        if not self.xml_files:
+            raise UserError(_('Por favor seleccione al menos un archivo XML.'))
+
+        # Procesar los archivos
+        files_dict = {}
+        for attachment in self.xml_files:
+            files_dict[attachment.name] = attachment.datas
+
+        # Llamar al método check_xml
+        result = self.check_xml(files_dict)
+
+        # Eliminar los attachments temporales
+        self.xml_files.unlink()
+
+        # Mostrar resultado
+        if result.get('wrongfiles'):
+            errors = []
+            for filename, error_data in result['wrongfiles'].items():
+                if 'error' in error_data:
+                    errors.append(f"{filename}: {error_data['error'][1]}")
+                else:
+                    errors.append(f"{filename}: Error al procesar")
+
+            if errors:
+                raise UserError(_('Se encontraron errores en los siguientes archivos:\n\n%s') % '\n'.join(errors))
+
+        # Mostrar los attachments creados
+        if result.get('attachments'):
+            attachment_ids = [att['attachment_id'] for att in result['attachments'].values()]
+            return {
+                'name': _('XMLs Importados'),
+                'type': 'ir.actions.act_window',
+                'res_model': 'ir.attachment',
+                'view_mode': 'list,form',
+                'domain': [('id', 'in', attachment_ids)],
+                'target': 'current',
+            }
+
+        return {'type': 'ir.actions.act_window_close'}
 
     @api.model
     def remove_wrong_file(self, files):
