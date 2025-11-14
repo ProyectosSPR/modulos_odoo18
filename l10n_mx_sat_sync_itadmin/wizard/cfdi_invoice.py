@@ -3,6 +3,7 @@
 import base64
 import json
 import os
+import logging
 from lxml import etree
 
 import xmltodict
@@ -15,6 +16,8 @@ from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
 
 from ..models.special_dict import CaselessDictionary
+
+_logger = logging.getLogger(__name__)
 
 def convert_to_special_dict(d):
     for k, v in d.items():
@@ -161,6 +164,13 @@ class CfdiInvoiceAttachment(models.TransientModel):
                     self.env.cr.rollback()
                     continue
                 imported_attachment.append(attachment.name)
+
+            # Logging para diagnóstico
+            _logger.info('=== DEBUG IMPORTACIÓN ===')
+            _logger.info('create_invoice_ids: %s (length: %s)', create_invoice_ids, len(create_invoice_ids))
+            _logger.info('existed_attachment: %s', existed_attachment)
+            _logger.info('not_imported_attachment: %s', not_imported_attachment)
+            _logger.info('imported_attachment: %s', imported_attachment)
 
             # Si solo se importó una factura exitosamente, abrir directamente la factura
             if len(create_invoice_ids) == 1 and not existed_attachment and not not_imported_attachment:
