@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <record id="tree_solicitud_ws_view" model="ir.ui.view">
+        <field name="name">solicitud.ws.tree.view</field>
+        <field name="model">solicitud.ws</field>
+        <field name="arch" type="xml">
+        <tree string="Solicitudes" default_order="fecha desc">
+            <field name="fecha"/>
+            <field name="id_solicitud"/>
+            <field name="cod_estatus"/>
+            <field name="mensaje"/>
+            <field name="fecha_inicio"/>
+            <field name="fecha_fin"/>
+            <field name="state"/>
+         </tree> 
+       </field>
+    </record>
+
+   <record id="form_solicitud_ws_view" model="ir.ui.view">
+        <field name="name">solicitud.ws.form.view</field>
+        <field name="model">solicitud.ws</field>
+        <field name="arch" type="xml">
+        <form string="Solicitudes WS">
+             <sheet>
+                 <div class="oe_title">
+                     <h1>
+                         <field name="id_solicitud" readonly="1"/>
+                     </h1>
+                 </div>
+                 <group>
+                     <group string="Datos de solicitud">
+                         <field name="fecha"/>
+                         <field name="fecha_inicio"/>
+                         <field name="fecha_fin"/>
+                         <field name="rfc_receptor"/>
+                         <field name="rfc_emisor"/>
+                         <field name="company_id"/>
+                     </group>
+                     <group string="Estado">
+                         <field name="state"/>
+                     </group>
+                     <group string="Solicitud">
+                         <field name="id_solicitud"/>
+                         <field name="cod_estatus"/>
+                         <field name="mensaje"/>
+                         <field name="estado_solicitud"/>
+                     </group>
+                     <group string="Verificación">
+                         <field name="cod_verifica"/>
+                         <field name="mensaje_ver"/>
+                         <field name="numero_cfdis"/>
+                         <field name="paquetes"/>
+                     </group>
+                     <group string="Descarga">
+                         <field name="cod_descarga"/>
+                         <field name="mensaje_descarga"/>
+                         <field name="filename" invisible="1"/>
+                         <field name="paquete_b64" filename="filename"/>
+                     </group>
+                 </group>
+             </sheet>
+         </form> 
+       </field>
+    </record>
+
+    <record id="search_solicitud_ws_view" model="ir.ui.view">
+        <field name="name">solicitud.ws.search.view</field>
+        <field name="model">solicitud.ws</field>
+        <field name="arch" type="xml">
+            <search string="Solicitudes WS">
+               <field name="id_solicitud"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tree_solicitud_ws" model="ir.actions.act_window">
+        <field name="name">Solicitudes WS</field>
+        <field name="res_model">solicitud.ws</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="tree_solicitud_ws_view" />
+        <field name="search_view_id" ref="search_solicitud_ws_view" />
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem
+          name="Solicitudes WS"
+          parent="main_manu_attachment_cfdi_invoices"
+          id="menu_action_tree_solicitud_ws"
+          action="action_tree_solicitud_ws"
+          sequence="20"
+      />
+
+</odoo>

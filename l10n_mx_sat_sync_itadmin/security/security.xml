@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   	<record model="ir.rule" id="solicitud_ws_rule">
+        <field name="name">Solicitud ws multi-company</field>
+        <field name="model_id" ref="model_solicitud_ws"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

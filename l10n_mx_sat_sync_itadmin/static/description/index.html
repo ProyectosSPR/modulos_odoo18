@@ -1,0 +1,116 @@
+<section class="oe_container oe_dark">
+   <meta charset="utf-8"> 
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan">Descarga masivamente tus documentos del SAT</h2>
+            <h3 class="oe_slogan">Este módulo te permite descargar de la página del SAT los XML emitidos y recibidos</h3>
+            <h4 class="oe_slogan">Dependencias. </h4>
+            <div class="oe_screenshot" style="text-align: left;">
+
+            <li style="color:#30054D;">
+                   El módulo depende de las librerías <strong>xmltodict</strong> y <strong>openssl</strong>, para instalar en Ubuntu utiliza los siguientes comandos: <br/>
+                   sudo pip3 install xmltodict <br/>
+                   sudo apt-get install python3-openssl<br/>
+             </li>
+            <br/>
+            <h4 class="oe_slogan">Configuración</h4>
+			 <li style="color:#30054D;">Agregar el certificado <b>FIEL</b> en la configuración de la compañía</li>
+               </ul>
+               <img style="max-width: 100%;" src="add_01.png"/><br /><br />
+
+			   
+			   <ul>
+               <li style="color:#30054D;">Dentro de Facturación / Contabilidad - Ajustes, se pueden realizar configuraciones para el módulo</li>
+               </ul>
+               <img style="max-width: 100%;" src="add_05.png"/><br /><br />
+
+                <ul>
+                  <li>Crear Productos: Permite seleccionar el tipo a utilizar en la creación de productos.</li>
+                  <li>Solo documentos de proveedor: Permite descargar solo documentos recibidos.</li>
+                  <li>Si producto no se encuentra: En la creación de facturas a partir del XML, se tiene la posibilidad seleccionar si no encuentra un producto lo cree o utilizar un producto ya existente.</li>
+                  <li>Buscar por clave SAT: En la busqueda de un producto, permite buscar por la clave SAT.</li>
+                  <li>Forma de descarga: API por medio del protocolo de descarga del SAT o WEB utilizando rutinas similares a un navegador. <b>Actualmente solo está funcionando la opción API</b></li>
+                  <li>Tipo conciliación: En la función para concilar documentos, permite seleccionar si debe ser exacta o con rango.</li>
+                  <li>Rango +/-: En la conciliación por rango permite establecer rango para la conciliación exitosa del documento.</li>
+                </ul> 
+
+               <ul>
+               <li style="color:#30054D;">Tipos de descarga</li>
+               </ul>
+               <img style="max-width: 100%;" src="tipos de descarga.png"/><br /><br />
+
+               <h4 class="oe_slogan">Uso</h4>
+               <ul>
+               <li style="color:#30054D;">En el menú de Facturación / Contabilidad agrega una opción llamada ADD con las opciones del módulo:</li>
+               </ul>
+                <img style="max-width: 100%;" src="add_02.png"/><br /><br />
+                <ul>
+                  <li>Documentos digitales: Listado de todos los XML descargados.</li>
+                  <li>Importar XML: Permite importar XML's de manera manual al listado de XML's.</li>
+                  <li>Descargar día: Permite descargar documentos del SAT entre un rango de fechas.</li>
+                  <li>Sincronizar SAT: Permite descargar documentos del SAT desde la última descarga hasta el momento actual.</li>
+                  <li>Sincronizar documentos: Permite revisar si hay documentos creados en el sistema que coincidan con el UUID de los XML's descargados.</li>
+                  <li>Solicitudes WS: Permite revisar las solicitudes de descarga solicitadas al SAT por medio del tipo de descarga API.</li>
+                </ul> 
+
+               <ul>
+               <li style="color:#30054D;">Listado de documentos XML descargados</li>
+               </ul>
+               <img style="max-width: 100%;" src="add_03.png"/><br /><br />
+			   
+               <ul>
+               <li style="color:#30054D;">Al seleccionar uno o varios XML's se tienen varias acciones disponibles</li>
+               </ul>
+               <img style="max-width: 100%;" src="add_04.png"/><br /><br />
+                <ul>
+                  <li>Generar facturas: Crea facturas de cliente o proveedor a partir de los XML's.</li>
+                  <li>Genera pedidos: Genera ordenes de compra o pedidos de venta a partir de los XML's.</li>
+                  <li>Conciliar: Coloca la información fiscal a una factura a partir de un XML.</li>
+                  <li>Desconciliar: Quita la información fiscal agregada en la conciliación del documento.</li>
+                  <li>Exportar XML: Descarga los archivos XML en un archivo zip.</li>
+                  <li>Desargar estado del SAT: Descarga el estado del XML en el SAT.</li>
+                  <li>Leer información adiiconal XML: Lee campos adicionales del XML y los agrega en la vista de lista de los XML's</li>
+                </ul> 
+
+               <ul>
+               <li style="color:#30054D;">Listado de solicitudes de WS</li>
+               </ul>
+               <img style="max-width: 100%;" src="add_06.png"/><br/><br/>
+
+               <li style="color:#30054D;">El proceso de descarga API sigue un proceso: Solicitud, Validación y Descarga. Dentro de los documentos solicitudes WS se puede ver el detalle del proceso y su resultado.</li>
+               </ul>
+               <img style="max-width: 100%;" src="add_07.png"/><br/><br/>
+
+               <li style="color:#30054D;">Listado de errores en el proceso de descarga API.</li>
+               </ul>
+               <img style="max-width: 100%;" src="errores ws.png"/><br/><br/>
+
+            </div>
+            <div class="oe_slogan text-center">
+
+<b>Este manual es una guía básica de las funcionalidades básicas del módulo. Para recibir asesoría
+sobre sus dudas adicionales o una capacitación detallada, puede contratar consultoría.</b>
+
+            </div>
+        </div>
+    </div>
+</section>
+<br/>
+<section class="oe_container oe_dark">
+    <div class="oe_row ">
+        <div class="oe_slogan text-center">
+            <a href="http://www.itadmin.com.mx" target="_blank">
+                <img src="logo.png"/>
+            </a>
+            <br/>
+            <div class="oe_span12">
+            <h2 class="text-center"><a>Nosotros</a></h2>
+        </div>
+            <span>
+                <a style="color: #a24689 !important;" href="http://www.itadmin.com.mx" target="_blank">Página web</a> | 
+                <a style="color: #a24689 !important;" href="http://www.itadmin.com.mx/blog/conozca-como-la-tecnologia-ayuda-a-su-negocio-1" target="new">Blog</a> | 
+                <a style="color: #a24689 !important;" href="mailto:info@itadmin.com.mx">E-Mail</a>
+            </span>
+        </div>
+    </div>
+</section>
