@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 
-    <t t-name="web.ListView.Buttons" t-inherit="web.ListView.Buttons" t-inherit-mode="extension" t-if="props.list.resModel === 'ir.attachment' and props.list.context.from_sat_sync">
-        <xpath expr="//Layout" position="inside">
-            <t t-if="env.config.viewType === 'list' and env.config.viewId">
-                <button type="button" class="btn btn-secondary me-2" t-on-click="() => env.model.root.onClickImportarXML()">
-                    <i class="fa fa-upload"/> Importar XML
-                </button>
-                <button type="button" class="btn btn-secondary me-2" t-on-click="() => env.model.root.onClickDescargaXDia()">
-                    <i class="fa fa-calendar"/> Descarga Dia
-                </button>
-                <button type="button" class="btn btn-secondary me-2" t-on-click="() => env.model.root.onImportFIELSatInvoice()">
-                    <i class="fa fa-refresh"/> Sincronizar SAT
-                </button>
-                <button type="button" class="btn btn-secondary me-2" t-on-click="() => env.model.root.onClickSincronizarDocumentos()">
-                    <i class="fa fa-files-o"/> Sincronizar documentos
-                </button>
-            </t>
+    <t t-name="web.ListView.Buttons" t-inherit="web.ListView.Buttons" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('o_list_buttons')]" position="inside">
+            <button type="button" class="btn btn-secondary" t-on-click="() => this.env.model.root.onClickImportarXML()">
+                <i class="fa fa-upload"/> Importar XML
+            </button>
+            <button type="button" class="btn btn-secondary" t-on-click="() => this.env.model.root.onClickDescargaXDia()">
+                <i class="fa fa-calendar"/> Descarga Dia
+            </button>
+            <button type="button" class="btn btn-secondary" t-on-click="() => this.env.model.root.onImportFIELSatInvoice()">
+                <i class="fa fa-refresh"/> Sincronizar SAT
+            </button>
+            <button type="button" class="btn btn-secondary" t-on-click="() => this.env.model.root.onClickSincronizarDocumentos()">
+                <i class="fa fa-files-o"/> Sincronizar documentos
+            </button>
         </xpath>
     </t>
 
