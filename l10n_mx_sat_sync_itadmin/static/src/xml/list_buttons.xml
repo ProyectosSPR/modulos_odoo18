@@ -3,16 +3,16 @@
 
     <t t-name="web.ListView.Buttons" t-inherit="web.ListView.Buttons" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('o_list_buttons')]" position="inside">
-            <button type="button" class="btn btn-secondary" t-on-click="() => this.env.model.root.onClickImportarXML()">
+            <button type="button" class="btn btn-secondary" t-on-click="onClickImportarXML">
                 <i class="fa fa-upload"/> Importar XML
             </button>
-            <button type="button" class="btn btn-secondary" t-on-click="() => this.env.model.root.onClickDescargaXDia()">
+            <button type="button" class="btn btn-secondary" t-on-click="onClickDescargaXDia">
                 <i class="fa fa-calendar"/> Descarga Dia
             </button>
-            <button type="button" class="btn btn-secondary" t-on-click="() => this.env.model.root.onImportFIELSatInvoice()">
+            <button type="button" class="btn btn-secondary" t-on-click="onImportFIELSatInvoice">
                 <i class="fa fa-refresh"/> Sincronizar SAT
             </button>
-            <button type="button" class="btn btn-secondary" t-on-click="() => this.env.model.root.onClickSincronizarDocumentos()">
+            <button type="button" class="btn btn-secondary" t-on-click="onClickSincronizarDocumentos">
                 <i class="fa fa-files-o"/> Sincronizar documentos
             </button>
         </xpath>
