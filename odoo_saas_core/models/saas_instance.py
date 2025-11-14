@@ -133,6 +133,126 @@ class SaasInstance(models.Model):
         readonly=True
     )
 
+    # ============================================================================
+    # KUBERNETES INTEGRATION
+    # ============================================================================
+
+    # Cluster Configuration
+    k8s_cluster_id = fields.Many2one(
+        'saas.k8s.cluster',
+        string='Kubernetes Cluster',
+        tracking=True,
+        help='Kubernetes cluster where this instance is/will be deployed'
+    )
+
+    k8s_template_id = fields.Many2one(
+        'saas.k8s.deployment.template',
+        string='Deployment Template',
+        domain="[('cluster_id', '=', k8s_cluster_id)]",
+        tracking=True,
+        help='Kubernetes deployment template to use for this instance'
+    )
+
+    # Deployment Details
+    k8s_namespace = fields.Char(
+        string='K8s Namespace',
+        help='Kubernetes namespace for this instance'
+    )
+
+    k8s_deployment_name = fields.Char(
+        string='Deployment Name',
+        help='Kubernetes Deployment resource name'
+    )
+
+    k8s_service_name = fields.Char(
+        string='Service Name',
+        help='Kubernetes Service resource name'
+    )
+
+    k8s_ingress_name = fields.Char(
+        string='Ingress Name',
+        help='Kubernetes Ingress resource name'
+    )
+
+    k8s_pvc_name = fields.Char(
+        string='PVC Name',
+        help='PersistentVolumeClaim name for filestore'
+    )
+
+    # Deployment Status
+    k8s_deployed = fields.Boolean(
+        string='Deployed to K8s',
+        default=False,
+        readonly=True,
+        help='Indicates if this instance has been deployed to Kubernetes'
+    )
+
+    k8s_deployment_date = fields.Datetime(
+        string='K8s Deployment Date',
+        readonly=True,
+        help='When the instance was deployed to Kubernetes'
+    )
+
+    k8s_pod_status = fields.Selection([
+        ('pending', 'Pending'),
+        ('running', 'Running'),
+        ('succeeded', 'Succeeded'),
+        ('failed', 'Failed'),
+        ('unknown', 'Unknown'),
+    ], string='Pod Status', readonly=True, help='Status of Kubernetes pods')
+
+    k8s_pod_count = fields.Integer(
+        string='Running Pods',
+        readonly=True,
+        help='Number of running pods for this instance'
+    )
+
+    # Database Configuration (K8s)
+    k8s_db_host = fields.Char(
+        string='Database Host',
+        help='PostgreSQL host (within K8s cluster or external)'
+    )
+
+    k8s_db_port = fields.Integer(
+        string='Database Port',
+        default=5432,
+        help='PostgreSQL port'
+    )
+
+    k8s_db_name = fields.Char(
+        string='Database Name',
+        help='PostgreSQL database name'
+    )
+
+    k8s_db_user = fields.Char(
+        string='Database User',
+        help='PostgreSQL username'
+    )
+
+    k8s_db_password = fields.Char(
+        string='Database Password',
+        groups='base.group_system',
+        help='PostgreSQL password (stored in Kubernetes Secret)'
+    )
+
+    # Manifest Storage
+    k8s_manifests = fields.Text(
+        string='Generated Manifests',
+        readonly=True,
+        help='Last generated Kubernetes YAML manifests for this instance'
+    )
+
+    # Health & Monitoring
+    k8s_last_health_check = fields.Datetime(
+        string='Last K8s Health Check',
+        readonly=True
+    )
+
+    k8s_health_message = fields.Text(
+        string='K8s Health Message',
+        readonly=True
+    )
+
     # Other
     company_id = fields.Many2one(
         'res.company',
@@ -278,3 +398,150 @@ class SaasInstance(models.Model):
         for instance in active_instances:
             instance.write({'status': 'expired'})
             instance.message_post(body=_('Subscription expired'))
+
+    # ============================================================================
+    # KUBERNETES ACTIONS (Placeholder - Implement logic in phase 2)
+    # ============================================================================
+
+    def action_deploy_to_k8s(self):
+        """Deploy this instance to Kubernetes"""
+        self.ensure_one()
+
+        if not self.k8s_cluster_id:
+            raise ValidationError(_('Please select a Kubernetes cluster first'))
+
+        if not self.k8s_template_id:
+            raise ValidationError(_('Please select a deployment template first'))
+
+        if self.k8s_deployed:
+            raise ValidationError(_('Instance already deployed to Kubernetes'))
+
+        # TODO: Implement actual deployment logic
+        # This is a placeholder - the actual implementation will:
+        # 1. Generate manifests from template
+        # 2. Apply manifests to cluster using kubectl/API
+        # 3. Create database
+        # 4. Update instance status
+
+        self.message_post(body=_('Kubernetes deployment initiated (implementation pending)'))
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Deployment Initiated'),
+                'message': _('Kubernetes deployment logic pending implementation. Configuration saved.'),
+                'type': 'info',
+                'sticky': False,
+            }
+        }
+
+    def action_undeploy_from_k8s(self):
+        """Remove this instance from Kubernetes"""
+        self.ensure_one()
+
+        if not self.k8s_deployed:
+            raise ValidationError(_('Instance is not deployed to Kubernetes'))
+
+        # TODO: Implement actual un-deployment logic
+        # This will delete K8s resources: Deployment, Service, Ingress, PVC, etc.
+
+        self.write({
+            'k8s_deployed': False,
+            'k8s_pod_status': 'unknown',
+            'k8s_pod_count': 0,
+        })
+
+        self.message_post(body=_('Kubernetes resources removed (placeholder)'))
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Undeployment Completed'),
+                'message': _('Instance removed from Kubernetes (placeholder).'),
+                'type': 'success',
+                'sticky': False,
+            }
+        }
+
+    def action_check_k8s_status(self):
+        """Check Kubernetes deployment status"""
+        self.ensure_one()
+
+        if not self.k8s_deployed:
+            raise ValidationError(_('Instance is not deployed to Kubernetes'))
+
+        # TODO: Implement actual K8s status check
+        # This will query K8s API for pod status, service endpoints, etc.
+
+        self.write({
+            'k8s_last_health_check': fields.Datetime.now(),
+            'k8s_health_message': _('Health check not yet implemented'),
+        })
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Status Check'),
+                'message': _('Kubernetes status check pending implementation.'),
+                'type': 'info',
+                'sticky': False,
+            }
+        }
+
+    def action_view_k8s_manifests(self):
+        """View/generate Kubernetes manifests for this instance"""
+        self.ensure_one()
+
+        if not self.k8s_template_id:
+            raise ValidationError(_('Please select a deployment template first'))
+
+        # TODO: Generate actual manifests using template
+        # For now, show a placeholder message
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Kubernetes Manifests'),
+            'res_model': 'saas.instance',
+            'res_id': self.id,
+            'view_mode': 'form',
+            'target': 'current',
+            'context': {'show_k8s_manifests': True}
+        }
+
+    def action_open_k8s_config_wizard(self):
+        """Open wizard to configure Kubernetes deployment"""
+        self.ensure_one()
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Configure Kubernetes Deployment'),
+            'res_model': 'saas.k8s.config.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_instance_id': self.id},
+        }
+
+    def action_restart_k8s_pods(self):
+        """Restart Kubernetes pods for this instance"""
+        self.ensure_one()
+
+        if not self.k8s_deployed:
+            raise ValidationError(_('Instance is not deployed to Kubernetes'))
+
+        # TODO: Implement pod restart (kubectl rollout restart deployment/<name>)
+
+        self.message_post(body=_('Pod restart initiated (placeholder)'))
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Restart Initiated'),
+                'message': _('Kubernetes pods restart pending implementation.'),
+                'type': 'info',
+                'sticky': False,
+            }
+        }

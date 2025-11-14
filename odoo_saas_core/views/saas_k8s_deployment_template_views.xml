@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Deployment Template Tree View -->
+    <record id="view_saas_k8s_deployment_template_tree" model="ir.ui.view">
+        <field name="name">saas.k8s.deployment.template.tree</field>
+        <field name="model">saas.k8s.deployment.template</field>
+        <field name="arch" type="xml">
+            <tree string="Deployment Templates">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="cluster_id"/>
+                <field name="template_type"/>
+                <field name="odoo_version"/>
+                <field name="instance_count"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Deployment Template Form View -->
+    <record id="view_saas_k8s_deployment_template_form" model="ir.ui.view">
+        <field name="name">saas.k8s.deployment.template.form</field>
+        <field name="model">saas.k8s.deployment.template</field>
+        <field name="arch" type="xml">
+            <form string="Deployment Template">
+                <header>
+                    <button name="action_generate_default_yamls" string="Generate Default YAMLs" type="object" class="oe_highlight"/>
+                    <button name="action_preview_manifests" string="Preview Manifests" type="object"/>
+                    <button name="action_view_instances" string="View Instances" type="object" invisible="instance_count == 0"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_instances" type="object" class="oe_stat_button" icon="fa-cubes">
+                            <field name="instance_count" widget="statinfo" string="Instances"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="e.g., Odoo 18 Standard"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Basic Information">
+                            <field name="code"/>
+                            <field name="sequence"/>
+                            <field name="cluster_id"/>
+                            <field name="template_type"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Odoo Configuration">
+                            <field name="odoo_version"/>
+                            <field name="odoo_image" placeholder="e.g., odoo:18.0"/>
+                            <field name="default_addons" placeholder="e.g., sale,crm,website"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Resources" name="resources">
+                            <group>
+                                <group string="CPU">
+                                    <field name="cpu_request" placeholder="e.g., 500m"/>
+                                    <field name="cpu_limit" placeholder="e.g., 2"/>
+                                </group>
+                                <group string="Memory">
+                                    <field name="memory_request" placeholder="e.g., 1Gi"/>
+                                    <field name="memory_limit" placeholder="e.g., 2Gi"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Scaling">
+                                    <field name="replicas"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Storage" name="storage">
+                            <group>
+                                <group string="Filestore">
+                                    <field name="enable_persistent_storage"/>
+                                    <field name="storage_size" invisible="not enable_persistent_storage" placeholder="e.g., 10Gi"/>
+                                    <field name="storage_class" invisible="not enable_persistent_storage" placeholder="Leave empty for cluster default"/>
+                                </group>
+                                <group string="Database Sidecar">
+                                    <field name="enable_database_sidecar"/>
+                                    <field name="postgres_image" invisible="not enable_database_sidecar" placeholder="e.g., postgres:15"/>
+                                    <field name="postgres_storage_size" invisible="not enable_database_sidecar" placeholder="e.g., 10Gi"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Networking" name="networking">
+                            <group>
+                                <group string="Service">
+                                    <field name="service_type"/>
+                                    <field name="service_port"/>
+                                </group>
+                                <group string="Ingress">
+                                    <field name="enable_ingress"/>
+                                    <field name="ingress_class" invisible="not enable_ingress" placeholder="Leave empty for cluster default"/>
+                                    <field name="enable_tls" invisible="not enable_ingress"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Environment Variables" name="env_vars">
+                            <field name="env_variables" widget="text" placeholder="KEY=VALUE&#10;ANOTHER_KEY=ANOTHER_VALUE"/>
+                            <div class="alert alert-info" role="alert">
+                                <p><strong>Format:</strong> One variable per line in KEY=VALUE format</p>
+                                <p><strong>Example:</strong></p>
+                                <pre>ADMIN_PASSWD=admin
+SERVER_WIDE_MODULES=base,web</pre>
+                            </div>
+                        </page>
+
+                        <page string="YAML Templates" name="yaml_templates">
+                            <group>
+                                <button name="action_generate_default_yamls" string="Generate Default YAMLs" type="object" class="btn-primary mb-3"/>
+                            </group>
+                            <group string="Deployment YAML">
+                                <field name="deployment_yaml" widget="ace" options="{'mode': 'yaml'}" nolabel="1"/>
+                            </group>
+                            <group string="Service YAML">
+                                <field name="service_yaml" widget="ace" options="{'mode': 'yaml'}" nolabel="1"/>
+                            </group>
+                            <group string="Ingress YAML">
+                                <field name="ingress_yaml" widget="ace" options="{'mode': 'yaml'}" nolabel="1"/>
+                            </group>
+                            <group string="PVC YAML">
+                                <field name="pvc_yaml" widget="ace" options="{'mode': 'yaml'}" nolabel="1"/>
+                            </group>
+                            <div class="alert alert-warning" role="alert">
+                                <p><strong>Available Placeholders:</strong></p>
+                                <ul>
+                                    <li><code>{instance_id}</code> - Instance subdomain/ID</li>
+                                    <li><code>{namespace}</code> - Kubernetes namespace</li>
+                                    <li><code>{odoo_image}</code> - Odoo Docker image</li>
+                                    <li><code>{replicas}</code> - Number of replicas</li>
+                                    <li><code>{cpu_request}</code>, <code>{cpu_limit}</code> - CPU resources</li>
+                                    <li><code>{memory_request}</code>, <code>{memory_limit}</code> - Memory resources</li>
+                                    <li><code>{storage_size}</code> - PVC storage size</li>
+                                    <li><code>{subdomain}</code>, <code>{base_domain}</code> - Domain configuration</li>
+                                    <li><code>{db_host}</code>, <code>{db_port}</code>, <code>{db_user}</code> - Database config</li>
+                                </ul>
+                            </div>
+                        </page>
+
+                        <page string="Helm Configuration" name="helm" invisible="template_type != 'helm'">
+                            <group>
+                                <group string="Chart Information">
+                                    <field name="helm_chart_name" placeholder="e.g., bitnami/odoo"/>
+                                    <field name="helm_chart_version" placeholder="e.g., 1.2.3"/>
+                                </group>
+                            </group>
+                            <group string="Helm Values (YAML)">
+                                <field name="helm_values" widget="ace" options="{'mode': 'yaml'}" nolabel="1"/>
+                            </group>
+                        </page>
+
+                        <page string="ConfigMap Data" name="configmap">
+                            <field name="configmap_data" widget="ace" options="{'mode': 'yaml'}" placeholder="key: value&#10;another_key: another_value"/>
+                        </page>
+
+                        <page string="Description &amp; Notes" name="notes">
+                            <field name="description" placeholder="Template description..."/>
+                            <separator/>
+                            <field name="notes" placeholder="Internal notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Deployment Template Kanban View -->
+    <record id="view_saas_k8s_deployment_template_kanban" model="ir.ui.view">
+        <field name="name">saas.k8s.deployment.template.kanban</field>
+        <field name="model">saas.k8s.deployment.template</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="odoo_version"/>
+                <field name="template_type"/>
+                <field name="instance_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                <div class="o_kanban_record_subtitle">
+                                    Odoo <field name="odoo_version"/>  - <field name="template_type"/>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <span class="badge badge-info"><field name="code"/></span>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <span><field name="instance_count"/> instances</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Deployment Template Search View -->
+    <record id="view_saas_k8s_deployment_template_search" model="ir.ui.view">
+        <field name="name">saas.k8s.deployment.template.search</field>
+        <field name="model">saas.k8s.deployment.template</field>
+        <field name="arch" type="xml">
+            <search string="Search Deployment Templates">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="cluster_id"/>
+                <field name="odoo_version"/>
+                <filter string="Deployment" name="deployment" domain="[('template_type', '=', 'deployment')]"/>
+                <filter string="StatefulSet" name="statefulset" domain="[('template_type', '=', 'statefulset')]"/>
+                <filter string="Helm" name="helm" domain="[('template_type', '=', 'helm')]"/>
+                <separator/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Cluster" name="group_cluster" context="{'group_by': 'cluster_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'template_type'}"/>
+                    <filter string="Odoo Version" name="group_version" context="{'group_by': 'odoo_version'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Deployment Template Action -->
+    <record id="action_saas_k8s_deployment_template" model="ir.actions.act_window">
+        <field name="name">Deployment Templates</field>
+        <field name="res_model">saas.k8s.deployment.template</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Deployment Template
+            </p>
+            <p>
+                Deployment templates define how Odoo instances are deployed to Kubernetes.
+                Configure resources, storage, networking, and custom YAML manifests.
+            </p>
+        </field>
+    </record>
+</odoo>

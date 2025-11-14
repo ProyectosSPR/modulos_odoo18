@@ -19,6 +19,11 @@
         * Trial period management
         * Storage and user usage monitoring
         * Integration with subscription management
+        * **Kubernetes Integration** (New in v1.1.0):
+          - Kubernetes cluster configuration
+          - Deployment template management
+          - Automated manifest generation
+          - Infrastructure management interface
 
         Perfect for companies offering Odoo as a Service to their customers.
     """,
@@ -47,6 +52,8 @@
         'views/saas_customer_views.xml',
         'views/saas_instance_views.xml',
         'views/saas_service_package_views.xml',
+        'views/saas_k8s_cluster_views.xml',
+        'views/saas_k8s_deployment_template_views.xml',
         'views/product_template_views.xml',
         'views/sale_order_views.xml',
         'views/saas_menus.xml',

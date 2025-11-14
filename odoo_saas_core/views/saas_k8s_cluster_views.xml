@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Kubernetes Cluster Tree View -->
+    <record id="view_saas_k8s_cluster_tree" model="ir.ui.view">
+        <field name="name">saas.k8s.cluster.tree</field>
+        <field name="model">saas.k8s.cluster</field>
+        <field name="arch" type="xml">
+            <tree string="Kubernetes Clusters">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="provider"/>
+                <field name="api_server_url"/>
+                <field name="default_namespace"/>
+                <field name="current_instances"/>
+                <field name="max_instances"/>
+                <field name="status" decoration-success="status=='connected'" decoration-danger="status=='error'" decoration-warning="status=='disconnected'"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Kubernetes Cluster Form View -->
+    <record id="view_saas_k8s_cluster_form" model="ir.ui.view">
+        <field name="name">saas.k8s.cluster.form</field>
+        <field name="model">saas.k8s.cluster</field>
+        <field name="arch" type="xml">
+            <form string="Kubernetes Cluster">
+                <header>
+                    <button name="action_test_connection" string="Test Connection" type="object" class="oe_highlight"/>
+                    <button name="action_view_instances" string="View Instances" type="object" invisible="current_instances == 0"/>
+                    <button name="action_view_templates" string="View Templates" type="object"/>
+                    <field name="status" widget="statusbar" statusbar_visible="connected,disconnected,error"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_instances" type="object" class="oe_stat_button" icon="fa-server">
+                            <field name="current_instances" widget="statinfo" string="Instances"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="e.g., Production Cluster"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Basic Information">
+                            <field name="sequence"/>
+                            <field name="provider"/>
+                            <field name="region"/>
+                            <field name="cluster_version"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Limits">
+                            <field name="max_instances"/>
+                            <field name="current_instances"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Connection Settings" name="connection">
+                            <group>
+                                <group string="API Server">
+                                    <field name="api_server_url" placeholder="https://k8s.example.com:6443"/>
+                                </group>
+                                <group string="Authentication">
+                                    <field name="auth_method"/>
+                                </group>
+                            </group>
+
+                            <group string="Authentication Credentials" invisible="not auth_method">
+                                <field name="bearer_token" password="True" invisible="auth_method != 'token'" widget="text" placeholder="Paste your service account token here"/>
+                                <field name="client_certificate" invisible="auth_method != 'certificate'" widget="text" placeholder="Paste client certificate (PEM format)"/>
+                                <field name="client_key" invisible="auth_method != 'certificate'" widget="text" password="True" placeholder="Paste client key (PEM format)"/>
+                                <field name="ca_certificate" widget="text" placeholder="Paste cluster CA certificate (PEM format)"/>
+                                <field name="kubeconfig" invisible="auth_method != 'kubeconfig'" widget="text" placeholder="Paste full kubeconfig file content"/>
+                            </group>
+                        </page>
+
+                        <page string="Default Settings" name="defaults">
+                            <group>
+                                <group string="Deployment Defaults">
+                                    <field name="default_namespace"/>
+                                    <field name="default_storage_class" placeholder="e.g., standard, fast-ssd"/>
+                                </group>
+                                <group string="Network Configuration">
+                                    <field name="ingress_class" placeholder="e.g., nginx, traefik"/>
+                                    <field name="base_domain" placeholder="e.g., saas.example.com"/>
+                                    <field name="enable_tls"/>
+                                    <field name="cert_manager_issuer" invisible="not enable_tls" placeholder="e.g., letsencrypt-prod"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Container Registry" name="registry">
+                            <group>
+                                <group string="Registry Configuration">
+                                    <field name="container_registry" placeholder="e.g., docker.io, gcr.io, your-registry.com"/>
+                                    <field name="registry_username"/>
+                                    <field name="registry_password" password="True"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Database Configuration" name="database">
+                            <group>
+                                <group string="Database Connection Templates">
+                                    <field name="db_host_template" placeholder="e.g., postgres-{instance_id}.default.svc.cluster.local"/>
+                                    <field name="db_port"/>
+                                    <field name="db_user_template" placeholder="e.g., odoo_{instance_id}"/>
+                                </group>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                <p><strong>Template Variables:</strong></p>
+                                <ul>
+                                    <li><code>{instance_id}</code> - Instance ID/subdomain</li>
+                                    <li><code>{namespace}</code> - Kubernetes namespace</li>
+                                </ul>
+                            </div>
+                        </page>
+
+                        <page string="Health Status" name="health">
+                            <group>
+                                <group>
+                                    <field name="last_health_check"/>
+                                    <field name="health_message" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Internal notes about this cluster..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Kubernetes Cluster Kanban View -->
+    <record id="view_saas_k8s_cluster_kanban" model="ir.ui.view">
+        <field name="name">saas.k8s.cluster.kanban</field>
+        <field name="model">saas.k8s.cluster</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="provider"/>
+                <field name="status"/>
+                <field name="current_instances"/>
+                <field name="max_instances"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                <div class="o_kanban_record_subtitle">
+                                    <field name="provider"/> - <field name="region"/>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <t t-if="record.status.raw_value == 'connected'">
+                                        <span class="badge badge-success">Connected</span>
+                                    </t>
+                                    <t t-elif="record.status.raw_value == 'disconnected'">
+                                        <span class="badge badge-warning">Disconnected</span>
+                                    </t>
+                                    <t t-elif="record.status.raw_value == 'error'">
+                                        <span class="badge badge-danger">Error</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="badge badge-secondary">Unknown</span>
+                                    </t>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <span><field name="current_instances"/> / <field name="max_instances"/> instances</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Kubernetes Cluster Search View -->
+    <record id="view_saas_k8s_cluster_search" model="ir.ui.view">
+        <field name="name">saas.k8s.cluster.search</field>
+        <field name="model">saas.k8s.cluster</field>
+        <field name="arch" type="xml">
+            <search string="Search Kubernetes Clusters">
+                <field name="name"/>
+                <field name="provider"/>
+                <field name="api_server_url"/>
+                <filter string="Connected" name="connected" domain="[('status', '=', 'connected')]"/>
+                <filter string="Disconnected" name="disconnected" domain="[('status', '=', 'disconnected')]"/>
+                <filter string="Error" name="error" domain="[('status', '=', 'error')]"/>
+                <separator/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Provider" name="group_provider" context="{'group_by': 'provider'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Kubernetes Cluster Action -->
+    <record id="action_saas_k8s_cluster" model="ir.actions.act_window">
+        <field name="name">Kubernetes Clusters</field>
+        <field name="res_model">saas.k8s.cluster</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first Kubernetes Cluster
+            </p>
+            <p>
+                Configure Kubernetes clusters where Odoo SaaS instances will be deployed.
+                You can add multiple clusters for different regions or environments.
+            </p>
+        </field>
+    </record>
+</odoo>

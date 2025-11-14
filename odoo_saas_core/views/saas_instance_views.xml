@@ -95,6 +95,64 @@
                     </group>
 
                     <notebook>
+                        <page string="Kubernetes Configuration" name="kubernetes">
+                            <group>
+                                <group string="Cluster &amp; Template">
+                                    <field name="k8s_cluster_id"/>
+                                    <field name="k8s_template_id" domain="[('cluster_id', '=', k8s_cluster_id)]"/>
+                                </group>
+                                <group string="Deployment Status">
+                                    <field name="k8s_deployed" readonly="1"/>
+                                    <field name="k8s_deployment_date" readonly="1" invisible="not k8s_deployed"/>
+                                    <field name="k8s_pod_status" invisible="not k8s_deployed"/>
+                                    <field name="k8s_pod_count" invisible="not k8s_deployed"/>
+                                </group>
+                            </group>
+
+                            <group string="Kubernetes Resources">
+                                <group>
+                                    <field name="k8s_namespace"/>
+                                    <field name="k8s_deployment_name"/>
+                                    <field name="k8s_service_name"/>
+                                </group>
+                                <group>
+                                    <field name="k8s_ingress_name"/>
+                                    <field name="k8s_pvc_name"/>
+                                </group>
+                            </group>
+
+                            <group string="Database Configuration">
+                                <group>
+                                    <field name="k8s_db_host"/>
+                                    <field name="k8s_db_port"/>
+                                </group>
+                                <group>
+                                    <field name="k8s_db_name"/>
+                                    <field name="k8s_db_user"/>
+                                    <field name="k8s_db_password" password="True"/>
+                                </group>
+                            </group>
+
+                            <group string="Health &amp; Monitoring" invisible="not k8s_deployed">
+                                <field name="k8s_last_health_check" readonly="1"/>
+                                <field name="k8s_health_message" readonly="1"/>
+                            </group>
+
+                            <separator string="Actions" invisible="not k8s_cluster_id"/>
+                            <div class="row" invisible="not k8s_cluster_id">
+                                <div class="col-md-12">
+                                    <button name="action_deploy_to_k8s" string="Deploy to Kubernetes" type="object" class="btn-primary mr-2" invisible="k8s_deployed"/>
+                                    <button name="action_check_k8s_status" string="Check Status" type="object" class="btn-secondary mr-2" invisible="not k8s_deployed"/>
+                                    <button name="action_view_k8s_manifests" string="View Manifests" type="object" class="btn-info mr-2"/>
+                                    <button name="action_restart_k8s_pods" string="Restart Pods" type="object" class="btn-warning mr-2" invisible="not k8s_deployed"/>
+                                    <button name="action_undeploy_from_k8s" string="Undeploy" type="object" class="btn-danger" invisible="not k8s_deployed" confirm="Are you sure you want to remove this instance from Kubernetes? This will delete all associated resources."/>
+                                </div>
+                            </div>
+
+                            <separator string="Generated Manifests" invisible="not k8s_manifests"/>
+                            <field name="k8s_manifests" widget="ace" options="{'mode': 'yaml'}" readonly="1" invisible="not k8s_manifests"/>
+                        </page>
+
                         <page string="Notes" name="notes">
                             <field name="notes" placeholder="Instance notes..."/>
                         </page>

@@ -24,6 +24,24 @@
               action="action_saas_instance"
               sequence="20"/>
 
+    <!-- Infrastructure Submenu -->
+    <menuitem id="menu_saas_infrastructure"
+              name="Infrastructure"
+              parent="menu_saas_root"
+              sequence="50"/>
+
+    <menuitem id="menu_saas_k8s_clusters"
+              name="Kubernetes Clusters"
+              parent="menu_saas_infrastructure"
+              action="action_saas_k8s_cluster"
+              sequence="10"/>
+
+    <menuitem id="menu_saas_deployment_templates"
+              name="Deployment Templates"
+              parent="menu_saas_infrastructure"
+              action="action_saas_k8s_deployment_template"
+              sequence="20"/>
+
     <!-- Configuration Submenu -->
     <menuitem id="menu_saas_configuration"
               name="Configuration"
