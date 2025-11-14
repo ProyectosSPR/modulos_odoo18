@@ -36,17 +36,18 @@ export class ListItadmin extends ListController {
 
     async onImportFIELSatInvoice() {
         await this.orm.call('res.company', 'import_current_company_invoice', []);
+        this.actionService.doAction('reload');
     }
 
     async onClickSincronizarDocumentos() {
         await this.orm.call('ir.attachment', 'update_status_from_ir_attachment_document', []);
+        this.actionService.doAction('reload');
     }
 }
 
 export const itadmin = {
     ...listView,
     Controller: ListItadmin,
-    buttonTemplate: "l10n_mx_sat_sync_itadmin.ListView.Buttons",
 };
 
 registry.category("views").add("itadmin_tree", itadmin);

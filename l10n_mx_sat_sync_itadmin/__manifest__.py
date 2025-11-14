@@ -40,10 +40,9 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'l10n_mx_sat_sync_itadmin/static/src/js/**/*',
-            'l10n_mx_sat_sync_itadmin/static/src/xml/list_buttons.xml',
-            'l10n_mx_sat_sync_itadmin/static/src/css/**/*',
             'l10n_mx_sat_sync_itadmin/static/src/xml/*.xml',
+            'l10n_mx_sat_sync_itadmin/static/src/js/**/*',
+            'l10n_mx_sat_sync_itadmin/static/src/css/**/*',
         ],
     },
     'application': False,
