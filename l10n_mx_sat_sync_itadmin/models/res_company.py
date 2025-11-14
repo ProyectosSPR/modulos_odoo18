@@ -229,10 +229,20 @@ class ResCompany(models.Model):
         if not esignature:
             raise UserError(_("No valid E-Signature found."))
 
-        sat_obj = SAT(esignature.content, esignature.key, esignature.password)
+        try:
+            sat_obj = SAT(esignature.content, esignature.key, esignature.password)
+            _logger.info('Objeto SAT creado correctamente para RFC: %s', sat_obj.holder_vat)
+        except Exception as e:
+            _logger.error('Error al crear objeto SAT: %s', str(e))
+            raise UserError(_('Error al procesar el certificado FIEL:\n%s') % str(e))
 
         # Recibidos -- Supplier
-        token = sat_obj.soap_generate_token(sat_obj.certificate, sat_obj.private_key)
+        try:
+            token = sat_obj.soap_generate_token(sat_obj.certificate, sat_obj.private_key)
+            _logger.info('Token SOAP generado exitosamente')
+        except Exception as e:
+            _logger.error('Error al generar token SOAP: %s', str(e))
+            raise UserError(_('Error al generar token de autenticación con el SAT:\n%s\n\nEsto puede deberse a:\n- Certificado FIEL inválido o expirado\n- Contraseña incorrecta\n- Problemas de conectividad con el SAT') % str(e))
 
         # corregir hora
         timezone = self._context.get('tz')
@@ -243,11 +253,19 @@ class ResCompany(models.Model):
         diff = abs(pytz.timezone(timezone).utcoffset(datetime.now()).total_seconds() / (60*60))
         local_dt_from = date_from + timedelta(hours=diff)
         local_dt_to = date_to + timedelta(hours=diff)
-        solicitud_ws_ids = self.env['solicitud.ws'].search([('fecha_inicio','=', local_dt_from), ('fecha_fin','=', local_dt_to), ('rfc_receptor','=', True), 
+        solicitud_ws_ids = self.env['solicitud.ws'].search([('fecha_inicio','=', local_dt_from), ('fecha_fin','=', local_dt_to), ('rfc_receptor','=', True),
                                                             ('state','=', 'draft'), ('company_id', '=', self.id)], limit=1)
         if not solicitud_ws_ids:
-           solicitud = sat_obj.soap_request_download(token=token, date_from=date_from, date_to=date_to, rfc_receptor=True)
-           solicitud_ws_ids = self.env['solicitud.ws'].create({'id_solicitud': solicitud['id_solicitud'],
+            _logger.info('Solicitando descarga de CFDI recibidos del %s al %s', date_from, date_to)
+            try:
+                solicitud = sat_obj.soap_request_download(token=token, date_from=date_from, date_to=date_to, rfc_receptor=True)
+                _logger.info('Solicitud creada - ID: %s, Código: %s, Mensaje: %s',
+                           solicitud.get('id_solicitud'), solicitud.get('cod_estatus'), solicitud.get('mensaje'))
+            except Exception as e:
+                _logger.error('Error al solicitar descarga al SAT: %s', str(e))
+                raise UserError(_('Error al solicitar descarga de CFDIs al SAT:\n%s') % str(e))
+
+            solicitud_ws_ids = self.env['solicitud.ws'].create({'id_solicitud': solicitud['id_solicitud'],
                                                                'cod_estatus': solicitud['cod_estatus'],
                                                                'mensaje': solicitud['mensaje'],
                                                                'fecha_inicio': local_dt_from,
@@ -256,8 +274,10 @@ class ResCompany(models.Model):
                                                                'company_id': self.id,
                                                                'rfc_receptor': True})
         else:
-           solicitud = {'id_solicitud': solicitud_ws_ids.id_solicitud, 'cod_estatus': solicitud_ws_ids.cod_estatus, 'mensaje': solicitud_ws_ids.mensaje}
+            _logger.info('Solicitud existente encontrada - ID: %s', solicitud_ws_ids.id_solicitud)
+            solicitud = {'id_solicitud': solicitud_ws_ids.id_solicitud, 'cod_estatus': solicitud_ws_ids.cod_estatus, 'mensaje': solicitud_ws_ids.mensaje}
 
+        _logger.info('Iniciando descarga de contenido para solicitud: %s', solicitud.get('id_solicitud'))
         self.save_downloaded_content(esignature, sat_obj, solicitud, False)
 
         solo_documentos_de_proveedor = self.env['ir.config_parameter'].sudo().get_param('l10n_mx_sat_sync_itadmin.solo_documentos_de_proveedor')
