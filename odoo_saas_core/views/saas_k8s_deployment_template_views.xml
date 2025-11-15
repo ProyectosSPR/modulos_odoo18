@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Deployment Template Tree View -->
+    <!-- Deployment Template List View -->
     <record id="view_saas_k8s_deployment_template_tree" model="ir.ui.view">
-        <field name="name">saas.k8s.deployment.template.tree</field>
+        <field name="name">saas.k8s.deployment.template.list</field>
         <field name="model">saas.k8s.deployment.template</field>
         <field name="arch" type="xml">
-            <tree string="Deployment Templates">
+            <list string="Deployment Templates">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="code"/>
@@ -14,7 +14,7 @@
                 <field name="odoo_version"/>
                 <field name="instance_count"/>
                 <field name="active" invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -242,7 +242,7 @@ SERVER_WIDE_MODULES=base,web</pre>
     <record id="action_saas_k8s_deployment_template" model="ir.actions.act_window">
         <field name="name">Deployment Templates</field>
         <field name="res_model">saas.k8s.deployment.template</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
