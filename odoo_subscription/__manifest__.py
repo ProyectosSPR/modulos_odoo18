@@ -38,20 +38,16 @@
         'security/ir.model.access.csv',
 
         # Data
-        'data/subscription_stage_data.xml',
-        'data/subscription_stop_data.xml',
+        # Note: Stage and Stop Reason data comes from subscription_package module
         'data/sequences.xml',
         'data/mail_templates.xml',
         'data/cron_jobs.xml',
 
-        # Views
-        'views/subscription_package_views.xml',
-        'views/subscription_plan_views.xml',
-        'views/subscription_product_line_views.xml',
-        'views/subscription_stage_views.xml',
-        'views/subscription_metering_views.xml',
-        'views/sale_order_views.xml',
-        'views/product_template_views.xml',
+        # Views (SaaS Extensions)
+        'views/subscription_package_views.xml',  # Inherit to add SaaS features
+        'views/subscription_metering_views.xml',  # New: Usage-based billing
+        'views/sale_order_views.xml',  # Inherit to add subscription link
+        'views/product_template_views.xml',  # Inherit to add SaaS product fields
 
         # Reports (before menus, as menus reference report actions)
         'report/subscription_report_views.xml',
@@ -59,9 +55,7 @@
         # Menus (must be loaded after actions)
         'views/subscription_menus.xml',
 
-        # Wizards
-        'wizards/subscription_close_wizard_views.xml',
-        'wizards/subscription_upgrade_wizard_views.xml',
+        # Wizards: Using base module wizards (subscription_package)
     ],
     'demo': [
         'data/demo_data.xml',

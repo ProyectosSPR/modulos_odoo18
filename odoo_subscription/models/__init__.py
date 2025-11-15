@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from . import subscription_package
-from . import subscription_plan
-from . import subscription_product_line
-from . import subscription_stage
-from . import subscription_stop_reason
-from . import subscription_metering
-from . import product_template
-from . import sale_order
-from . import account_move
+# SaaS Extensions
+from . import subscription_package  # Extend base model with SaaS features
+from . import subscription_metering  # New: Usage-based billing
+from . import product_template  # Extend with SaaS product fields
+from . import sale_order  # Extend with subscription link
+from . import account_move  # Extend with subscription link

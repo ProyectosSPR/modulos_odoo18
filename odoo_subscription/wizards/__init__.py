@@ -1,4 +1,2 @@
 # -*- coding: utf-8 -*-
-
-from . import subscription_close_wizard
-from . import subscription_upgrade_wizard
+# Wizards from subscription_package base module are used

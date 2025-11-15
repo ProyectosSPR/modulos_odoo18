@@ -23,6 +23,10 @@
                            statusbar_visible="trial,active,suspended"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <!-- Status managed through header buttons -->
+                    </div>
+
                     <widget name="web_ribbon" title="Provisioned" bg_color="text-bg-success"
                             invisible="is_provisioned == False"/>
                     <widget name="web_ribbon" title="Trial" bg_color="text-bg-warning"
@@ -38,60 +42,60 @@
                     </div>
 
                     <group>
-                        <group string="Instance Information">
+                        <group name="instance_info" string="Instance Information">
                             <field name="subdomain"/>
                             <field name="database_id" readonly="1"/>
                             <field name="odoo_version"/>
                             <field name="server_location"/>
                         </group>
-                        <group string="Customer &amp; Package">
-                            <field name="customer_id"/>
+                        <group name="customer_info" string="Customer &amp; Package">
+                            <field name="customer_id" options="{'no_create': True}"/>
                             <field name="partner_id" invisible="1"/>
-                            <field name="service_package_id"/>
+                            <field name="service_package_id" options="{'no_create': True}"/>
                             <field name="subscription_id" readonly="1"/>
                         </group>
                     </group>
 
+                    <group>
+                        <group name="dates" string="Dates">
+                            <field name="date_created"/>
+                            <field name="date_activated"/>
+                            <field name="trial_end_date" invisible="status != 'trial'"/>
+                            <field name="subscription_end_date"/>
+                            <field name="days_until_expiry"
+                                   decoration-danger="days_until_expiry &lt; 7"
+                                   decoration-warning="days_until_expiry &lt; 30"/>
+                        </group>
+                        <group name="billing" string="Billing">
+                            <field name="billing_cycle"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <group name="resources" string="Resource Usage">
+                        <group>
+                            <label for="current_users"/>
+                            <div class="o_row">
+                                <field name="current_users"/> / <field name="max_users" readonly="1"/>
+                            </div>
+                            <field name="users_percentage" widget="progressbar"/>
+                        </group>
+                        <group>
+                            <label for="storage_used_gb"/>
+                            <div class="o_row">
+                                <field name="storage_used_gb"/> / <field name="max_storage_gb" readonly="1"/> GB
+                            </div>
+                            <field name="storage_percentage" widget="progressbar"/>
+                        </group>
+                    </group>
+
+                    <group name="provisioning" string="Provisioning Status" invisible="is_provisioned == False">
+                        <field name="is_provisioned" readonly="1"/>
+                        <field name="provisioned_company_id" readonly="1"/>
+                    </group>
+
                     <notebook>
-                        <page string="Details" name="details">
-                            <group>
-                                <group string="Dates">
-                                    <field name="date_created"/>
-                                    <field name="date_activated"/>
-                                    <field name="trial_end_date" invisible="status != 'trial'"/>
-                                    <field name="subscription_end_date"/>
-                                    <field name="days_until_expiry"/>
-                                </group>
-                                <group string="Billing">
-                                    <field name="billing_cycle"/>
-                                    <field name="company_id" groups="base.group_multi_company"/>
-                                </group>
-                            </group>
-
-                            <group string="Resource Usage">
-                                <group>
-                                    <label for="current_users"/>
-                                    <div class="o_row">
-                                        <field name="current_users"/> / <field name="max_users" readonly="1"/>
-                                    </div>
-                                    <field name="users_percentage" widget="progressbar"/>
-                                </group>
-                                <group>
-                                    <label for="storage_used_gb"/>
-                                    <div class="o_row">
-                                        <field name="storage_used_gb"/> / <field name="max_storage_gb" readonly="1"/> GB
-                                    </div>
-                                    <field name="storage_percentage" widget="progressbar"/>
-                                </group>
-                            </group>
-
-                            <group string="Provisioning Status" invisible="not is_provisioned">
-                                <field name="is_provisioned" readonly="1"/>
-                                <field name="provisioned_company_id" readonly="1"/>
-                            </group>
-                        </page>
-
-                        <page string="Kubernetes" name="kubernetes">
+                        <page string="Kubernetes Configuration" name="kubernetes">
                             <group>
                                 <group string="Cluster &amp; Template">
                                     <field name="k8s_cluster_id"/>
@@ -137,22 +141,16 @@
                             <separator string="Actions" invisible="not k8s_cluster_id"/>
                             <div class="row" invisible="not k8s_cluster_id">
                                 <div class="col-md-12">
-                                    <button name="action_deploy_to_k8s" string="Deploy to Kubernetes" type="object"
-                                            class="btn-primary mr-2" invisible="k8s_deployed"/>
-                                    <button name="action_check_k8s_status" string="Check Status" type="object"
-                                            class="btn-secondary mr-2" invisible="not k8s_deployed"/>
-                                    <button name="action_view_k8s_manifests" string="View Manifests" type="object"
-                                            class="btn-info mr-2"/>
-                                    <button name="action_restart_k8s_pods" string="Restart Pods" type="object"
-                                            class="btn-warning mr-2" invisible="not k8s_deployed"/>
-                                    <button name="action_undeploy_from_k8s" string="Undeploy" type="object"
-                                            class="btn-danger" invisible="not k8s_deployed"
-                                            confirm="Are you sure you want to remove this instance from Kubernetes?"/>
+                                    <button name="action_deploy_to_k8s" string="Deploy to Kubernetes" type="object" class="btn-primary mr-2" invisible="k8s_deployed"/>
+                                    <button name="action_check_k8s_status" string="Check Status" type="object" class="btn-secondary mr-2" invisible="not k8s_deployed"/>
+                                    <button name="action_view_k8s_manifests" string="View Manifests" type="object" class="btn-info mr-2"/>
+                                    <button name="action_restart_k8s_pods" string="Restart Pods" type="object" class="btn-warning mr-2" invisible="not k8s_deployed"/>
+                                    <button name="action_undeploy_from_k8s" string="Undeploy" type="object" class="btn-danger" invisible="not k8s_deployed" confirm="Are you sure you want to remove this instance from Kubernetes? This will delete all associated resources."/>
                                 </div>
                             </div>
 
                             <separator string="Generated Manifests" invisible="not k8s_manifests"/>
-                            <field name="k8s_manifests" widget="text" readonly="1" invisible="not k8s_manifests"/>
+                            <field name="k8s_manifests" widget="ace" options="{'mode': 'yaml'}" readonly="1" invisible="not k8s_manifests"/>
                         </page>
 
                         <page string="Notes" name="notes">
@@ -169,9 +167,9 @@
         </field>
     </record>
 
-    <!-- SaaS Instance List View -->
+    <!-- SaaS Instance Tree View -->
     <record id="view_saas_instance_tree" model="ir.ui.view">
-        <field name="name">saas.instance.list</field>
+        <field name="name">saas.instance.tree</field>
         <field name="model">saas.instance</field>
         <field name="arch" type="xml">
             <list string="SaaS Instances"
@@ -189,6 +187,11 @@
                        decoration-danger="status in ['suspended','expired']"/>
                 <field name="odoo_version"/>
                 <field name="service_package_id"/>
+                <field name="date_created"/>
+                <field name="subscription_end_date"/>
+                <field name="current_users"/>
+                <field name="storage_percentage" widget="progressbar"/>
+                <field name="is_provisioned" widget="boolean_toggle"/>
             </list>
         </field>
     </record>
@@ -198,35 +201,32 @@
         <field name="name">saas.instance.kanban</field>
         <field name="model">saas.instance</field>
         <field name="arch" type="xml">
-            <kanban>
+            <kanban class="o_kanban_mobile">
                 <field name="name"/>
+                <field name="customer_id"/>
                 <field name="status"/>
-                <field name="subdomain"/>
-                <field name="current_users"/>
-                <field name="max_users"/>
+                <field name="full_url"/>
+                <field name="storage_percentage"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
-                            <div class="oe_kanban_details">
-                                <strong class="o_kanban_record_title"><field name="name"/></strong>
-                                <div class="o_kanban_record_subtitle">
-                                    <field name="subdomain"/>.domain
+                            <div class="o_kanban_record_top mb-2">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                    <br/>
+                                    <small><field name="customer_id"/></small>
                                 </div>
-                                <div class="o_kanban_record_body">
-                                    <t t-if="record.status.raw_value == 'active'">
-                                        <span class="badge badge-success">Active</span>
-                                    </t>
-                                    <t t-elif="record.status.raw_value == 'trial'">
-                                        <span class="badge badge-warning">Trial</span>
-                                    </t>
-                                    <t t-else="">
-                                        <span class="badge badge-secondary"><field name="status"/></span>
-                                    </t>
-                                </div>
-                                <div class="o_kanban_record_bottom">
-                                    <div class="oe_kanban_bottom_left">
-                                        <span><field name="current_users"/> / <field name="max_users"/> users</span>
-                                    </div>
+                                <span class="badge rounded-pill float-end"
+                                      t-att-class="{'bg-success': record.status.raw_value == 'active',
+                                                   'bg-warning': record.status.raw_value == 'trial',
+                                                   'bg-danger': record.status.raw_value in ['suspended','expired']}">
+                                    <field name="status"/>
+                                </span>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <field name="full_url" widget="url"/>
+                                <div class="mt-2">
+                                    Storage: <field name="storage_percentage"/>%
                                 </div>
                             </div>
                         </div>
@@ -241,22 +241,26 @@
         <field name="name">saas.instance.search</field>
         <field name="model">saas.instance</field>
         <field name="arch" type="xml">
-            <search string="Search SaaS Instances">
+            <search string="Search Instances">
                 <field name="name"/>
-                <field name="subdomain"/>
                 <field name="customer_id"/>
-                <filter string="Active" name="active" domain="[('status', '=', 'active')]"/>
-                <filter string="Trial" name="trial" domain="[('status', '=', 'trial')]"/>
-                <filter string="Suspended" name="suspended" domain="[('status', '=', 'suspended')]"/>
-                <filter string="Provisioned" name="provisioned" domain="[('is_provisioned', '=', True)]"/>
+                <field name="subdomain"/>
+                <field name="database_id"/>
                 <separator/>
-                <filter string="With K8s Cluster" name="has_k8s" domain="[('k8s_cluster_id', '!=', False)]"/>
-                <filter string="Deployed to K8s" name="k8s_deployed" domain="[('k8s_deployed', '=', True)]"/>
+                <filter string="Trial" name="trial" domain="[('status','=','trial')]"/>
+                <filter string="Active" name="active" domain="[('status','=','active')]"/>
+                <filter string="Suspended" name="suspended" domain="[('status','=','suspended')]"/>
+                <filter string="Expired" name="expired" domain="[('status','=','expired')]"/>
+                <separator/>
+                <filter string="Provisioned" name="provisioned" domain="[('is_provisioned','=',True)]"/>
+                <filter string="Not Provisioned" name="not_provisioned" domain="[('is_provisioned','=',False)]"/>
+                <separator/>
                 <group expand="0" string="Group By">
-                    <filter string="Customer" name="group_customer" context="{'group_by': 'customer_id'}"/>
-                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
-                    <filter string="Service Package" name="group_package" context="{'group_by': 'service_package_id'}"/>
-                    <filter string="K8s Cluster" name="group_k8s_cluster" context="{'group_by': 'k8s_cluster_id'}"/>
+                    <filter string="Customer" name="group_customer" context="{'group_by':'customer_id'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
+                    <filter string="Package" name="group_package" context="{'group_by':'service_package_id'}"/>
+                    <filter string="Version" name="group_version" context="{'group_by':'odoo_version'}"/>
+                    <filter string="Created Date" name="group_date" context="{'group_by':'date_created'}"/>
                 </group>
             </search>
         </field>
@@ -267,12 +271,13 @@
         <field name="name">SaaS Instances</field>
         <field name="res_model">saas.instance</field>
         <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first SaaS Instance
             </p>
             <p>
-                SaaS instances represent deployed Odoo installations for your customers.
+                Instances represent individual Odoo installations for your SaaS customers.
             </p>
         </field>
     </record>
