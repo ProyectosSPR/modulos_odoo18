@@ -49,7 +49,6 @@ class SaasInstance(models.Model):
     service_package_id = fields.Many2one(
         'saas.service.package',
         string='Service Package',
-        required=True,
         tracking=True,
         index=True
     )
@@ -87,14 +86,14 @@ class SaasInstance(models.Model):
     current_users = fields.Integer(string='Current Users', default=1)
     max_users = fields.Integer(
         string='Max Users',
-        related='service_package_id.max_users',
+        compute='_compute_max_users',
         store=True,
         readonly=True
     )
     storage_used_gb = fields.Float(string='Storage Used (GB)', default=0.0)
     max_storage_gb = fields.Float(
         string='Max Storage (GB)',
-        related='service_package_id.storage_gb',
+        compute='_compute_max_storage',
         store=True,
         readonly=True
     )
@@ -284,6 +283,18 @@ class SaasInstance(models.Model):
         """Compute partner_id from customer_id"""
         for record in self:
             record.partner_id = record.customer_id.partner_id if record.customer_id else False
+
+    @api.depends('service_package_id', 'service_package_id.max_users')
+    def _compute_max_users(self):
+        """Compute max_users from service package"""
+        for record in self:
+            record.max_users = record.service_package_id.max_users if record.service_package_id else 0
+
+    @api.depends('service_package_id', 'service_package_id.storage_gb')
+    def _compute_max_storage(self):
+        """Compute max_storage_gb from service package"""
+        for record in self:
+            record.max_storage_gb = record.service_package_id.storage_gb if record.service_package_id else 0.0
 
     @api.depends('date_created')
     def _compute_trial_end_date(self):
