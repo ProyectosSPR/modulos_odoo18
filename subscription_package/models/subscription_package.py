@@ -61,7 +61,8 @@ class SubscriptionPackage(models.Model):
                                           related='partner_id')
     plan_id = fields.Many2one('subscription.package.plan',
                               string='Subscription Plan',
-                              help="Choose the subscription package plan")
+                              help="Choose the subscription package plan",
+                              index=True)
     start_date = fields.Date(string='Period Start Date',
                              help='Add the period start date',
                              ondelete='restrict')
@@ -188,20 +189,22 @@ class SubscriptionPackage(models.Model):
             rec.current_stage = rec.env['subscription.package.stage'].search(
                 [('id', '=', rec.stage_id.id)]).category
 
-    @api.depends('start_date')
+    @api.depends('start_date', 'plan_id.renewal_time')
     def _compute_next_invoice_date(self):
         """The compute function is the next invoice date for subscription
         packages based on the start date and renewal time."""
-        for sub in self.env['subscription.package'].search([]):
-            if sub.start_date:
+        for sub in self:
+            if sub.start_date and sub.plan_id:
                 sub.next_invoice_date = sub.start_date + relativedelta(
                     days=sub.plan_id.renewal_time)
+            else:
+                sub.next_invoice_date = False
 
     def _inverse_next_invoice_date(self):
         """Inverse function for next invoice date"""
-        for sub in self.env['subscription.package'].search([]):
-            if sub.start_date:
-                return
+        # Inverse function - allows manual override of next invoice date
+        # No action needed, the field value is already set by the user
+        pass
 
     def button_invoice_count(self):
         """ It displays invoice based on subscription package """

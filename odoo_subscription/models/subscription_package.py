@@ -94,9 +94,9 @@ class SubscriptionPackage(models.Model):
     # BUSINESS LOGIC - SaaS Extensions
     # ============================================================================
 
-    def button_start_subscription(self):
+    def button_start_date(self):
         """Override to handle SaaS customer creation"""
-        res = super(SubscriptionPackage, self).button_start_subscription()
+        res = super(SubscriptionPackage, self).button_start_date()
 
         # Auto-create SaaS customer if not exists
         for rec in self:

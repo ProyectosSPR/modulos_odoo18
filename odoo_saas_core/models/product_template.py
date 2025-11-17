@@ -83,6 +83,8 @@ class ProductTemplate(models.Model):
 
     @api.onchange('is_saas_product')
     def _onchange_is_saas_product(self):
-        """Set recurring_invoice=True when SaaS product"""
+        """Auto-configure SaaS product settings"""
         if self.is_saas_product:
-            self.recurring_invoice = True
+            # SaaS products are typically subscription-based services
+            # The recurring billing is handled by subscription.package module
+            self.type = 'service'

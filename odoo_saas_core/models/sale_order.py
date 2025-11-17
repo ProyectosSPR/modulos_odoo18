@@ -105,9 +105,30 @@ class SaleOrder(models.Model):
 
         return saas_customer
 
+    def _get_or_create_subscription(self):
+        """Get existing subscription or return False if not a subscription order"""
+        self.ensure_one()
+
+        # Check if subscription_id field exists (from subscription modules)
+        if hasattr(self, 'subscription_id') and self.subscription_id:
+            return self.subscription_id
+
+        # If subscription_package module is installed, find subscription by sale_order_id
+        if 'subscription.package' in self.env:
+            subscription = self.env['subscription.package'].search([
+                ('sale_order_id', '=', self.id)
+            ], limit=1)
+            if subscription:
+                return subscription
+
+        return False
+
     def _process_saas_products(self, saas_customer):
         """Process SaaS products and create instances/assign permissions if needed"""
         self.ensure_one()
+
+        # Get or create subscription package for this order if applicable
+        subscription = self._get_or_create_subscription()
 
         for line in self.order_line:
             product = line.product_id.product_tmpl_id
@@ -118,7 +139,7 @@ class SaleOrder(models.Model):
             # Process based on provisioning policy
             if product.saas_creation_policy == 'create_instance' and product.create_instance:
                 # Create instance
-                instance_vals = self._prepare_instance_vals(line, saas_customer)
+                instance_vals = self._prepare_instance_vals(line, saas_customer, subscription)
                 instance = self.env['saas.instance'].create(instance_vals)
 
                 self.message_post(
@@ -170,7 +191,7 @@ class SaleOrder(models.Model):
                 )
             )
 
-    def _prepare_instance_vals(self, order_line, saas_customer):
+    def _prepare_instance_vals(self, order_line, saas_customer, subscription=False):
         """Prepare values for instance creation"""
         self.ensure_one()
         product = order_line.product_id.product_tmpl_id
@@ -194,6 +215,10 @@ class SaleOrder(models.Model):
             'status': 'trial',
             'billing_cycle': 'monthly',
         }
+
+        # Link to subscription if available
+        if subscription:
+            vals['subscription_id'] = subscription.id
 
         return vals
 
