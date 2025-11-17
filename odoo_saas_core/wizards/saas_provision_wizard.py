@@ -121,25 +121,36 @@ class SaasProvisionWizard(models.TransientModel):
         return company
 
     def _assign_groups_to_user(self, user, company=False):
-        """Assign groups to user"""
+        """Assign groups to user - ADDITIVE (preserves existing groups)"""
         self.ensure_one()
 
         # Get internal user group
         internal_user_group = self.env.ref('base.group_user')
 
-        # Combine groups
+        # Combine groups to assign
         groups_to_assign = self.access_group_ids | internal_user_group
 
-        # Prepare user vals
+        # Get existing groups to preserve them
+        existing_groups = user.groups_id
+
+        # Combine existing + new groups (union to avoid duplicates)
+        all_groups = existing_groups | groups_to_assign
+
+        # Prepare user vals - now preserving existing groups
         user_vals = {
-            'groups_id': [(6, 0, groups_to_assign.ids)],
+            'groups_id': [(6, 0, all_groups.ids)],
         }
 
         # Set company if provided
         if company:
+            # Add company to existing companies instead of replacing
+            existing_companies = user.company_ids.ids
+            if company.id not in existing_companies:
+                existing_companies.append(company.id)
+
             user_vals.update({
                 'company_id': company.id,
-                'company_ids': [(6, 0, [company.id])],
+                'company_ids': [(6, 0, existing_companies)],
             })
 
         # Update user

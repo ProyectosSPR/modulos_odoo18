@@ -30,6 +30,7 @@
         'base',
         'sale_management',
         'account',
+        'subscription_package',  # Base subscription module
         'odoo_saas_core',
     ],
     'data': [

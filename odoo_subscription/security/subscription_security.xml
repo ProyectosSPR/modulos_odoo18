@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="group_subscription_user" model="res.groups">
-        <field name="name">Subscription User</field>
-        <field name="category_id" ref="base.module_category_sales"/>
-        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    <!--
+        NOTE: This module EXTENDS subscription_package groups
+        Instead of creating new groups, we inherit and add SaaS-specific permissions
+    -->
+
+    <!-- Extend Subscription User to include SaaS User permissions -->
+    <record id="subscription_package.group_subscription_user" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('odoo_saas_core.group_saas_user'))]"/>
     </record>
-    <record id="group_subscription_manager" model="res.groups">
-        <field name="name">Subscription Manager</field>
-        <field name="category_id" ref="base.module_category_sales"/>
-        <field name="implied_ids" eval="[(4, ref('group_subscription_user'))]"/>
+
+    <!-- Extend Subscription Manager to include SaaS Manager permissions -->
+    <record id="subscription_package.group_subscription_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('odoo_saas_core.group_saas_manager'))]"/>
     </record>
 </odoo>

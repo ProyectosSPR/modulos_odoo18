@@ -23,11 +23,42 @@
                             <field name="saas_creation_policy" invisible="is_saas_product == False"/>
                         </group>
                     </group>
-                    <group name="saas_access" string="Access Control"
+
+                    <!-- Access Control Section -->
+                    <group name="saas_access" string="Access Control &amp; Permissions"
                            invisible="saas_creation_policy != 'create_user' or is_saas_product == False">
-                        <field name="access_group_ids" widget="many2many_tags"
-                               placeholder="Select security groups to assign..."/>
+                        <group name="access_groups" string="Security Groups">
+                            <field name="access_group_ids" widget="many2many_tags"
+                                   placeholder="Select security groups to assign..."
+                                   nolabel="1"/>
+                        </group>
                     </group>
+
+                    <!-- Module-Specific Configuration -->
+                    <group name="module_access" string="Module-Specific Access"
+                           invisible="saas_creation_policy != 'create_user' or is_saas_product == False">
+                        <group>
+                            <field name="restrict_to_modules" widget="boolean_toggle"/>
+                            <field name="module_access_ids" widget="many2many_tags"
+                                   placeholder="Select specific modules (e.g., CRM, Sales)..."
+                                   invisible="restrict_to_modules == False"/>
+                        </group>
+                        <group>
+                            <field name="module_description" placeholder="Describe included features..."
+                                   invisible="restrict_to_modules == False"/>
+                        </group>
+                    </group>
+
+                    <div class="alert alert-info" role="alert"
+                         invisible="saas_creation_policy != 'create_user' or is_saas_product == False">
+                        <strong>Configuration Guide:</strong><br/>
+                        <ul>
+                            <li><strong>Access Groups:</strong> Select the security groups (e.g., Sales/User, CRM/User) that should be assigned to customers who purchase this product.</li>
+                            <li><strong>Restrict to Modules:</strong> Enable this to sell access to specific Odoo modules only (e.g., CRM-only subscription).</li>
+                            <li><strong>Module Access:</strong> Select which modules are included in this product package.</li>
+                        </ul>
+                        <p><em>Example: For a "CRM Basic" product, select "CRM/User" group and enable "crm" module access.</em></p>
+                    </div>
                 </page>
             </xpath>
         </field>

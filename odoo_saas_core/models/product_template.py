@@ -36,6 +36,26 @@ class ProductTemplate(models.Model):
         help='Security groups to assign to users when this product is purchased'
     )
 
+    # Module-Specific Configuration (for selling specific modules like CRM, Sales, etc.)
+    module_access_ids = fields.Many2many(
+        'ir.module.module',
+        'product_template_module_access_rel',
+        'product_id',
+        'module_id',
+        string='Module Access',
+        domain=[('state', '=', 'installed')],
+        help='Specific Odoo modules included in this product (e.g., CRM, Sales)'
+    )
+    restrict_to_modules = fields.Boolean(
+        string='Restrict to Specific Modules',
+        default=False,
+        help='If enabled, users will only have access to the modules specified above'
+    )
+    module_description = fields.Text(
+        string='Module Features Description',
+        help='Describe what features are included in this module package'
+    )
+
     # Instance Configuration
     create_instance = fields.Boolean(
         string='Auto-Create Instance',
