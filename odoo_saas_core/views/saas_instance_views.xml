@@ -176,7 +176,7 @@
         <field name="model">saas.instance</field>
         <field name="priority" eval="1"/>
         <field name="arch" type="xml">
-            <tree string="SaaS Instances"
+            <    string="SaaS Instances"
                   decoration-success="status=='active'"
                   decoration-warning="status=='trial'"
                   decoration-danger="status in ['suspended','expired']"
@@ -191,7 +191,7 @@
                        decoration-danger="status in ['suspended','expired']"/>
                 <field name="odoo_version"/>
                 <field name="service_package_id"/>
-            </tree>
+            </  >
         </field>
     </record>
 
