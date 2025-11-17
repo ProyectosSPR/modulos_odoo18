@@ -4,7 +4,7 @@
     <record id="view_subscription_package_form_saas" model="ir.ui.view">
         <field name="name">subscription.package.form.saas</field>
         <field name="model">subscription.package</field>
-        <field name="inherit_id" ref="subscription_package.view_subscription_package_form"/>
+        <field name="inherit_id" ref="subscription_package.subscription_package_view_form"/>
         <field name="arch" type="xml">
 
             <!-- Add SaaS Instance button to button_box -->
@@ -25,8 +25,8 @@
                 <field name="saas_customer_id"/>
             </xpath>
 
-            <!-- Add SaaS tab before Notes tab -->
-            <xpath expr="//page[@name='description']" position="before">
+            <!-- Add SaaS tab after Subscriptions tab -->
+            <xpath expr="//page[@name='subscription_products_line']" position="after">
                 <page string="SaaS Management" name="saas" invisible="not saas_customer_id">
                     <group>
                         <group string="SaaS Customer">

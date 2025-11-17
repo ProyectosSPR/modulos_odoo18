@@ -266,7 +266,7 @@
     <record id="action_saas_instance" model="ir.actions.act_window">
         <field name="name">SaaS Instances</field>
         <field name="res_model">saas.instance</field>
-        <field name="view_mode">kanban,list,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first SaaS Instance
@@ -275,5 +275,27 @@
                 SaaS instances represent deployed Odoo installations for your customers.
             </p>
         </field>
+    </record>
+
+    <!-- Explicit view references for action -->
+    <record id="action_saas_instance_view_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_saas_instance_tree"/>
+        <field name="act_window_id" ref="action_saas_instance"/>
+    </record>
+
+    <record id="action_saas_instance_view_kanban" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="view_saas_instance_kanban"/>
+        <field name="act_window_id" ref="action_saas_instance"/>
+    </record>
+
+    <record id="action_saas_instance_view_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_saas_instance_form"/>
+        <field name="act_window_id" ref="action_saas_instance"/>
     </record>
 </odoo>

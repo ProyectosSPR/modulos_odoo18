@@ -173,7 +173,7 @@
     <record id="action_saas_service_package" model="ir.actions.act_window">
         <field name="name">Service Packages</field>
         <field name="res_model">saas.service.package</field>
-        <field name="view_mode">kanban,list,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="context">{'search_default_active': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -183,5 +183,27 @@
                 Define service tiers with different features, resource limits, and pricing.
             </p>
         </field>
+    </record>
+
+    <!-- Explicit view references for action -->
+    <record id="action_saas_service_package_view_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_saas_service_package_tree"/>
+        <field name="act_window_id" ref="action_saas_service_package"/>
+    </record>
+
+    <record id="action_saas_service_package_view_kanban" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="view_saas_service_package_kanban"/>
+        <field name="act_window_id" ref="action_saas_service_package"/>
+    </record>
+
+    <record id="action_saas_service_package_view_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_saas_service_package_form"/>
+        <field name="act_window_id" ref="action_saas_service_package"/>
     </record>
 </odoo>

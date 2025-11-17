@@ -36,11 +36,12 @@ class SaasInstance(models.Model):
         string='Customer',
         required=True,
         ondelete='cascade',
-        tracking=True
+        tracking=True,
+        index=True
     )
     partner_id = fields.Many2one(
         'res.partner',
-        related='customer_id.partner_id',
+        compute='_compute_partner_id',
         string='Partner',
         store=True,
         readonly=True
@@ -49,7 +50,8 @@ class SaasInstance(models.Model):
         'saas.service.package',
         string='Service Package',
         required=True,
-        tracking=True
+        tracking=True,
+        index=True
     )
 
     # Status Management
@@ -276,6 +278,12 @@ class SaasInstance(models.Model):
                 record.full_url = f"https://{record.subdomain}.{base_domain}"
             else:
                 record.full_url = False
+
+    @api.depends('customer_id', 'customer_id.partner_id')
+    def _compute_partner_id(self):
+        """Compute partner_id from customer_id"""
+        for record in self:
+            record.partner_id = record.customer_id.partner_id if record.customer_id else False
 
     @api.depends('date_created')
     def _compute_trial_end_date(self):
