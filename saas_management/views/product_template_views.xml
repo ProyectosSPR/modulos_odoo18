@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product Template Form - SaaS Configuration -->
+    <record id="view_product_template_saas_form" model="ir.ui.view">
+        <field name="name">product.template.saas.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="SaaS Configuration" name="saas_config">
+                    <group>
+                        <group>
+                            <field name="is_saas_instance"/>
+                            <field name="auto_create_instance" invisible="not is_saas_instance"/>
+                        </group>
+                        <group>
+                            <field name="trial_days" invisible="not is_saas_instance"/>
+                        </group>
+                    </group>
+
+                    <div class="alert alert-info" role="alert" invisible="not is_saas_instance">
+                        <p><strong>SaaS Instance Product</strong></p>
+                        <ul>
+                            <li><strong>Auto-Create Instance:</strong> When enabled, a new SaaS instance will be created automatically when this product is sold</li>
+                            <li><strong>Trial Days:</strong> Number of days for the trial period (default: 7 days)</li>
+                            <li>The instance will be created with a unique subdomain based on the client name</li>
+                        </ul>
+                    </div>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

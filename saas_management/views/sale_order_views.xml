@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sale Order Form - SaaS Info -->
+    <record id="view_sale_order_saas_form" model="ir.ui.view">
+        <field name="name">sale.order.saas.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='order_lines']" position="before">
+                <page string="SaaS Information" name="saas_info" invisible="not has_saas_products">
+                    <group>
+                        <group>
+                            <field name="has_saas_products" invisible="1"/>
+                            <field name="saas_client_id" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <div class="alert alert-success" role="alert" invisible="state != 'sale' or not has_saas_products">
+                        <p><strong>SaaS Instance Creation</strong></p>
+                        <p>When you confirm this order, the following will happen automatically:</p>
+                        <ul>
+                            <li>A SaaS Client will be created (or linked) for this partner</li>
+                            <li>SaaS Instances will be created for products marked as "Auto-Create Instance"</li>
+                            <li>Instances will start in trial mode with the configured trial period</li>
+                        </ul>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

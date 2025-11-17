@@ -15,7 +15,6 @@
     'depends': [
         'base',
         'sale_management',
-        'odoo_saas_core',  # SaaS Core para gestión de clientes e instancias
     ],
     'data': [
         'security/ir.model.access.csv',

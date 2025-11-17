@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Subscription Package Form with License Limits -->
+    <record id="view_subscription_package_license_form" model="ir.ui.view">
+        <field name="name">subscription.package.license.form</field>
+        <field name="model">subscription.package</field>
+        <field name="inherit_id" ref="subscription_package.subscription_package_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="License Limits" name="license_limits">
+                    <group>
+                        <group string="Plan Limits">
+                            <field name="max_users"/>
+                            <field name="max_companies"/>
+                            <field name="max_storage_gb"/>
+                        </group>
+                        <group string="Overage Pricing">
+                            <field name="price_per_user" widget="monetary"/>
+                            <field name="price_per_company" widget="monetary"/>
+                            <field name="price_per_gb" widget="monetary"/>
+                        </group>
+                    </group>
+
+                    <div class="alert alert-info" role="alert">
+                        <p><strong>License Limits Configuration</strong></p>
+                        <ul>
+                            <li><strong>Plan Limits:</strong> Set to 0 for unlimited</li>
+                            <li><strong>Overage Pricing:</strong> Charges applied when usage exceeds limits</li>
+                            <li>Automatic billing is generated when instances exceed these limits</li>
+                        </ul>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

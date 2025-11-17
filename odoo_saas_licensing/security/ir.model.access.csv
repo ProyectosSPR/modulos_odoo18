@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_saas_license_user,saas.license.user,model_saas_license,group_licensing_user,1,1,1,0
-access_saas_license_manager,saas.license.manager,model_saas_license,group_licensing_manager,1,1,1,1
-access_saas_license_type_user,saas.license.type.user,model_saas_license_type,group_licensing_user,1,0,0,0
-access_saas_license_type_manager,saas.license.type.manager,model_saas_license_type,group_licensing_manager,1,1,1,1
-access_saas_licensed_company_user,saas.licensed.company.user,model_saas_licensed_company,group_licensing_user,1,1,1,0
-access_saas_licensed_company_manager,saas.licensed.company.manager,model_saas_licensed_company,group_licensing_manager,1,1,1,1

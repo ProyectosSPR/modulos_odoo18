@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main SaaS Menu -->
+    <menuitem id="menu_saas_root"
+              name="SaaS Management"
+              web_icon="saas_management,static/description/icon.png"
+              sequence="10"/>
+
+    <!-- Clients Menu -->
+    <menuitem id="menu_saas_clients"
+              name="Clients"
+              parent="menu_saas_root"
+              sequence="10"/>
+
+    <menuitem id="menu_saas_client_list"
+              name="Clients"
+              parent="menu_saas_clients"
+              action="action_saas_client"
+              sequence="10"/>
+
+    <!-- Instances Menu -->
+    <menuitem id="menu_saas_instances"
+              name="Instances"
+              parent="menu_saas_root"
+              sequence="20"/>
+
+    <menuitem id="menu_saas_instance_list"
+              name="All Instances"
+              parent="menu_saas_instances"
+              action="action_saas_instance"
+              sequence="10"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_saas_configuration"
+              name="Configuration"
+              parent="menu_saas_root"
+              sequence="100"/>
+</odoo>

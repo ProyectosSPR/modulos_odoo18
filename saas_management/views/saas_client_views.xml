@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- SaaS Client Form View -->
+    <record id="view_saas_client_form" model="ir.ui.view">
+        <field name="name">saas.client.form</field>
+        <field name="model">saas.client</field>
+        <field name="arch" type="xml">
+            <form string="SaaS Client">
+                <header>
+                    <button name="action_activate" string="Activate" type="object"
+                            class="oe_highlight" invisible="state != 'prospect'"/>
+                    <button name="action_suspend" string="Suspend" type="object"
+                            invisible="state not in ['active']"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_instances" type="object"
+                                class="oe_stat_button" icon="fa-server">
+                            <field name="instance_count" widget="statinfo" string="Instances"/>
+                        </button>
+                    </div>
+
+                    <h1>
+                        <field name="name" placeholder="Client Name"/>
+                    </h1>
+
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="email" widget="email"/>
+                            <field name="phone" widget="phone"/>
+                        </group>
+                        <group>
+                            <field name="activated_date"/>
+                            <field name="active_instance_count"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Instances" name="instances">
+                            <field name="instance_ids" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- SaaS Client List View -->
+    <record id="view_saas_client_list" model="ir.ui.view">
+        <field name="name">saas.client.list</field>
+        <field name="model">saas.client</field>
+        <field name="arch" type="xml">
+            <list string="SaaS Clients">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="email"/>
+                <field name="state" widget="badge"/>
+                <field name="instance_count"/>
+                <field name="active_instance_count"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- SaaS Client Action -->
+    <record id="action_saas_client" model="ir.actions.act_window">
+        <field name="name">SaaS Clients</field>
+        <field name="res_model">saas.client</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

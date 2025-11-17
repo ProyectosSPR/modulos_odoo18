@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- License Records Menu (under SaaS Management) -->
+    <menuitem id="menu_saas_licensing"
+              name="Licensing"
+              parent="saas_management.menu_saas_root"
+              sequence="30"/>
+
+    <menuitem id="menu_saas_license_list"
+              name="License Records"
+              parent="menu_saas_licensing"
+              action="action_saas_license"
+              sequence="10"/>
+</odoo>

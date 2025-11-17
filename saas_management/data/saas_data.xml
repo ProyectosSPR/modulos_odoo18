@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- System Parameter for Base Domain -->
+        <record id="saas_base_domain_param" model="ir.config_parameter">
+            <field name="key">saas.base_domain</field>
+            <field name="value">odoo.cloud</field>
+        </record>
+
+        <!-- Example: Demo SaaS Client (only in demo mode) -->
+        <record id="demo_saas_client_1" model="saas.client">
+            <field name="name">Demo Client Corporation</field>
+            <field name="partner_id" ref="base.res_partner_12"/>
+            <field name="state">active</field>
+            <field name="activated_date" eval="(DateTime.now() - timedelta(days=30)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <!-- Example: Demo SaaS Instance -->
+        <record id="demo_saas_instance_1" model="saas.instance">
+            <field name="name">Demo Client - Production</field>
+            <field name="subdomain">demo-client-prod</field>
+            <field name="client_id" ref="demo_saas_client_1"/>
+            <field name="state">active</field>
+            <field name="odoo_version">18.0</field>
+            <field name="current_users">5</field>
+            <field name="storage_used_gb">2.5</field>
+            <field name="activated_date" eval="(DateTime.now() - timedelta(days=25)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+        <record id="demo_saas_instance_2" model="saas.instance">
+            <field name="name">Demo Client - Testing</field>
+            <field name="subdomain">demo-client-test</field>
+            <field name="client_id" ref="demo_saas_client_1"/>
+            <field name="state">trial</field>
+            <field name="odoo_version">18.0</field>
+            <field name="current_users">2</field>
+            <field name="storage_used_gb">0.8</field>
+            <field name="trial_end_date" eval="(DateTime.now() + timedelta(days=5)).strftime('%Y-%m-%d')"/>
+        </record>
+    </data>
+</odoo>

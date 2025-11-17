@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- SaaS Instance Form View -->
+    <record id="view_saas_instance_form" model="ir.ui.view">
+        <field name="name">saas.instance.form</field>
+        <field name="model">saas.instance</field>
+        <field name="arch" type="xml">
+            <form string="SaaS Instance">
+                <header>
+                    <button name="action_start_trial" string="Start Trial" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_activate" string="Activate" type="object"
+                            class="oe_highlight" invisible="state != 'trial'"/>
+                    <button name="action_suspend" string="Suspend" type="object"
+                            invisible="state not in ['active', 'trial']"/>
+                    <button name="action_terminate" string="Terminate" type="object"
+                            invisible="state == 'terminated'"
+                            confirm="Are you sure you want to terminate this instance?"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_saas_client)d" type="action"
+                                class="oe_stat_button" icon="fa-user"
+                                context="{'search_default_id': client_id}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Client</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Instance Name"/>
+                        </h1>
+                        <h2>
+                            <field name="full_url" widget="url" placeholder="URL will be generated"/>
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="client_id"/>
+                            <field name="partner_id"/>
+                            <field name="subdomain"/>
+                            <field name="odoo_version"/>
+                        </group>
+                        <group>
+                            <field name="subscription_id"/>
+                            <field name="trial_end_date" invisible="state not in ['trial']"/>
+                            <field name="activated_date" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Resources" name="resources">
+                            <group>
+                                <group>
+                                    <field name="current_users"/>
+                                    <field name="storage_used_gb"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Additional notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- SaaS Instance List View -->
+    <record id="view_saas_instance_list" model="ir.ui.view">
+        <field name="name">saas.instance.list</field>
+        <field name="model">saas.instance</field>
+        <field name="arch" type="xml">
+            <list string="SaaS Instances">
+                <field name="name"/>
+                <field name="subdomain"/>
+                <field name="client_id"/>
+                <field name="partner_id"/>
+                <field name="odoo_version"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-info="state == 'trial'"
+                       decoration-warning="state == 'suspended'"
+                       decoration-danger="state == 'terminated'"/>
+                <field name="current_users"/>
+                <field name="storage_used_gb"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- SaaS Instance Kanban View -->
+    <record id="view_saas_instance_kanban" model="ir.ui.view">
+        <field name="name">saas.instance.kanban</field>
+        <field name="model">saas.instance</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="subdomain"/>
+                <field name="full_url"/>
+                <field name="state"/>
+                <field name="client_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                                <span class="badge" t-att-class="record.state.raw_value === 'active' ? 'badge-success' :
+                                                                 record.state.raw_value === 'trial' ? 'badge-info' :
+                                                                 record.state.raw_value === 'suspended' ? 'badge-warning' : 'badge-secondary'">
+                                    <field name="state"/>
+                                </span>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <field name="client_id"/>
+                                <br/>
+                                <field name="full_url" widget="url"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- SaaS Instance Search View -->
+    <record id="view_saas_instance_search" model="ir.ui.view">
+        <field name="name">saas.instance.search</field>
+        <field name="model">saas.instance</field>
+        <field name="arch" type="xml">
+            <search string="Search Instances">
+                <field name="name"/>
+                <field name="subdomain"/>
+                <field name="client_id"/>
+                <field name="partner_id"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Trial" name="trial" domain="[('state', '=', 'trial')]"/>
+                <filter string="Active" name="active" domain="[('state', '=', 'active')]"/>
+                <filter string="Suspended" name="suspended" domain="[('state', '=', 'suspended')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Client" name="group_client" context="{'group_by': 'client_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Odoo Version" name="group_version" context="{'group_by': 'odoo_version'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- SaaS Instance Action -->
+    <record id="action_saas_instance" model="ir.actions.act_window">
+        <field name="name">SaaS Instances</field>
+        <field name="res_model">saas.instance</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+</odoo>

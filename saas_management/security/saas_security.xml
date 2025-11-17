@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- SaaS Manager Group -->
+        <record id="group_saas_manager" model="res.groups">
+            <field name="name">SaaS Manager</field>
+            <field name="category_id" ref="base.module_category_services"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Full access to SaaS management features including clients and instances</field>
+        </record>
+
+        <!-- SaaS User Group -->
+        <record id="group_saas_user" model="res.groups">
+            <field name="name">SaaS User</field>
+            <field name="category_id" ref="base.module_category_services"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Basic access to view SaaS clients and instances</field>
+        </record>
+
+        <!-- Record Rules for SaaS Client -->
+        <record id="saas_client_rule_manager" model="ir.rule">
+            <field name="name">SaaS Client: Manager - All Access</field>
+            <field name="model_id" ref="model_saas_client"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_saas_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="saas_client_rule_user" model="ir.rule">
+            <field name="name">SaaS Client: User - Read Only</field>
+            <field name="model_id" ref="model_saas_client"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_saas_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Record Rules for SaaS Instance -->
+        <record id="saas_instance_rule_manager" model="ir.rule">
+            <field name="name">SaaS Instance: Manager - All Access</field>
+            <field name="model_id" ref="model_saas_instance"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_saas_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="saas_instance_rule_user" model="ir.rule">
+            <field name="name">SaaS Instance: User - Read Only</field>
+            <field name="model_id" ref="model_saas_instance"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_saas_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+    </data>
+</odoo>

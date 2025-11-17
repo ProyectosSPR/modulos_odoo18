@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product Template Form - Permission Configuration -->
+    <record id="view_product_template_form_permissions" model="ir.ui.view">
+        <field name="name">product.template.form.permissions</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Add Permission Configuration tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Permissions" name="permissions">
+                    <group>
+                        <group name="permission_config" string="Permission Assignment">
+                            <field name="assign_permissions" widget="boolean_toggle"/>
+                            <field name="permission_description"
+                                   placeholder="e.g., Grants full CRM access including pipeline management..."
+                                   invisible="not assign_permissions"/>
+                        </group>
+                    </group>
+
+                    <group string="Security Groups to Assign"
+                           invisible="not assign_permissions">
+                        <field name="permission_group_ids"
+                               widget="many2many_tags"
+                               nolabel="1"
+                               options="{'no_create': True}"
+                               placeholder="Select security groups that will be assigned to the user..."/>
+                    </group>
+
+                    <div class="alert alert-info" role="alert"
+                         invisible="not assign_permissions">
+                        <h4>ℹ️ How it works:</h4>
+                        <ul>
+                            <li><strong>On Sale Confirmation:</strong> The selected security groups will be automatically assigned to the customer's user</li>
+                            <li><strong>Additive:</strong> Existing permissions are preserved (groups are added, not replaced)</li>
+                            <li><strong>Safe:</strong> Administrator users are never modified automatically</li>
+                            <li><strong>User Creation:</strong> If the customer doesn't have a user, one will be created automatically</li>
+                        </ul>
+                        <p><em>Example: Select "Sales / User" and "CRM / User" to grant basic sales and CRM access.</em></p>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

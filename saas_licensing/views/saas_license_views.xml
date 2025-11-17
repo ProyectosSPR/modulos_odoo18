@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- SaaS License Form View -->
+    <record id="view_saas_license_form" model="ir.ui.view">
+        <field name="name">saas.license.form</field>
+        <field name="model">saas.license</field>
+        <field name="arch" type="xml">
+            <form string="License Record">
+                <header>
+                    <button name="action_create_invoice" string="Create Invoice" type="object"
+                            class="oe_highlight"
+                            invisible="not is_billable or invoice_id"/>
+                    <field name="invoice_state" widget="statusbar" invisible="not invoice_id"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(saas_management.action_saas_instance)d" type="action"
+                                class="oe_stat_button" icon="fa-server"
+                                context="{'search_default_id': instance_id}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Instance</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="alert alert-warning" role="alert" invisible="not is_billable">
+                        <strong>Overage Detected!</strong>
+                        <p>This instance has usage beyond the plan limits. Total overage amount: <field name="overage_amount" widget="monetary"/></p>
+                    </div>
+
+                    <div class="alert alert-success" role="alert" invisible="is_billable or not instance_id">
+                        <strong>Within Limits</strong>
+                        <p>This instance is operating within plan limits. No overage charges.</p>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="instance_id"/>
+                            <field name="client_id"/>
+                            <field name="subscription_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="is_billable" invisible="1"/>
+                            <field name="invoice_id" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Usage Metrics" name="usage">
+                            <group>
+                                <group string="Current Usage">
+                                    <field name="user_count"/>
+                                    <field name="company_count"/>
+                                    <field name="storage_gb"/>
+                                </group>
+                                <group string="Plan Limits">
+                                    <field name="plan_user_limit"/>
+                                    <field name="plan_company_limit"/>
+                                    <field name="plan_storage_limit"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Overages" name="overages" invisible="not is_billable">
+                            <group>
+                                <group string="Overage Quantities">
+                                    <field name="user_overage"/>
+                                    <field name="company_overage"/>
+                                    <field name="storage_overage"/>
+                                </group>
+                                <group string="Billing">
+                                    <field name="overage_amount" widget="monetary"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- SaaS License List View -->
+    <record id="view_saas_license_list" model="ir.ui.view">
+        <field name="name">saas.license.list</field>
+        <field name="model">saas.license</field>
+        <field name="arch" type="xml">
+            <list string="License Records">
+                <field name="date"/>
+                <field name="instance_id"/>
+                <field name="client_id"/>
+                <field name="user_count"/>
+                <field name="company_count"/>
+                <field name="storage_gb"/>
+                <field name="is_billable" widget="boolean_toggle"/>
+                <field name="overage_amount" widget="monetary" optional="show"/>
+                <field name="invoice_state" widget="badge" optional="show"
+                       decoration-success="invoice_state == 'posted'"
+                       decoration-info="invoice_state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- SaaS License Search View -->
+    <record id="view_saas_license_search" model="ir.ui.view">
+        <field name="name">saas.license.search</field>
+        <field name="model">saas.license</field>
+        <field name="arch" type="xml">
+            <search string="Search License Records">
+                <field name="instance_id"/>
+                <field name="client_id"/>
+                <field name="date"/>
+                <separator/>
+                <filter string="Billable" name="billable" domain="[('is_billable', '=', True)]"/>
+                <filter string="Not Invoiced" name="not_invoiced" domain="[('invoice_id', '=', False), ('is_billable', '=', True)]"/>
+                <filter string="Invoiced" name="invoiced" domain="[('invoice_id', '!=', False)]"/>
+                <separator/>
+                <filter string="This Month" name="this_month"
+                        domain="[('date', '&gt;=', (context_today() - relativedelta(day=1)).strftime('%Y-%m-%d')),
+                                 ('date', '&lt;=', (context_today() + relativedelta(day=31)).strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Instance" name="group_instance" context="{'group_by': 'instance_id'}"/>
+                    <filter string="Client" name="group_client" context="{'group_by': 'client_id'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- SaaS License Action -->
+    <record id="action_saas_license" model="ir.actions.act_window">
+        <field name="name">License Records</field>
+        <field name="res_model">saas.license</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_this_month': 1}</field>
+    </record>
+</odoo>

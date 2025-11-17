@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_saas_license_manager,saas.license.manager,model_saas_license,saas_management.group_saas_manager,1,1,1,1
+access_saas_license_user,saas.license.user,model_saas_license,saas_management.group_saas_user,1,0,0,0
+access_saas_license_sales,saas.license.sales,model_saas_license,sales_team.group_sale_salesman,1,1,1,0
+access_saas_license_account,saas.license.account,model_saas_license,account.group_account_invoice,1,1,1,0

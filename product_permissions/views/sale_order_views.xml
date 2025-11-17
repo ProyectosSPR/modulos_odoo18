@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sale Order Form - Permission Status -->
+    <record id="view_sale_order_form_permissions" model="ir.ui.view">
+        <field name="name">sale.order.form.permissions</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Add permission status indicator -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="has_permission_products" invisible="1"/>
+                <field name="permission_assigned" invisible="1"/>
+            </xpath>
+
+            <!-- Add info banner for orders with permission products -->
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-info" role="alert"
+                     invisible="not has_permission_products or permission_assigned or state != 'sale'">
+                    <strong>🔐 This order contains products with permission assignment.</strong>
+                    Permissions will be assigned to the customer's user upon confirmation.
+                </div>
+                <div class="alert alert-success" role="alert"
+                     invisible="not permission_assigned">
+                    <strong>✅ Permissions have been assigned</strong> to the customer's user.
+                    Check the chatter for details.
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
