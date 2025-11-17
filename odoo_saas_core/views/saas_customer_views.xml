@@ -80,14 +80,18 @@
 
                     <notebook>
                         <page string="Instances" name="instances">
-                            <field name="instance_ids" readonly="1">
+                            <field name="instance_ids" mode="tree,form">
                                 <tree>
                                     <field name="name"/>
-                                    <field name="subdomain"/>
-                                    <field name="status" widget="badge"/>
-                                    <field name="odoo_version"/>
+                                    <field name="status"/>
                                     <field name="date_created"/>
                                 </tree>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="status"/>
+                                    </group>
+                                </form>
                             </field>
                         </page>
                         <page string="Tags &amp; Notes" name="notes">
