@@ -4,7 +4,7 @@
     <record id="view_subscription_package_license_form" model="ir.ui.view">
         <field name="name">subscription.package.license.form</field>
         <field name="model">subscription.package</field>
-        <field name="inherit_id" ref="subscription_package.subscription_package_form_view"/>
+        <field name="inherit_id" ref="subscription_package.subscription_package_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page string="License Limits" name="license_limits">
