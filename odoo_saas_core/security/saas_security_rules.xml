@@ -43,5 +43,21 @@
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('group_saas_user'))]"/>
         </record>
+
+        <!-- K8s Cluster access rules -->
+        <record id="saas_k8s_cluster_user_rule" model="ir.rule">
+            <field name="name">K8s Cluster: User Access</field>
+            <field name="model_id" ref="model_saas_k8s_cluster"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_saas_user'))]"/>
+        </record>
+
+        <!-- K8s Deployment Template access rules -->
+        <record id="saas_k8s_template_user_rule" model="ir.rule">
+            <field name="name">K8s Template: User Access</field>
+            <field name="model_id" ref="model_saas_k8s_deployment_template"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_saas_user'))]"/>
+        </record>
     </data>
 </odoo>

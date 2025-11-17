@@ -8,7 +8,7 @@ class SubscriptionMetering(models.Model):
     _description = 'Subscription Usage Metering'
     _order = 'date desc'
 
-    subscription_id = fields.Many2one('subscription.package', string='Subscription', required=True, ondelete='cascade')
+    subscription_id = fields.Many2one('subscription.package', string='Subscription', required=True, ondelete='cascade', index=True)
     date = fields.Date(string='Date', required=True, default=fields.Date.today)
     metric_type = fields.Selection([
         ('users', 'Active Users'),

@@ -9,8 +9,8 @@ class SaasLicensedCompany(models.Model):
     _order = 'date_added desc'
 
     # License & Company
-    license_id = fields.Many2one('saas.license', string='License', required=True, ondelete='cascade')
-    company_id = fields.Many2one('res.company', string='Company', required=True)
+    license_id = fields.Many2one('saas.license', string='License', required=True, ondelete='cascade', index=True)
+    company_id = fields.Many2one('res.company', string='Company', required=True, index=True)
 
     # Customer Info
     customer_id = fields.Many2one('saas.customer', related='license_id.customer_id', string='Customer', store=True)
