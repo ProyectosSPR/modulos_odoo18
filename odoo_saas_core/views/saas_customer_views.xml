@@ -4,6 +4,7 @@
     <record id="view_saas_customer_form" model="ir.ui.view">
         <field name="name">saas.customer.form</field>
         <field name="model">saas.customer</field>
+        <field name="priority" eval="1"/>
         <field name="arch" type="xml">
             <form string="SaaS Customer">
                 <header>
@@ -79,7 +80,15 @@
 
                     <notebook>
                         <page string="Instances" name="instances">
-                            <field name="instance_ids" readonly="1"/>
+                            <field name="instance_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="subdomain"/>
+                                    <field name="status" widget="badge"/>
+                                    <field name="odoo_version"/>
+                                    <field name="date_created"/>
+                                </tree>
+                            </field>
                         </page>
                         <page string="Tags &amp; Notes" name="notes">
                             <group>
@@ -104,6 +113,7 @@
     <record id="view_saas_customer_tree" model="ir.ui.view">
         <field name="name">saas.customer.tree</field>
         <field name="model">saas.customer</field>
+        <field name="priority" eval="1"/>
         <field name="arch" type="xml">
             <list string="SaaS Customers"
                   decoration-success="state=='active'"
