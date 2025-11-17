@@ -80,19 +80,9 @@
 
                     <notebook>
                         <page string="Instances" name="instances">
-                            <field name="instance_ids" mode="tree,form">
-                                <tree>
-                                    <field name="name"/>
-                                    <field name="status"/>
-                                    <field name="date_created"/>
-                                </tree>
-                                <form>
-                                    <group>
-                                        <field name="name"/>
-                                        <field name="status"/>
-                                    </group>
-                                </form>
-                            </field>
+                            <field name="instance_ids" nolabel="1"
+                                   widget="one2many"
+                                   context="{'tree_view_ref': 'odoo_saas_core.view_saas_instance_tree_embedded'}"/>
                         </page>
                         <page string="Tags &amp; Notes" name="notes">
                             <group>
