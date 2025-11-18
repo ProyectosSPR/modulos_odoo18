@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_saas_licensing" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.saas.licensing</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="SaaS Licensing" string="SaaS Licensing" name="saas_licensing">
+                    <block title="Default Subscription Settings" id="saas_licensing_defaults">
+                        <setting string="Pricing Model" help="Default pricing model for new subscription packages">
+                            <div class="content-group">
+                                <field name="default_pricing_model" class="o_light_label" widget="radio"/>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Base Pricing" id="saas_licensing_base_pricing">
+                        <setting string="Base Monthly Price" help="Default fixed monthly price">
+                            <div class="content-group">
+                                <field name="default_base_monthly_price"/>
+                            </div>
+                        </setting>
+                        <setting string="Included Users" help="Default number of users included in base price">
+                            <div class="content-group">
+                                <field name="default_included_users"/>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="User Pricing" id="saas_licensing_user_pricing">
+                        <setting string="Price per User" help="Default price per user (meaning varies by pricing model)">
+                            <div class="content-group">
+                                <field name="default_price_per_user"/>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Usage Limits" id="saas_licensing_limits">
+                        <setting string="Max Users" help="Default maximum users allowed (0 = unlimited)">
+                            <div class="content-group">
+                                <field name="default_max_users"/>
+                            </div>
+                        </setting>
+                        <setting string="Max Companies" help="Default maximum companies allowed">
+                            <div class="content-group">
+                                <field name="default_max_companies"/>
+                            </div>
+                        </setting>
+                        <setting string="Max Storage (GB)" help="Default maximum storage in GB">
+                            <div class="content-group">
+                                <field name="default_max_storage_gb"/>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Overage Pricing" id="saas_licensing_overage">
+                        <setting string="Price per Additional Company" help="Default price for companies beyond the limit">
+                            <div class="content-group">
+                                <field name="default_price_per_company"/>
+                            </div>
+                        </setting>
+                        <setting string="Price per Additional GB" help="Default price for storage beyond the limit">
+                            <div class="content-group">
+                                <field name="default_price_per_gb"/>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Billing Configuration" id="saas_licensing_billing">
+                        <setting string="Auto-Invoice" help="Enable automatic invoicing by default (uses subscription_package cron)">
+                            <div class="content-group">
+                                <field name="default_auto_invoice"/>
+                            </div>
+                        </setting>
+                        <setting string="Invoice on Overage Detection" help="Automatically invoice when overage is detected">
+                            <div class="content-group">
+                                <field name="default_invoice_on_overage"/>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>
