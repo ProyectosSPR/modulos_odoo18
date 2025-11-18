@@ -24,13 +24,13 @@
                     </div>
 
                     <div class="alert alert-warning" role="alert" invisible="not is_billable">
-                        <strong>Overage Detected!</strong>
-                        <p>This instance has usage beyond the plan limits. Total overage amount: <field name="overage_amount" widget="monetary"/></p>
+                        <strong>Billable Usage Detected!</strong>
+                        <p>Total amount to bill: <field name="total_amount" widget="monetary" class="fw-bold"/></p>
                     </div>
 
                     <div class="alert alert-success" role="alert" invisible="is_billable or not instance_id">
-                        <strong>Within Limits</strong>
-                        <p>This instance is operating within plan limits. No overage charges.</p>
+                        <strong>No Charges</strong>
+                        <p>This instance has no billable usage for this period.</p>
                     </div>
 
                     <group>
@@ -63,17 +63,32 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Overages" name="overages" invisible="not is_billable">
+                        <page string="Billing" name="billing" invisible="not is_billable">
                             <group>
-                                <group string="Overage Quantities">
-                                    <field name="user_overage"/>
-                                    <field name="company_overage"/>
-                                    <field name="storage_overage"/>
+                                <group string="Pricing Breakdown">
+                                    <field name="base_amount" widget="monetary"
+                                           invisible="base_amount == 0"/>
+                                    <field name="user_amount" widget="monetary"
+                                           invisible="user_amount == 0"/>
+                                    <field name="overage_amount" widget="monetary"
+                                           invisible="overage_amount == 0"/>
+                                    <separator/>
+                                    <field name="total_amount" widget="monetary" class="fw-bold"/>
                                 </group>
-                                <group string="Billing">
-                                    <field name="overage_amount" widget="monetary"/>
+                                <group string="Overage Quantities">
+                                    <field name="user_overage"
+                                           invisible="user_overage == 0"/>
+                                    <field name="company_overage"
+                                           invisible="company_overage == 0"/>
+                                    <field name="storage_overage"
+                                           invisible="storage_overage == 0"/>
                                 </group>
                             </group>
+
+                            <div class="alert alert-info" role="alert">
+                                <strong>ℹ️ Pricing Model:</strong>
+                                <field name="subscription_id" readonly="1" options="{'no_open': False}"/>
+                            </div>
                         </page>
                     </notebook>
                 </sheet>
@@ -95,7 +110,10 @@
                 <field name="company_count"/>
                 <field name="storage_gb"/>
                 <field name="is_billable" widget="boolean_toggle"/>
-                <field name="overage_amount" widget="monetary" optional="show"/>
+                <field name="total_amount" widget="monetary" optional="show"/>
+                <field name="base_amount" widget="monetary" optional="hide"/>
+                <field name="user_amount" widget="monetary" optional="hide"/>
+                <field name="overage_amount" widget="monetary" optional="hide"/>
                 <field name="invoice_state" widget="badge" optional="show"
                        decoration-success="invoice_state == 'posted'"
                        decoration-info="invoice_state == 'draft'"/>

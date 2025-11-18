@@ -1,32 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Extend Subscription Package Form with License Limits -->
+    <!-- Extend Subscription Package Form with Pricing Models -->
     <record id="view_subscription_package_license_form" model="ir.ui.view">
         <field name="name">subscription.package.license.form</field>
         <field name="model">subscription.package</field>
         <field name="inherit_id" ref="subscription_package.subscription_package_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
-                <page string="License Limits" name="license_limits">
+                <page string="Pricing &amp; Limits" name="pricing_limits">
+                    <!-- Pricing Model Selection -->
                     <group>
-                        <group string="Plan Limits">
-                            <field name="max_users"/>
-                            <field name="max_companies"/>
-                            <field name="max_storage_gb"/>
+                        <group string="Pricing Model">
+                            <field name="pricing_model" widget="radio"/>
                         </group>
-                        <group string="Overage Pricing">
-                            <field name="price_per_user" widget="monetary"/>
-                            <field name="price_per_company" widget="monetary"/>
-                            <field name="price_per_gb" widget="monetary"/>
+                        <group>
+                            <field name="pricing_model_description" readonly="1" nolabel="1"
+                                   widget="text"/>
                         </group>
                     </group>
 
-                    <div class="alert alert-info" role="alert">
-                        <p><strong>License Limits Configuration</strong></p>
+                    <separator string="Pricing Configuration"/>
+
+                    <!-- Base Pricing (visible for base_included_overage and base_per_user) -->
+                    <group invisible="pricing_model not in ['base_included_overage', 'base_per_user']">
+                        <group string="Base Pricing">
+                            <field name="base_monthly_price" widget="monetary"/>
+                        </group>
+                    </group>
+
+                    <!-- User Pricing Configuration -->
+                    <group>
+                        <group string="User Pricing">
+                            <!-- Included Users - only for base_included_overage -->
+                            <field name="included_users"
+                                   invisible="pricing_model != 'base_included_overage'"
+                                   required="pricing_model == 'base_included_overage'"/>
+
+                            <!-- Price per User - label changes based on model -->
+                            <label for="price_per_user"
+                                   string="Price per Additional User"
+                                   invisible="pricing_model not in ['overage_only', 'base_included_overage']"/>
+                            <label for="price_per_user"
+                                   string="Price per User (All Users)"
+                                   invisible="pricing_model not in ['per_user', 'base_per_user']"/>
+                            <field name="price_per_user" nolabel="1" widget="monetary"/>
+                        </group>
+
+                        <group string="Usage Limits">
+                            <field name="max_users"
+                                   help="Maximum users allowed (0 = unlimited). For overage models, this is the limit. For per_user models, this is just a warning."/>
+                            <field name="max_companies"/>
+                            <field name="max_storage_gb"/>
+                        </group>
+                    </group>
+
+                    <separator string="Additional Overage Pricing"/>
+
+                    <group>
+                        <group string="Company &amp; Storage Overage">
+                            <field name="price_per_company" widget="monetary"/>
+                            <field name="price_per_gb" widget="monetary"/>
+                        </group>
+                        <group string="Billing Configuration">
+                            <field name="auto_invoice"/>
+                            <field name="invoice_on_overage"/>
+                        </group>
+                    </group>
+
+                    <!-- Help Information -->
+                    <div class="alert alert-warning" role="alert">
+                        <strong>ℹ️ Billing Configuration:</strong>
                         <ul>
-                            <li><strong>Plan Limits:</strong> Set to 0 for unlimited</li>
-                            <li><strong>Overage Pricing:</strong> Charges applied when usage exceeds limits</li>
-                            <li>Automatic billing is generated when instances exceed these limits</li>
+                            <li><strong>Auto-Invoice:</strong> Uses subscription_package module automatic invoicing (cron-based)</li>
+                            <li><strong>Invoice on Overage:</strong> Creates invoice immediately when overage is detected in license snapshots</li>
                         </ul>
                     </div>
                 </page>
