@@ -23,12 +23,7 @@
                     </group>
 
                     <separator string="Select Groups to Apply"/>
-                    <field name="group_ids" widget="many2many_tags" options="{'color_field': 'color'}">
-                        <tree>
-                            <field name="name"/>
-                            <field name="category_id"/>
-                        </tree>
-                    </field>
+                    <field name="group_ids" widget="many2many_tags"/>
 
                     <div class="alert alert-warning mt-3" role="alert">
                         <strong>Warning!</strong>
