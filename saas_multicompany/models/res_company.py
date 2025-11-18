@@ -51,6 +51,14 @@ class ResCompany(models.Model):
         help='Active subscription package for this company'
     )
 
+    # Parent company (for access control)
+    parent_company_id = fields.Many2one(
+        'res.company',
+        string='Parent Company',
+        help='Parent company that this SaaS company can view (read-only access)',
+        ondelete='restrict'
+    )
+
     @api.depends('license_ids')
     def _compute_license_count(self):
         for company in self:

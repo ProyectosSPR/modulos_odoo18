@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="0">
-        <!-- Multi-Company Data Isolation Rules -->
+        <!-- ========================================= -->
+        <!-- Multi-Company Data Access Rules          -->
+        <!-- Modelo de Seguridad:                     -->
+        <!-- - Empresa propia: Acceso completo        -->
+        <!-- - Empresa padre: Solo lectura            -->
+        <!-- - Otras empresas: Sin acceso             -->
+        <!-- ========================================= -->
 
-        <!-- Rule: Users can only see data from their assigned companies -->
-        <record id="rule_multicompany_own_data" model="ir.rule">
-            <field name="name">Multi-Company: Own Company Data Only</field>
+        <!-- ================== PARTNERS ================== -->
+
+        <!-- READ: Users can see data from their own company + parent company (read-only) -->
+        <record id="rule_partner_read_multicompany" model="ir.rule">
+            <field name="name">Partner: Read Own and Parent Company</field>
             <field name="model_id" ref="base.model_res_partner"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', user.company_ids.ids)]</field>
-            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
-        </record>
-
-        <!-- Rule: Admins bypass restrictions -->
-        <record id="rule_admin_all_data" model="ir.rule">
-            <field name="name">Admin: All Data Access</field>
-            <field name="model_id" ref="base.model_res_partner"/>
-            <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('base.group_system'))]"/>
-        </record>
-
-        <!-- Rule: SaaS Companies - Own client only -->
-        <record id="rule_saas_company_own_client" model="ir.rule">
-            <field name="name">SaaS Company: Own Client Data</field>
-            <field name="model_id" ref="base.model_res_company"/>
             <field name="domain_force">[
-                '|',
-                    ('is_saas_company', '=', False),
-                    ('saas_client_id.partner_id.user_ids', 'in', [user.id])
+                '|', ('company_id', '=', False),
+                '|', ('company_id', '=', user.company_id.id),
+                     ('company_id', '=', user.company_id.parent_company_id.id)
             ]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -35,12 +27,163 @@
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <!-- Rule: SaaS Manager can see all SaaS companies -->
-        <record id="rule_saas_company_manager" model="ir.rule">
-            <field name="name">SaaS Manager: All SaaS Companies</field>
+        <!-- WRITE/CREATE/DELETE: Users can only modify data from their OWN company -->
+        <record id="rule_partner_write_own_company" model="ir.rule">
+            <field name="name">Partner: Write Only Own Company</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[
+                '|', ('company_id', '=', False),
+                     ('company_id', '=', user.company_id.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- ADMIN: Full access -->
+        <record id="rule_partner_admin_all" model="ir.rule">
+            <field name="name">Partner: Admin Full Access</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+        </record>
+
+        <!-- ================== COMPANIES ================== -->
+
+        <!-- READ: Users can see their own company + parent company -->
+        <record id="rule_company_read_multicompany" model="ir.rule">
+            <field name="name">Company: Read Own and Parent Company</field>
+            <field name="model_id" ref="base.model_res_company"/>
+            <field name="domain_force">[
+                '|', ('id', '=', user.company_id.id),
+                     ('id', '=', user.company_id.parent_company_id.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- WRITE: Users can only modify their own company (NOT delete it) -->
+        <record id="rule_company_write_own" model="ir.rule">
+            <field name="name">Company: Write Only Own Company</field>
+            <field name="model_id" ref="base.model_res_company"/>
+            <field name="domain_force">[('id', '=', user.company_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- ADMIN & SaaS Manager: Full access -->
+        <record id="rule_company_admin_all" model="ir.rule">
+            <field name="name">Company: Admin Full Access</field>
             <field name="model_id" ref="base.model_res_company"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('saas_management.group_saas_manager'))]"/>
+            <field name="groups" eval="[(4, ref('base.group_system')), (4, ref('saas_management.group_saas_manager'))]"/>
+        </record>
+
+        <!-- ================== PRODUCTS ================== -->
+
+        <!-- READ: Users can see products from their own company + parent company -->
+        <record id="rule_product_read_multicompany" model="ir.rule">
+            <field name="name">Product: Read Own and Parent Company</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="domain_force">[
+                '|', ('company_id', '=', False),
+                '|', ('company_id', '=', user.company_id.id),
+                     ('company_id', '=', user.company_id.parent_company_id.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- WRITE/CREATE/DELETE: Users can only modify products from their own company -->
+        <record id="rule_product_write_own_company" model="ir.rule">
+            <field name="name">Product: Write Only Own Company</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="domain_force">[
+                '|', ('company_id', '=', False),
+                     ('company_id', '=', user.company_id.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- ================== SALES ORDERS ================== -->
+
+        <!-- READ: Users can see sales orders from their own company + parent company -->
+        <record id="rule_sale_order_read_multicompany" model="ir.rule">
+            <field name="name">Sale Order: Read Own and Parent Company</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="domain_force">[
+                '|', ('company_id', '=', False),
+                '|', ('company_id', '=', user.company_id.id),
+                     ('company_id', '=', user.company_id.parent_company_id.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- WRITE/CREATE/DELETE: Users can only modify sales orders from their own company -->
+        <record id="rule_sale_order_write_own_company" model="ir.rule">
+            <field name="name">Sale Order: Write Only Own Company</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="domain_force">[
+                '|', ('company_id', '=', False),
+                     ('company_id', '=', user.company_id.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- ================== INVOICES ================== -->
+
+        <!-- READ: Users can see invoices from their own company + parent company -->
+        <record id="rule_invoice_read_multicompany" model="ir.rule">
+            <field name="name">Invoice: Read Own and Parent Company</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="domain_force">[
+                '|', ('company_id', '=', False),
+                '|', ('company_id', '=', user.company_id.id),
+                     ('company_id', '=', user.company_id.parent_company_id.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('account.group_account_invoice'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- WRITE/CREATE/DELETE: Users can only modify invoices from their own company -->
+        <record id="rule_invoice_write_own_company" model="ir.rule">
+            <field name="name">Invoice: Write Only Own Company</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="domain_force">[
+                '|', ('company_id', '=', False),
+                     ('company_id', '=', user.company_id.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('account.group_account_invoice'))]"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
         </record>
 
     </data>

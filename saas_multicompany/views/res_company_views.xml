@@ -47,6 +47,18 @@
                         </group>
                     </group>
 
+                    <group>
+                        <group string="Security &amp; Access Control">
+                            <field name="parent_company_id"
+                                   options="{'no_create': True}"
+                                   domain="[('id', '!=', id), ('is_saas_company', '=', False)]"/>
+                            <p class="text-muted" colspan="2">
+                                Users of this company can view (read-only) data from the parent company.
+                                Leave empty if you don't want users to see data from other companies.
+                            </p>
+                        </group>
+                    </group>
+
                     <group string="License Records" invisible="not license_ids">
                         <field name="license_ids" nolabel="1" readonly="1">
                             <list>
