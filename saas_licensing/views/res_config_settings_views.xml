@@ -5,7 +5,7 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('settings')]" position="inside">
+            <xpath expr="//form//div[@class='o_setting_container']" position="inside">
                 <div class="app_settings_block" data-string="SaaS Licensing" string="SaaS Licensing" data-key="saas_licensing">
                     <h2>Default Subscription Settings</h2>
                     <div class="row mt16 o_settings_container">
