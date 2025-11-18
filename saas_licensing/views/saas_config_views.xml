@@ -90,7 +90,7 @@
     <!-- Menu -->
     <menuitem id="menu_saas_licensing_config"
               name="Default Settings"
-              parent="saas_licensing_menu_root"
+              parent="menu_saas_licensing"
               action="action_saas_licensing_config"
               sequence="100"/>
 </odoo>
