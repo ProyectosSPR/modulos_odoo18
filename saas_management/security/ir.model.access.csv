@@ -5,3 +5,4 @@ access_saas_instance_manager,saas.instance.manager,model_saas_instance,group_saa
 access_saas_instance_user,saas.instance.user,model_saas_instance,group_saas_user,1,0,0,0
 access_saas_client_sales,saas.client.sales,model_saas_client,sales_team.group_sale_salesman,1,1,1,0
 access_saas_instance_sales,saas.instance.sales,model_saas_instance,sales_team.group_sale_salesman,1,1,1,0
+access_menu_security_wizard_system,menu.security.wizard.system,model_menu_security_wizard,base.group_system,1,1,1,1

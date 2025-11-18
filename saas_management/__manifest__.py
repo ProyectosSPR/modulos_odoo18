@@ -40,6 +40,9 @@
         'views/product_template_views.xml',
         'views/sale_order_views.xml',
         'views/saas_menus.xml',
+
+        # Wizards
+        'views/menu_security_wizard_views.xml',
     ],
     'installable': True,
     'application': True,

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Security Wizard Form -->
+    <record id="view_menu_security_wizard_form" model="ir.ui.view">
+        <field name="name">menu.security.wizard.form</field>
+        <field name="model">menu.security.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Configure Menu Security">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Menu Security Configuration</h1>
+                        <p class="text-muted">Add security groups to all Odoo menu items</p>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="menu_count" readonly="1"/>
+                            <field name="restricted_count" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="apply_to_existing"/>
+                        </group>
+                    </group>
+
+                    <separator string="Select Groups to Apply"/>
+                    <field name="group_ids" widget="many2many_tags" options="{'color_field': 'color'}">
+                        <tree>
+                            <field name="name"/>
+                            <field name="category_id"/>
+                        </tree>
+                    </field>
+
+                    <div class="alert alert-warning mt-3" role="alert">
+                        <strong>Warning!</strong>
+                        <p>This action will add the selected security groups to <strong>ALL</strong> menu items in the system.</p>
+                        <p>Users without these groups will not be able to see the menus.</p>
+                        <p class="mb-0">Make sure you understand the implications before proceeding.</p>
+                    </div>
+
+                    <group>
+                        <group>
+                            <div class="alert alert-info" role="alert">
+                                <strong>Tip:</strong>
+                                <p class="mb-0">By default, the "Settings" group (Administration/Settings) is selected. This means only users with settings access will see all menus.</p>
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_apply_security"
+                            string="Apply Security to All Menus"
+                            type="object"
+                            class="btn-primary"
+                            confirm="Are you sure you want to apply these security groups to ALL menu items? This action cannot be undone easily."/>
+                    <button name="action_apply_to_specific_group"
+                            string="Manual Selection"
+                            type="object"
+                            class="btn-secondary"/>
+                    <button name="action_remove_all_security"
+                            string="Remove All Security"
+                            type="object"
+                            class="btn-danger"
+                            confirm="WARNING: This will remove ALL group restrictions from ALL menus, making them visible to everyone. Are you absolutely sure?"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_menu_security_wizard" model="ir.actions.act_window">
+        <field name="name">Configure Menu Security</field>
+        <field name="res_model">menu.security.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Item under Configuration -->
+    <menuitem id="menu_menu_security_wizard"
+              name="Menu Security"
+              parent="menu_saas_configuration"
+              action="action_menu_security_wizard"
+              sequence="10"
+              groups="base.group_system"/>
+</odoo>
