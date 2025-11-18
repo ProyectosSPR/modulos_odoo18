@@ -36,13 +36,13 @@
         # Data
         'data/saas_license_data.xml',
 
-        # Views
+        # Views - Menus must be loaded first
+        'views/saas_licensing_menus.xml',
         'views/saas_license_views.xml',
         'views/saas_instance_views.xml',
         'views/subscription_package_views.xml',
         'views/saas_config_views.xml',
         'views/res_config_settings_views.xml',
-        'views/saas_licensing_menus.xml',
     ],
     'installable': True,
     'application': False,
