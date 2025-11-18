@@ -11,7 +11,15 @@
 
         <!-- ================== PARTNERS ================== -->
 
-        <!-- READ: Users can see data from their own company + parent company (read-only) -->
+        <!-- ADMIN & SaaS Manager: Full access (bypass all restrictions) -->
+        <record id="rule_partner_admin_all" model="ir.rule">
+            <field name="name">Partner: Admin Full Access</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_system')), (4, ref('saas_management.group_saas_manager'))]"/>
+        </record>
+
+        <!-- READ: Regular users can see data from their own company + parent company (read-only) -->
         <record id="rule_partner_read_multicompany" model="ir.rule">
             <field name="name">Partner: Read Own and Parent Company</field>
             <field name="model_id" ref="base.model_res_partner"/>
@@ -27,7 +35,7 @@
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <!-- WRITE/CREATE/DELETE: Users can only modify data from their OWN company -->
+        <!-- WRITE/CREATE/DELETE: Regular users can only modify data from their OWN company -->
         <record id="rule_partner_write_own_company" model="ir.rule">
             <field name="name">Partner: Write Only Own Company</field>
             <field name="model_id" ref="base.model_res_partner"/>
@@ -40,14 +48,6 @@
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="True"/>
-        </record>
-
-        <!-- ADMIN: Full access -->
-        <record id="rule_partner_admin_all" model="ir.rule">
-            <field name="name">Partner: Admin Full Access</field>
-            <field name="model_id" ref="base.model_res_partner"/>
-            <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('base.group_system'))]"/>
         </record>
 
         <!-- ================== COMPANIES ================== -->
@@ -89,6 +89,14 @@
 
         <!-- ================== PRODUCTS ================== -->
 
+        <!-- ADMIN & SaaS Manager: Full access -->
+        <record id="rule_product_admin_all" model="ir.rule">
+            <field name="name">Product: Admin Full Access</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_system')), (4, ref('saas_management.group_saas_manager'))]"/>
+        </record>
+
         <!-- READ: Users can see products from their own company + parent company -->
         <record id="rule_product_read_multicompany" model="ir.rule">
             <field name="name">Product: Read Own and Parent Company</field>
@@ -122,6 +130,14 @@
 
         <!-- ================== SALES ORDERS ================== -->
 
+        <!-- ADMIN & SaaS Manager: Full access -->
+        <record id="rule_sale_order_admin_all" model="ir.rule">
+            <field name="name">Sale Order: Admin Full Access</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_system')), (4, ref('saas_management.group_saas_manager'))]"/>
+        </record>
+
         <!-- READ: Users can see sales orders from their own company + parent company -->
         <record id="rule_sale_order_read_multicompany" model="ir.rule">
             <field name="name">Sale Order: Read Own and Parent Company</field>
@@ -154,6 +170,14 @@
         </record>
 
         <!-- ================== INVOICES ================== -->
+
+        <!-- ADMIN & SaaS Manager: Full access -->
+        <record id="rule_invoice_admin_all" model="ir.rule">
+            <field name="name">Invoice: Admin Full Access</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_system')), (4, ref('saas_management.group_saas_manager'))]"/>
+        </record>
 
         <!-- READ: Users can see invoices from their own company + parent company -->
         <record id="rule_invoice_read_multicompany" model="ir.rule">

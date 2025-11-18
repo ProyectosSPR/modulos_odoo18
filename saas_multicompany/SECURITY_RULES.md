@@ -152,17 +152,52 @@ Las reglas se aplican a los siguientes modelos:
 - Reglas: `rule_invoice_read_multicompany` + `rule_invoice_write_own_company`
 - **Grupos**: Solo usuarios con permisos de facturación (`account.group_account_invoice`)
 
-## Excepciones
+## Excepciones - Usuarios con Acceso Completo
 
-### Administradores del Sistema
-Los usuarios con el grupo `base.group_system` (Administración / Ajustes) tienen **acceso completo** a todos los datos de todas las empresas:
+### ⚠️ IMPORTANTE: Las reglas restrictivas NO aplican a:
+
+#### 1. Administradores del Sistema
+Los usuarios con el grupo `base.group_system` (Administración → Ajustes) tienen **acceso completo** a todos los datos de todas las empresas:
 
 ```xml
 <field name="domain_force">[(1, '=', 1)]</field>
 ```
 
-### SaaS Managers
-Los usuarios con el grupo `saas_management.group_saas_manager` también tienen **acceso completo** a las empresas.
+**¿Qué significa esto?**
+- ✅ Ven TODAS las empresas y TODOS los datos
+- ✅ Pueden editar, crear y eliminar en cualquier empresa
+- ✅ No están limitados por `parent_company_id`
+- ✅ Bypass completo de las reglas de seguridad multi-empresa
+
+#### 2. SaaS Managers
+Los usuarios con el grupo `saas_management.group_saas_manager` también tienen **acceso completo** a todas las empresas SaaS.
+
+**¿Quiénes son SaaS Managers?**
+- Usuarios que gestionan clientes SaaS
+- Típicamente personal interno de la empresa principal
+- Tienen permisos especiales para administrar todas las empresas SaaS
+
+### 📋 Resumen de Permisos por Grupo
+
+| Grupo de Usuario | Empresa Propia | Empresa Padre | Otras Empresas SaaS |
+|-----------------|----------------|---------------|---------------------|
+| **Usuario Normal** | ✅ Acceso completo | 👁️ Solo lectura | ❌ Sin acceso |
+| **SaaS Manager** | ✅ Acceso completo | ✅ Acceso completo | ✅ Acceso completo |
+| **Administrador** | ✅ Acceso completo | ✅ Acceso completo | ✅ Acceso completo |
+
+### ⚙️ Configuración de Grupos
+
+Para otorgar acceso completo a un usuario:
+
+1. **Hacer Administrador**:
+   - Ve a: Ajustes → Usuarios → [Usuario]
+   - Pestaña "Derechos de Acceso"
+   - Marcar: "Administración → Ajustes" (`base.group_system`)
+
+2. **Hacer SaaS Manager**:
+   - Ve a: Ajustes → Usuarios → [Usuario]
+   - Pestaña "Derechos de Acceso"
+   - Marcar: "SaaS Management → Manager" (`saas_management.group_saas_manager`)
 
 ## Registros sin Empresa (`company_id = False`)
 
