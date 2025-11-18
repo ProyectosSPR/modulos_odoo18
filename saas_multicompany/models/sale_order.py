@@ -90,6 +90,9 @@ class SaleOrder(models.Model):
 
         _logger.info(f"SaaS Company created: {company.name} for client {saas_client.name}")
 
+        # Assign company to all administrators
+        self._assign_company_to_admins(company)
+
         # Build message
         message = _('🏢 Company created: <b>%s</b><br/>') % company.name
         message += _('ℹ️ Assign a subscription package to the company to enable license tracking')
@@ -108,23 +111,33 @@ class SaleOrder(models.Model):
         ], limit=1)
 
         if not user:
-            # Create user
+            # Create user - ONLY assign the new company, NOT the main company (id=1)
             user = self.env['res.users'].sudo().create({
                 'name': self.partner_id.name,
                 'login': self.partner_id.email,
                 'email': self.partner_id.email,
                 'partner_id': self.partner_id.id,
                 'company_id': company.id,
-                'company_ids': [(6, 0, [company.id])],
+                'company_ids': [(6, 0, [company.id])],  # Only new company, not main company
             })
             _logger.info(f"User created: {user.name} for company {company.name}")
             self.message_post(
                 body=_('✅ User created: <b>%s</b>') % user.name
             )
         else:
-            # Add company to existing user
+            # Remove main company (id=1) if present and add only the new company
+            current_companies = user.company_ids.ids
+
+            # Remove main company (id=1) from the list
+            if 1 in current_companies:
+                current_companies.remove(1)
+
+            # Add the new company
+            if company.id not in current_companies:
+                current_companies.append(company.id)
+
             user.sudo().write({
-                'company_ids': [(4, company.id)],
+                'company_ids': [(6, 0, current_companies)],
             })
 
             # If restrict_to_company, set as default
@@ -150,6 +163,44 @@ class SaleOrder(models.Model):
         self.message_post(body=message)
 
         return user
+
+    def _assign_company_to_admins(self, company):
+        """Assign newly created company to all administrator users"""
+        self.ensure_one()
+
+        # Get all users with Administrator / Settings group
+        admin_group = self.env.ref('base.group_system', raise_if_not_found=False)
+
+        if admin_group:
+            admin_users = self.env['res.users'].sudo().search([
+                ('groups_id', 'in', [admin_group.id]),
+                ('active', '=', True),
+            ])
+
+            assigned_count = 0
+            for admin in admin_users:
+                # Add company to admin's company_ids if not already present
+                if company.id not in admin.company_ids.ids:
+                    admin.write({
+                        'company_ids': [(4, company.id)],
+                    })
+                    assigned_count += 1
+                    _logger.info(f"Company {company.name} assigned to admin {admin.name}")
+
+            if assigned_count > 0:
+                self.message_post(
+                    body=_('✅ Company assigned to <b>%s</b> administrator(s)') % assigned_count
+                )
+
+    def _apply_groups_to_user(self, user, groups):
+        """Apply security groups to user"""
+        self.ensure_one()
+
+        if groups:
+            user.sudo().write({
+                'groups_id': [(4, group.id) for group in groups],
+            })
+            _logger.info(f"Groups applied to user {user.name}: {groups.mapped('name')}")
 
     def _get_or_create_saas_client(self):
         """Get existing or create new SaaS client (reuse from saas_management)"""
