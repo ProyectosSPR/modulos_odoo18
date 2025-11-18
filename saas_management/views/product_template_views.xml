@@ -12,6 +12,8 @@
                         <group>
                             <field name="is_saas_instance"/>
                             <field name="auto_create_instance" invisible="not is_saas_instance"/>
+                            <field name="subscription_package_id" invisible="not is_saas_instance"
+                                   options="{'no_create': True, 'no_open': True}"/>
                         </group>
                         <group>
                             <field name="trial_days" invisible="not is_saas_instance"/>
@@ -23,6 +25,7 @@
                         <ul>
                             <li><strong>Auto-Create Instance:</strong> When enabled, a new SaaS instance will be created automatically when this product is sold</li>
                             <li><strong>Trial Days:</strong> Number of days for the trial period (default: 7 days)</li>
+                            <li><strong>Subscription Package:</strong> The subscription plan to assign to the created instance (defines limits and overage pricing)</li>
                             <li>The instance will be created with a unique subdomain based on the client name</li>
                         </ul>
                     </div>

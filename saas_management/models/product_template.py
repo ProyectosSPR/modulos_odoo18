@@ -24,3 +24,9 @@ class ProductTemplate(models.Model):
         default=7,
         help='Number of trial days for new instances'
     )
+
+    subscription_package_id = fields.Many2one(
+        'subscription.package',
+        string='Subscription Package',
+        help='Subscription package to assign to the created instance'
+    )

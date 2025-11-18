@@ -83,12 +83,20 @@ class SaleOrder(models.Model):
                 # Create instance
                 instance = self._create_saas_instance(saas_client, product)
 
-                self.message_post(
-                    body=_('🖥️ SaaS Instance created: <b>%s</b> (%s)') % (
-                        instance.name,
-                        instance.full_url
-                    )
+                # Build message
+                message = _('🖥️ SaaS Instance created: <b>%s</b> (%s)') % (
+                    instance.name,
+                    instance.full_url
                 )
+
+                # Add subscription info if linked
+                if instance.subscription_id:
+                    message += _('<br/>📋 Subscription Plan: <b>%s</b>') % instance.subscription_id.name
+                    message += _('<br/>   • Max Users: %s') % instance.subscription_id.max_users
+                    message += _('<br/>   • Max Companies: %s') % instance.subscription_id.max_companies
+                    message += _('<br/>   • Max Storage: %s GB') % instance.subscription_id.max_storage_gb
+
+                self.message_post(body=message)
 
     def _create_saas_instance(self, saas_client, product):
         """Create a SaaS instance"""
@@ -103,13 +111,20 @@ class SaleOrder(models.Model):
             subdomain = f"{base_subdomain}-{counter}"
             counter += 1
 
-        # Create instance
-        instance = self.env['saas.instance'].create({
+        # Prepare instance values
+        instance_vals = {
             'name': f"{saas_client.name} - {product.name}",
             'subdomain': subdomain,
             'client_id': saas_client.id,
             'state': 'trial',
             'trial_end_date': fields.Date.today() + fields.timedelta(days=product.trial_days or 7),
-        })
+        }
+
+        # Link subscription package if configured
+        if product.subscription_package_id:
+            instance_vals['subscription_id'] = product.subscription_package_id.id
+
+        # Create instance
+        instance = self.env['saas.instance'].create(instance_vals)
 
         return instance

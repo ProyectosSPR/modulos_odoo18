@@ -125,6 +125,48 @@ class SaleOrder(models.Model):
         # Get current groups
         existing_groups = user.groups_id
 
+        # Check if we need to convert Portal user to Internal user
+        portal_group = self.env.ref('base.group_portal')
+        public_group = self.env.ref('base.group_public')
+        internal_group = self.env.ref('base.group_user')
+
+        is_portal = portal_group in existing_groups
+        is_public = public_group in existing_groups
+
+        # Check if any group to assign requires internal user
+        # Groups that are NOT portal or public typically require internal access
+        needs_internal = False
+        portal_category = self.env.ref('base.module_category_portal', raise_if_not_found=False)
+
+        for group in groups_to_assign:
+            # Skip portal and public groups
+            if group in [portal_group, public_group]:
+                continue
+
+            # Check if this group implies internal user
+            if internal_group in group.implied_ids or group == internal_group:
+                needs_internal = True
+                break
+
+            # If group is NOT in portal category, it likely requires internal access
+            # Most functional groups require internal user access
+            if group.category_id and group.category_id != portal_category:
+                needs_internal = True
+                break
+
+        # If user is Portal/Public but needs Internal groups, convert to Internal
+        if (is_portal or is_public) and needs_internal:
+            # Remove portal and public groups
+            existing_groups = existing_groups - portal_group - public_group
+
+            # Ensure internal user group is included
+            if internal_group not in groups_to_assign:
+                groups_to_assign = groups_to_assign | internal_group
+
+            self.message_post(
+                body=_('ℹ️ User %s converted from Portal/Public to Internal User to receive internal permissions') % user.name
+            )
+
         # Combine existing + new groups (set union to avoid duplicates)
         all_groups = existing_groups | groups_to_assign
 

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'SaaS Management',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.1.0',
     'category': 'Services/SaaS',
-    'summary': 'Manage SaaS clients and Odoo instances',
+    'summary': 'Manage SaaS clients and Odoo instances with automatic subscription linking',
     'description': """
         SaaS Management - Client and Instance Management
         ==================================================
