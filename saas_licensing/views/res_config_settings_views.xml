@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.saas.licensing</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="SaaS Licensing" string="SaaS Licensing" data-key="saas_licensing">
+                    <h2>Default Subscription Settings</h2>
+                    <div class="row mt16 o_settings_container">
+                        <!-- Pricing Model -->
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="default_pricing_model" string="Default Pricing Model"/>
+                                <div class="text-muted">
+                                    Model de pricing por defecto para nuevas suscripciones
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="default_pricing_model" class="o_light_label" widget="radio"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Base Pricing -->
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="default_base_monthly_price" string="Default Base Price"/>
+                                <div class="text-muted">
+                                    Precio base mensual por defecto
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="default_base_monthly_price" class="oe_inline" widget="monetary"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Default User Pricing</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="default_included_users" string="Default Included Users"/>
+                                <div class="text-muted">
+                                    Usuarios incluidos por defecto (para modelo base + included)
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="default_included_users" class="oe_inline"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="default_price_per_user" string="Default Price per User"/>
+                                <div class="text-muted">
+                                    Precio por usuario por defecto
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="default_price_per_user" class="oe_inline" widget="monetary"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Default Usage Limits</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="default_max_users" string="Default Max Users"/>
+                                <div class="text-muted">
+                                    Máximo de usuarios permitidos (0 = ilimitado)
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="default_max_users" class="oe_inline"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="default_max_companies" string="Default Max Companies"/>
+                                <div class="text-muted">
+                                    Máximo de empresas permitidas
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="default_max_companies" class="oe_inline"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="default_max_storage_gb" string="Default Max Storage (GB)"/>
+                                <div class="text-muted">
+                                    Almacenamiento máximo por defecto
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="default_max_storage_gb" class="oe_inline"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Default Overage Pricing</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="default_price_per_company" string="Default Price per Company"/>
+                                <div class="text-muted">
+                                    Precio por empresa adicional
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="default_price_per_company" class="oe_inline" widget="monetary"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="default_price_per_gb" string="Default Price per GB"/>
+                                <div class="text-muted">
+                                    Precio por GB adicional
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="default_price_per_gb" class="oe_inline" widget="monetary"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Default Billing Configuration</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="default_auto_invoice"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="default_auto_invoice"/>
+                                <div class="text-muted">
+                                    Activar facturación automática por defecto (usa cron de subscription_package)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="default_invoice_on_overage"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="default_invoice_on_overage"/>
+                                <div class="text-muted">
+                                    Facturar automáticamente al detectar overages
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

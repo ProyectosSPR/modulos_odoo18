@@ -6,6 +6,50 @@ from odoo import models, fields, api
 class SubscriptionPackage(models.Model):
     _inherit = 'subscription.package'
 
+    def _get_default_pricing_model(self):
+        return self.env['ir.config_parameter'].sudo().get_param(
+            'saas_licensing.default_pricing_model', 'overage_only')
+
+    def _get_default_base_monthly_price(self):
+        return float(self.env['ir.config_parameter'].sudo().get_param(
+            'saas_licensing.default_base_monthly_price', '0.0'))
+
+    def _get_default_included_users(self):
+        return int(self.env['ir.config_parameter'].sudo().get_param(
+            'saas_licensing.default_included_users', '5'))
+
+    def _get_default_price_per_user(self):
+        return float(self.env['ir.config_parameter'].sudo().get_param(
+            'saas_licensing.default_price_per_user', '50.0'))
+
+    def _get_default_max_users(self):
+        return int(self.env['ir.config_parameter'].sudo().get_param(
+            'saas_licensing.default_max_users', '0'))
+
+    def _get_default_max_companies(self):
+        return int(self.env['ir.config_parameter'].sudo().get_param(
+            'saas_licensing.default_max_companies', '1'))
+
+    def _get_default_max_storage_gb(self):
+        return float(self.env['ir.config_parameter'].sudo().get_param(
+            'saas_licensing.default_max_storage_gb', '10.0'))
+
+    def _get_default_price_per_company(self):
+        return float(self.env['ir.config_parameter'].sudo().get_param(
+            'saas_licensing.default_price_per_company', '200.0'))
+
+    def _get_default_price_per_gb(self):
+        return float(self.env['ir.config_parameter'].sudo().get_param(
+            'saas_licensing.default_price_per_gb', '10.0'))
+
+    def _get_default_auto_invoice(self):
+        return self.env['ir.config_parameter'].sudo().get_param(
+            'saas_licensing.default_auto_invoice', 'False') == 'True'
+
+    def _get_default_invoice_on_overage(self):
+        return self.env['ir.config_parameter'].sudo().get_param(
+            'saas_licensing.default_invoice_on_overage', 'True') == 'True'
+
     # ===== PRICING MODEL =====
     pricing_model = fields.Selection([
         ('overage_only', 'Overage Only - Only charge overages'),
@@ -13,7 +57,7 @@ class SubscriptionPackage(models.Model):
         ('per_user', 'Per User - Charge for every user'),
         ('base_per_user', 'Base + Per User - Hybrid model'),
     ], string='Pricing Model',
-       default='overage_only',
+       default=_get_default_pricing_model,
        required=True,
        help="""Choose your pricing model:
        • Overage Only: Only charge when limits are exceeded
@@ -24,62 +68,62 @@ class SubscriptionPackage(models.Model):
     # ===== BASE PRICING =====
     base_monthly_price = fields.Float(
         string='Base Monthly Price',
-        default=0.0,
+        default=_get_default_base_monthly_price,
         help='Fixed monthly price for the subscription (company cost)'
     )
 
     # ===== USER PRICING =====
     included_users = fields.Integer(
         string='Included Users',
-        default=5,
+        default=_get_default_included_users,
         help='Number of users included in the base price (only for base_included_overage model)'
     )
 
     price_per_user = fields.Float(
         string='Price per User',
-        default=50.0,
+        default=_get_default_price_per_user,
         help='Price per user (varies by model: overage only / all users / additional users)'
     )
 
     # ===== LIMITS (Max allowed) =====
     max_users = fields.Integer(
         string='Max Users Allowed',
-        default=0,
+        default=_get_default_max_users,
         help='Maximum number of users allowed (0 = unlimited, just for alerts)'
     )
     max_companies = fields.Integer(
         string='Max Companies',
-        default=1,
+        default=_get_default_max_companies,
         help='Maximum number of companies included in the plan (0 = unlimited)'
     )
     max_storage_gb = fields.Float(
         string='Max Storage (GB)',
-        default=10.0,
+        default=_get_default_max_storage_gb,
         help='Maximum storage in GB included in the plan (0 = unlimited)'
     )
 
     # ===== OVERAGE PRICING =====
     price_per_company = fields.Float(
         string='Price per Additional Company',
-        default=200.0,
+        default=_get_default_price_per_company,
         help='Price charged per company beyond the plan limit'
     )
     price_per_gb = fields.Float(
         string='Price per Additional GB',
-        default=10.0,
+        default=_get_default_price_per_gb,
         help='Price charged per GB beyond the plan storage limit'
     )
 
     # ===== BILLING CONFIGURATION =====
     auto_invoice = fields.Boolean(
         string='Auto-Invoice',
-        default=False,
+        default=_get_default_auto_invoice,
         help='Automatically create invoices for usage (uses subscription_package cron if enabled)'
     )
 
     invoice_on_overage = fields.Boolean(
         string='Invoice on Overage Detection',
-        default=True,
+        default=_get_default_invoice_on_overage,
         help='Create invoice automatically when overage is detected'
     )
 

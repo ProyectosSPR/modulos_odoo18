@@ -17,8 +17,6 @@
                         <group>
                             <field name="company_template_id" invisible="not auto_create_company"
                                    options="{'no_create': True}"/>
-                            <field name="multicompany_subscription_id" invisible="not auto_create_company"
-                                   options="{'no_create': True}"/>
                         </group>
                     </group>
 
@@ -28,7 +26,7 @@
                             <li><strong>Auto-Create Company:</strong> Creates a dedicated company for the client when sold</li>
                             <li><strong>Restrict to Company:</strong> User can only access data from their company (recommended)</li>
                             <li><strong>Company Template:</strong> Optional template to copy settings from</li>
-                            <li><strong>Subscription:</strong> License plan for usage tracking and billing</li>
+                            <li>ℹ️ <strong>Subscription:</strong> Assign a subscription package to the company after creation for license tracking</li>
                         </ul>
                     </div>
 

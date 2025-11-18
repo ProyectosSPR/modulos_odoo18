@@ -32,12 +32,6 @@ class ProductTemplate(models.Model):
         help='User can only access data from their assigned company'
     )
 
-    multicompany_subscription_id = fields.Many2one(
-        'subscription.package',
-        string='Multi-Company Subscription',
-        help='Subscription package for multi-company licensing (separate from SaaS instance licensing)'
-    )
-
     @api.onchange('is_module_access')
     def _onchange_is_module_access(self):
         """Reset fields when toggling module access"""
@@ -45,4 +39,3 @@ class ProductTemplate(models.Model):
             self.auto_create_company = False
             self.company_template_id = False
             self.restrict_to_company = True
-            self.multicompany_subscription_id = False

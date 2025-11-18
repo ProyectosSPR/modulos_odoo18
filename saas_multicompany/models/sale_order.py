@@ -51,10 +51,6 @@ class SaleOrder(models.Model):
                 # Assign user to company
                 user = self._assign_user_to_company(company, product)
 
-                # Create license tracking
-                if product.multicompany_subscription_id:
-                    self._create_company_license(company, product)
-
     def _create_saas_company(self, saas_client, product):
         """Create a company for the SaaS client"""
         self.ensure_one()
@@ -74,7 +70,7 @@ class SaleOrder(models.Model):
             'partner_id': self.partner_id.id,
             'saas_client_id': saas_client.id,
             'is_saas_company': True,
-            'subscription_id': product.multicompany_subscription_id.id if product.multicompany_subscription_id else False,
+            # Note: subscription_id can be assigned later manually in the company
         }
 
         # Copy from template if provided
@@ -95,13 +91,8 @@ class SaleOrder(models.Model):
         _logger.info(f"SaaS Company created: {company.name} for client {saas_client.name}")
 
         # Build message
-        message = _('🏢 Company created: <b>%s</b>') % company.name
-
-        if product.multicompany_subscription_id:
-            message += _('<br/>📋 Subscription: <b>%s</b>') % product.multicompany_subscription_id.name
-            message += _('<br/>   • Max Users: %s') % product.multicompany_subscription_id.max_users
-            message += _('<br/>   • Max Companies: 1 (this company)')
-            message += _('<br/>   • Max Storage: %s GB') % product.multicompany_subscription_id.max_storage_gb
+        message = _('🏢 Company created: <b>%s</b><br/>') % company.name
+        message += _('ℹ️ Assign a subscription package to the company to enable license tracking')
 
         self.message_post(body=message)
 
@@ -159,43 +150,6 @@ class SaleOrder(models.Model):
         self.message_post(body=message)
 
         return user
-
-    def _create_company_license(self, company, product):
-        """Create initial license record for the company"""
-        self.ensure_one()
-
-        if not product.multicompany_subscription_id:
-            return False
-
-        # Count current users in this company
-        user_count = self.env['res.users'].search_count([
-            ('company_ids', 'in', [company.id]),
-            ('active', '=', True),
-            ('share', '=', False),  # Only internal users
-        ])
-
-        # Create license record
-        license_vals = {
-            'company_id': company.id,
-            'client_id': company.saas_client_id.id,
-            'subscription_id': product.multicompany_subscription_id.id,
-            'date': fields.Date.today(),
-            'user_count': user_count,
-            'company_count': 1,
-            'storage_gb': 0.0,  # Initial
-        }
-
-        license = self.env['saas.license'].create(license_vals)
-
-        _logger.info(f"License tracking started for company {company.name}")
-
-        message = _('📋 License tracking started')
-        if license.is_billable:
-            message += _('<br/>⚠️ Usage already exceeds limits!')
-
-        self.message_post(body=message)
-
-        return license
 
     def _get_or_create_saas_client(self):
         """Get existing or create new SaaS client (reuse from saas_management)"""

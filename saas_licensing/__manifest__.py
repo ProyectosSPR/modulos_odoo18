@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'SaaS Licensing & Billing',
-    'version': '18.0.1.0.0',
+    'version': '18.0.2.0.0',
     'category': 'Services/SaaS',
     'summary': 'License tracking and billing based on users and companies',
     'description': """
@@ -40,6 +40,7 @@
         'views/saas_license_views.xml',
         'views/saas_instance_views.xml',
         'views/subscription_package_views.xml',
+        'views/res_config_settings_views.xml',
         'views/saas_licensing_menus.xml',
     ],
     'installable': True,
