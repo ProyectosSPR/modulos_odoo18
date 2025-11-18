@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Demo Template Company -->
+        <record id="demo_company_template" model="res.company">
+            <field name="name">SaaS Template Company</field>
+            <field name="is_saas_template" eval="True"/>
+            <field name="currency_id" ref="base.USD"/>
+            <field name="country_id" ref="base.us"/>
+        </record>
+
+        <!-- Demo Subscription Package for Multi-Company -->
+        <!-- Note: Only created if subscription_package module is installed -->
+        <record id="demo_subscription_basic" model="subscription.package">
+            <field name="name">Multi-Company Plan - Basic</field>
+            <field name="description">Basic plan for multi-company SaaS with 5 users and 10GB storage</field>
+            <field name="max_users">5</field>
+            <field name="max_companies">1</field>
+            <field name="max_storage_gb">10.0</field>
+            <field name="price_per_user">50.0</field>
+            <field name="price_per_company">200.0</field>
+            <field name="price_per_gb">10.0</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="demo_subscription_pro" model="subscription.package">
+            <field name="name">Multi-Company Plan - Professional</field>
+            <field name="description">Professional plan for multi-company SaaS with 20 users and 50GB storage</field>
+            <field name="max_users">20</field>
+            <field name="max_companies">3</field>
+            <field name="max_storage_gb">50.0</field>
+            <field name="price_per_user">40.0</field>
+            <field name="price_per_company">150.0</field>
+            <field name="price_per_gb">8.0</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Demo Product: Module Access - Inventory -->
+        <record id="demo_product_inventory_access" model="product.template">
+            <field name="name">Module Access - Inventory Management</field>
+            <field name="type">service</field>
+            <field name="list_price">99.0</field>
+            <field name="description">Access to Inventory Management module with dedicated company and data isolation</field>
+
+            <!-- Multi-Company Configuration -->
+            <field name="is_module_access" eval="True"/>
+            <field name="auto_create_company" eval="True"/>
+            <field name="restrict_to_company" eval="True"/>
+            <field name="company_template_id" ref="demo_company_template"/>
+            <field name="multicompany_subscription_id" ref="demo_subscription_basic"/>
+
+            <!-- Permissions Configuration (from product_permissions module) -->
+            <field name="assign_permissions" eval="True"/>
+            <field name="permission_group_ids" eval="[(4, ref('stock.group_stock_manager'))]"/>
+        </record>
+
+        <!-- Demo Product: Module Access - Sales -->
+        <record id="demo_product_sales_access" model="product.template">
+            <field name="name">Module Access - Sales Management</field>
+            <field name="type">service</field>
+            <field name="list_price">149.0</field>
+            <field name="description">Access to Sales Management module with dedicated company and data isolation</field>
+
+            <!-- Multi-Company Configuration -->
+            <field name="is_module_access" eval="True"/>
+            <field name="auto_create_company" eval="True"/>
+            <field name="restrict_to_company" eval="True"/>
+            <field name="company_template_id" ref="demo_company_template"/>
+            <field name="multicompany_subscription_id" ref="demo_subscription_pro"/>
+
+            <!-- Permissions Configuration (from product_permissions module) -->
+            <field name="assign_permissions" eval="True"/>
+            <field name="permission_group_ids" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+        </record>
+
+    </data>
+</odoo>

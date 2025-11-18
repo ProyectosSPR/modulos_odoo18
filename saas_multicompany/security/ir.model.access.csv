@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_company_saas_manager,res.company.saas.manager,base.model_res_company,saas_management.group_saas_manager,1,1,1,1
+access_res_company_saas_user,res.company.saas.user,base.model_res_company,saas_management.group_saas_user,1,0,0,0

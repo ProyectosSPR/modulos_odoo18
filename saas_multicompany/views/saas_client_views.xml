@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- SaaS Client Form - Add Companies -->
+    <record id="view_saas_client_multicompany_form" model="ir.ui.view">
+        <field name="name">saas.client.multicompany.form</field>
+        <field name="model">saas.client</field>
+        <field name="inherit_id" ref="saas_management.view_saas_client_form"/>
+        <field name="arch" type="xml">
+            <!-- Add companies stat button -->
+            <xpath expr="//button[@name='action_view_instances']" position="after">
+                <button name="action_view_companies" type="object"
+                        class="oe_stat_button" icon="fa-building">
+                    <field name="company_count" widget="statinfo" string="Companies"/>
+                </button>
+            </xpath>
+
+            <!-- Add companies tab -->
+            <xpath expr="//page[@name='instances']" position="after">
+                <page string="Local Companies" name="companies">
+                    <field name="company_ids" nolabel="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="subscription_id"/>
+                            <field name="user_count"/>
+                            <field name="license_count"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

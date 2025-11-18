@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add Companies menu under SaaS Management -->
+    <menuitem id="menu_saas_companies"
+              name="Companies"
+              parent="saas_management.menu_saas_root"
+              sequence="15"/>
+
+    <menuitem id="menu_saas_companies_list"
+              name="SaaS Companies"
+              parent="menu_saas_companies"
+              action="action_saas_companies"
+              sequence="10"/>
+</odoo>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Company Form - SaaS Info -->
+    <record id="view_company_saas_form" model="ir.ui.view">
+        <field name="name">res.company.saas.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <!-- Add stat buttons -->
+            <xpath expr="//sheet" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_view_licenses" type="object"
+                            class="oe_stat_button" icon="fa-file-text-o"
+                            invisible="not is_saas_company">
+                        <field name="license_count" widget="statinfo" string="Licenses"/>
+                    </button>
+                    <button name="action_view_users" type="object"
+                            class="oe_stat_button" icon="fa-users"
+                            invisible="not is_saas_company">
+                        <field name="user_count" widget="statinfo" string="Users"/>
+                    </button>
+                </div>
+            </xpath>
+
+            <!-- Add SaaS banner -->
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-info" role="alert" invisible="not is_saas_company">
+                    <strong>🏢 SaaS Multi-Company</strong>
+                    <p>This company belongs to SaaS client: <field name="saas_client_id" readonly="1" options="{'no_open': True}"/></p>
+                    <p invisible="not subscription_id">Subscription: <field name="subscription_id" readonly="1" options="{'no_open': True}"/></p>
+                </div>
+            </xpath>
+
+            <!-- Add SaaS tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="SaaS Information" name="saas_info" invisible="not is_saas_company">
+                    <group>
+                        <group string="Client Information">
+                            <field name="saas_client_id" options="{'no_create': True}"/>
+                            <field name="is_saas_company"/>
+                            <field name="is_saas_template"/>
+                        </group>
+                        <group string="Licensing">
+                            <field name="subscription_id" options="{'no_create': True}"/>
+                            <field name="user_count" readonly="1"/>
+                            <field name="license_count" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="License Records" invisible="not license_ids">
+                        <field name="license_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="date"/>
+                                <field name="user_count"/>
+                                <field name="storage_gb"/>
+                                <field name="is_billable" widget="boolean_toggle"/>
+                                <field name="overage_amount" widget="monetary"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Company List - Add SaaS filter -->
+    <record id="view_company_list_saas" model="ir.ui.view">
+        <field name="name">res.company.list.saas</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="is_saas_company" optional="show"/>
+                <field name="saas_client_id" optional="show"/>
+                <field name="user_count" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Company Search - Add filters -->
+    <record id="view_company_search_saas" model="ir.ui.view">
+        <field name="name">res.company.search.saas</field>
+        <field name="model">res.company</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="SaaS Companies" name="saas_companies"
+                        domain="[('is_saas_company', '=', True)]"/>
+                <filter string="Template Companies" name="template_companies"
+                        domain="[('is_saas_template', '=', True)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="SaaS Client" name="group_client"
+                            context="{'group_by': 'saas_client_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action for SaaS Companies -->
+    <record id="action_saas_companies" model="ir.actions.act_window">
+        <field name="name">SaaS Companies</field>
+        <field name="res_model">res.company</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_saas_companies': 1}</field>
+    </record>
+</odoo>

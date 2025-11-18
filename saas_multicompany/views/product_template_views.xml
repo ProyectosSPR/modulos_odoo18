@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product Template Form - Multi-Company Configuration -->
+    <record id="view_product_template_multicompany_form" model="ir.ui.view">
+        <field name="name">product.template.multicompany.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Multi-Company" name="multicompany_config" invisible="is_saas_instance">
+                    <group>
+                        <group>
+                            <field name="is_module_access"/>
+                            <field name="auto_create_company" invisible="not is_module_access"/>
+                            <field name="restrict_to_company" invisible="not auto_create_company"/>
+                        </group>
+                        <group>
+                            <field name="company_template_id" invisible="not auto_create_company"
+                                   options="{'no_create': True}"/>
+                            <field name="multicompany_subscription_id" invisible="not auto_create_company"
+                                   options="{'no_create': True}"/>
+                        </group>
+                    </group>
+
+                    <div class="alert alert-info" role="alert" invisible="not is_module_access">
+                        <p><strong>Multi-Company Module Access</strong></p>
+                        <ul>
+                            <li><strong>Auto-Create Company:</strong> Creates a dedicated company for the client when sold</li>
+                            <li><strong>Restrict to Company:</strong> User can only access data from their company (recommended)</li>
+                            <li><strong>Company Template:</strong> Optional template to copy settings from</li>
+                            <li><strong>Subscription:</strong> License plan for usage tracking and billing</li>
+                        </ul>
+                    </div>
+
+                    <div class="alert alert-warning" role="alert" invisible="not is_module_access or not is_saas_instance">
+                        <p><strong>Warning:</strong> Product cannot be both "Multi-Company" and "SaaS Instance"</p>
+                        <p>Choose one model:
+                            <ul>
+                                <li><strong>Multi-Company:</strong> Shared server, isolated by company</li>
+                                <li><strong>SaaS Instance:</strong> Dedicated server/instance</li>
+                            </ul>
+                        </p>
+                    </div>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>
