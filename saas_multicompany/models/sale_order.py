@@ -198,10 +198,28 @@ class SaleOrder(models.Model):
         self.ensure_one()
 
         if groups:
-            user.sudo().write({
-                'groups_id': [(4, group.id) for group in groups],
-            })
-            _logger.info(f"Groups applied to user {user.name}: {groups.mapped('name')}")
+            # Remove portal group to convert user from Portal to Internal User
+            portal_group = self.env.ref('base.group_portal', raise_if_not_found=False)
+            public_group = self.env.ref('base.group_public', raise_if_not_found=False)
+
+            groups_to_remove = []
+            if portal_group and portal_group in user.groups_id:
+                groups_to_remove.append((3, portal_group.id))
+            if public_group and public_group in user.groups_id:
+                groups_to_remove.append((3, public_group.id))
+
+            # Add internal user group explicitly
+            internal_user_group = self.env.ref('base.group_user', raise_if_not_found=False)
+
+            # Prepare write operations: remove portal/public, add internal + requested groups
+            write_vals = {
+                'groups_id': groups_to_remove +
+                             ([(4, internal_user_group.id)] if internal_user_group else []) +
+                             [(4, group.id) for group in groups],
+            }
+
+            user.sudo().write(write_vals)
+            _logger.info(f"User {user.name} converted to Internal User. Groups applied: {groups.mapped('name')}")
 
     def _get_or_create_saas_client(self):
         """Get existing or create new SaaS client (reuse from saas_management)"""
