@@ -31,7 +31,7 @@ msgstr "%d elementos del menú ahora no tienen restricciones de grupo (visibles 
 #. odoo-python
 #: code:addons/saas_management/models/sale_order.py:0
 msgid "<br/>   • Max Companies: %s"
-msgstr "<br/>   • Máx Compañías: %s"
+msgstr "<br/>   • Máx Empresas: %s"
 
 #. module: saas_management
 #. odoo-python
