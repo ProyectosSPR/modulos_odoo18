@@ -47,6 +47,7 @@
         # Views
         'views/product_template_views.xml',
         'views/res_company_views.xml',
+        'views/res_users_views.xml',
         'views/saas_client_views.xml',
         'views/saas_multicompany_menus.xml',
     ],
