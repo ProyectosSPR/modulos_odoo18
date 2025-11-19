@@ -31,6 +31,7 @@
     'license': 'LGPL-3',
     'depends': [
         'base',
+        'portal',
         'sale_management',
         'product_permissions',
         'saas_management',
