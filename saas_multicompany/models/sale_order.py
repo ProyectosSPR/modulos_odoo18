@@ -125,28 +125,29 @@ class SaleOrder(models.Model):
                 body=_('✅ User created: <b>%s</b>') % user.name
             )
         else:
-            # Remove main company (id=1) if present and add only the new company
-            current_companies = user.company_ids.ids
+            # IMPORTANT: When changing company_ids, we must ensure company_id is valid
+            # Strategy: First add new company to company_ids, then remove main company (id=1)
 
-            # Remove main company (id=1) from the list
-            if 1 in current_companies:
-                current_companies.remove(1)
+            current_companies = list(user.company_ids.ids)  # Make a copy
 
-            # Add the new company
+            # Step 1: Add the new company if not present
             if company.id not in current_companies:
                 current_companies.append(company.id)
 
+            # Step 2: First update to include new company and set it as default
             user.sudo().write({
                 'company_ids': [(6, 0, current_companies)],
+                'company_id': company.id,  # Set new company as default
             })
 
-            # If restrict_to_company, set as default
-            if product.restrict_to_company:
+            # Step 3: Now safely remove main company (id=1) since company_id no longer points to it
+            if 1 in current_companies:
+                current_companies.remove(1)
                 user.sudo().write({
-                    'company_id': company.id,
+                    'company_ids': [(6, 0, current_companies)],
                 })
 
-            _logger.info(f"User {user.name} assigned to company {company.name}")
+            _logger.info(f"User {user.name} assigned to company {company.name}, main company removed")
 
         # Assign permissions if configured
         if product.assign_permissions and product.permission_group_ids:
