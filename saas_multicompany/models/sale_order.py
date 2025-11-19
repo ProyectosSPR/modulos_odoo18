@@ -256,16 +256,23 @@ class SaleOrder(models.Model):
             _logger.warning(f"Owner user not found for partner {self.partner_id.name}")
             return
 
-        # Count how many users already exist for this company (excluding admins)
+        # Count existing internal users for this company (not portal, not admins of other companies)
         existing_company_users = self.env['res.users'].search([
-            ('company_ids', 'in', [company.id]),
             ('company_id', '=', company.id),  # Main company is this one
             ('active', '=', True),
             ('share', '=', False),  # Only internal users
         ])
 
-        # Owner is already a user, so start counting from existing users
-        user_start_number = len(existing_company_users) + 1
+        # Count existing licenses to know how many users we should have
+        existing_licenses = self.env['saas.license'].search_count([
+            ('company_id', '=', company.id),
+        ])
+
+        # Total licenses after this purchase
+        total_licenses_after = existing_licenses + quantity
+
+        # Total users we need (1 user per license)
+        users_needed = total_licenses_after - len(existing_company_users)
 
         # Create licenses and users
         licenses_created = 0
@@ -287,11 +294,12 @@ class SaleOrder(models.Model):
             licenses_created += 1
             _logger.info(f"License {i+1}/{quantity} created for company {company.name}: {license.name}")
 
-            # Create additional users (owner already has license 1)
-            if i > 0:  # Skip first license (it's for the owner)
-                new_user = self._create_license_user(company, saas_client, product, owner_user, user_start_number + i)
-                if new_user:
-                    users_created += 1
+        # Create users for licenses that don't have one yet
+        for i in range(users_needed):
+            user_number = len(existing_company_users) + i + 1
+            new_user = self._create_license_user(company, saas_client, product, owner_user, user_number)
+            if new_user:
+                users_created += 1
 
         # Post message to sale order
         message = _('📜 Created <b>%s</b> license(s) and <b>%s</b> user(s) for company <b>%s</b>') % (
