@@ -59,7 +59,8 @@ class SaleOrder(models.Model):
         """Get existing or create a company for the SaaS client"""
         self.ensure_one()
 
-        # First, check if company already exists for this client
+        # First, check if company already exists for this client by saas_client_id
+        # This is reliable even if the company name is changed later
         existing_company = self.env['res.company'].search([
             ('saas_client_id', '=', saas_client.id),
             ('is_saas_company', '=', True)
@@ -68,6 +69,24 @@ class SaleOrder(models.Model):
         if existing_company:
             _logger.info(f"Using existing company: {existing_company.name} for client {saas_client.name}")
             return existing_company
+
+        # Double-check: Count how many SaaS companies the user already has access to
+        # User should only have access to: main company (id=1) + their SaaS company
+        user = self.env['res.users'].search([
+            ('partner_id', '=', self.partner_id.id)
+        ], limit=1)
+
+        if user:
+            # Get SaaS companies assigned to user (excluding main company id=1)
+            user_saas_companies = self.env['res.company'].search([
+                ('id', 'in', user.company_ids.ids),
+                ('is_saas_company', '=', True)
+            ])
+
+            if user_saas_companies:
+                # User already has a SaaS company, reuse it instead of creating new one
+                _logger.info(f"User {user.name} already has SaaS company: {user_saas_companies[0].name}. Reusing it.")
+                return user_saas_companies[0]
 
         # Generate unique company name
         base_name = saas_client.name
