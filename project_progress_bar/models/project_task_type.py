@@ -37,33 +37,38 @@ class ProjectTaskType(models.Model):
     @api.constrains('progress_bar', 'sequence')
     def project_progress_bar(self):
         """The Constraints for the project Task Type Model"""
-        all_progress = self.env['project.task.type'].search([]).filtered(
-            lambda
-                progress: progress.is_progress_stage == True and progress.id != self.id)
-        res1 = {}
-        for rec in all_progress:
-            res1[rec.progress_bar] = rec.sequence
-        if self.progress_bar in res1.keys():
-            raise UserError('Ensure that the progress is not duplicated.')
-        for rec in self.env['project.task.type'].search([]).filtered(
-                lambda progress: progress.is_progress_stage == True and progress.id != self.id).mapped(
-            'progress_bar'):
-            value = [i for i in res1 if i == rec]
-            if self.progress_bar < rec:
-                if float(self.sequence) >= res1[value[0]]:
-                    raise UserError(
-                        'The progress in this stage must greater than that of the '
-                        'other stages progress bars. Alternatively, reassess '
-                        'the priority assigned to this stage.')
+        # Process each record individually to handle batch creation
+        for record in self:
+            # Skip validation if progress bar is not enabled
+            if not record.is_progress_stage:
+                continue
+
+            all_progress = self.env['project.task.type'].search([]).filtered(
+                lambda progress: progress.is_progress_stage == True and progress.id != record.id)
+            res1 = {}
+            for rec in all_progress:
+                res1[rec.progress_bar] = rec.sequence
+            if record.progress_bar in res1.keys():
+                raise UserError('Ensure that the progress is not duplicated.')
+            for rec in self.env['project.task.type'].search([]).filtered(
+                    lambda progress: progress.is_progress_stage == True and progress.id != record.id).mapped(
+                'progress_bar'):
+                value = [i for i in res1 if i == rec]
+                if record.progress_bar < rec:
+                    if float(record.sequence) >= res1[value[0]]:
+                        raise UserError(
+                            'The progress in this stage must greater than that of the '
+                            'other stages progress bars. Alternatively, reassess '
+                            'the priority assigned to this stage.')
+                    else:
+                        continue
                 else:
-                    continue
-            else:
-                if float(self.sequence) < res1[value[0]]:
-                    raise UserError(
-                        'The progress in this stage must less than that of the'
-                        'other stages progress bars. Alternatively, reassess '
-                        'the priority assigned to this stage.')
-                else:
-                    continue
-        if self.progress_bar > 100:
-            raise UserError('The progress must be less than or equal to 100')
+                    if float(record.sequence) < res1[value[0]]:
+                        raise UserError(
+                            'The progress in this stage must less than that of the'
+                            'other stages progress bars. Alternatively, reassess '
+                            'the priority assigned to this stage.')
+                    else:
+                        continue
+            if record.progress_bar > 100:
+                raise UserError('The progress must be less than or equal to 100')
