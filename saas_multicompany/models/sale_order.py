@@ -212,28 +212,29 @@ class SaleOrder(models.Model):
         self.ensure_one()
 
         if groups:
-            # Remove portal group to convert user from Portal to Internal User
-            portal_group = self.env.ref('base.group_portal', raise_if_not_found=False)
+            # Remove only public group (keep portal access for SaaS users)
             public_group = self.env.ref('base.group_public', raise_if_not_found=False)
 
             groups_to_remove = []
-            if portal_group and portal_group in user.groups_id:
-                groups_to_remove.append((3, portal_group.id))
             if public_group and public_group in user.groups_id:
                 groups_to_remove.append((3, public_group.id))
 
             # Add internal user group explicitly
             internal_user_group = self.env.ref('base.group_user', raise_if_not_found=False)
 
-            # Prepare write operations: remove portal/public, add internal + requested groups
+            # Add portal group to allow access to /my (orders, invoices, account)
+            portal_group = self.env.ref('base.group_portal', raise_if_not_found=False)
+
+            # Prepare write operations: remove public, add internal + portal + requested groups
             write_vals = {
                 'groups_id': groups_to_remove +
                              ([(4, internal_user_group.id)] if internal_user_group else []) +
+                             ([(4, portal_group.id)] if portal_group else []) +
                              [(4, group.id) for group in groups],
             }
 
             user.sudo().write(write_vals)
-            _logger.info(f"User {user.name} converted to Internal User. Groups applied: {groups.mapped('name')}")
+            _logger.info(f"User {user.name} configured as Internal User with Portal access. Groups applied: {groups.mapped('name')}")
 
     def _create_licenses(self, company, saas_client, product, order_line):
         """Create license records and users based on product quantity"""
