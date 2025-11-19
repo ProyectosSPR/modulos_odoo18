@@ -1,0 +1,938 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* saas_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20251008\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-19 20:41+0000\n"
+"PO-Revision-Date: 2025-11-19 20:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/wizards/menu_security_wizard.py:0
+msgid "%d menu items have been updated with the selected security groups."
+msgstr "%d elementos del menú han sido actualizados con los grupos de seguridad seleccionados."
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/wizards/menu_security_wizard.py:0
+msgid "%d menu items now have no group restrictions (visible to all users)."
+msgstr "%d elementos del menú ahora no tienen restricciones de grupo (visibles para todos los usuarios)."
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/models/sale_order.py:0
+msgid "<br/>   • Max Companies: %s"
+msgstr "<br/>   • Máx Compañías: %s"
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/models/sale_order.py:0
+msgid "<br/>   • Max Storage: %s GB"
+msgstr "<br/>   • Máx Almacenamiento: %s GB"
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/models/sale_order.py:0
+msgid "<br/>   • Max Users: %s"
+msgstr "<br/>   • Máx Usuarios: %s"
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/models/sale_order.py:0
+msgid "<br/>📋 Subscription Plan: <b>%s</b>"
+msgstr "<br/>📋 Plan de Suscripción: <b>%s</b>"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "<span class=\"o_stat_text\">Client</span>"
+msgstr "<span class=\"o_stat_text\">Cliente</span>"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_product_template_saas_form
+msgid ""
+"<strong>Auto-Create Instance:</strong> When enabled, a new SaaS instance "
+"will be created automatically when this product is sold"
+msgstr ""
+"<strong>Auto-Crear Instancia:</strong> Cuando se habilita, se creará automáticamente una nueva instancia "
+"SaaS cuando se venda este producto"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_sale_order_saas_form
+msgid "<strong>SaaS Instance Creation</strong>"
+msgstr "<strong>Creación de Instancia SaaS</strong>"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_product_template_saas_form
+msgid "<strong>SaaS Instance Product</strong>"
+msgstr "<strong>Producto de Instancia SaaS</strong>"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_product_template_saas_form
+msgid ""
+"<strong>Subscription Package:</strong> The subscription plan to assign to "
+"the created instance (defines limits and overage pricing)"
+msgstr ""
+"<strong>Paquete de Suscripción:</strong> El plan de suscripción para asignar a "
+"la instancia creada (define límites y precios por exceso)"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "<strong>Tip:</strong>"
+msgstr "<strong>Consejo:</strong>"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_product_template_saas_form
+msgid ""
+"<strong>Trial Days:</strong> Number of days for the trial period (default: 7"
+" days)"
+msgstr ""
+"<strong>Días de Prueba:</strong> Número de días para el periodo de prueba (por defecto: 7"
+" días)"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "<strong>Warning!</strong>"
+msgstr "<strong>¡Advertencia!</strong>"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_sale_order_saas_form
+msgid "A SaaS Client will be created (or linked) for this partner"
+msgstr "Se creará (o vinculará) un Cliente SaaS para este contacto"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__message_needaction
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__message_needaction
+msgid "Action Needed"
+msgstr "Acción Requerida"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_client_form
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "Activate"
+msgstr "Activar"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__activated_date
+msgid "Activated"
+msgstr "Activado"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__activated_date
+msgid "Activation Date"
+msgstr "Fecha de Activación"
+
+#. module: saas_management
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_client__state__active
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_instance__state__active
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_search
+msgid "Active"
+msgstr "Activo"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__active_instance_count
+msgid "Active Instances"
+msgstr "Instancias Activas"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__activity_ids
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__activity_ids
+msgid "Activities"
+msgstr "Actividades"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__activity_exception_decoration
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decoración de Actividad de Excepción"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__activity_state
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__activity_state
+msgid "Activity State"
+msgstr "Estado de la Actividad"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__activity_type_icon
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Icono de Tipo de Actividad"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "Add security groups to all Odoo menu items"
+msgstr "Añadir grupos de seguridad a todos los elementos del menú de Odoo"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "Additional notes..."
+msgstr "Notas adicionales..."
+
+#. module: saas_management
+#: model:ir.ui.menu,name:saas_management.menu_saas_instance_list
+msgid "All Instances"
+msgstr "Todas las Instancias"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_menu_security_wizard__restricted_count
+msgid "Already Restricted Menus"
+msgstr "Menús Ya Restringidos"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "Apply Security to All Menus"
+msgstr "Aplicar Seguridad a Todos los Menús"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_menu_security_wizard__apply_to_existing
+msgid "Apply to Existing Menus"
+msgstr "Aplicar a Menús Existentes"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid ""
+"Are you sure you want to apply these security groups to ALL menu items? This"
+" action cannot be undone easily."
+msgstr ""
+"¿Está seguro de que desea aplicar estos grupos de seguridad a TODOS los elementos del menú? "
+"Esta acción no se puede deshacer fácilmente."
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "Are you sure you want to terminate this instance?"
+msgstr "¿Está seguro de que desea terminar esta instancia?"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__message_attachment_count
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__message_attachment_count
+msgid "Attachment Count"
+msgstr "Nº de Archivos Adjuntos"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_product_product__auto_create_instance
+#: model:ir.model.fields,field_description:saas_management.field_product_template__auto_create_instance
+msgid "Auto-Create Instance"
+msgstr "Auto-Crear Instancia"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_product_product__auto_create_instance
+#: model:ir.model.fields,help:saas_management.field_product_template__auto_create_instance
+msgid "Automatically create a SaaS instance when this product is sold"
+msgstr "Crear automáticamente una instancia SaaS cuando se venda este producto"
+
+#. module: saas_management
+#: model:res.groups,comment:saas_management.group_saas_user
+msgid "Basic access to view SaaS clients and instances"
+msgstr "Acceso básico para ver clientes e instancias SaaS"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid ""
+"By default, the \"Settings\" group (Administration/Settings) is selected. "
+"This means only users with settings access will see all menus."
+msgstr ""
+"Por defecto, el grupo \"Ajustes\" (Administración/Ajustes) está seleccionado. "
+"Esto significa que solo los usuarios con acceso a ajustes verán todos los menús."
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_product_product__is_saas_instance
+#: model:ir.model.fields,help:saas_management.field_product_template__is_saas_instance
+msgid "Check if this product represents a SaaS instance subscription"
+msgstr "Marque si este producto representa una suscripción a una instancia SaaS"
+
+#. module: saas_management
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_client__state__churned
+msgid "Churned"
+msgstr "Cancelado"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__client_id
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_search
+msgid "Client"
+msgstr "Cliente"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__name
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_client_form
+msgid "Client Name"
+msgstr "Nombre del Cliente"
+
+#. module: saas_management
+#: model:ir.ui.menu,name:saas_management.menu_saas_client_list
+#: model:ir.ui.menu,name:saas_management.menu_saas_clients
+msgid "Clients"
+msgstr "Clientes"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__company_id
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: saas_management
+#: model:ir.ui.menu,name:saas_management.menu_saas_configuration
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: saas_management
+#: model:ir.actions.act_window,name:saas_management.action_menu_security_wizard
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "Configure Menu Security"
+msgstr "Configurar Seguridad del Menú"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__create_date
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__create_date
+msgid "Created"
+msgstr "Creado"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_menu_security_wizard__create_uid
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__create_uid
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_menu_security_wizard__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__current_users
+msgid "Current Users"
+msgstr "Usuarios Actuales"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_menu_security_wizard__display_name
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__display_name
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__display_name
+msgid "Display Name"
+msgstr "Nombre Mostrado"
+
+#. module: saas_management
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_instance__state__draft
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_search
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__email
+msgid "Email"
+msgstr "Correo electrónico"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__message_follower_ids
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__message_partner_ids
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Contactos)"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_saas_client__activity_type_icon
+#: model:ir.model.fields,help:saas_management.field_saas_instance__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Icono de Font Awesome p. ej. fa-tasks"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__full_url
+msgid "Full URL"
+msgstr "URL Completa"
+
+#. module: saas_management
+#: model:res.groups,comment:saas_management.group_saas_manager
+msgid ""
+"Full access to SaaS management features including clients and instances"
+msgstr ""
+"Acceso completo a las funciones de gestión SaaS, incluyendo clientes e instancias"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_menu_security_wizard__group_ids
+msgid "Groups to Apply"
+msgstr "Grupos a Aplicar"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__has_message
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__has_message
+msgid "Has Message"
+msgstr "Tiene Mensaje"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_sale_order__has_saas_products
+msgid "Has SaaS Products"
+msgstr "Tiene Productos SaaS"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_menu_security_wizard__id
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__id
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__id
+msgid "ID"
+msgstr "ID"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__activity_exception_icon
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__activity_exception_icon
+msgid "Icon"
+msgstr "Icono"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_saas_client__activity_exception_icon
+#: model:ir.model.fields,help:saas_management.field_saas_instance__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Icono para indicar una actividad de excepción."
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_saas_client__message_needaction
+#: model:ir.model.fields,help:saas_management.field_saas_instance__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si se marca, los nuevos mensajes requieren su atención."
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_saas_client__message_has_error
+#: model:ir.model.fields,help:saas_management.field_saas_client__message_has_sms_error
+#: model:ir.model.fields,help:saas_management.field_saas_instance__message_has_error
+#: model:ir.model.fields,help:saas_management.field_saas_instance__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si se marca, algunos mensajes tienen un error de entrega."
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_menu_security_wizard__apply_to_existing
+msgid "If checked, will add the selected groups to all existing menu items"
+msgstr "Si se marca, añadirá los grupos seleccionados a todos los elementos de menú existentes"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__name
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "Instance Name"
+msgstr "Nombre de Instancia"
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/models/saas_client.py:0
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__instance_ids
+#: model:ir.ui.menu,name:saas_management.menu_saas_instances
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_client_form
+msgid "Instances"
+msgstr "Instancias"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_sale_order_saas_form
+msgid "Instances will start in trial mode with the configured trial period"
+msgstr "Las instancias comenzarán en modo de prueba con el periodo de prueba configurado"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__message_is_follower
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__message_is_follower
+msgid "Is Follower"
+msgstr "Es Seguidor"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_product_product__is_saas_instance
+#: model:ir.model.fields,field_description:saas_management.field_product_template__is_saas_instance
+msgid "Is SaaS Instance Product"
+msgstr "Es Producto de Instancia SaaS"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_menu_security_wizard__write_uid
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__write_uid
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__write_uid
+msgid "Last Updated by"
+msgstr "Última Actualización por"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_menu_security_wizard__write_date
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__write_date
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__write_date
+msgid "Last Updated on"
+msgstr "Última Actualización el"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "Make sure you understand the implications before proceeding."
+msgstr "Asegúrese de entender las implicaciones antes de proceder."
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "Manual Selection"
+msgstr "Selección Manual"
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/wizards/menu_security_wizard.py:0
+msgid "Menu Items"
+msgstr "Elementos de Menú"
+
+#. module: saas_management
+#: model:ir.ui.menu,name:saas_management.menu_menu_security_wizard
+msgid "Menu Security"
+msgstr "Seguridad del Menú"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "Menu Security Configuration"
+msgstr "Configuración de Seguridad del Menú"
+
+#. module: saas_management
+#: model:ir.model,name:saas_management.model_menu_security_wizard
+msgid "Menu Security Configuration Wizard"
+msgstr "Asistente de Configuración de Seguridad del Menú"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__message_has_error
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__message_has_error
+msgid "Message Delivery error"
+msgstr "Error de Envío de Mensaje"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__message_ids
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__message_ids
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__my_activity_date_deadline
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Mi Fecha Límite de Actividad"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__activity_calendar_event_id
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Siguiente Evento de Calendario de Actividad"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__activity_date_deadline
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Siguiente Fecha Límite de Actividad"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__activity_summary
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumen de la Siguiente Actividad"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__activity_type_id
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipo de Siguiente Actividad"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__notes
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "Notes"
+msgstr "Notas"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__message_needaction_counter
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de Acciones"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__message_has_error_counter
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de errores"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_menu_security_wizard__restricted_count
+msgid "Number of menus that already have group restrictions"
+msgstr "Número de menús que ya tienen restricciones de grupo"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_saas_client__message_needaction_counter
+#: model:ir.model.fields,help:saas_management.field_saas_instance__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Número de mensajes que requieren acción"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_saas_client__message_has_error_counter
+#: model:ir.model.fields,help:saas_management.field_saas_instance__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de entrega"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_product_product__trial_days
+#: model:ir.model.fields,help:saas_management.field_product_template__trial_days
+msgid "Number of trial days for new instances"
+msgstr "Número de días de prueba para nuevas instancias"
+
+#. module: saas_management
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_instance__odoo_version__16_0
+msgid "Odoo 16.0"
+msgstr "Odoo 16.0"
+
+#. module: saas_management
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_instance__odoo_version__17_0
+msgid "Odoo 17.0"
+msgstr "Odoo 17.0"
+
+#. module: saas_management
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_instance__odoo_version__18_0
+msgid "Odoo 18.0"
+msgstr "Odoo 18.0"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__odoo_version
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_search
+msgid "Odoo Version"
+msgstr "Versión de Odoo"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__partner_id
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__partner_id
+msgid "Partner"
+msgstr "Contacto"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__phone
+msgid "Phone"
+msgstr "Teléfono"
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/wizards/menu_security_wizard.py:0
+msgid "Please select at least one group to apply."
+msgstr "Por favor, seleccione al menos un grupo para aplicar."
+
+#. module: saas_management
+#: model:ir.model,name:saas_management.model_product_template
+msgid "Product"
+msgstr "Producto"
+
+#. module: saas_management
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_client__state__prospect
+msgid "Prospect"
+msgstr "Prospecto"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__rating_ids
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__rating_ids
+msgid "Ratings"
+msgstr "Calificaciones"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "Remove All Security"
+msgstr "Eliminar Toda la Seguridad"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "Resources"
+msgstr "Recursos"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__activity_user_id
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__activity_user_id
+msgid "Responsible User"
+msgstr "Usuario Responsable"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__message_has_sms_error
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Error de entrega de SMS"
+
+#. module: saas_management
+#: model:ir.model,name:saas_management.model_saas_client
+#: model:ir.model.fields,field_description:saas_management.field_sale_order__saas_client_id
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_client_form
+msgid "SaaS Client"
+msgstr "Cliente SaaS"
+
+#. module: saas_management
+#: model:ir.actions.act_window,name:saas_management.action_saas_client
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_client_list
+msgid "SaaS Clients"
+msgstr "Clientes SaaS"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_product_template_saas_form
+msgid "SaaS Configuration"
+msgstr "Configuración SaaS"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_sale_order_saas_form
+msgid "SaaS Information"
+msgstr "Información SaaS"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "SaaS Instance"
+msgstr "Instancia SaaS"
+
+#. module: saas_management
+#: model:ir.actions.act_window,name:saas_management.action_saas_instance
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_list
+msgid "SaaS Instances"
+msgstr "Instancias SaaS"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_sale_order_saas_form
+msgid ""
+"SaaS Instances will be created for products marked as \"Auto-Create "
+"Instance\""
+msgstr ""
+"Las Instancias SaaS serán creadas para productos marcados como \"Auto-Crear Instancia\""
+
+#. module: saas_management
+#: model:ir.ui.menu,name:saas_management.menu_saas_root
+msgid "SaaS Management"
+msgstr "Gestión SaaS"
+
+#. module: saas_management
+#: model:res.groups,name:saas_management.group_saas_manager
+msgid "SaaS Manager"
+msgstr "Gerente SaaS"
+
+#. module: saas_management
+#: model:ir.model,name:saas_management.model_saas_instance
+msgid "SaaS Odoo Instance"
+msgstr "Instancia Odoo SaaS"
+
+#. module: saas_management
+#: model:res.groups,name:saas_management.group_saas_user
+msgid "SaaS User"
+msgstr "Usuario SaaS"
+
+#. module: saas_management
+#: model:ir.model,name:saas_management.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de Venta"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_search
+msgid "Search Instances"
+msgstr "Buscar Instancias"
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/wizards/menu_security_wizard.py:0
+msgid "Security Applied"
+msgstr "Seguridad Aplicada"
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/wizards/menu_security_wizard.py:0
+msgid "Security Removed"
+msgstr "Seguridad Eliminada"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "Select Groups to Apply"
+msgstr "Seleccionar Grupos a Aplicar"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_menu_security_wizard__group_ids
+msgid "Select the groups that will be added to all menu items"
+msgstr "Seleccione los grupos que se añadirán a todos los elementos del menú"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "Start Trial"
+msgstr "Iniciar Prueba"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__state
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__state
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_search
+msgid "Status"
+msgstr "Estado"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_saas_client__activity_state
+#: model:ir.model.fields,help:saas_management.field_saas_instance__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Estado basado en actividades\n"
+"Vencido: La fecha límite ya pasó\n"
+"Hoy: La fecha de la actividad es hoy\n"
+"Planificado: Actividades futuras."
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__storage_used_gb
+msgid "Storage Used (GB)"
+msgstr "Almacenamiento Usado (GB)"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__subdomain
+msgid "Subdomain"
+msgstr "Subdominio"
+
+#. module: saas_management
+#: model:ir.model.constraint,message:saas_management.constraint_saas_instance_subdomain_unique
+msgid "Subdomain must be unique!"
+msgstr "¡El subdominio debe ser único!"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__subscription_id
+msgid "Subscription"
+msgstr "Suscripción"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_product_product__subscription_package_id
+#: model:ir.model.fields,field_description:saas_management.field_product_template__subscription_package_id
+msgid "Subscription Package"
+msgstr "Paquete de Suscripción"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_product_product__subscription_package_id
+#: model:ir.model.fields,help:saas_management.field_product_template__subscription_package_id
+msgid "Subscription package to assign to the created instance"
+msgstr "Paquete de suscripción a asignar a la instancia creada"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_client_form
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "Suspend"
+msgstr "Suspender"
+
+#. module: saas_management
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_client__state__suspended
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_instance__state__suspended
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_search
+msgid "Suspended"
+msgstr "Suspendido"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "Terminate"
+msgstr "Terminar"
+
+#. module: saas_management
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_instance__state__terminated
+msgid "Terminated"
+msgstr "Terminado"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_product_template_saas_form
+msgid ""
+"The instance will be created with a unique subdomain based on the client "
+"name"
+msgstr ""
+"La instancia se creará con un subdominio único basado en el nombre del cliente"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid ""
+"This action will add the selected security groups to <strong>ALL</strong> "
+"menu items in the system."
+msgstr ""
+"Esta acción añadirá los grupos de seguridad seleccionados a <strong>TODOS</strong> "
+"los elementos del menú en el sistema."
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__instance_count
+msgid "Total Instances"
+msgstr "Instancias Totales"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_menu_security_wizard__menu_count
+msgid "Total Menus"
+msgstr "Menús Totales"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_menu_security_wizard__menu_count
+msgid "Total number of menu items in the system"
+msgstr "Número total de elementos de menú en el sistema"
+
+#. module: saas_management
+#: model:ir.model.fields.selection,name:saas_management.selection__saas_instance__state__trial
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_search
+msgid "Trial"
+msgstr "Prueba"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_product_product__trial_days
+#: model:ir.model.fields,field_description:saas_management.field_product_template__trial_days
+msgid "Trial Days"
+msgstr "Días de Prueba"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__trial_end_date
+msgid "Trial End Date"
+msgstr "Fecha de Fin de Prueba"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_saas_client__activity_exception_decoration
+#: model:ir.model.fields,help:saas_management.field_saas_instance__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo de actividad de excepción en el registro."
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_saas_instance_form
+msgid "URL will be generated"
+msgstr "La URL será generada"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid "Users without these groups will not be able to see the menus."
+msgstr "Los usuarios sin estos grupos no podrán ver los menús."
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_menu_security_wizard_form
+msgid ""
+"WARNING: This will remove ALL group restrictions from ALL menus, making them"
+" visible to everyone. Are you absolutely sure?"
+msgstr ""
+"ADVERTENCIA: Esto eliminará TODAS las restricciones de grupo de TODOS los menús, haciéndolos"
+" visibles para todos. ¿Está absolutamente seguro?"
+
+#. module: saas_management
+#: model:ir.model.fields,field_description:saas_management.field_saas_client__website_message_ids
+#: model:ir.model.fields,field_description:saas_management.field_saas_instance__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del Sitio Web"
+
+#. module: saas_management
+#: model:ir.model.fields,help:saas_management.field_saas_client__website_message_ids
+#: model:ir.model.fields,help:saas_management.field_saas_instance__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicación del sitio web"
+
+#. module: saas_management
+#: model_terms:ir.ui.view,arch_db:saas_management.view_sale_order_saas_form
+msgid "When you confirm this order, the following will happen automatically:"
+msgstr "Cuando confirme este pedido, lo siguiente ocurrirá automáticamente:"
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/models/sale_order.py:0
+msgid "✅ SaaS Client created: %s"
+msgstr "✅ Cliente SaaS creado: %s"
+
+#. module: saas_management
+#. odoo-python
+#: code:addons/saas_management/models/sale_order.py:0
+msgid "🖥️ SaaS Instance created: <b>%s</b> (%s)"
+msgstr "🖥️ Instancia SaaS creada: <b>%s</b> (%s)"
