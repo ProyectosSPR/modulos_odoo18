@@ -13,6 +13,7 @@
                             <field name="is_module_access"/>
                             <field name="auto_create_company" invisible="not is_module_access"/>
                             <field name="restrict_to_company" invisible="not auto_create_company"/>
+                            <field name="requires_license" invisible="not is_module_access"/>
                         </group>
                         <group>
                             <field name="company_template_id" invisible="not auto_create_company"
@@ -26,6 +27,7 @@
                             <li><strong>Auto-Create Company:</strong> Creates a dedicated company for the client when sold</li>
                             <li><strong>Restrict to Company:</strong> User can only access data from their company (recommended)</li>
                             <li><strong>Company Template:</strong> Optional template to copy settings from</li>
+                            <li><strong>Requires License:</strong> Creates license records (one per quantity sold)</li>
                             <li>ℹ️ <strong>Subscription:</strong> Assign a subscription package to the company after creation for license tracking</li>
                         </ul>
                     </div>

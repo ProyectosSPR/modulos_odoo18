@@ -45,11 +45,15 @@ class SaleOrder(models.Model):
                 # Get or create SaaS client
                 saas_client = self._get_or_create_saas_client()
 
-                # Create company for this client
+                # Create company for this client (only once per order)
                 company = self._create_saas_company(saas_client, product)
 
                 # Assign user to company
                 user = self._assign_user_to_company(company, product)
+
+                # Create licenses if product requires them (one per quantity)
+                if product.requires_license:
+                    self._create_licenses(company, saas_client, product, line)
 
     def _create_saas_company(self, saas_client, product):
         """Create a company for the SaaS client"""
@@ -220,6 +224,44 @@ class SaleOrder(models.Model):
 
             user.sudo().write(write_vals)
             _logger.info(f"User {user.name} converted to Internal User. Groups applied: {groups.mapped('name')}")
+
+    def _create_licenses(self, company, saas_client, product, order_line):
+        """Create license records based on product quantity"""
+        self.ensure_one()
+
+        quantity = int(order_line.product_uom_qty)
+
+        if quantity <= 0:
+            return
+
+        # Get subscription from company if available
+        subscription = company.subscription_id if company.subscription_id else False
+
+        # Create one license per quantity
+        licenses_created = 0
+        for i in range(quantity):
+            license_vals = {
+                'company_id': company.id,
+                'client_id': saas_client.id,
+                'subscription_id': subscription.id if subscription else False,
+                'date': fields.Date.today(),
+                'user_count': 1,  # Default, will be updated by cron
+                'company_count': 1,
+                'storage_gb': 0.0,
+            }
+
+            license = self.env['saas.license'].sudo().create(license_vals)
+            licenses_created += 1
+            _logger.info(f"License {i+1}/{quantity} created for company {company.name}: {license.name}")
+
+        # Post message to sale order
+        message = _('📜 Created <b>%s</b> license record(s) for company <b>%s</b>') % (
+            licenses_created,
+            company.name
+        )
+        self.message_post(body=message)
+
+        return licenses_created
 
     def _get_or_create_saas_client(self):
         """Get existing or create new SaaS client (reuse from saas_management)"""

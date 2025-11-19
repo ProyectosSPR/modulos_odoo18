@@ -32,6 +32,12 @@ class ProductTemplate(models.Model):
         help='User can only access data from their assigned company'
     )
 
+    requires_license = fields.Boolean(
+        string='Requires License',
+        default=False,
+        help='Create license records when this product is sold (one license per quantity)'
+    )
+
     @api.onchange('is_module_access')
     def _onchange_is_module_access(self):
         """Reset fields when toggling module access"""
@@ -39,3 +45,4 @@ class ProductTemplate(models.Model):
             self.auto_create_company = False
             self.company_template_id = False
             self.restrict_to_company = True
+            self.requires_license = False

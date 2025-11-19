@@ -6,12 +6,33 @@ from odoo import models, fields, api, _
 class SaasLicense(models.Model):
     _inherit = 'saas.license'
 
+    # Override instance_id to make it not required when using company_id
+    instance_id = fields.Many2one(required=False)
+
     # Support for both instance and local company
     company_id = fields.Many2one(
         'res.company',
         string='Local Company',
         help='For local multi-company licensing',
         ondelete='cascade'
+    )
+
+    # Override client_id to allow direct assignment (not just related field)
+    client_id = fields.Many2one(
+        'saas.client',
+        string='Client',
+        store=True,
+        compute='_compute_client_id',
+        readonly=False
+    )
+
+    # Override subscription_id to allow direct assignment
+    subscription_id = fields.Many2one(
+        'subscription.package',
+        string='Subscription',
+        store=True,
+        compute='_compute_subscription_id',
+        readonly=False
     )
 
     license_type = fields.Selection([
@@ -28,6 +49,26 @@ class SaasLicense(models.Model):
                 record.license_type = 'company'
             else:
                 record.license_type = False
+
+    @api.depends('instance_id', 'company_id')
+    def _compute_client_id(self):
+        """Compute client from instance or company"""
+        for record in self:
+            if not record.client_id:  # Only compute if not manually set
+                if record.instance_id and record.instance_id.client_id:
+                    record.client_id = record.instance_id.client_id
+                elif record.company_id and record.company_id.saas_client_id:
+                    record.client_id = record.company_id.saas_client_id
+
+    @api.depends('instance_id', 'company_id')
+    def _compute_subscription_id(self):
+        """Compute subscription from instance or company"""
+        for record in self:
+            if not record.subscription_id:  # Only compute if not manually set
+                if record.instance_id and record.instance_id.subscription_id:
+                    record.subscription_id = record.instance_id.subscription_id
+                elif record.company_id and record.company_id.subscription_id:
+                    record.subscription_id = record.company_id.subscription_id
 
     @api.depends('instance_id', 'company_id', 'date')
     def _compute_name(self):
