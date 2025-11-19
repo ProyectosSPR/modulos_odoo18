@@ -170,6 +170,11 @@ class SaleOrder(models.Model):
         # Combine existing + new groups (set union to avoid duplicates)
         all_groups = existing_groups | groups_to_assign
 
+        # IMPORTANT: Remove portal/public groups if internal group is present
+        # A user cannot be both Internal and Portal at the same time
+        if internal_group in all_groups:
+            all_groups = all_groups - portal_group - public_group
+
         # Update user with combined groups
         user.sudo().write({
             'groups_id': [(6, 0, all_groups.ids)]
