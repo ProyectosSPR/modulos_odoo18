@@ -45,19 +45,29 @@ class SaleOrder(models.Model):
                 # Get or create SaaS client
                 saas_client = self._get_or_create_saas_client()
 
-                # Create company for this client (only once per order)
-                company = self._create_saas_company(saas_client, product)
+                # Get or create company for this client
+                company = self._get_or_create_saas_company(saas_client, product)
 
-                # Assign user to company
+                # Assign user to company (only if company was created or user not assigned)
                 user = self._assign_user_to_company(company, product)
 
                 # Create licenses if product requires them (one per quantity)
                 if product.requires_license:
                     self._create_licenses(company, saas_client, product, line)
 
-    def _create_saas_company(self, saas_client, product):
-        """Create a company for the SaaS client"""
+    def _get_or_create_saas_company(self, saas_client, product):
+        """Get existing or create a company for the SaaS client"""
         self.ensure_one()
+
+        # First, check if company already exists for this client
+        existing_company = self.env['res.company'].search([
+            ('saas_client_id', '=', saas_client.id),
+            ('is_saas_company', '=', True)
+        ], limit=1)
+
+        if existing_company:
+            _logger.info(f"Using existing company: {existing_company.name} for client {saas_client.name}")
+            return existing_company
 
         # Generate unique company name
         base_name = saas_client.name
@@ -226,7 +236,7 @@ class SaleOrder(models.Model):
             _logger.info(f"User {user.name} converted to Internal User. Groups applied: {groups.mapped('name')}")
 
     def _create_licenses(self, company, saas_client, product, order_line):
-        """Create license records based on product quantity"""
+        """Create license records and users based on product quantity"""
         self.ensure_one()
 
         quantity = int(order_line.product_uom_qty)
@@ -237,15 +247,38 @@ class SaleOrder(models.Model):
         # Get subscription from company if available
         subscription = company.subscription_id if company.subscription_id else False
 
-        # Create one license per quantity
+        # Get the buyer/owner user to use as template
+        owner_user = self.env['res.users'].search([
+            ('partner_id', '=', self.partner_id.id)
+        ], limit=1)
+
+        if not owner_user:
+            _logger.warning(f"Owner user not found for partner {self.partner_id.name}")
+            return
+
+        # Count how many users already exist for this company (excluding admins)
+        existing_company_users = self.env['res.users'].search([
+            ('company_ids', 'in', [company.id]),
+            ('company_id', '=', company.id),  # Main company is this one
+            ('active', '=', True),
+            ('share', '=', False),  # Only internal users
+        ])
+
+        # Owner is already a user, so start counting from existing users
+        user_start_number = len(existing_company_users) + 1
+
+        # Create licenses and users
         licenses_created = 0
+        users_created = 0
+
         for i in range(quantity):
+            # Create license
             license_vals = {
                 'company_id': company.id,
                 'client_id': saas_client.id,
                 'subscription_id': subscription.id if subscription else False,
                 'date': fields.Date.today(),
-                'user_count': 1,  # Default, will be updated by cron
+                'user_count': 1,
                 'company_count': 1,
                 'storage_gb': 0.0,
             }
@@ -254,14 +287,67 @@ class SaleOrder(models.Model):
             licenses_created += 1
             _logger.info(f"License {i+1}/{quantity} created for company {company.name}: {license.name}")
 
+            # Create additional users (owner already has license 1)
+            if i > 0:  # Skip first license (it's for the owner)
+                new_user = self._create_license_user(company, saas_client, product, owner_user, user_start_number + i)
+                if new_user:
+                    users_created += 1
+
         # Post message to sale order
-        message = _('📜 Created <b>%s</b> license record(s) for company <b>%s</b>') % (
+        message = _('📜 Created <b>%s</b> license(s) and <b>%s</b> user(s) for company <b>%s</b>') % (
             licenses_created,
+            users_created,
             company.name
         )
         self.message_post(body=message)
 
         return licenses_created
+
+    def _create_license_user(self, company, saas_client, product, template_user, user_number):
+        """Create a new user for a license, copying configuration from template user"""
+        self.ensure_one()
+
+        # Generate unique username based on company and number
+        base_login = f"{company.name.lower().replace(' ', '_')}_user{user_number}"
+        login = base_login
+        counter = 1
+
+        while self.env['res.users'].search([('login', '=', login)]):
+            login = f"{base_login}_{counter}"
+            counter += 1
+
+        # Create partner for the new user
+        partner_vals = {
+            'name': f"{saas_client.name} - Usuario {user_number}",
+            'email': f"{login}@{company.name.lower().replace(' ', '')}.local",
+            'company_id': company.id,
+        }
+
+        partner = self.env['res.partner'].sudo().create(partner_vals)
+
+        # Create user with same groups as template
+        user_vals = {
+            'name': f"{saas_client.name} - Usuario {user_number}",
+            'login': login,
+            'email': partner.email,
+            'partner_id': partner.id,
+            'company_id': company.id,
+            'company_ids': [(6, 0, [company.id])],
+            'groups_id': [(6, 0, template_user.groups_id.ids)],  # Copy all groups from template
+        }
+
+        try:
+            user = self.env['res.users'].sudo().create(user_vals)
+            _logger.info(f"License user created: {user.name} (login: {login}) for company {company.name}")
+
+            self.message_post(
+                body=_('👤 User <b>%s</b> created (Login: <b>%s</b>)') % (user.name, login)
+            )
+
+            return user
+        except Exception as e:
+            _logger.error(f"Failed to create license user: {str(e)}")
+            return False
 
     def _get_or_create_saas_client(self):
         """Get existing or create new SaaS client (reuse from saas_management)"""
