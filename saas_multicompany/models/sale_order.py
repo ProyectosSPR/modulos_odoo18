@@ -125,43 +125,35 @@ class SaleOrder(models.Model):
         ], limit=1)
 
         if not user:
-            # Create user - ONLY assign the new company, NOT the main company (id=1)
+            # Create user - Assign new company as primary, keep main company (id=1) as secondary
+            # This allows user to see orders created in main company (e.g., from ecommerce)
             user = self.env['res.users'].sudo().create({
                 'name': self.partner_id.name,
                 'login': self.partner_id.email,
                 'email': self.partner_id.email,
                 'partner_id': self.partner_id.id,
                 'company_id': company.id,
-                'company_ids': [(6, 0, [company.id])],  # Only new company, not main company
+                'company_ids': [(6, 0, [company.id, 1])],  # New company + main company
             })
             _logger.info(f"User created: {user.name} for company {company.name}")
             self.message_post(
                 body=_('✅ User created: <b>%s</b>') % user.name
             )
         else:
-            # IMPORTANT: When changing company_ids, we must ensure company_id is valid
-            # Strategy: First add new company to company_ids, then remove main company (id=1)
+            # Add new company as primary, keep main company (id=1) as secondary
 
-            current_companies = list(user.company_ids.ids)  # Make a copy
+            # Ensure main company (id=1) and new company are both present
+            company_ids_to_assign = [company.id]
+            if 1 not in company_ids_to_assign:
+                company_ids_to_assign.append(1)
 
-            # Step 1: Add the new company if not present
-            if company.id not in current_companies:
-                current_companies.append(company.id)
-
-            # Step 2: First update to include new company and set it as default
+            # Update user: new company as primary, main as secondary
             user.sudo().write({
-                'company_ids': [(6, 0, current_companies)],
+                'company_ids': [(6, 0, company_ids_to_assign)],
                 'company_id': company.id,  # Set new company as default
             })
 
-            # Step 3: Now safely remove main company (id=1) since company_id no longer points to it
-            if 1 in current_companies:
-                current_companies.remove(1)
-                user.sudo().write({
-                    'company_ids': [(6, 0, current_companies)],
-                })
-
-            _logger.info(f"User {user.name} assigned to company {company.name}, main company removed")
+            _logger.info(f"User {user.name} assigned to company {company.name}, main company kept as secondary")
 
         # Assign permissions if configured
         if product.assign_permissions and product.permission_group_ids:
