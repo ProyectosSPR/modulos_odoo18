@@ -704,7 +704,7 @@ msgstr ""
 #. module: saas_management
 #: model:ir.ui.menu,name:saas_management.menu_saas_root
 msgid "SaaS Management"
-msgstr "Gestión SaaS"
+msgstr "SaaS"
 
 #. module: saas_management
 #: model:res.groups,name:saas_management.group_saas_manager
