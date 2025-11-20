@@ -9,6 +9,15 @@ class ImportInvoiceProcessMessage(models.TransientModel):
     _description = 'ImportInvoiceProcessMessage'
 
     name = fields.Char("Name")
+
+    @api.model
+    def default_get(self, fields_list):
+        _logger.warning('=== WIZARD IMPORT_INVOICE_PROCESS_MESSAGE INICIADO ===')
+        _logger.warning('Context received in default_get: %s', list(self._context.keys()))
+        if 'not_imported_attachment' in self._context:
+            _logger.warning('not_imported_attachment FOUND in context during default_get')
+            _logger.warning('Value: %s', self._context.get('not_imported_attachment')[:200])
+        return super().default_get(fields_list)
     
     
     def show_created_invoices(self):
