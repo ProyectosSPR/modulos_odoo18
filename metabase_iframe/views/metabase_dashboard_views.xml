@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Tree View -->
-    <record id="view_metabase_dashboard_tree" model="ir.ui.view">
-        <field name="name">metabase.dashboard.tree</field>
+    <!-- List View -->
+    <record id="view_metabase_dashboard_list" model="ir.ui.view">
+        <field name="name">metabase.dashboard.list</field>
         <field name="model">metabase.dashboard</field>
         <field name="arch" type="xml">
-            <tree string="Metabase Dashboards">
+            <list string="Metabase Dashboards">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="iframe_url"/>
                 <field name="active" widget="boolean_toggle"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -60,7 +60,7 @@
     <record id="action_metabase_dashboard" model="ir.actions.act_window">
         <field name="name">Metabase Dashboards</field>
         <field name="res_model">metabase.dashboard</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first Metabase Dashboard
