@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="metabase_iframe.MetabaseDashboardViewer">
+        <div class="o_metabase_dashboard">
+            <t t-if="state.loading">
+                <div class="text-center p-5">
+                    <i class="fa fa-spinner fa-spin fa-3x"/>
+                    <p class="mt-3">Loading dashboard...</p>
+                </div>
+            </t>
+
+            <t t-elif="state.error">
+                <div class="alert alert-danger m-3">
+                    <i class="fa fa-exclamation-triangle"/> <t t-esc="state.error"/>
+                </div>
+            </t>
+
+            <t t-elif="state.dashboard">
+                <div class="o_metabase_container" style="padding: 0; margin: 0;">
+                    <iframe
+                        t-att-src="state.dashboard.iframe_url"
+                        t-att-style="iframeStyle"
+                        frameborder="0"
+                        allowtransparency="true"
+                        allow="fullscreen"
+                    />
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

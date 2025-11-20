@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_metabase_root"
+              name="Metabase"
+              sequence="90"
+              web_icon="metabase_iframe,static/description/icon.png"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_metabase_config"
+              name="Configuration"
+              parent="menu_metabase_root"
+              sequence="100"
+              groups="base.group_system"/>
+
+    <menuitem id="menu_metabase_dashboard_config"
+              name="Dashboards"
+              parent="menu_metabase_config"
+              action="action_metabase_dashboard"
+              sequence="10"
+              groups="base.group_system"/>
+</odoo>
