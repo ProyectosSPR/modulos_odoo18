@@ -43,10 +43,26 @@ class AttachXmlsWizard(models.TransientModel):
         if result.get('wrongfiles'):
             errors = []
             for filename, error_data in result['wrongfiles'].items():
+                # Manejar diferentes tipos de error
                 if 'error' in error_data:
-                    errors.append(f"{filename}: {error_data['error'][1]}")
+                    error_list = error_data['error']
+                    if isinstance(error_list, list):
+                        if len(error_list) >= 2:
+                            # Error con tipo y mensaje: [ExceptionName, message]
+                            errors.append(f"{filename}: {error_list[1]}")
+                        elif len(error_list) == 1:
+                            # Error con solo mensaje: ['mensaje']
+                            errors.append(f"{filename}: {error_list[0]}")
+                        else:
+                            errors.append(f"{filename}: Error desconocido")
+                    else:
+                        # error no es una lista, convertirlo a string
+                        errors.append(f"{filename}: {str(error_list)}")
+                elif 'signed' in error_data:
+                    # Error de UUID faltante
+                    errors.append(f"{filename}: El XML no contiene UUID válido (no está timbrado)")
                 else:
-                    errors.append(f"{filename}: Error al procesar")
+                    errors.append(f"{filename}: Error al procesar el archivo XML")
 
             if errors:
                 raise UserError(_('Se encontraron errores en los siguientes archivos:\n\n%s') % '\n'.join(errors))
