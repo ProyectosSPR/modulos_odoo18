@@ -29,8 +29,7 @@ export class DashboardAmcharts extends Component {
     this.grid = false;
 
     onWillStart(async () => {
-      // jspdf.js is already loaded via manifest assets, no need to load dynamically
-      // await loadJS("/synconics_bi_dashboard/static/src/lib/jspdf.js");
+      await loadJS("/synconics_bi_dashboard/static/src/lib/jspdf.js");
       await this.get_chart_details();
     });
 
