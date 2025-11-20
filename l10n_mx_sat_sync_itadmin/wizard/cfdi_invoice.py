@@ -157,6 +157,9 @@ class CfdiInvoiceAttachment(models.TransientModel):
                 except Exception as e:
                     # Usar attachment.name como clave para consistencia
                     attachment_name = attachment.name if attachment else 'Unknown file'
+                    _logger.warning('=== CODIGO ACTUALIZADO 2025-11-20 v2 ===')
+                    _logger.warning('Exception caught for attachment: %s (type: %s)', attachment_name, type(attachment_name))
+                    _logger.warning('Error: %s', str(e))
                     if hasattr(e, 'name'):
                         not_imported_attachment.update({attachment_name: e.name})
                     elif hasattr(e, 'message'):
