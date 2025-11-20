@@ -155,12 +155,14 @@ class CfdiInvoiceAttachment(models.TransientModel):
                         attachment.write(val)
 
                 except Exception as e:
+                    # Usar attachment.name como clave para consistencia
+                    attachment_name = attachment.name if attachment else 'Unknown file'
                     if hasattr(e, 'name'):
-                        not_imported_attachment.update({attachment: e.name})
+                        not_imported_attachment.update({attachment_name: e.name})
                     elif hasattr(e, 'message'):
-                        not_imported_attachment.update({attachment: e.message})
+                        not_imported_attachment.update({attachment_name: e.message})
                     else:
-                        not_imported_attachment.update({attachment: str(e)})
+                        not_imported_attachment.update({attachment_name: str(e)})
                     self.env.cr.rollback()
                     continue
                 imported_attachment.append(attachment.name)
@@ -188,8 +190,16 @@ class CfdiInvoiceAttachment(models.TransientModel):
                 ctx.update({'existed_attachment': '<p>' + '<p></p>'.join(existed_attachment) + '</p>'})
             if not_imported_attachment:
                 content = ''
-                for attachment, error in not_imported_attachment.items():
-                    content += '<p>' + attachment.name + ':</p> <p><strong style="color:red;">&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;bull; Error : </strong> %s </p>' % (
+                for attachment_key, error in not_imported_attachment.items():
+                    # Manejar tanto strings como objetos attachment
+                    if isinstance(attachment_key, str):
+                        attachment_name = attachment_key
+                    elif hasattr(attachment_key, 'name'):
+                        attachment_name = attachment_key.name
+                    else:
+                        attachment_name = str(attachment_key)
+
+                    content += '<p>' + attachment_name + ':</p> <p><strong style="color:red;">&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;bull; Error : </strong> %s </p>' % (
                         error)
 
                 ctx.update({'not_imported_attachment': content})
