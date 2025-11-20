@@ -205,10 +205,20 @@ class CfdiInvoiceAttachment(models.TransientModel):
                     content += '<p>' + attachment_name + ':</p> <p><strong style="color:red;">&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;bull; Error : </strong> %s </p>' % (
                         error)
 
+                _logger.warning('=== CONTENT GENERATED ===')
+                _logger.warning('HTML Content length: %s', len(content))
+                _logger.warning('HTML Content: %s', content[:500] if len(content) > 500 else content)
                 ctx.update({'not_imported_attachment': content})
 
             if imported_attachment:
                 ctx.update({'imported_attachment': '<p>' + '<p></p>'.join(imported_attachment) + '</p>'})
+
+            _logger.warning('=== RETURNING ACTION ===')
+            _logger.warning('Context keys: %s', list(ctx.keys()))
+            _logger.warning('not_imported_attachment in context: %s', 'not_imported_attachment' in ctx)
+            if 'not_imported_attachment' in ctx:
+                _logger.warning('not_imported_attachment value: %s', ctx['not_imported_attachment'][:200])
+
             return {
                 'name': "Resultado de importación",
                 'view_mode': 'form',
