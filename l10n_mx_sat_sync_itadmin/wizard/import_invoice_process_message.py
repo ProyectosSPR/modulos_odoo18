@@ -29,8 +29,52 @@ class ImportInvoiceProcessMessage(models.TransientModel):
         return result
 
     @api.model
+    def get_views(self, views, options=None):
+        """Override get_views for Odoo 18 compatibility"""
+        _logger.warning('=== GET_VIEWS CALLED (Odoo 18) ===')
+        _logger.warning('Context keys: %s', list(self._context.keys()))
+        _logger.warning('not_imported_attachment in context: %s', 'not_imported_attachment' in self._context)
+
+        res = super().get_views(views, options)
+        context = self._context
+
+        _logger.warning('Processing views...')
+        _logger.warning('Views in result: %s', list(res.get('views', {}).keys()))
+
+        # Process each view type in the result
+        for view_type, view_data in res.get('views', {}).items():
+            if view_type == 'form' and 'arch' in view_data:
+                _logger.warning('Processing form view in get_views...')
+
+                if context.get('existed_attachment'):
+                    _logger.warning('Replacing existed_attachment_content')
+                    view_data['arch'] = view_data['arch'].replace("existed_attachment_content", context.get('existed_attachment'))
+                else:
+                    view_data['arch'] = view_data['arch'].replace("existed_attachment_content", '')
+
+                if context.get('not_imported_attachment'):
+                    _logger.warning('Replacing not_imported_attachment_content')
+                    _logger.warning('Content to replace: %s', context.get('not_imported_attachment')[:200])
+                    view_data['arch'] = view_data['arch'].replace("not_imported_attachment_content",
+                                                                   context.get('not_imported_attachment'))
+                    _logger.warning('Replacement done. Checking if placeholder still exists: %s',
+                                   'not_imported_attachment_content' in view_data['arch'])
+                else:
+                    _logger.warning('not_imported_attachment NOT in context, replacing with empty')
+                    view_data['arch'] = view_data['arch'].replace("not_imported_attachment_content", '')
+
+                if context.get('imported_attachment'):
+                    _logger.warning('Replacing imported_attachment_content')
+                    view_data['arch'] = view_data['arch'].replace("imported_attachment_content", context.get('imported_attachment'))
+                else:
+                    view_data['arch'] = view_data['arch'].replace("imported_attachment_content", '')
+
+        return res
+
+    @api.model
     def get_view(self, view_id=None, view_type='form', **options):
-        _logger.warning('=== GET_VIEW CALLED ===')
+        """Keep get_view for backwards compatibility"""
+        _logger.warning('=== GET_VIEW CALLED (Legacy) ===')
         _logger.warning('view_type: %s', view_type)
         _logger.warning('Context keys: %s', list(self._context.keys()))
         _logger.warning('not_imported_attachment in context: %s', 'not_imported_attachment' in self._context)
