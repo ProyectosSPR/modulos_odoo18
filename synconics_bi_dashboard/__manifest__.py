@@ -57,8 +57,8 @@ Transform your data into compelling dashboard visualizations
     "external_dependencies": {"python": ["imgkit"]},
     "assets": {
         "web.assets_backend": [
-            "synconics_bi_dashboard/static/src/lib/html2canvas.js",
-            "synconics_bi_dashboard/static/src/lib/jspdf.js",
+            ("prepend", "synconics_bi_dashboard/static/src/lib/html2canvas.js"),
+            ("prepend", "synconics_bi_dashboard/static/src/lib/jspdf.js"),
             "synconics_bi_dashboard/static/src/lib/amcharts/index.js",
             "synconics_bi_dashboard/static/src/lib/amcharts/xy.js",
             "synconics_bi_dashboard/static/src/lib/amcharts/exporting.js",
