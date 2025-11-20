@@ -6,17 +6,19 @@
             <field name="model">import.invoice.process.message</field>
             <field name="arch" type="xml">
                 <form>
-                	<p invisible="not context.get('existed_attachment')"><strong>XML existentes:</strong></p>
-                	<p invisible="not context.get('existed_attachment')">existed_attachment_content</p>
-                	
-                	<p invisible="not context.get('not_imported_attachment')"><strong>XML no importados:</strong></p>
-                	<p invisible="not context.get('not_imported_attachment')">not_imported_attachment_content</p>
-                	
-                	<p invisible="not context.get('imported_attachment')"><strong>XML importados:</strong></p>
-                	<p invisible="not context.get('imported_attachment')">imported_attachment_content</p>
-                	
+                    <group>
+                        <field name="existed_attachment_html" invisible="not existed_attachment_html"
+                               nolabel="1" widget="html"/>
+
+                        <field name="not_imported_attachment_html" invisible="not not_imported_attachment_html"
+                               nolabel="1" widget="html"/>
+
+                        <field name="imported_attachment_html" invisible="not imported_attachment_html"
+                               nolabel="1" widget="html"/>
+                    </group>
+
                 	<footer>
-                        <!-- <button name="show_created_invoices" string="Show Invoices" invisible="not context.get('imported_attachment')" type="object" class="oe_highlight"/> --> 
+                        <!-- <button name="show_created_invoices" string="Show Invoices" invisible="not context.get('imported_attachment')" type="object" class="oe_highlight"/> -->
                         <button string="OK" class="oe_highlight" special="cancel" />
                         <button string="Cancelar" class="oe_highlight" special="cancel" />
                     </footer>
