@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        id="ai_root_menu"
+        name="AI"
+        sequence="10"
+        web_icon="much_automated_agent_actions,static/description/icon.png"
+    />
+    <menuitem
+        id="ai_config_menu"
+        parent="ai_root_menu"
+        name="Configuration"
+        sequence="90"
+    />
+
+    <menuitem id="ai_actions_menu" parent="ai_root_menu" name="Actions" sequence="10" />
+</odoo>

@@ -1,0 +1,812 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* much_automated_agent_actions
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ai_model__length_preset
+msgid ""
+"- Short (400 tokens)\n"
+"- Long (provider's default max)"
+msgstr ""
+"- Kurz (400 Token)\n"
+"- Lang (Standard-Maximalwert des Anbieters)"
+
+#. module: much_automated_agent_actions
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.view_server_action_form
+msgid ""
+"<i class=\"fa fa-warning\"/> Updating a field will overwrite the current "
+"content of that field."
+msgstr ""
+"<i class=\"fa fa-warning\"/> Durch die Aktualisierung eines Feldes wird der "
+"aktuelle Inhalt des Feldes überschrieben."
+
+#. module: much_automated_agent_actions
+#: model:ir.module.category,name:much_automated_agent_actions.module_category_ai
+#: model:ir.ui.menu,name:much_automated_agent_actions.ai_root_menu
+msgid "AI"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "AI Action Error"
+msgstr "AI-Aktionsfehler"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "AI Attachment Error"
+msgstr "AI-Attachment-Fehler"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "AI Data Error"
+msgstr "AI-Datenfehler"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "AI Generation Error"
+msgstr "AI-Generierungsfehler"
+
+#. module: much_automated_agent_actions
+#: model:ir.model,name:much_automated_agent_actions.model_ai_log
+msgid "AI Log"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#: model:ir.model,name:much_automated_agent_actions.model_ai_model
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_actions_server__ai_model_id
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_cron__ai_model_id
+msgid "AI Model"
+msgstr "AI-Modell"
+
+#. module: much_automated_agent_actions
+#: model:ir.actions.act_window,name:much_automated_agent_actions.ai_model_window
+msgid "AI Models"
+msgstr "AI-Modelle"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "AI Output Error"
+msgstr "AI-Ausgangsfehler"
+
+#. module: much_automated_agent_actions
+#: model:ir.model,name:much_automated_agent_actions.model_ai_provider
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_model_search
+msgid "AI Provider"
+msgstr "AI-Anbieter"
+
+#. module: much_automated_agent_actions
+#: model:ir.actions.act_window,name:much_automated_agent_actions.ai_provider_window
+msgid "AI Providers"
+msgstr "AI-Anbieter"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "AI Report Error"
+msgstr "AI-Berichtsfehler"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "AI Service Error"
+msgstr "AI-Service-Fehler"
+
+#. module: much_automated_agent_actions
+#: model:ir.model,name:much_automated_agent_actions.model_ai_service_factory
+msgid "AI Service Factory"
+msgstr "AI Service Fabrik"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ai_service.py:0
+#, python-format
+msgid "AI provider '%s' not found or not active"
+msgstr "AI-Anbieter '%s' nicht gefunden oder nicht aktiv"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "AI service triggered"
+msgstr "AI Service ausgelöst"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__api_key
+msgid "API Key"
+msgstr "API-Schlüssel"
+
+#. module: much_automated_agent_actions
+#: model:ir.ui.menu,name:much_automated_agent_actions.ai_actions_menu
+msgid "Actions"
+msgstr "Aktionen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__active
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__active
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__active
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_model_search
+msgid "Active"
+msgstr "Aktiv"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_actions_server__output_activity_type_id
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_cron__output_activity_type_id
+msgid "Activity Type"
+msgstr "Aktivitätstyp"
+
+#. module: much_automated_agent_actions
+#: model:res.groups,name:much_automated_agent_actions.group_ai_admin
+msgid "Administrator"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "Agent '%(action_name)s' created an activity!"
+msgstr "Agent '%(action_name)s' hat eine Aktivität erstellt!"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "Agent '%(action_name)s' is working on it!"
+msgstr "Agent '%(action_name)s' arbeitet daran!"
+
+#. module: much_automated_agent_actions
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_model_search
+msgid "All"
+msgstr "Alle"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ir_actions_server__include_chatter__all
+msgid "All Chatter"
+msgstr "Alle Unterhaltungen"
+
+#. module: much_automated_agent_actions
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_log_search
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_model_form
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_provider_form
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_provider_search
+msgid "Archived"
+msgstr "Archiviert"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_actions_server__output_activity_user_id
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_cron__output_activity_user_id
+msgid "Assigned to"
+msgstr "Zugewiesen an"
+
+#. module: much_automated_agent_actions
+#: model_terms:ir.actions.act_window,help:much_automated_agent_actions.base_automation_window
+msgid "Automate <em>everything</em> with Automation Rules"
+msgstr "Automatisierung Sie <em>alles</em> mit Automatisierungsregeln"
+
+#. module: much_automated_agent_actions
+#: model:ir.actions.act_window,name:much_automated_agent_actions.base_automation_window
+#: model:ir.ui.menu,name:much_automated_agent_actions.base_automation_menu
+msgid "Automation Rules"
+msgstr "Automatisierungsregeln"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ai_model__creativity_preset__balanced
+msgid "Balanced"
+msgstr "Ausgewogen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ir_actions_server__output_destination__chatter
+msgid "Chatter"
+msgstr "Unterhaltung"
+
+#. module: much_automated_agent_actions
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.preview_prompt_form
+msgid "Close"
+msgstr "Schließen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__code
+msgid "Code"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__company_id
+msgid "Company"
+msgstr "Unternehmen"
+
+#. module: much_automated_agent_actions
+#: model:ir.ui.menu,name:much_automated_agent_actions.ai_config_menu
+msgid "Configuration"
+msgstr "Konfiguration"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ir_actions_server__output_destination__activity
+msgid "Create Activity"
+msgstr "Aktivität erstellen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__create_uid
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__create_uid
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__create_uid
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_preview_prompt__create_uid
+msgid "Created by"
+msgstr "Erstellt von"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__create_date
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__create_date
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__create_date
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_preview_prompt__create_date
+msgid "Created on"
+msgstr "Erstellt am"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ai_model__creativity_preset__creative
+msgid "Creative"
+msgstr "Kreativ"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__creativity_preset
+msgid "Creativity Level"
+msgstr "Kreativitätslevel"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__date
+msgid "Date"
+msgstr "Datum"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__description
+msgid "Description"
+msgstr "Beschreibung"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__display_name
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__display_name
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__display_name
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_preview_prompt__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ai_log__level__error
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_log_search
+msgid "Error"
+msgstr "Fehler"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "Error adding record data to prompt\n"
+msgstr "Fehler beim Hinzufügen von Datensatzdaten zur Eingabeaufforderung"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ai_service.py:0
+#, python-format
+msgid "Error calling Anthropic API\n"
+msgstr "Fehler beim Aufruf von Anthropic API\n"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ai_service.py:0
+#, python-format
+msgid "Error calling Google Gemini API\n"
+msgstr "Fehler beim Aufruf von Google Gemini API\n"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ai_service.py:0
+#, python-format
+msgid "Error calling Mistral AI API\n"
+msgstr "Fehler beim Aufrufen der Mistral AI API\n"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ai_service.py:0
+#, python-format
+msgid "Error calling OpenAI API\n"
+msgstr "Fehler beim Aufruf von OpenAI API\n"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/wizards/preview_prompt.py:0
+#, python-format
+msgid "Error generating preview. Check the template for errors."
+msgstr "Fehler beim Erzeugen der Vorschau. Prüfen Sie die Vorlage auf Fehler."
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "Error generating text\n"
+msgstr "Fehler bei der Generierung von Text\n"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "Error getting AI service\n"
+msgstr "Fehler beim Abrufen des AI-Dienstes\n"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid ""
+"Error processing attachment '%(attachment_name)s'\n"
+"%(exception)s"
+msgstr ""
+"Fehler bei der Verarbeitung des Anhangs, '%(attachment_name)s'\n"
+"%(exception)s"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "Error rendering prompt template\n"
+msgstr "Fehler beim Rendern der Eingabeaufforderung template\n"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "Error rendering report\n"
+msgstr "Fehler beim Rendern des Berichts\n"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid ""
+"Error writing to field '%(field_name)s'\n"
+"%(exception)s"
+msgstr ""
+"Fehler beim Schreiben in das Feld: '%(field_name)s'\n"
+"%(exception)s"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ai_model__creativity_preset__factual
+msgid "Factual"
+msgstr "Sachlich"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ir_actions_server__output_destination__field
+msgid "Field"
+msgstr "Feld"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ir_actions_server__output_field_id
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ir_cron__output_field_id
+msgid "Field to store the output"
+msgstr "Feld zum Speichern der Ausgabe"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__files_allowed
+msgid "Files Allowed"
+msgstr "Dateien erlaubt"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ir_actions_server__state__generative_ai
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.view_base_automation_search
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.view_server_action_search
+msgid "Generative AI"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_log_search
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_model_search
+msgid "Group By"
+msgstr "Gruppe nach"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ai_model__name
+msgid "Human-readable model name"
+msgstr "Menschenlesbarer Modellname"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__id
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__id
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__id
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_preview_prompt__id
+msgid "ID"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__images_allowed
+msgid "Images Allowed"
+msgstr "Bilder erlaubt"
+
+#. module: much_automated_agent_actions
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_model_search
+msgid "Inactive"
+msgstr "Inaktiv"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_actions_server__include_all_attachments
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_cron__include_all_attachments
+msgid "Include All Attachments"
+msgstr "Alle Anhänge einbeziehen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_actions_server__include_chatter
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_cron__include_chatter
+msgid "Include Chatter"
+msgstr "Unterhaltung einbeziehen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_actions_server__include_full_object_data
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_cron__include_full_object_data
+msgid "Include Full Object Data"
+msgstr "Vollständige Objektdaten einbeziehen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_actions_server__include_report_id
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_cron__include_report_id
+msgid "Include Report"
+msgstr "Bericht einbeziehen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ir_actions_server__include_all_attachments
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ir_cron__include_all_attachments
+msgid "Include all attachments"
+msgstr "Alle Anhänge einbeziehen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ir_actions_server__include_full_object_data
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ir_cron__include_full_object_data
+msgid "Include full object data in JSON format at the end of the prompt"
+msgstr ""
+"Einfügen der vollständigen Objektdaten im JSON-Format am Ende der "
+"Eingabeaufforderung"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ai_log__level__info
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_log_search
+msgid "Info"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ir_actions_server__prompt_template
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ir_cron__prompt_template
+msgid "Jinja2-style template for prompt generation"
+msgstr "Vorlage im Jinja2-Stil für die Prompt-Generierung"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__write_uid
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__write_uid
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__write_uid
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_preview_prompt__write_uid
+msgid "Last Updated by"
+msgstr "Zuletzt aktualisiert von"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__write_date
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__write_date
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__write_date
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_preview_prompt__write_date
+msgid "Last Updated on"
+msgstr "Zuletzt aktualisiert am"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__level
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_log_search
+msgid "Level"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#: model:ir.actions.act_window,name:much_automated_agent_actions.ai_log_window
+#: model:ir.ui.menu,name:much_automated_agent_actions.ai_log_menu
+msgid "Logs"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ai_model__length_preset__long
+msgid "Long"
+msgstr "Lang"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ir_actions_server__include_chatter__mails
+msgid "Mails"
+msgstr "E-Mails"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ir_actions_server__include_chatter__mails_notes
+msgid "Mails & Notes"
+msgstr "E-Mails & Notizen"
+
+#. module: much_automated_agent_actions
+#: model:ir.module.category,description:much_automated_agent_actions.module_category_ai
+msgid "Manage AI features and settings"
+msgstr "KI-Funktionen und -Einstellungen verwalten"
+
+#. module: much_automated_agent_actions
+#: model:res.groups,name:much_automated_agent_actions.group_ai_manager
+msgid "Manager"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__max_files
+msgid "Max Files"
+msgstr "Maximale Dateien"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__max_tokens
+msgid "Max Tokens"
+msgstr "Maximale Token"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ai_model__max_files
+msgid "Maximum number of files supported"
+msgstr "Maximale Anzahl unterstützter Dateien"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_preview_prompt__object_model
+msgid "Model Name"
+msgstr "Modellname"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ai_model__technical_name
+msgid "Model identifier in the provider's API"
+msgstr "Modellkennung in der API des Anbieters"
+
+#. module: much_automated_agent_actions
+#: model:ir.ui.menu,name:much_automated_agent_actions.ai_model_menu
+msgid "Models"
+msgstr "Modelle"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__name
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__name
+msgid "Name"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ai_service.py:0
+#, python-format
+msgid ""
+"No active credentials found for provider '%(provider_name)s' and company "
+"'%(company_name)s'"
+msgstr ""
+"Keine aktiven Berechtigungsnachweise für Anbieter '%(provider_name)s' und "
+"Unternehmen '%(company_name)s' gefunden"
+
+#. module: much_automated_agent_actions
+#: model_terms:ir.actions.act_window,help:much_automated_agent_actions.ai_log_window
+msgid "No logs yet."
+msgstr "Noch keine Logs."
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ir_actions_server__include_chatter__none
+msgid "None"
+msgstr "Keine"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ir_actions_server__include_report_id
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ir_cron__include_report_id
+msgid "Optional report to include"
+msgstr "Optionaler Bericht zum Einbeziehen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_actions_server__output_destination
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_cron__output_destination
+msgid "Output Destination"
+msgstr "Ausgabeziel"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_actions_server__output_field_id
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_cron__output_field_id
+msgid "Output Field"
+msgstr "Ausgabefeld"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ir_actions_server.py:0
+#, python-format
+msgid "Output field '%(field_name)s' does not exist on model '%(model_name)s'"
+msgstr ""
+"Das Ausgabefeld '%(field_name)s' existiert nicht im Modell '%(model_name)s'"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_preview_prompt__preview_text
+msgid "Preview"
+msgstr "Vorschau"
+
+#. module: much_automated_agent_actions
+#: model:ir.model,name:much_automated_agent_actions.model_preview_prompt
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.view_server_action_form
+msgid "Preview Prompt"
+msgstr "Prompt-Vorschau"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_actions_server__prompt_template
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ir_cron__prompt_template
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.view_server_action_form
+msgid "Prompt Template"
+msgstr "Prompt-Vorlage"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__provider_id
+msgid "Provider"
+msgstr "Anbieter"
+
+#. module: much_automated_agent_actions
+#: model:ir.ui.menu,name:much_automated_agent_actions.ai_provider_menu
+msgid "Providers"
+msgstr "Anbieter"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_preview_prompt__object_ref
+msgid "Record"
+msgstr "Datensatz"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ai_log.py:0
+#, python-format
+msgid "Related Record"
+msgstr "Verwandter Datensatz"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/controllers/main.py:0
+#, python-format
+msgid "Reload"
+msgstr "Erneut laden"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__res_id
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_log_search
+msgid "Resource ID"
+msgstr "Ressource ID"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__res_model
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_log_search
+msgid "Resource Model"
+msgstr "Ressource Modell"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__length_preset
+msgid "Response Length"
+msgstr "Antwortlänge"
+
+#. module: much_automated_agent_actions
+#: model_terms:ir.actions.act_window,help:much_automated_agent_actions.base_automation_window
+msgid ""
+"Send an email when an object changes state, archive records\n"
+"                after a month of inactivity or remind yourself to follow-up on\n"
+"                tasks when a specific tag is added."
+msgstr ""
+"Senden Sie eine E-Mail, wenn sich der Status eines Objekts ändert, archivieren Sie Datensätze\n"
+"                nach einem Monat der Inaktivität oder erinnern Sie sich daran, Aufgaben\n"
+"                zu verfolgen, wenn ein bestimmtes Stichwort hinzugefügt wird."
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__sequence
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_provider__sequence
+msgid "Sequence"
+msgstr "Sequenz"
+
+#. module: much_automated_agent_actions
+#: model:ir.model,name:much_automated_agent_actions.model_ir_actions_server
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_preview_prompt__server_action_id
+msgid "Server Action"
+msgstr "Serveraktion"
+
+#. module: much_automated_agent_actions
+#: model:ir.actions.act_window,name:much_automated_agent_actions.action_server_window
+#: model:ir.ui.menu,name:much_automated_agent_actions.server_action_menu
+msgid "Server Actions"
+msgstr "Serveraktionen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ai_model__length_preset__short
+msgid "Short"
+msgstr "Kurz"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ai_log__level__success
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_log_search
+msgid "Success"
+msgstr "Erfolg"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__name
+msgid "Summary"
+msgstr "Übersicht"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__technical_name
+msgid "Technical Name"
+msgstr "Technischer Name"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ai_provider__code
+msgid "Technical code (e.g., openai, anthropic)"
+msgstr "Technischer Code (z.B. openai, anthropic)"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__temperature
+msgid "Temperature"
+msgstr "Temperatur"
+
+#. module: much_automated_agent_actions
+#. odoo-python
+#: code:addons/much_automated_agent_actions/models/ai_service.py:0
+#, python-format
+msgid "Unsupported AI provider: %s"
+msgstr "Nicht unterstützter AI-Anbieter: %s"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_log__user_id
+#: model:res.groups,name:much_automated_agent_actions.group_ai_user
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_log_search
+msgid "User"
+msgstr "Benutzer"
+
+#. module: much_automated_agent_actions
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_log_form
+msgid "View Record"
+msgstr "Datensatz anzeigen"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields.selection,name:much_automated_agent_actions.selection__ai_log__level__warning
+#: model_terms:ir.ui.view,arch_db:much_automated_agent_actions.ai_log_search
+msgid "Warning"
+msgstr "Warnung"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ai_model__files_allowed
+msgid "Whether the model supports file attachments"
+msgstr "Ob das Modell Dateianhänge unterstützt"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,help:much_automated_agent_actions.field_ai_model__images_allowed
+msgid "Whether the model supports image attachments"
+msgstr "Ob das Modell Bildanhänge unterstützt"
+
+#. module: much_automated_agent_actions
+#: model_terms:ir.actions.act_window,help:much_automated_agent_actions.base_automation_window
+msgid ""
+"With Automation Rules, you can automate\n"
+"                <em>any</em>\n"
+"                workflow."
+msgstr ""
+"Mit Automatisierungsregeln können Sie\n"
+"                <em>jeden</em> Arbeitsablauf automatisieren"
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__top_k
+msgid "top_k"
+msgstr ""
+
+#. module: much_automated_agent_actions
+#: model:ir.model.fields,field_description:much_automated_agent_actions.field_ai_model__top_p
+msgid "top_p"
+msgstr ""

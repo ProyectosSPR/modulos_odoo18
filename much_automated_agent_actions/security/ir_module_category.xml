@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Module Category -->
+    <record id="module_category_ai" model="ir.module.category">
+        <field name="name">AI</field>
+        <field name="description">Manage AI features and settings</field>
+        <field name="sequence">20</field>
+    </record>
+</odoo>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoo AI Automated Actions with generative AI (ChatGPT, Claude, Gemini, Mistral) - Odoo Apps</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; line-height: 1.6; color: #2D3748; background-color: #ffffff; margin: 0; padding: 0;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
+        <!-- Module Header -->
+        <div style="background-color: white; padding: 40px 0 20px; text-align: center; border-bottom: 1px solid #e5e7eb;">
+            <h1 style="font-size: 28px; font-weight: 600; color: #1A365D; margin-bottom: 10px; line-height: 1.3; margin-top: 0;">Odoo AI Automated Actions with generative AI (ChatGPT, Claude, Gemini, Mistral)</h1>
+            <p style="font-size: 18px; color: #1A365D; font-weight: 600; margin-bottom: 30px; margin-top: 0;">Transform your Odoo workflows with intelligent automation that actually works.</p>
+        </div>
+        
+        <!-- Main Hero Section -->
+        <div style="padding: 0; margin: 40px 0;">
+            <p style="font-size: 18px; color: #2D3748; text-align: left; margin: 0 auto 30px; line-height: 1.7;">
+                Odoo AI Actions seamlessly integrates generative AI into your existing Odoo automated actions, giving you the power to process documents, analyze data, and generate intelligent responses using your choice of AI provider; all without leaving your Odoo environment.
+            </p>
+            <div style="background-color: #ffffff; border-radius: 16px; padding: 40px; margin: 40px 0; text-align: center;">
+                <img class="oe_picture oe_screenshot" src="./images/hero.png" alt="provider options (hero)" style="width: 100%; height: auto; display: block; object-fit: contain; box-shadow: 0 10px 30px rgba(26, 54, 93, 0.15); border-radius: 12px">
+            </div>
+        </div>
+
+        <!-- Why do you need this module -->
+        <h2 style="font-size: 32px; font-weight: 700; color: #1A365D; margin: 60px 0 40px;">Why do you need this module?</h2>
+        <p style="font-size: 16px; color: #2D3748; line-height: 1.8; margin-bottom: 40px; margin-top: 0;">
+            We are automating many of our internal processes with AI. Over time the amount of use cases and customizations was getting out of hand and we decided to build a generalized module that can manage most of our use cases out of the box. Easy to use in any Odoo process with the flexibility to use all Odoo data and connect to any common AI model. This allows non-technical users to set up and fine tune use cases without technical support.
+        </p>
+
+        <!-- Key Features & Benefits -->
+        <h2 style="font-size: 32px; font-weight: 700; color: #1A365D; margin: 60px 0 40px;">Key Features & Benefits</h2>
+        
+        <div style="display: table; width: 100%; margin: 40px 0;">
+            <div style="display: table-row;">
+                <div style="display: table-cell; width: 33.33%; padding: 0 15px; vertical-align: top;">
+                    <div style="background-color: #D6E4F0; padding: 30px; border-radius: 16px; text-align: left; height: 350px ; box-sizing: border-box;">
+                        <span style="font-size: 24px; margin-bottom: 20px; display: block;">🔌</span>
+                        <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #1A365D; margin-top: 0;">No Code Plug & Play</h4>
+                        <p style="font-size: 14px; color: #2D3748; line-height: 1.6; margin: 0;">
+                            No complex setup required. Add AI actions to any Odoo model with the same ease as creating standard automated actions. Works with your existing workflows immediately.
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="display: table-cell; width: 33.33%; padding: 0 15px; vertical-align: top;">
+                      <div style="background-color: #D6E4F0; padding: 30px; border-radius: 16px; text-align: left; height: 350px; box-sizing: border-box;">
+                        <span style="font-size: 24px; margin-bottom: 20px; display: block;">🤖</span>
+                        <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #1A365D; margin-top: 0;">Multi-Provider Flexibility</h4>
+                        <p style="font-size: 14px; color: #2D3748; line-height: 1.6; margin: 0;">
+                            Choose from OpenAI, Google Gemini, Anthropic Claude or Mistral models. Use your own API keys and switch between providers based on your needs and budget.
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="display: table-cell; width: 33.33%; padding: 0 15px; vertical-align: top;">
+                    <div style="background-color: #D6E4F0; padding: 30px; border-radius: 16px; text-align: left; height: 350px; box-sizing: border-box;">
+                        <span style="font-size: 24px; margin-bottom: 20px; display: block;">📊</span>
+                        <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #1A365D; margin-top: 0;">Complete Data Access</h4>
+                        <p style="font-size: 14px; color: #2D3748; line-height: 1.6; margin: 0;">
+                            Pull in chatter history, attachments, data of related models, and even generated reports. Your AI prompts have access to the full context of your business records.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: table; width: 100%; margin: 40px 0;">
+            <div style="display: table-row;">
+                <div style="display: table-cell; width: 33.33%; padding: 0 15px; vertical-align: top;">
+                    <div style="background-color: #D6E4F0; padding: 30px; border-radius: 16px; text-align: left; height: 350px; box-sizing: border-box;">
+                        <span style="font-size: 24px; margin-bottom: 20px; display: block;">🌍</span>
+                        <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #1A365D; margin-top: 0;">Universal Application</h4>
+                        <p style="font-size: 14px; color: #2D3748; line-height: 1.6; margin: 0;">
+                            Deploy AI actions across all apps (CRM, Inventory, Accounting, Sales, Recruiting, Helpdesk ...) and any custom module. One tool that enhances every part of your Odoo system.
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="display: table-cell; width: 33.33%; padding: 0 15px; vertical-align: top;">
+                    <div style="background-color: #D6E4F0; padding: 30px; border-radius: 16px; text-align: left; height: 350px; box-sizing: border-box;">
+                        <span style="font-size: 24px; margin-bottom: 20px; display: block;">💰</span>
+                        <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #1A365D; margin-top: 0;">Cost Control</h4>
+                        <p style="font-size: 14px; color: #2D3748; line-height: 1.6; margin: 0;">
+                            Use your own API keys and choose the most cost-effective AI model for each use case. No markup, no subscription fees; just pay the AI provider directly.
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="display: table-cell; width: 33.33%; padding: 0 15px; vertical-align: top;">
+                    <div style="background-color: #D6E4F0; padding: 30px; border-radius: 16px; text-align: left; height: 350px; box-sizing: border-box;">
+                        <span style="font-size: 24px; margin-bottom: 20px; display: block;">📝</span>
+                        <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #1A365D; margin-top: 0;">Intelligent Output</h4>
+                        <p style="font-size: 14px; color: #2D3748; line-height: 1.6; margin: 0;">
+                            Responses can be posted to chatter as notes or saved to any text field, with automatic Markdown to HTML conversion for rich formatting.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What's New Section -->
+        <div style="position: relative; background-color: #e8f4fd; border: 2px solid #3182ce; border-radius: 20px; padding: 50px 30px 40px; margin: 60px 0 40px; box-shadow: 0 8px 25px rgba(49, 130, 206, 0.15);">
+            <!-- What's New Badge -->
+            <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background-color: #3182ce ; color: #ffffff; padding: 8px 24px; border-radius: 25px; font-weight: 700; font-size: 16px; box-shadow: 0 4px 15px rgba(49, 130, 206, 0.3);">
+                ✨ What's New
+            </div>
+            
+            <div style="display: table; width: 100%; margin-top: 20px;">
+                <div style="display: table-row;">
+                    <div style="display: table-cell; width: 33.33%; padding: 0 15px; vertical-align: top;">
+                        <div style="background-color: #ffffff; padding: 30px; border-radius: 16px; text-align: left; height: 350px; box-sizing: border-box; border: 1px solid #bee3f8; box-shadow: 0 4px 15px rgba(49, 130, 206, 0.1);">
+                            <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #2c5aa0; margin-top: 0;">Fine-Tuned AI Control</h4>
+                            <p style="font-size: 14px; color: #2D3748; line-height: 1.6; margin: 0;">
+                                New <strong>Creativity Level</strong> settings let you choose between Factual, Balanced, or Creative responses. Control <strong>Response Length</strong> with smart presets that optimize output for your specific use case, from brief summaries to detailed analyses.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: table-cell; width: 33.33%; padding: 0 15px; vertical-align: top;">
+                        <div style="background-color: #ffffff; padding: 30px; border-radius: 16px; text-align: left; height: 350px; box-sizing: border-box; border: 1px solid #bee3f8; box-shadow: 0 4px 15px rgba(49, 130, 206, 0.1);">
+                            <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #2c5aa0; margin-top: 0;">AI Activity Creation</h4>
+                            <p style="font-size: 14px; color: #2D3748; line-height: 1.6; margin: 0;">
+                                Transform AI insights directly into actionable tasks. With on-demand AI buttons, generate intelligent analysis and automatically create follow-up activities with pre-filled summaries, due dates, and assignees - turning AI recommendations into tracked actions instantly.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: table-cell; width: 33.33%; padding: 0 15px; vertical-align: top;">
+                        <div style="background-color: #ffffff; padding: 30px; border-radius: 16px; text-align: left; height: 350px; box-sizing: border-box; border: 1px solid #bee3f8; box-shadow: 0 4px 15px rgba(49, 130, 206, 0.1);">
+                            <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #2c5aa0; margin-top: 0;">Enhanced User Experience</h4>
+                            <p style="font-size: 14px; color: #2D3748; line-height: 1.6; margin: 0;">
+                                Real-time notifications keep you informed when AI is working, multi-threading prevents UI freezing, and improved error handling ensures smooth operation across all your workflows.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- We enable seamless automation -->
+        <h2 style="font-size: 32px; font-weight: 700; color: #1A365D; margin: 60px 0 40px;">We enable seamless automation</h2>
+
+        <div style="display: table; width: 100%; margin: 40px 0;">
+            <div style="display: table-row;">
+                <div style="display: table-cell; width: 50%; padding-right: 30px; vertical-align: top;">
+                    <div style="background-color: #F6F1EF; padding: 30px; border-radius: 16px; margin-bottom: 30px;">
+                        <h4 style="font-size: 20px; font-weight: 600; color: #1A365D; margin-bottom: 20px; margin-top: 0;">Supported AI Providers</h4>
+                        
+                        <div style="display: flex; align-items: center; padding: 15px 0;">
+                            <img src="./images/openai-logo.png" alt="OpenAI Logo" style="width: 40px; height: 40px; margin-right: 15px; object-fit: contain;">
+                            <div>
+                                <div style="font-weight: 600; color: #1A365D; margin-bottom: 5px;">OpenAI</div>
+                                <div style="color: #2D3748; font-size: 14px;">(GPT-4, GPT-3.5, and future models)</div>
+                            </div>
+                        </div>
+                        
+                        <div style="height: 1px; background-color: #F25E4F; margin: 10px 0;"></div>
+                        
+                        <div style="display: flex; align-items: center; padding: 15px 0;">
+                            <img src="./images/gemini-logo.png" alt="Gemini Logo" style="width: 40px; height: 40px; margin-right: 15px; object-fit: contain;">
+                            <div>
+                                <div style="font-weight: 600; color: #1A365D; margin-bottom: 5px;">Google Gemini</div>
+                                <div style="color: #2D3748; font-size: 14px;">(Pro, Flash, and specialized variants)</div>
+                            </div>
+                        </div>
+                        
+                        <div style="height: 1px; background-color: #F25E4F; margin: 10px 0;"></div>
+                        
+                        <div style="display: flex; align-items: center; padding: 15px 0;">
+                            <img src="./images/anthropic-logo.png" alt="Anthropic Logo" style="width: 40px; height: 40px; margin-right: 15px; object-fit: contain;">
+                            <div>
+                                <div style="font-weight: 600; color: #1A365D; margin-bottom: 5px;">Anthropic Claude</div>
+                                <div style="color: #2D3748; font-size: 14px;">(Sonnet, Haiku, and Opus models)</div>
+                            </div>
+                        </div>
+                        
+                        <div style="height: 1px; background-color: #F25E4F; margin: 10px 0;"></div>
+                        
+                        <div style="display: flex; align-items: center; padding: 15px 0; position: relative;">
+                            <img src="./images/mistral-logo.png" alt="Mistral Logo" style="width: 40px; height: 40px; margin-right: 15px; object-fit: contain;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; color: #1A365D; margin-bottom: 5px; display: flex; align-items: center;">
+                                    Mistral
+                                    <span style="background-color: #3182ce; color: #ffffff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 10px; text-transform: uppercase;">NEW</span>
+                                </div>
+                                <div style="color: #2D3748; font-size: 14px;">(Complete model range with EU hosting option)</div>
+                            </div>
+                        </div>
+                        
+                        <p style="color: #2D3748; line-height: 1.8; margin-top: 20px; margin-bottom: 0;">
+                            Each provider configuration includes API key management, model selection, file upload limits, and customizable technical parameters for complete control.
+                        </p>
+                    </div>
+                </div>
+                <div style="display: table-cell; width: 50%; vertical-align: top;">
+                    <div style="text-align: center;">
+                        <img class="oe_picture oe_screenshot" alt="provider configuration screenshot" src="./images/screenshot_1.png" style="width: 100%; height: auto; display: block; object-fit: contain; box-shadow: 0 10px 30px rgba(26, 54, 93, 0.15); border-radius: 12px; margin-bottom: 20px;">
+                        <img class="oe_picture oe_screenshot" alt="provider configuration screenshot" src="./images/provider_config.png" style="width: 100%; height: auto; display: block; object-fit: contain; box-shadow: 0 10px 30px rgba(26, 54, 93, 0.15); border-radius: 12px; margin-bottom: 20px;">
+                        <img class="oe_picture oe_screenshot" alt="model configuration screenshot" src="./images/screenshot_2.png" style="width: 100%; height: auto; display: block; object-fit: contain; box-shadow: 0 10px 30px rgba(26, 54, 93, 0.15); border-radius: 12px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature Details -->
+        <h2 style="font-size: 32px; font-weight: 700; color: #1A365D; margin: 60px 0 40px;">Feature Details</h2>
+        <p style="font-size: 16px; color: #2D3748; line-height: 1.8; margin-bottom: 40px; margin-top: 0;">
+            Dive deeper into the technical capabilities that make our AI integration so powerful and flexible.
+        </p>
+
+        <!-- Bootstrap Tabs Navigation -->
+        <ul role="tablist" class="nav nav-tabs justify-content-center flex-nowrap" data-tabs="tabs" style="border:none; background-color:unset; margin:0 auto; white-space: nowrap;">
+            <li class="nav-item" style="border-top-right-radius:10px; border-top-left-radius:10px; background-color:#D6E4F0; margin-right:8px; border:1px solid #ddd; border-bottom:0" role="presentation">
+                <a href="#ai_models" data-bs-toggle="tab" aria-expanded="true" class="nav-link show active" style="text-transform:uppercase; font-weight:600; font-size:13px; letter-spacing:1px; padding:11px 16px; border-top-left-radius:10px; border-top-right-radius:10px; color:#1A365D; border:1px solid transparent" aria-selected="true" role="tab">
+                    AI Models</a>
+            </li>
+            <li class="nav-item" style="border-top-right-radius:10px; border-top-left-radius:10px; background-color:#D6E4F0; margin-right:8px; border:1px solid #ddd; border-bottom:0" role="presentation">
+                <a href="#data_integration" data-bs-toggle="tab" aria-expanded="true" class="nav-link" style="text-transform:uppercase; font-weight:600; font-size:13px; letter-spacing:1px; padding:11px 16px; border-top-left-radius:10px; border-top-right-radius:10px; color:#1A365D; border:1px solid transparent" aria-selected="false" role="tab" tabindex="-1">
+                    Data Integration</a>
+            </li>
+            <li class="nav-item" style="border-top-right-radius:10px; border-top-left-radius:10px; background-color:#D6E4F0; margin-right:8px; border:1px solid #ddd; border-bottom:0" role="presentation">
+                <a href="#smart_prompts" data-bs-toggle="tab" aria-expanded="true" class="nav-link" style="text-transform:uppercase; font-weight:600; font-size:13px; letter-spacing:1px; padding:11px 16px; border-top-left-radius:10px; border-top-right-radius:10px; color:#1A365D; border:1px solid transparent" aria-selected="false" role="tab" tabindex="-1">
+                    Smart Prompts</a>
+            </li>
+            <li class="nav-item" style="border-top-right-radius:10px; border-top-left-radius:10px; background-color:#D6E4F0; margin-right:8px; border:1px solid #ddd; border-bottom:0" role="presentation">
+                <a href="#output_options" data-bs-toggle="tab" aria-expanded="true" class="nav-link" style="text-transform:uppercase; font-weight:600; font-size:13px; letter-spacing:1px; padding:11px 16px; border-top-left-radius:10px; border-top-right-radius:10px; color:#1A365D; border:1px solid transparent" aria-selected="false" role="tab" tabindex="-1">
+                    Output Options</a>
+            </li>
+            <li class="nav-item" style="border-top-right-radius:10px; border-top-left-radius:10px; background-color:#D6E4F0; margin-right:0; border:1px solid #ddd; border-bottom:0" role="presentation">
+                <a href="#enterprise" data-bs-toggle="tab" aria-expanded="true" class="nav-link" style="text-transform:uppercase; font-weight:600; font-size:13px; letter-spacing:1px; padding:11px 16px; border-top-left-radius:10px; border-top-right-radius:10px; color:#1A365D; border:1px solid transparent" aria-selected="false" role="tab" tabindex="-1">
+                    Enterprise</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" style="background-color: #f8fafc; border-radius: 0 0 20px 20px; padding: 40px; margin: 0 0 40px; border: 1px solid #e2e8f0;">
+            
+            <!-- Panel 1: AI Models -->
+            <div id="ai_models" class="tab-pane fade show active" role="tabpanel">
+                <h3 style="font-size: 22px; font-weight: 700; color: #1A365D; margin-bottom: 20px; margin-top: 0;">AI Model Configuration</h3>
+                <p style="color: #2D3748; line-height: 1.7; margin-bottom: 15px; font-size: 16px;">
+                    Comprehensive model management system that puts you in complete control of your AI integrations.
+                </p>
+                <ul style="color: #2D3748; line-height: 1.7; margin: 0; padding-left: 20px; font-size: 15px;">
+                    <li><strong>Model-specific settings:</strong> Each AI model has tailored configuration options optimized for their capabilities</li>
+                    <li><strong>Creativity level control:</strong> Choose between Factual, Balanced, or Creative presets to fine-tune how deterministic or imaginative responses should be</li>
+                    <li><strong>Response length management:</strong> Set optimal output lengths with smart presets, from concise summaries to comprehensive analyses</li>
+                    <li><strong>File attachment limits:</strong> Built-in safeguards prevent oversized uploads and manage API costs</li>
+                    <li><strong>Format restrictions:</strong> Automatic file type validation ensures compatibility with each model's capabilities</li>
+                    <li><strong>Model-specific features:</strong> Vision processing, document analysis, and other specialized capabilities per model</li>
+                </ul>
+            </div>
+            
+            <!-- Panel 2: Data Integration -->
+            <div id="data_integration" class="tab-pane fade" role="tabpanel">
+                <h3 style="font-size: 22px; font-weight: 700; color: #1A365D; margin-bottom: 20px; margin-top: 0;">Advanced Odoo Data Integration</h3>
+                <p style="color: #2D3748; line-height: 1.7; margin-bottom: 15px; font-size: 16px;">
+                    Deep integration with Odoo's data layer gives your AI actions unprecedented access to business context.
+                </p>
+                <ul style="color: #2D3748; line-height: 1.7; margin: 0; padding-left: 20px; font-size: 15px;">
+                    <li><strong>PDF report generation:</strong> Automatically create and attach formatted reports before AI processing</li>
+                    <li><strong>Chatter history:</strong> Automatic inclusion with filtering options for complete conversation context</li>
+                    <li><strong>Full context delivery:</strong> Complete unstructured object context for comprehensive AI understanding</li>
+                    <li><strong>Related records access:</strong> Pull in data from linked models for deeper analysis</li>
+                    <li><strong>Attachment processing:</strong> Handle multiple file types including documents, images, and spreadsheets</li>
+                </ul>
+            </div>
+            
+            <!-- Panel 3: Smart Prompts -->
+            <div id="smart_prompts" class="tab-pane fade" role="tabpanel">
+                <h3 style="font-size: 22px; font-weight: 700; color: #1A365D; margin-bottom: 20px; margin-top: 0;">Smart Prompting System</h3>
+                <p style="color: #2D3748; line-height: 1.7; margin-bottom: 15px; font-size: 16px;">
+                    Advanced templating system that dynamically builds context-aware prompts using live Odoo data.
+                </p>
+                <ul style="color: #2D3748; line-height: 1.7; margin: 0; padding-left: 20px; font-size: 15px;">
+                    <li><strong>Jinja2 templates:</strong> Full template support with access to all model fields and relationships</li>
+                    <li><strong>Dynamic data insertion:</strong> Real-time data from current record and all related models</li>
+                    <li><strong>File attachments:</strong> Seamless integration of PDFs, images, and documents</li>
+                    <li><strong>Context variables:</strong> Access to user, company, and environment data</li>
+                    <li><strong>Conditional logic:</strong> Build prompts that adapt based on record state</li>
+                </ul>
+            </div>
+            
+            <!-- Panel 4: Output Options -->
+            <div id="output_options" class="tab-pane fade" role="tabpanel">
+                <h3 style="font-size: 22px; font-weight: 700; color: #1A365D; margin-bottom: 20px; margin-top: 0;">Flexible Output Options</h3>
+                <p style="color: #2D3748; line-height: 1.7; margin-bottom: 15px; font-size: 16px;">
+                    Multiple ways to capture and act on AI insights directly within your Odoo workflows.
+                </p>
+                <ul style="color: #2D3748; line-height: 1.7; margin: 0; padding-left: 20px; font-size: 15px;">
+                    <li><strong>Chatter integration:</strong> Post formatted responses directly to record discussions</li>
+                    <li><strong>Field population:</strong> Save AI output to any text field with automatic HTML/plain text detection</li>
+                    <li><strong>AI-to-Activity workflow:</strong> Transform AI insights directly into scheduled activities with intelligent task descriptions and assignments</li>
+                    <li><strong>Rich formatting:</strong> Automatic Markdown to HTML conversion for professional presentation</li>
+                    <li><strong>Notification system:</strong> Integration with Odoo's built-in notification framework</li>
+                    <li><i>Coming soon - Generate new automated actions based on AI recommendations</i></li>
+                </ul>
+            </div>
+            
+            <!-- Panel 5: Enterprise -->
+            <div id="enterprise" class="tab-pane fade" role="tabpanel">
+                <h3 style="font-size: 22px; font-weight: 700; color: #1A365D; margin-bottom: 20px; margin-top: 0;">Enterprise-Ready Operations</h3>
+                <p style="color: #2D3748; line-height: 1.7; margin-bottom: 15px; font-size: 16px;">
+                    Built for scale with enterprise-grade security, access controls, and multi-organization support.
+                </p>
+                <ul style="color: #2D3748; line-height: 1.7; margin: 0; padding-left: 20px; font-size: 15px;">
+                    <li><strong>Multi-company architecture:</strong> Separate AI configurations per company with isolated data access</li>
+                    <li><strong>Enhanced access controls:</strong> Granular permissions for administrators and end users</li>
+                    <li><strong>Audit logging:</strong> Complete tracking of AI actions and API usage across organizations</li>
+                    <li><strong>API key security:</strong> Encrypted storage and controlled access to credentials</li>
+                    <li><strong>Usage monitoring:</strong> Track costs and performance across all AI providers</li>
+                </ul>
+            </div>
+            
+        </div>
+
+        <!-- Demo GIF -->
+        <div style="background-color: #ffffff; border-radius: 16px; padding: 40px; margin: 40px 0; text-align: center;">
+            <img style="width: 100%; height: auto; max-width: 1332px; display: block; margin: 0 auto; box-shadow: 0 10px 30px rgba(26, 54, 93, 0.15); border-radius: 12px;" alt="demo.gif" src="./images/demo.gif"/>
+        </div>
+
+        <!-- Use Cases & Examples -->
+        <h2 style="font-size: 32px; font-weight: 700; color: #1A365D; margin: 60px 0 40px;">Use Cases & Examples</h2>
+
+        <div style="background-color: #F6F1EF; padding: 30px; border-radius: 16px; margin-bottom: 30px; text-align: left;">
+            <div style="text-align: left; margin-bottom: 25px;">
+                <img src="./images/accounting-icon.png" alt="Accounting App Icon" style="width: 60px; height: 60px; object-fit: contain;">
+            </div>
+            <h4 style="font-size: 20px; font-weight: 600; color: #1A365D; margin-bottom: 5px; margin-top: 0; border-bottom: 3px solid #e74c3c; display: inline-block; padding-bottom: 5px;">Automated Invoice Verification</h4>
+            <p style="color: #2D3748; line-height: 1.8; margin-bottom: 10px; margin-top: 15px;">
+                <strong>Scenario:</strong> Your accounting team receives hundreds of vendor invoices daily<br/>
+                When a vendor invoice is uploaded, AI Actions automatically:
+            </p>
+            <ul style="color: #2D3748; line-height: 1.6; margin: 0 0 15px 0; padding-left: 20px;">
+                <li>Fetches the original purchase order and booked lines</li>
+                <li>Compares invoice details against expected deliveries</li>
+                <li>Identifies discrepancies in quantities, prices, or terms</li>
+                <li>Posts audit results to chatter or flags for human review</li>
+                <li>Assigns validation tags and routes exceptions to accounting</li>
+            </ul>
+            <p style="color: #1A365D; font-weight: 600; margin: 0;">
+                Business Impact: Reduces invoice processing time by 80% and catches errors that manual review might miss.
+            </p>
+        </div>
+
+        <div style="background-color: #F6F1EF; padding: 30px; border-radius: 16px; margin-bottom: 30px; text-align: left;">
+            <div style="text-align: left; margin-bottom: 25px;">
+                <img src="./images/crm-icon.png" alt="CRM App Icon" style="width: 60px; height: 60px; object-fit: contain;">
+            </div>
+            <h4 style="font-size: 20px; font-weight: 600; color: #1A365D; margin-bottom: 5px; margin-top: 0; border-bottom: 3px solid #e74c3c; display: inline-block; padding-bottom: 5px;">Intelligent B2B Lead Research</h4>
+            <p style="color: #2D3748; line-height: 1.8; margin-bottom: 10px; margin-top: 15px;">
+                <strong>Scenario:</strong> Sales team receives new leads with just email addresses<br/>
+                AI Actions transforms basic contact info into rich prospect profiles:
+            </p>
+            <ul style="color: #2D3748; line-height: 1.6; margin: 0 0 15px 0; padding-left: 20px;">
+                <li>Analyzes company domain and web presence</li>
+                <li>Researches industry, company size, and key personnel</li>
+                <li>Identifies potential pain points and buying signals</li>
+                <li>Generates personalized outreach strategies</li>
+                <li>Updates lead record with comprehensive company intelligence</li>
+            </ul>
+            <p style="color: #1A365D; font-weight: 600; margin: 0;">
+                Business Impact: Sales teams arrive at first calls already knowing the prospect's business, industry challenges, and decision-making structure.
+            </p>
+        </div>
+
+        <div style="background-color: #F6F1EF; padding: 30px; border-radius: 16px; margin-bottom: 30px; text-align: left;">
+            <div style="text-align: left; margin-bottom: 25px;">
+                <img src="./images/hr-icon.png" alt="HR App Icon" style="width: 60px; height: 60px; object-fit: contain;">
+            </div>
+            <h4 style="font-size: 20px; font-weight: 600; color: #1A365D; margin-bottom: 5px; margin-top: 0; border-bottom: 3px solid #e74c3c; display: inline-block; padding-bottom: 5px;">Smart HR Application Screening</h4>
+            <p style="color: #2D3748; line-height: 1.8; margin-bottom: 10px; margin-top: 15px;">
+                <strong>Scenario:</strong> HR receives applications for technical positions<br/>
+                When candidates apply, the system automatically:
+            </p>
+            <ul style="color: #2D3748; line-height: 1.6; margin: 0 0 15px 0; padding-left: 20px;">
+                <li>Analyzes resume against job requirements using <strong>Factual</strong> creativity settings for accurate matching</li>
+                <li>Evaluates cultural fit based on company values</li>
+                <li>Identifies standout qualifications or red flags</li>
+                <li>Generates interview questions tailored to gaps</li>
+                <li>Creates hiring recommendations with reasoning</li>
+            </ul>
+            <p style="color: #1A365D; font-weight: 600; margin: 0;">
+                Business Impact: Reduces initial screening time from hours to minutes while improving candidate evaluation consistency.
+            </p>
+        </div>
+
+        <div style="background-color: #F6F1EF; padding: 30px; border-radius: 16px; margin-bottom: 30px; text-align: left;">
+            <div style="text-align: left; margin-bottom: 25px;">
+                <img src="./images/helpdesk-icon.png" alt="Helpdesk App Icon" style="width: 60px; height: 60px; object-fit: contain;">
+            </div>
+            <h4 style="font-size: 20px; font-weight: 600; color: #1A365D; margin-bottom: 5px; margin-top: 0; border-bottom: 3px solid #e74c3c; display: inline-block; padding-bottom: 5px;">Dynamic Customer Support Responses</h4>
+            <p style="color: #2D3748; line-height: 1.8; margin-bottom: 10px; margin-top: 15px;">
+                <strong>Scenario:</strong> Support tickets need contextual responses<br/>
+                AI Actions can:
+            </p>
+            <ul style="color: #2D3748; line-height: 1.6; margin: 0 0 15px 0; padding-left: 20px;">
+                <li>Review ticket history and previous interactions</li>
+                <li>Analyze attached error logs or screenshots</li>
+                <li>Generate step-by-step troubleshooting guides with <strong>Balanced</strong> creativity for clear yet helpful responses</li>
+                <li>Suggest knowledge base articles or escalation paths</li>
+                <li>Draft personalized responses maintaining brand voice</li>
+            </ul>
+            <p style="color: #1A365D; font-weight: 600; margin: 0;">
+                Business Impact: Faster response times with more accurate, contextual support that reduces back-and-forth communication.
+            </p>
+        </div>
+
+        <div style="background-color: #F6F1EF; padding: 30px; border-radius: 16px; margin-bottom: 30px; text-align: left;">
+            <div style="text-align: left; margin-bottom: 25px;">
+                <img src="./images/project-icon.png" alt="Project App Icon" style="width: 60px; height: 60px; object-fit: contain;">
+            </div>
+            <h4 style="font-size: 20px; font-weight: 600; color: #1A365D; margin-bottom: 5px; margin-top: 0; border-bottom: 3px solid #e74c3c; display: inline-block; padding-bottom: 5px;">Intelligent Project Ticket Summaries</h4>
+            <p style="color: #2D3748; line-height: 1.8; margin-bottom: 10px; margin-top: 15px;">
+                <strong>Scenario:</strong> Project managers need quick overviews of complex tickets with extensive discussion<br/>
+                When triggered on project tickets, the system automatically:
+            </p>
+            <ul style="color: #2D3748; line-height: 1.6; margin: 0 0 15px 0; padding-left: 20px;">
+                <li>Analyzes all chatter comments and internal notes</li>
+                <li>Reviews attached documents, screenshots, and files</li>
+                <li>Extracts key decisions, blockers, and action items</li>
+                <li>Identifies current status and next steps</li>
+                <li>Generates executive summaries with optimized <strong>Response Length</strong> settings</li>
+            </ul>
+            <p style="color: #1A365D; font-weight: 600; margin: 0;">
+                Business Impact: Project managers can instantly understand ticket status without reading through dozens of comments and attachments, enabling faster decision-making and better resource allocation.
+            </p>
+        </div>
+
+        <div style="background-color: #F6F1EF; padding: 30px; border-radius: 16px; margin-bottom: 30px; text-align: left;">
+            <div style="text-align: left; margin-bottom: 25px;">
+                <img src="./images/project-icon.png" alt="Project App Icon" style="width: 60px; height: 60px; object-fit: contain;">
+            </div>
+            <h4 style="font-size: 20px; font-weight: 600; color: #1A365D; margin-bottom: 5px; margin-top: 0; border-bottom: 3px solid #e74c3c; display: inline-block; padding-bottom: 5px;">On-Demand Contract Analysis with Activity Generation</h4>
+            <p style="color: #2D3748; line-height: 1.8; margin-bottom: 10px; margin-top: 15px;">
+                <strong>Scenario:</strong> Legal team needs instant analysis of uploaded contracts with actionable follow-ups<br/>
+                With our new AI-to-Activity workflow, team members can:
+            </p>
+            <ul style="color: #2D3748; line-height: 1.6; margin: 0 0 15px 0; padding-left: 20px;">
+                <li>Click 'Analyze Contract' button directly on any contract record</li>
+                <li>Get immediate AI review of terms, risks, and compliance issues using <strong>Factual</strong> creativity level for precise legal analysis</li>
+                <li>AI automatically creates follow-up activities for identified issues with intelligent task descriptions</li>
+                <li>Activities are pre-assigned to relevant team members with appropriate due dates</li>
+                <li>Each activity includes AI-generated action items and context from the analysis</li>
+            </ul>
+            <p style="color: #1A365D; font-weight: 600; margin: 0;">
+                Business Impact: Not only reduces contract review time but ensures nothing falls through the cracks by automatically converting AI insights into tracked, assigned tasks.
+            </p>
+        </div>
+
+        <!-- Call to Action -->
+        <div style="border: 2px solid #1A365D; color: #2D3748; padding: 40px; border-radius: 16px; text-align: center; margin: 60px 0 40px;">
+            <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 20px; margin-top: 0; color: #1A365D;">Ready to supercharge your Odoo workflows with AI?</h2>
+            <p style="font-size: 18px; line-height: 1.7; margin-bottom: 30px; margin-top: 0;">
+                Odoo AI Actions by much. Consulting is completely free and designed to work with your existing Odoo installation. Get started today and transform how your business processes information.
+            </p>
+            <p style="font-size: 16px; margin: 0; font-style: italic;">
+                For technical documentation and installation instructions, see the module README.md or contact <a style="color:#1A365D; font-weight: 600;" href="mailto:product@erp.muchconsulting.de">much. Consulting</a> for implementation support.
+            </p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

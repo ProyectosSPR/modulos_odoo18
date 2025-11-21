@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="ai_log_list" model="ir.ui.view">
+        <field name="name">ai.log.list</field>
+        <field name="model">ai.log</field>
+        <field name="arch" type="xml">
+            <list default_order="date desc">
+                <field name="date" />
+                <field name="name" />
+                <field name="res_model" />
+                <field name="res_id" />
+                <field name="user_id" />
+                <field
+                    name="level"
+                    widget="badge"
+                    decoration-success="level == 'success'"
+                    decoration-info="level == 'info'"
+                    decoration-warning="level == 'warning'"
+                    decoration-danger="level == 'error'"
+                />
+            </list>
+        </field>
+    </record>
+
+    <record id="ai_log_form" model="ir.ui.view">
+        <field name="name">ai.log.form</field>
+        <field name="model">ai.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_view_record"
+                        type="object"
+                        string="View Record"
+                        invisible="not res_id"
+                    />
+                </header>
+                <sheet>
+                    <div name="badge_widget_container" class="text-end">
+                        <field
+                            name="level"
+                            widget="badge"
+                            decoration-info="level == 'info'"
+                            decoration-warning="level == 'warning'"
+                            decoration-danger="level == 'error'"
+                            decoration-success="level == 'success'"
+                        />
+                    </div>
+                    <group name="main" class="o_label_nowrap">
+                        <field name="date" />
+                        <field name="name" />
+                        <field name="res_model" />
+                        <field name="res_id" />
+                        <field name="user_id" />
+                        <field name="description" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ai_log_search" model="ir.ui.view">
+        <field name="name">ai.log.search</field>
+        <field name="model">ai.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="description" />
+                <separator />
+                <filter name="info" string="Info" domain="[('level', '=', 'info')]" />
+                <filter
+                    name="warning"
+                    string="Warning"
+                    domain="[('level', '=', 'warning')]"
+                />
+                <filter
+                    name="error"
+                    string="Error"
+                    domain="[('level', '=', 'error')]"
+                />
+                <filter
+                    name="success"
+                    string="Success"
+                    domain="[('level', '=', 'success')]"
+                />
+                <separator />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
+                <group expand="1" string="Group By">
+                    <filter
+                        name="group_by_level"
+                        context="{'group_by': 'level'}"
+                        string="Level"
+                    />
+                    <filter
+                        name="group_by_res_model"
+                        context="{'group_by': 'res_model'}"
+                        string="Resource Model"
+                    />
+                    <filter
+                        name="group_by_res_id"
+                        context="{'group_by': 'res_id'}"
+                        string="Resource ID"
+                    />
+                    <filter
+                        name="group_by_user"
+                        context="{'group_by': 'user_id'}"
+                        string="User"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="ai_log_window" model="ir.actions.act_window">
+        <field name="name">Logs</field>
+        <field name="res_model">ai.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No logs yet.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="ai_log_menu"
+        name="Logs"
+        action="ai_log_window"
+        sequence="80"
+        parent="ai_root_menu"
+    />
+</odoo>

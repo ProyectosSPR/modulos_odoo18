@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="preview_prompt_form" model="ir.ui.view">
+        <field name="name">preview.prompt.form</field>
+        <field name="model">preview.prompt</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="server_action_id" invisible="1" />
+                            <field name="object_model" invisible="1" />
+                            <field
+                                name="object_ref"
+                                options="{'hide_model': True, 'no_create': True, 'no_open': True}"
+                            />
+                        </group>
+                    </group>
+                    <field class="mt-5" name="preview_text" readonly="1" nolabel="1" />
+                </sheet>
+                <footer>
+                    <button string="Close" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="ai_model_tree" model="ir.ui.view">
+        <field name="name">ai.model.list</field>
+        <field name="model">ai.model</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="active" widget="boolean_toggle" />
+                <field name="name" />
+                <field name="provider_id" />
+                <field name="technical_name" column_invisible="1" />
+                <field name="creativity_preset" />
+                <field name="length_preset" />
+                <field name="files_allowed" />
+                <field name="images_allowed" />
+                <field name="max_files" />
+                <field name="temperature" column_invisible="1" />
+                <field name="top_p" column_invisible="1" />
+                <field name="top_k" column_invisible="1" />
+                <field name="max_tokens" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+
+    <record id="ai_model_form" model="ir.ui.view">
+        <field name="name">ai.model.form</field>
+        <field name="model">ai.model</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        invisible="active"
+                    />
+                    <div name="title" class="oe_title">
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group name="main">
+                        <group name="left">
+                            <field name="provider_id" />
+                            <field name="technical_name" />
+                            <field name="creativity_preset" />
+                            <field name="length_preset" />
+                            <field name="files_allowed" />
+                            <field name="images_allowed" />
+                            <field name="max_files" />
+                            <field name="temperature" invisible="1" />
+                            <field name="top_p" invisible="1" />
+                            <field name="top_k" invisible="1" />
+                            <field name="max_tokens" invisible="1" />
+                            <field name="active" invisible="1" />
+                        </group>
+                        <group name="right" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ai_model_search" model="ir.ui.view">
+        <field name="name">ai.model.search</field>
+        <field name="model">ai.model</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="technical_name" />
+                <separator />
+                <filter
+                    string="All"
+                    name="all"
+                    domain="['|', ('active', '=', False), ('active', '=', True)]"
+                />
+                <filter
+                    string="Active"
+                    name="active"
+                    domain="[('active', '=', True)]"
+                />
+                <filter
+                    string="Inactive"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_by_provider"
+                        string="AI Provider"
+                        context="{'group_by': 'provider_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="ai_model_window" model="ir.actions.act_window">
+        <field name="name">AI Models</field>
+        <field name="res_model">ai.model</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_all': True}</field>
+    </record>
+
+    <menuitem
+        id="ai_model_menu"
+        name="Models"
+        parent="ai_config_menu"
+        sequence="20"
+        action="ai_model_window"
+    />
+</odoo>

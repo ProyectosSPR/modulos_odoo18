@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- AI User Group -->
+    <record id="group_ai_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_ai" />
+    </record>
+
+    <!-- AI Manager Group -->
+    <record id="group_ai_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_ai" />
+        <field name="implied_ids" eval="[(4, ref('group_ai_user'))]" />
+    </record>
+
+    <!-- AI Admin Group -->
+    <record id="group_ai_admin" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="category_id" ref="module_category_ai" />
+        <field name="implied_ids" eval="[(4, ref('group_ai_manager'))]" />
+        <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+    </record>
+</odoo>

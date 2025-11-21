@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- OpenAI Provider -->
+    <record id="ai_provider_openai" model="ai.provider">
+        <field name="name">OpenAI</field>
+        <field name="code">openai</field>
+    </record>
+
+    <!-- Anthropic Provider -->
+    <record id="ai_provider_anthropic" model="ai.provider">
+        <field name="name">Anthropic</field>
+        <field name="code">anthropic</field>
+    </record>
+
+    <!-- Google Gemini Provider -->
+    <record id="ai_provider_google" model="ai.provider">
+        <field name="name">Google Gemini</field>
+        <field name="code">google</field>
+    </record>
+
+    <!-- Mistral AI Provider -->
+    <record id="ai_provider_mistral" model="ai.provider">
+        <field name="name">Mistral AI</field>
+        <field name="code">mistral</field>
+    </record>
+
+    <!-- OpenAI Models -->
+    <record id="ai_model_o4_mini" model="ai.model">
+        <field name="name">o4-mini</field>
+        <field name="provider_id" ref="ai_provider_openai" />
+        <field name="technical_name">o4-mini-2025-04-16</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+    </record>
+
+    <record id="ai_model_gpt41" model="ai.model">
+        <field name="name">GPT-4.1</field>
+        <field name="provider_id" ref="ai_provider_openai" />
+        <field name="technical_name">gpt-4.1-2025-04-14</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_gpt41_factual" model="ai.model" forcecreate="True">
+        <field name="name">GPT-4.1 - Factual</field>
+        <field name="provider_id" ref="ai_provider_openai" />
+        <field name="technical_name">gpt-4.1-2025-04-14</field>
+        <field name="files_allowed" eval="True" />
+        <field name="creativity_preset">factual</field>
+        <field name="length_preset">short</field>
+        <field name="max_files">10</field>
+    </record>
+
+    <record id="ai_model_o3" model="ai.model">
+        <field name="name">o3</field>
+        <field name="provider_id" ref="ai_provider_openai" />
+        <field name="technical_name">o3-2025-04-16</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_o3_mini" model="ai.model">
+        <field name="name">o3-mini</field>
+        <field name="provider_id" ref="ai_provider_openai" />
+        <field name="technical_name">o3-mini-2025-01-31</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_o1" model="ai.model">
+        <field name="name">o1</field>
+        <field name="provider_id" ref="ai_provider_openai" />
+        <field name="technical_name">o1-2024-12-17</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_o1_pro" model="ai.model">
+        <field name="name">o1-pro</field>
+        <field name="provider_id" ref="ai_provider_openai" />
+        <field name="technical_name">o1-pro-2025-03-19</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <!-- Anthropic Models -->
+    <record id="ai_model_claude35_haiku" model="ai.model">
+        <field name="name">Claude 3.5 Haiku</field>
+        <field name="provider_id" ref="ai_provider_anthropic" />
+        <field name="technical_name">claude-3-5-haiku-20241022</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">5</field>
+    </record>
+
+    <record id="ai_model_claude37_sonnet" model="ai.model">
+        <field name="name">Claude 3.7 Sonnet</field>
+        <field name="provider_id" ref="ai_provider_anthropic" />
+        <field name="technical_name">claude-3-7-sonnet-20250219</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">5</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_claude37_sonnet_factual" model="ai.model" forcecreate="True">
+        <field name="name">Claude 3.7 Sonnet - Factual</field>
+        <field name="provider_id" ref="ai_provider_anthropic" />
+        <field name="technical_name">claude-3-7-sonnet-20250219</field>
+        <field name="files_allowed" eval="True" />
+        <field name="creativity_preset">factual</field>
+        <field name="length_preset">short</field>
+        <field name="max_files">5</field>
+    </record>
+
+    <record id="ai_model_claude35_sonnet_v2" model="ai.model">
+        <field name="name">Claude 3.5 Sonnet v2</field>
+        <field name="provider_id" ref="ai_provider_anthropic" />
+        <field name="technical_name">claude-3-5-sonnet-20241022</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">5</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_claude35_sonnet" model="ai.model">
+        <field name="name">Claude 3.5 Sonnet</field>
+        <field name="provider_id" ref="ai_provider_anthropic" />
+        <field name="technical_name">claude-3-5-sonnet-20240620</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">5</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_claude3_opus" model="ai.model">
+        <field name="name">Claude 3 Opus</field>
+        <field name="provider_id" ref="ai_provider_anthropic" />
+        <field name="technical_name">claude-3-opus-20240229</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">5</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_claude3_sonnet" model="ai.model">
+        <field name="name">Claude 3 Sonnet</field>
+        <field name="provider_id" ref="ai_provider_anthropic" />
+        <field name="technical_name">claude-3-sonnet-20240229</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">5</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_claude3_haiku" model="ai.model">
+        <field name="name">Claude 3 Haiku</field>
+        <field name="provider_id" ref="ai_provider_anthropic" />
+        <field name="technical_name">claude-3-haiku-20240307</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">5</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <!-- Google Gemini Models -->
+    <record id="ai_model_gemini20_flash_lite" model="ai.model">
+        <field name="name">Gemini 2.0 Flash-Lite</field>
+        <field name="provider_id" ref="ai_provider_google" />
+        <field name="technical_name">gemini-2.0-flash-lite</field>
+        <field name="files_allowed" eval="True" />
+        <field name="images_allowed" eval="True" />
+        <field name="max_files">10</field>
+    </record>
+
+    <record id="ai_model_gemini25_flash_preview" model="ai.model">
+        <field name="name">Gemini 2.5 Flash Preview 04-17</field>
+        <field name="provider_id" ref="ai_provider_google" />
+        <field name="technical_name">gemini-2.5-flash-preview-04-17</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_gemini25_pro_preview" model="ai.model">
+        <field name="name">Gemini 2.5 Pro Preview</field>
+        <field name="provider_id" ref="ai_provider_google" />
+        <field name="technical_name">gemini-2.5-pro-preview-05-06</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_gemini25_pro_preview_factual" model="ai.model">
+        <field name="name">Gemini 2.5 Pro Preview - Factual</field>
+        <field name="provider_id" ref="ai_provider_google" />
+        <field name="technical_name">gemini-2.5-pro-preview-05-06</field>
+        <field name="files_allowed" eval="True" />
+        <field name="creativity_preset">factual</field>
+        <field name="length_preset">short</field>
+        <field name="max_files">10</field>
+    </record>
+
+    <record id="ai_model_gemini20_flash" model="ai.model">
+        <field name="name">Gemini 2.0 Flash</field>
+        <field name="provider_id" ref="ai_provider_google" />
+        <field name="technical_name">gemini-2.0-flash</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_gemini15_flash" model="ai.model">
+        <field name="name">Gemini 1.5 Flash</field>
+        <field name="provider_id" ref="ai_provider_google" />
+        <field name="technical_name">gemini-1.5-flash</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_gemini15_flash_8b" model="ai.model">
+        <field name="name">Gemini 1.5 Flash-8B</field>
+        <field name="provider_id" ref="ai_provider_google" />
+        <field name="technical_name">gemini-1.5-flash-8b</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_gemini15_pro" model="ai.model">
+        <field name="name">Gemini 1.5 Pro</field>
+        <field name="provider_id" ref="ai_provider_google" />
+        <field name="technical_name">gemini-1.5-pro</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <!-- Mistral AI Models -->
+    <record id="ai_model_mistral_large" model="ai.model">
+        <field name="name">Mistral Large</field>
+        <field name="provider_id" ref="ai_provider_mistral" />
+        <field name="technical_name">mistral-large-latest</field>
+        <field name="files_allowed" eval="True" />
+        <field name="images_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_mistral_large_factual" model="ai.model">
+        <field name="name">Mistral Large - Factual</field>
+        <field name="provider_id" ref="ai_provider_mistral" />
+        <field name="technical_name">mistral-large-latest</field>
+        <field name="files_allowed" eval="True" />
+        <field name="images_allowed" eval="True" />
+        <field name="creativity_preset">factual</field>
+        <field name="length_preset">short</field>
+        <field name="max_files">10</field>
+    </record>
+
+    <record id="ai_model_pixtral" model="ai.model">
+        <field name="name">Pixtral</field>
+        <field name="provider_id" ref="ai_provider_mistral" />
+        <field name="technical_name">pixtral-12b-2409</field>
+        <field name="images_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_mistral_medium" model="ai.model">
+        <field name="name">Mistral Medium</field>
+        <field name="provider_id" ref="ai_provider_mistral" />
+        <field name="technical_name">mistral-medium</field>
+        <field name="files_allowed" eval="True" />
+        <field name="images_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_mistral_small" model="ai.model">
+        <field name="name">Mistral Small</field>
+        <field name="provider_id" ref="ai_provider_mistral" />
+        <field name="technical_name">mistral-small</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ai_model_mistral_tiny" model="ai.model">
+        <field name="name">Mistral Tiny</field>
+        <field name="provider_id" ref="ai_provider_mistral" />
+        <field name="technical_name">mistral-tiny</field>
+        <field name="files_allowed" eval="True" />
+        <field name="max_files">10</field>
+    </record>
+</odoo>
