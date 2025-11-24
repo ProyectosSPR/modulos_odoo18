@@ -154,18 +154,28 @@ class SubscriptionPackage(models.Model):
         subscription_items = self._stripe_prepare_subscription_items()
 
         # Create subscription in Stripe
+        # Note: For Stripe API form data, arrays need to be expanded with indices
         payload = {
             'customer': customer_id,
-            'items': subscription_items,
             'description': self.name or f'Subscription {self.reference_code}',
             'metadata[odoo_subscription_id]': str(self.id),
             'metadata[odoo_subscription_ref]': self.reference_code or '',
         }
 
+        # Add subscription items with proper Stripe form data format
+        for index, item in enumerate(subscription_items):
+            payload[f'items[{index}][price]'] = item['price']
+            payload[f'items[{index}][quantity]'] = item['quantity']
+
         # Add trial period if applicable
         if self.start_date and self.next_invoice_date:
             trial_end = int(self.next_invoice_date.strftime('%s'))
             payload['trial_end'] = trial_end
+
+        _logger.info(
+            "Creating Stripe subscription with payload keys: %s",
+            list(payload.keys())
+        )
 
         response = self.payment_provider_id._stripe_make_request(
             'subscriptions',
