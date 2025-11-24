@@ -8,12 +8,15 @@ _logger = logging.getLogger(__name__)
 class PaymentTransaction(models.Model):
     _inherit = 'payment.transaction'
 
-    def _reconcile_after_done(self):
-        """Override to auto-start subscriptions after payment is done"""
-        _logger.info("=== PAYMENT AUTO-START: _reconcile_after_done called ===")
-        res = super()._reconcile_after_done()
+    def _set_done(self, state_message=None, extra_allowed_states=()):
+        """Override to auto-start subscriptions when payment is marked as done"""
+        _logger.info("=== PAYMENT AUTO-START: _set_done called for transaction(s): %s ===", self.mapped('reference'))
 
-        for tx in self:
+        # Call parent to update state to done
+        res = super()._set_done(state_message=state_message, extra_allowed_states=extra_allowed_states)
+
+        # Auto-start subscriptions for transactions that were successfully set to done
+        for tx in res:
             _logger.info(
                 "Payment transaction %s - state: %s, has sale_order_ids: %s",
                 tx.reference, tx.state, bool(tx.sale_order_ids)
