@@ -10,10 +10,19 @@ class PaymentTransaction(models.Model):
 
     def _reconcile_after_done(self):
         """Override to auto-start subscriptions after payment is done"""
+        _logger.info("=== PAYMENT AUTO-START: _reconcile_after_done called ===")
         res = super()._reconcile_after_done()
 
         for tx in self:
+            _logger.info(
+                "Payment transaction %s - state: %s, has sale_order_ids: %s",
+                tx.reference, tx.state, bool(tx.sale_order_ids)
+            )
             if tx.state == 'done' and tx.sale_order_ids:
+                _logger.info(
+                    "Payment transaction %s is done with sale orders: %s",
+                    tx.reference, tx.sale_order_ids.mapped('name')
+                )
                 tx._auto_start_subscriptions()
 
         return res
@@ -22,23 +31,42 @@ class PaymentTransaction(models.Model):
         """Automatically start subscriptions associated with paid sale orders"""
         self.ensure_one()
 
+        _logger.info(
+            "=== Searching for subscriptions linked to sale orders: %s ===",
+            self.sale_order_ids.ids
+        )
+
         # Find subscriptions linked to this transaction's sale orders
         subscriptions = self.env['subscription.package'].search([
             ('sale_order_id', 'in', self.sale_order_ids.ids),
             ('stage_category', '=', 'draft'),
         ])
 
+        _logger.info(
+            "Found %s draft subscriptions for transaction %s",
+            len(subscriptions), self.reference
+        )
+
         if not subscriptions:
+            _logger.warning(
+                "No draft subscriptions found for transaction %s (sale orders: %s)",
+                self.reference, self.sale_order_ids.mapped('name')
+            )
+            # Also check if there are ANY subscriptions linked (not just draft)
+            all_subscriptions = self.env['subscription.package'].search([
+                ('sale_order_id', 'in', self.sale_order_ids.ids)
+            ])
             _logger.info(
-                "No draft subscriptions found for transaction %s", self.reference
+                "Total subscriptions found for these sale orders: %s (states: %s)",
+                len(all_subscriptions), all_subscriptions.mapped('stage_category')
             )
             return
 
         for subscription in subscriptions:
             try:
                 _logger.info(
-                    "Auto-starting subscription %s for paid transaction %s",
-                    subscription.name, self.reference
+                    "Auto-starting subscription %s (ID: %s) for paid transaction %s",
+                    subscription.name, subscription.id, self.reference
                 )
 
                 # Call the start button method
@@ -55,7 +83,7 @@ class PaymentTransaction(models.Model):
             except Exception as e:
                 _logger.error(
                     "Failed to auto-start subscription %s: %s",
-                    subscription.name, str(e)
+                    subscription.name, str(e), exc_info=True
                 )
                 # Don't raise - we don't want to block the payment flow
                 subscription.message_post(

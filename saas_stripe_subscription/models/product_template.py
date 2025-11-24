@@ -235,8 +235,8 @@ class ProductProduct(models.Model):
         """Delegate to product template"""
         return self.product_tmpl_id._stripe_get_or_create_product(provider_id)
 
-    def _stripe_get_or_create_price(self, provider_id, unit_price, currency_id, plan_id=None):
+    def _stripe_get_or_create_price(self, provider_id, unit_price, currency_id, plan_id=None, recurrence_period=None):
         """Delegate to product template"""
         return self.product_tmpl_id._stripe_get_or_create_price(
-            provider_id, unit_price, currency_id, plan_id
+            provider_id, unit_price, currency_id, plan_id, recurrence_period
         )
