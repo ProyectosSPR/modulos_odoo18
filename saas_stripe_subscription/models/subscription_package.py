@@ -322,11 +322,13 @@ class SubscriptionPackage(models.Model):
 
         for line in self.product_line_ids:
             # Get or create Stripe price for this product
+            # Pass both the plan and the subscription's recurrence_period
             price_id = line.product_id._stripe_get_or_create_price(
                 self.payment_provider_id,
                 line.unit_price,
                 self.currency_id,
-                self.plan_id
+                plan_id=self.plan_id,
+                recurrence_period=self.recurrence_period_id
             )
 
             items.append({

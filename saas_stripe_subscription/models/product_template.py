@@ -59,13 +59,14 @@ class ProductTemplate(models.Model):
 
         return stripe_product_id
 
-    def _stripe_get_or_create_price(self, provider_id, unit_price, currency_id, plan_id=None):
+    def _stripe_get_or_create_price(self, provider_id, unit_price, currency_id, plan_id=None, recurrence_period=None):
         """Get or create a price in Stripe for this product
 
         :param provider_id: payment.provider record for Stripe
         :param unit_price: Price amount
         :param currency_id: res.currency record
-        :param plan_id: subscription.package.plan record (optional, for recurring interval)
+        :param plan_id: subscription.package.plan record (optional, for recurring interval from plan)
+        :param recurrence_period: recurrence.period record (optional, overrides plan interval)
         :return: Stripe price ID
         """
         self.ensure_one()
@@ -84,13 +85,21 @@ class ProductTemplate(models.Model):
             'metadata[odoo_product_id]': str(self.id),
         }
 
-        # Add recurring interval if plan is provided
-        if plan_id and plan_id.recurrence_period_id:
-            interval = self._stripe_get_interval_from_period(plan_id.recurrence_period_id)
-            if interval:
-                payload['recurring[interval]'] = interval['interval']
-                if interval.get('interval_count'):
-                    payload['recurring[interval_count]'] = interval['interval_count']
+        # Determine recurring interval
+        # Priority: recurrence_period (from subscription) > plan.renewal_period
+        interval = None
+
+        if recurrence_period:
+            # Use recurrence_period from subscription (if provided)
+            interval = self._stripe_get_interval_from_recurrence_period(recurrence_period)
+        elif plan_id:
+            # Fallback to plan's renewal settings
+            interval = self._stripe_get_interval_from_plan(plan_id)
+
+        if interval:
+            payload['recurring[interval]'] = interval['interval']
+            if interval.get('interval_count'):
+                payload['recurring[interval_count]'] = interval['interval_count']
 
         response = provider_id._stripe_make_request(
             'prices',
@@ -100,43 +109,97 @@ class ProductTemplate(models.Model):
         stripe_price_id = response.get('id')
 
         _logger.info(
-            "Created Stripe price %s for product %s with amount %s %s",
-            stripe_price_id, self.name, unit_price, currency_id.name
+            "Created Stripe price %s for product %s with amount %s %s (interval: %s)",
+            stripe_price_id, self.name, unit_price, currency_id.name,
+            interval if interval else 'one-time'
         )
 
         return stripe_price_id
 
-    def _stripe_get_interval_from_period(self, recurrence_period):
-        """Convert Odoo recurrence period to Stripe interval
+    def _stripe_get_interval_from_plan(self, plan):
+        """Convert Odoo subscription plan to Stripe interval
+
+        :param plan: subscription.package.plan record
+        :return: dict with 'interval' and optional 'interval_count'
+        """
+        # Map subscription plan renewal_period to Stripe intervals
+        # Stripe supports: day, week, month, year
+
+        if not plan or not plan.renewal_period:
+            _logger.warning("No renewal period found in plan, defaulting to month")
+            return {'interval': 'month', 'interval_count': 1}
+
+        renewal_period = plan.renewal_period
+        renewal_value = int(plan.renewal_value) if plan.renewal_value else 1
+
+        # Ensure renewal_value is at least 1
+        if renewal_value < 1:
+            renewal_value = 1
+
+        # Map plan's renewal_period to Stripe intervals
+        interval_mapping = {
+            'days': 'day',
+            'weeks': 'week',
+            'months': 'month',
+            'years': 'year',
+        }
+
+        stripe_interval = interval_mapping.get(renewal_period)
+
+        if not stripe_interval:
+            _logger.warning(
+                "Could not map renewal period '%s' to Stripe interval, defaulting to month",
+                renewal_period
+            )
+            return {'interval': 'month', 'interval_count': 1}
+
+        _logger.info(
+            "Mapped plan renewal period '%s' (value: %s) to Stripe interval '%s' with count %s",
+            renewal_period, renewal_value, stripe_interval, renewal_value
+        )
+
+        return {'interval': stripe_interval, 'interval_count': renewal_value}
+
+    def _stripe_get_interval_from_recurrence_period(self, recurrence_period):
+        """Convert recurrence.period record to Stripe interval
 
         :param recurrence_period: recurrence.period record
         :return: dict with 'interval' and optional 'interval_count'
         """
-        # Map Odoo UOM to Stripe intervals
-        # Stripe supports: day, week, month, year
-
-        if not recurrence_period or not recurrence_period.period_uom:
+        if not recurrence_period:
             return None
 
-        uom_name = recurrence_period.period_uom.name.lower()
-        period_value = recurrence_period.period_value or 1
+        # Map recurrence_period.unit to Stripe intervals
+        unit = recurrence_period.unit
+        duration = int(recurrence_period.duration) if recurrence_period.duration else 1
 
-        # Map common periods
-        if 'day' in uom_name or 'dia' in uom_name:
-            return {'interval': 'day', 'interval_count': period_value}
-        elif 'week' in uom_name or 'semana' in uom_name:
-            return {'interval': 'week', 'interval_count': period_value}
-        elif 'month' in uom_name or 'mes' in uom_name:
-            return {'interval': 'month', 'interval_count': period_value}
-        elif 'year' in uom_name or 'año' in uom_name or 'year' in uom_name:
-            return {'interval': 'year', 'interval_count': period_value}
-        else:
-            # Default to month if can't determine
+        # Ensure duration is at least 1
+        if duration < 1:
+            duration = 1
+
+        interval_mapping = {
+            'hours': None,  # Stripe doesn't support hourly subscriptions
+            'days': 'day',
+            'weeks': 'week',
+            'months': 'month',
+            'years': 'year',
+        }
+
+        stripe_interval = interval_mapping.get(unit)
+
+        if not stripe_interval:
             _logger.warning(
-                "Could not map recurrence period UOM '%s' to Stripe interval, defaulting to month",
-                uom_name
+                "Cannot map recurrence period unit '%s' to Stripe interval (not supported)",
+                unit
             )
-            return {'interval': 'month', 'interval_count': 1}
+            return None
+
+        _logger.info(
+            "Mapped recurrence period '%s' (unit: %s, duration: %s) to Stripe interval '%s' with count %s",
+            recurrence_period.name, unit, duration, stripe_interval, duration
+        )
+
+        return {'interval': stripe_interval, 'interval_count': duration}
 
     def action_sync_to_stripe(self):
         """Manual action to sync product to Stripe"""
