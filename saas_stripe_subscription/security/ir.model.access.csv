@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_subscription_package_stripe_user,subscription.package.stripe.user,subscription_package.model_subscription_package,base.group_user,1,1,1,1
+access_product_template_stripe_user,product.template.stripe.user,product.model_product_template,base.group_user,1,1,1,0

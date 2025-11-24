@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit subscription package form view to add Stripe fields -->
+    <record id="view_subscription_package_form_stripe" model="ir.ui.view">
+        <field name="name">subscription.package.form.stripe</field>
+        <field name="model">subscription.package</field>
+        <field name="inherit_id" ref="subscription_package.subscription_package_form_view"/>
+        <field name="arch" type="xml">
+
+            <!-- Add Stripe sync toggle in header -->
+            <xpath expr="//header" position="inside">
+                <button name="action_sync_stripe_status"
+                        string="Sync Stripe Status"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="not stripe_subscription_id"/>
+            </xpath>
+
+            <!-- Add Stripe section in form -->
+            <xpath expr="//group[@name='subscription_info']" position="after">
+                <group string="Stripe Integration" name="stripe_integration">
+                    <group>
+                        <field name="stripe_sync_enabled"/>
+                        <field name="payment_provider_id"
+                               invisible="not stripe_sync_enabled"
+                               required="stripe_sync_enabled"/>
+                        <field name="is_test_subscription"
+                               invisible="not stripe_sync_enabled"/>
+                    </group>
+                    <group>
+                        <field name="stripe_customer_id" readonly="1"/>
+                        <field name="stripe_subscription_id" readonly="1"/>
+                        <field name="stripe_subscription_status" readonly="1"/>
+                    </group>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Inherit subscription package tree view to show Stripe status -->
+    <record id="view_subscription_package_tree_stripe" model="ir.ui.view">
+        <field name="name">subscription.package.tree.stripe</field>
+        <field name="model">subscription.package</field>
+        <field name="inherit_id" ref="subscription_package.subscription_package_tree_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//tree" position="inside">
+                <field name="stripe_subscription_id" optional="hide"/>
+                <field name="stripe_subscription_status" optional="show"/>
+                <field name="is_test_subscription" optional="hide"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
