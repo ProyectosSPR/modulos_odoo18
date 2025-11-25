@@ -63,7 +63,7 @@
                                     <li>Regresa aquí y usa el botón 'Configurar y Sincronizar'</li>
                                 </ol>
                                 <hr/>
-                                <field name="n8n_invite_url" widget="url" string="🔗 Enlace de Invitación a N8N" nolabel="1" class="h5"/>
+                                <field name="n8n_invite_url_clean" widget="url" string="🔗 Enlace de Invitación a N8N" nolabel="1" class="h5"/>
                             </div>
 
                             <!-- Alerta para USUARIOS NUEVOS sin URL de invitación (fallback con credenciales) -->
@@ -75,8 +75,12 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <table class="table table-bordered">
+                                            <tr invisible="not n8n_invite_url_clean">
+                                                <th width="30%">🔗 Link de Invitación:</th>
+                                                <td><field name="n8n_invite_url_clean" widget="url" nolabel="1"/></td>
+                                            </tr>
                                             <tr>
-                                                <th width="30%">URL de acceso:</th>
+                                                <th width="30%">URL de Login:</th>
                                                 <td><field name="n8n_login_url" widget="url" nolabel="1"/></td>
                                             </tr>
                                             <tr>
