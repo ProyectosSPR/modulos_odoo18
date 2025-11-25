@@ -9,6 +9,8 @@
                 <field name="partner_id"/>
                 <field name="product_id"/>
                 <field name="order_id"/>
+                <field name="n8n_login_url" widget="url" string="🔗 Acceso N8N"/>
+                <field name="n8n_user_email" string="Email N8N"/>
                 <field name="state" widget="badge" decoration-warning="state == 'pending'" decoration-success="state == 'synced'"/>
             </list>
         </field>
@@ -46,54 +48,91 @@
                         </group>
                     </group>
 
-                    <!-- Alerta para USUARIOS NUEVOS con URL de invitación -->
-                    <div class="alert alert-info" role="alert" invisible="not is_new_n8n_user or not n8n_invite_url or state == 'synced'">
-                        <h4 class="alert-heading">🎉 ¡Bienvenido a N8N!</h4>
-                        <p><strong>Se ha creado una cuenta nueva de N8N para ti.</strong></p>
-                        <p>Para empezar, sigue estos pasos:</p>
-                        <ol>
-                            <li>Haz clic en el enlace de invitación abajo para activar tu cuenta</li>
-                            <li>Configura tu contraseña personal</li>
-                            <li>Una vez dentro, genera una API Key</li>
-                            <li>Regresa aquí y usa el botón 'Configurar y Sincronizar'</li>
-                        </ol>
-                        <hr/>
-                        <field name="n8n_invite_url" widget="url" string="🔗 Enlace de Invitación a N8N" nolabel="1" class="h5"/>
-                    </div>
-
-                    <!-- Alerta para USUARIOS NUEVOS sin URL de invitación (fallback con credenciales) -->
-                    <div class="alert alert-warning" role="alert" invisible="not is_new_n8n_user or n8n_invite_url or state == 'synced'">
-                        <h4 class="alert-heading">🎉 ¡Bienvenido a N8N!</h4>
-                        <p><strong>Se ha creado una cuenta nueva de N8N para ti.</strong></p>
-                        <p>Usa estas credenciales para acceder:</p>
-                        <hr/>
-                        <div class="row">
-                            <div class="col-6">
-                                <strong>URL de acceso:</strong><br/>
-                                <field name="n8n_login_url" widget="url" nolabel="1" class="h6"/>
+                    <!-- SECCIÓN DE ACCESO A N8N - SIEMPRE VISIBLE -->
+                    <notebook>
+                        <page string="🔐 Acceso a N8N" name="access_info">
+                            <!-- Alerta para USUARIOS NUEVOS con URL de invitación -->
+                            <div class="alert alert-info" role="alert" invisible="not is_new_n8n_user or not n8n_invite_url">
+                                <h4 class="alert-heading">🎉 ¡Bienvenido a N8N!</h4>
+                                <p><strong>Se ha creado una cuenta nueva de N8N para ti.</strong></p>
+                                <p>Para empezar, sigue estos pasos:</p>
+                                <ol>
+                                    <li>Haz clic en el enlace de invitación abajo para activar tu cuenta</li>
+                                    <li>Configura tu contraseña personal</li>
+                                    <li>Una vez dentro, genera una API Key</li>
+                                    <li>Regresa aquí y usa el botón 'Configurar y Sincronizar'</li>
+                                </ol>
+                                <hr/>
+                                <field name="n8n_invite_url" widget="url" string="🔗 Enlace de Invitación a N8N" nolabel="1" class="h5"/>
                             </div>
-                            <div class="col-6">
-                                <strong>Email:</strong> <field name="n8n_user_email" nolabel="1" class="text-monospace"/><br/>
-                                <strong>Contraseña temporal:</strong> <field name="n8n_user_password" nolabel="1" password="True" class="text-monospace"/>
-                            </div>
-                        </div>
-                        <hr/>
-                        <p class="mb-0"><em>⚠️ Cambia tu contraseña después del primer acceso. Una vez dentro, genera una API Key y usa el botón 'Configurar y Sincronizar'.</em></p>
-                    </div>
 
-                    <!-- Alerta para USUARIOS EXISTENTES -->
-                    <div class="alert alert-success" role="alert" invisible="is_new_n8n_user or state == 'synced'">
-                        <h4 class="alert-heading">👤 Ya tienes una cuenta de N8N</h4>
-                        <p><strong>Tu cuenta de N8N ya existe.</strong></p>
-                        <p>Para sincronizar este workflow:</p>
-                        <ol>
-                            <li>Accede a N8N con tus credenciales habituales: <field name="n8n_user_email" nolabel="1" class="font-weight-bold"/></li>
-                            <li>Si no tienes una API Key, genera una en N8N (Settings → API)</li>
-                            <li>Usa el botón 'Configurar y Sincronizar' con tu API Key</li>
-                        </ol>
-                        <hr/>
-                        <field name="n8n_login_url" widget="url" string="🔗 Ir a N8N" nolabel="1" class="h5"/>
-                    </div>
+                            <!-- Alerta para USUARIOS NUEVOS sin URL de invitación (fallback con credenciales) -->
+                            <div class="alert alert-warning" role="alert" invisible="not is_new_n8n_user or n8n_invite_url">
+                                <h4 class="alert-heading">🎉 Credenciales de Acceso a N8N</h4>
+                                <p><strong>Se ha creado una cuenta nueva de N8N para ti.</strong></p>
+                                <p class="text-danger"><strong>⚠️ IMPORTANTE: Guarda estas credenciales. N8N no tiene configurado el correo para recuperación de contraseñas.</strong></p>
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th width="30%">URL de acceso:</th>
+                                                <td><field name="n8n_login_url" widget="url" nolabel="1"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Email / Usuario:</th>
+                                                <td><span class="text-monospace font-weight-bold"><field name="n8n_user_email" nolabel="1"/></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Contraseña Inicial:</th>
+                                                <td><span class="text-monospace font-weight-bold text-danger"><field name="n8n_user_password" nolabel="1"/></span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <p class="mb-0"><em>💡 Recomendación: Cambia tu contraseña después del primer acceso desde N8N (User Menu → Settings).</em></p>
+                            </div>
+
+                            <!-- Alerta para USUARIOS EXISTENTES -->
+                            <div class="alert alert-success" role="alert" invisible="is_new_n8n_user">
+                                <h4 class="alert-heading">👤 Acceso a tu cuenta de N8N</h4>
+                                <p><strong>Ya tienes una cuenta de N8N activa.</strong></p>
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th width="30%">URL de acceso:</th>
+                                                <td><field name="n8n_login_url" widget="url" nolabel="1"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Email / Usuario:</th>
+                                                <td><span class="text-monospace font-weight-bold"><field name="n8n_user_email" nolabel="1"/></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Contraseña:</th>
+                                                <td><em>Usa tu contraseña personal de N8N</em></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <p class="mb-0">
+                                    <strong>Para sincronizar este workflow:</strong><br/>
+                                    1. Accede a N8N con tu contraseña<br/>
+                                    2. Si no tienes una API Key, genera una en N8N (Settings → API)<br/>
+                                    3. Usa el botón 'Configurar y Sincronizar' con tu API Key
+                                </p>
+                            </div>
+                        </page>
+
+                        <page string="📄 Detalles Técnicos" name="technical_details" invisible="state != 'synced'">
+                            <group>
+                                <field name="template_json" widget="ace" options="{'mode': 'json'}" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
