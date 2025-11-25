@@ -56,13 +56,26 @@ class SaleOrder(models.Model):
 
             if found_user:
                 user_id = found_user['id']
-                _logger.info(f"Usuario encontrado en N8N con ID: {user_id}")
+                is_pending = found_user.get('isPending', False)
+                _logger.info(f"Usuario encontrado en N8N con ID: {user_id}, isPending: {is_pending}")
+
+                # Construir link de invitación si el usuario está pendiente
+                invite_url = None
+                if is_pending:
+                    # Obtener el owner/admin ID (primer usuario no pending)
+                    owner = next((u for u in all_users if not u.get('isPending')), None)
+                    if owner:
+                        owner_id = owner['id']
+                        # Construir el link de invitación manualmente
+                        invite_url = f"{n8n_url}/signup?inviterId={owner_id}&inviteeId={user_id}"
+                        _logger.info(f"Link de invitación construido para usuario existente: {invite_url}")
+
                 self.message_post(body=f"Cliente {partner.name} ya tiene un usuario en N8N. Reutilizando ID.")
                 return {
                     'user_id': user_id,
                     'email': partner.email,
                     'password': None,
-                    'invite_url': None,
+                    'invite_url': invite_url,
                     'is_new_user': False
                 }
 

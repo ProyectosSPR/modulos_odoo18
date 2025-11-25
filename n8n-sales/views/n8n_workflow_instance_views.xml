@@ -102,12 +102,17 @@
                             <div class="alert alert-success" role="alert" invisible="is_new_n8n_user">
                                 <h4 class="alert-heading">👤 Acceso a tu cuenta de N8N</h4>
                                 <p><strong>Ya tienes una cuenta de N8N activa.</strong></p>
+                                <p invisible="not n8n_invite_url_clean" class="text-info"><strong>🔔 Aún no has aceptado la invitación. Usa el link de invitación abajo para configurar tu cuenta.</strong></p>
                                 <hr/>
                                 <div class="row">
                                     <div class="col-12">
                                         <table class="table table-bordered">
+                                            <tr invisible="not n8n_invite_url_clean">
+                                                <th width="30%">🔗 Link de Invitación:</th>
+                                                <td><field name="n8n_invite_url_clean" widget="url" nolabel="1"/></td>
+                                            </tr>
                                             <tr>
-                                                <th width="30%">URL de acceso:</th>
+                                                <th width="30%">URL de Login:</th>
                                                 <td><field name="n8n_login_url" widget="url" nolabel="1"/></td>
                                             </tr>
                                             <tr>
@@ -124,9 +129,9 @@
                                 <hr/>
                                 <p class="mb-0">
                                     <strong>Para sincronizar este workflow:</strong><br/>
-                                    1. Accede a N8N con tu contraseña<br/>
-                                    2. Si no tienes una API Key, genera una en N8N (Settings → API)<br/>
-                                    3. Usa el botón 'Configurar y Sincronizar' con tu API Key
+                                    1. <span invisible="not n8n_invite_url_clean">Si aún no aceptaste la invitación, haz clic en el link de invitación arriba<br/>2. </span>Accede a N8N con tu contraseña<br/>
+                                    <span invisible="not n8n_invite_url_clean">3</span><span invisible="n8n_invite_url_clean">2</span>. Si no tienes una API Key, genera una en N8N (Settings → API)<br/>
+                                    <span invisible="not n8n_invite_url_clean">4</span><span invisible="n8n_invite_url_clean">3</span>. Usa el botón 'Configurar y Sincronizar' con tu API Key
                                 </p>
                             </div>
                         </page>
