@@ -42,13 +42,57 @@
                             <field name="n8n_user_id"/>
                             <field name="template_workflow_id"/>
                             <field name="n8n_instance_id" string="ID de Workflow Sincronizado"/>
+                            <field name="is_new_n8n_user" invisible="1"/>
                         </group>
                     </group>
-                    <div class="alert alert-success" role="alert" invisible="not n8n_invite_url or state == 'synced'">
-                        <h4 class="alert-heading">¡Acción Requerida!</h4>
-                        <p>Para empezar, regístrate en n8n usando tu enlace de invitación personal. Una vez dentro, genera una API Key y úsala en el botón 'Configurar y Sincronizar'.</p>
+
+                    <!-- Alerta para USUARIOS NUEVOS con URL de invitación -->
+                    <div class="alert alert-info" role="alert" invisible="not is_new_n8n_user or not n8n_invite_url or state == 'synced'">
+                        <h4 class="alert-heading">🎉 ¡Bienvenido a N8N!</h4>
+                        <p><strong>Se ha creado una cuenta nueva de N8N para ti.</strong></p>
+                        <p>Para empezar, sigue estos pasos:</p>
+                        <ol>
+                            <li>Haz clic en el enlace de invitación abajo para activar tu cuenta</li>
+                            <li>Configura tu contraseña personal</li>
+                            <li>Una vez dentro, genera una API Key</li>
+                            <li>Regresa aquí y usa el botón 'Configurar y Sincronizar'</li>
+                        </ol>
                         <hr/>
-                        <field name="n8n_invite_url" widget="url" string="Tu URL de Invitación a n8n" nolabel="1"/>
+                        <field name="n8n_invite_url" widget="url" string="🔗 Enlace de Invitación a N8N" nolabel="1" class="h5"/>
+                    </div>
+
+                    <!-- Alerta para USUARIOS NUEVOS sin URL de invitación (fallback con credenciales) -->
+                    <div class="alert alert-warning" role="alert" invisible="not is_new_n8n_user or n8n_invite_url or state == 'synced'">
+                        <h4 class="alert-heading">🎉 ¡Bienvenido a N8N!</h4>
+                        <p><strong>Se ha creado una cuenta nueva de N8N para ti.</strong></p>
+                        <p>Usa estas credenciales para acceder:</p>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-6">
+                                <strong>URL de acceso:</strong><br/>
+                                <field name="n8n_login_url" widget="url" nolabel="1" class="h6"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Email:</strong> <field name="n8n_user_email" nolabel="1" class="text-monospace"/><br/>
+                                <strong>Contraseña temporal:</strong> <field name="n8n_user_password" nolabel="1" password="True" class="text-monospace"/>
+                            </div>
+                        </div>
+                        <hr/>
+                        <p class="mb-0"><em>⚠️ Cambia tu contraseña después del primer acceso. Una vez dentro, genera una API Key y usa el botón 'Configurar y Sincronizar'.</em></p>
+                    </div>
+
+                    <!-- Alerta para USUARIOS EXISTENTES -->
+                    <div class="alert alert-success" role="alert" invisible="is_new_n8n_user or state == 'synced'">
+                        <h4 class="alert-heading">👤 Ya tienes una cuenta de N8N</h4>
+                        <p><strong>Tu cuenta de N8N ya existe.</strong></p>
+                        <p>Para sincronizar este workflow:</p>
+                        <ol>
+                            <li>Accede a N8N con tus credenciales habituales: <field name="n8n_user_email" nolabel="1" class="font-weight-bold"/></li>
+                            <li>Si no tienes una API Key, genera una en N8N (Settings → API)</li>
+                            <li>Usa el botón 'Configurar y Sincronizar' con tu API Key</li>
+                        </ol>
+                        <hr/>
+                        <field name="n8n_login_url" widget="url" string="🔗 Ir a N8N" nolabel="1" class="h5"/>
                     </div>
                 </sheet>
             </form>

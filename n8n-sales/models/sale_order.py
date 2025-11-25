@@ -15,17 +15,17 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
         for order in self:
-            n8n_user_id, n8n_invite_url = self._get_or_create_n8n_user(order.partner_id)
-            if not n8n_user_id:
+            user_data = self._get_or_create_n8n_user(order.partner_id)
+            if not user_data or not user_data.get('user_id'):
                 self.message_post(body="No se pudo obtener o crear un usuario de N8N. La creación de la instancia de workflow ha sido abortada.")
                 continue
-            order._create_workflow_instances(n8n_user_id, n8n_invite_url)
+            order._create_workflow_instances(user_data)
         return res
 
     def _get_or_create_n8n_user(self, partner):
         """
         Busca un usuario en n8n por email. Si no existe, lo crea.
-        Retorna el ID del usuario y la URL de invitación (si es nuevo).
+        Retorna un diccionario con: user_id, email, password, invite_url, is_new_user
         """
         params = self.env['ir.config_parameter'].sudo()
         n8n_url = params.get_param('n8n_sales.n8n_url')
@@ -38,16 +38,16 @@ class SaleOrder(models.Model):
             "X-N8N-API-KEY": api_key,
             "Accept": "application/json",
         }
-        
+
         try:
             # --- LÓGICA CORRECTA: Obtenemos TODOS los usuarios ---
             _logger.info(f"Obteniendo lista de usuarios de N8N para buscar a {partner.email}")
             get_users_url = f"{n8n_url}/api/v1/users" # URL sin ?email=
             response_get = requests.get(get_users_url, headers=headers, timeout=20)
             response_get.raise_for_status()
-            
+
             response_data = response_get.json()
-            
+
             # --- LÓGICA CORRECTA: Extraemos la lista de la clave "data" ---
             all_users = response_data.get('data', [])
 
@@ -58,7 +58,13 @@ class SaleOrder(models.Model):
                 user_id = found_user['id']
                 _logger.info(f"Usuario encontrado en N8N con ID: {user_id}")
                 self.message_post(body=f"Cliente {partner.name} ya tiene un usuario en N8N. Reutilizando ID.")
-                return user_id, None
+                return {
+                    'user_id': user_id,
+                    'email': partner.email,
+                    'password': None,
+                    'invite_url': None,
+                    'is_new_user': False
+                }
 
             # --- PASO 2: Si no se encontró, lo creamos ---
             _logger.info(f"Usuario no encontrado. Creando nuevo usuario en N8N para: {partner.email}")
@@ -74,23 +80,29 @@ class SaleOrder(models.Model):
             create_headers['Content-Type'] = 'application/json'
             response_create = requests.post(create_url, headers=create_headers, json=user_data, timeout=20)
             response_create.raise_for_status()
-            
+
             create_data = response_create.json()
             if create_data and isinstance(create_data, list) and create_data[0].get('user'):
                 user_info = create_data[0]['user']
                 self.message_post(body=f"Usuario de N8N creado exitosamente para {partner.name}.")
-                return user_info.get('id'), user_info.get('inviteAcceptUrl', '')
-            
+                return {
+                    'user_id': user_info.get('id'),
+                    'email': partner.email,
+                    'password': password,
+                    'invite_url': user_info.get('inviteAcceptUrl', ''),
+                    'is_new_user': True
+                }
+
             _logger.error(f"La API de creación de N8N devolvió una respuesta inesperada: {create_data}")
-            return None, None
+            return None
 
         except requests.exceptions.RequestException as e:
             error_body = f"Error crítico de comunicación con N8N para {partner.name}: {e}"
             _logger.error(error_body, exc_info=True)
             self.message_post(body=error_body)
-            return None, None
+            return None
 
-    def _create_workflow_instances(self, n8n_user_id, n8n_invite_url):
+    def _create_workflow_instances(self, user_data):
         self.ensure_one()
         _logger.info(f"Iniciando creación de instancias para la orden {self.name}")
 
@@ -107,7 +119,7 @@ class SaleOrder(models.Model):
         for line in lines_to_process:
             product = line.product_id
             template_id = product.n8n_workflow_template_id
-            
+
             if self.env['n8n.workflow.instance'].search_count([('order_id', '=', self.id), ('product_id', '=', product.id)]):
                 _logger.info(f"Instancia para producto {product.name} en orden {self.name} ya existe. Saltando.")
                 continue
@@ -117,15 +129,18 @@ class SaleOrder(models.Model):
                 response = requests.get(f"{n8n_url}/api/v1/workflows/{template_id}", headers=headers, timeout=10)
                 response.raise_for_status()
                 template_json = response.json()
-                
+
                 self.env['n8n.workflow.instance'].create({
                     'name': f"{product.name} - {self.partner_id.name}",
                     'partner_id': self.partner_id.id,
                     'product_id': product.id,
                     'order_id': self.id,
                     'template_workflow_id': template_id,
-                    'n8n_user_id': n8n_user_id,
-                    'n8n_invite_url': n8n_invite_url,
+                    'n8n_user_id': user_data.get('user_id'),
+                    'n8n_invite_url': user_data.get('invite_url'),
+                    'n8n_user_email': user_data.get('email'),
+                    'n8n_user_password': user_data.get('password'),
+                    'is_new_n8n_user': user_data.get('is_new_user', False),
                     'template_json': json.dumps(template_json, indent=2),
                 })
                 _logger.info(f"¡ÉXITO! Instancia para {product.name} creada para la orden {self.name}.")

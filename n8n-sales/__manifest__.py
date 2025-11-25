@@ -19,6 +19,7 @@
     ],
     'data': [
         'security/ir.model.access.csv',
+        'security/n8n_workflow_instance_security.xml',
         'wizards/n8n_sync_wizard_views.xml', # <-- NUEVO ARCHIVO DE VISTA
         'views/n8n_workflow_instance_views.xml',
         'views/product_template_views.xml',
