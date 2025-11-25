@@ -65,3 +65,18 @@ class ProductTemplate(models.Model):
         if self.n8n_template_selection:
             self.n8n_workflow_template_id = self.n8n_template_selection
         # No necesitamos un 'else' para que no borre el valor si la lista de selección está vacía.
+
+    # Método write para asegurar que el valor se guarda correctamente
+    def write(self, vals):
+        # Si se está actualizando la selección, copiar el valor al campo real
+        if 'n8n_template_selection' in vals and vals.get('n8n_template_selection'):
+            vals['n8n_workflow_template_id'] = vals['n8n_template_selection']
+        return super(ProductTemplate, self).write(vals)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Si se está creando con una selección, copiar el valor al campo real
+        for vals in vals_list:
+            if 'n8n_template_selection' in vals and vals.get('n8n_template_selection'):
+                vals['n8n_workflow_template_id'] = vals['n8n_template_selection']
+        return super(ProductTemplate, self).create(vals_list)
