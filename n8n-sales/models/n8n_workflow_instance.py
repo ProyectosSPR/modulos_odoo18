@@ -51,6 +51,19 @@ class N8nWorkflowInstance(models.Model):
     ], string="Estrategia de Actualización", readonly=True,
        help="Estrategia usada para actualizar el workflow")
 
+    # Campos para tracking de extensiones aplicadas (en la instancia base)
+    last_extension_applied = fields.Char(string="Última Extensión Aplicada", readonly=True,
+                                         help="Nombre de la última extensión aplicada a este workflow")
+    extension_applied_date = fields.Datetime(string="Fecha de Última Actualización", readonly=True,
+                                             help="Fecha y hora en que se aplicó la última extensión")
+    extension_applied_strategy = fields.Selection([
+        ('full_replace', 'Reemplazo Completo'),
+        ('manual_merge', 'Merge Manual')
+    ], string="Método de Última Actualización", readonly=True,
+       help="Estrategia usada en la última actualización")
+    total_extensions_applied = fields.Integer(string="Total de Extensiones Aplicadas", default=0, readonly=True,
+                                              help="Número total de extensiones aplicadas a este workflow")
+
     @api.depends('n8n_user_id', 'n8n_invite_url')
     def _compute_n8n_urls(self):
         """Calcula las URLs limpias de N8N (sin puertos)"""
@@ -262,10 +275,15 @@ class N8nWorkflowInstance(models.Model):
 
             _logger.info(f"Workflow {base_instance.n8n_instance_id} actualizado exitosamente con reemplazo completo")
 
-            # Actualizar la instancia base con la nueva plantilla
+            # Actualizar la instancia base con la nueva plantilla y registrar la extensión
+            from odoo.fields import Datetime
             base_instance.write({
                 'template_json': self.template_json,
                 'template_workflow_id': self.template_workflow_id,
+                'last_extension_applied': self.product_id.name,
+                'extension_applied_date': Datetime.now(),
+                'extension_applied_strategy': 'full_replace',
+                'total_extensions_applied': (base_instance.total_extensions_applied or 0) + 1,
             })
 
             # Marcar esta instancia de extensión como sincronizada
@@ -375,6 +393,15 @@ class N8nWorkflowInstance(models.Model):
             response.raise_for_status()
 
             _logger.info(f"Workflow {base_instance.n8n_instance_id} actualizado con merge manual: {len(new_nodes)} nodos añadidos")
+
+            # Registrar la extensión aplicada en la instancia base
+            from odoo.fields import Datetime
+            base_instance.write({
+                'last_extension_applied': self.product_id.name,
+                'extension_applied_date': Datetime.now(),
+                'extension_applied_strategy': 'manual_merge',
+                'total_extensions_applied': (base_instance.total_extensions_applied or 0) + 1,
+            })
 
             # Marcar esta instancia de extensión como sincronizada
             self.write({'state': 'synced'})

@@ -11,6 +11,8 @@
                 <field name="order_id"/>
                 <field name="is_extension" string="📦" widget="boolean"/>
                 <field name="merge_strategy" optional="show"/>
+                <field name="total_extensions_applied" string="🔄 Extensiones" optional="show"/>
+                <field name="last_extension_applied" string="Última Actualización" optional="show"/>
                 <field name="n8n_login_url" widget="url" string="🔗 Acceso N8N"/>
                 <field name="n8n_user_email" string="Email N8N"/>
                 <field name="state" widget="badge" decoration-warning="state == 'pending'" decoration-success="state == 'synced'"/>
@@ -44,8 +46,21 @@
                     <field name="state" widget="statusbar" statusbar_visible="pending,synced"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_open_sync_wizard"
+                                invisible="state != 'synced' or not total_extensions_applied"
+                                icon="fa-refresh">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="total_extensions_applied"/></span>
+                                <span class="o_stat_text">Extensiones</span>
+                            </div>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1><field name="name" readonly="1"/></h1>
+                        <h3 invisible="not last_extension_applied">
+                            <span class="badge badge-success">✅ Actualizado: <field name="last_extension_applied" nolabel="1"/></span>
+                        </h3>
                     </div>
                     <group>
                         <group string="Información de Venta">
@@ -88,6 +103,35 @@
                             <p>⚠️ <strong>Modificaciones detectadas</strong> - Se recomienda merge manual.</p>
                             <p>Al aplicar la extensión, se añadirán solo los nodos nuevos sin conexiones, junto con instrucciones en un Sticky Note.</p>
                         </div>
+                    </div>
+
+                    <!-- Banner de Actualización Exitosa -->
+                    <div class="alert alert-success" role="alert" invisible="not last_extension_applied">
+                        <h4 class="alert-heading">✅ Workflow Actualizado</h4>
+                        <p><strong>Este workflow ha sido actualizado con extensiones.</strong></p>
+                        <hr/>
+                        <table class="table table-sm table-borderless mb-0">
+                            <tr>
+                                <th width="200px">Última Extensión:</th>
+                                <td><strong><field name="last_extension_applied" nolabel="1"/></strong></td>
+                            </tr>
+                            <tr>
+                                <th>Fecha de Actualización:</th>
+                                <td><field name="extension_applied_date" nolabel="1" widget="datetime"/></td>
+                            </tr>
+                            <tr>
+                                <th>Método Aplicado:</th>
+                                <td>
+                                    <field name="extension_applied_strategy" nolabel="1" widget="badge"
+                                           decoration-success="extension_applied_strategy == 'full_replace'"
+                                           decoration-warning="extension_applied_strategy == 'manual_merge'"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Total de Actualizaciones:</th>
+                                <td><field name="total_extensions_applied" nolabel="1"/> extensiones aplicadas</td>
+                            </tr>
+                        </table>
                     </div>
 
                     <!-- SECCIÓN DE ACCESO A N8N - SIEMPRE VISIBLE -->
