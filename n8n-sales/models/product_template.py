@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 import requests
 import logging
 
@@ -11,12 +12,27 @@ class ProductTemplate(models.Model):
     # Este es el campo de datos real, donde se guarda el ID en la base de datos.
     n8n_workflow_template_id = fields.Char(string="ID de Plantilla N8N", copy=False)
 
+    # Campos para extensiones
+    is_extension = fields.Boolean(string="Es una extensión", default=False,
+                                   help="Marca si este producto es una extensión de otro workflow existente")
+    base_product_id = fields.Many2one('product.template', string="Producto Base",
+                                      domain="[('n8n_workflow_template_id', '!=', False)]",
+                                      help="Producto base del cual este es una extensión")
+    extension_instructions = fields.Text(string="Instrucciones de la Extensión",
+                                         help="Instrucciones para usar esta extensión. Se mostrarán en un Sticky Note al hacer merge manual.")
+
     # Este campo es solo para la interfaz. No se guarda en la base de datos.
     n8n_template_selection = fields.Selection(
         selection='_get_n8n_workflow_templates',
         string="Plantilla de Workflow N8N",
         help="Selecciona el workflow de la instancia maestra de n8n que se usará como plantilla para este producto."
     )
+
+    @api.constrains('is_extension', 'base_product_id')
+    def _check_extension_fields(self):
+        for record in self:
+            if record.is_extension and not record.base_product_id:
+                raise ValidationError("Si el producto es una extensión, debes especificar el Producto Base.")
 
     def _get_n8n_workflow_templates(self):
         params = self.env['ir.config_parameter'].sudo()

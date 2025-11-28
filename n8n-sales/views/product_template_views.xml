@@ -10,6 +10,11 @@
                     <field name="n8n_template_selection"/>
                     <field name="n8n_workflow_template_id" readonly="1" string="ID de Plantilla Seleccionado"/>
                 </group>
+                <group string="Configuración de Extensiones" name="n8n_extension">
+                    <field name="is_extension"/>
+                    <field name="base_product_id" invisible="not is_extension" required="is_extension"/>
+                    <field name="extension_instructions" invisible="not is_extension" placeholder="Instrucciones para usar esta extensión..."/>
+                </group>
             </xpath>
         </field>
     </record>

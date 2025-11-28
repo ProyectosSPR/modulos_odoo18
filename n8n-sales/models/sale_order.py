@@ -143,7 +143,8 @@ class SaleOrder(models.Model):
                 response.raise_for_status()
                 template_json = response.json()
 
-                self.env['n8n.workflow.instance'].create({
+                # Valores por defecto para instancia
+                instance_values = {
                     'name': f"{product.name} - {self.partner_id.name}",
                     'partner_id': self.partner_id.id,
                     'product_id': product.id,
@@ -155,7 +156,52 @@ class SaleOrder(models.Model):
                     'n8n_user_password': user_data.get('password'),
                     'is_new_n8n_user': user_data.get('is_new_user', False),
                     'template_json': json.dumps(template_json, indent=2),
-                })
+                }
+
+                # LÓGICA DE EXTENSIONES
+                if product.is_extension and product.base_product_id:
+                    _logger.info(f"Producto {product.name} es una extensión de {product.base_product_id.name}")
+
+                    # Buscar si el cliente ya tiene una instancia del producto base (sincronizada)
+                    base_instance = self.env['n8n.workflow.instance'].search([
+                        ('partner_id', '=', self.partner_id.id),
+                        ('product_id.product_tmpl_id', '=', product.base_product_id.id),
+                        ('state', '=', 'synced')
+                    ], limit=1)
+
+                    if base_instance:
+                        _logger.info(f"Cliente tiene instancia base: {base_instance.name} (ID: {base_instance.id})")
+
+                        # Detectar si el cliente modificó el workflow base
+                        has_modifications, differences = base_instance._detect_workflow_modifications()
+
+                        # Añadir campos de extensión a la instancia
+                        instance_values.update({
+                            'is_extension': True,
+                            'base_workflow_instance_id': base_instance.id,
+                            'has_modifications': has_modifications,
+                            'merge_strategy': 'manual_merge' if has_modifications else 'full_replace'
+                        })
+
+                        if has_modifications:
+                            self.message_post(
+                                body=f"⚠️ Extensión {product.name} detectó modificaciones en el workflow base. "
+                                     f"Se recomienda merge manual. Diferencias: {', '.join(differences[:3])}"
+                            )
+                        else:
+                            self.message_post(
+                                body=f"✓ Extensión {product.name} lista para reemplazo completo (sin modificaciones detectadas)."
+                            )
+                    else:
+                        _logger.warning(f"Cliente no tiene instancia del producto base {product.base_product_id.name}. "
+                                       f"Se creará como instancia normal.")
+                        self.message_post(
+                            body=f"⚠️ {product.name} es una extensión, pero el cliente no tiene el producto base "
+                                 f"{product.base_product_id.name}. Se creará como workflow independiente."
+                        )
+
+                # Crear la instancia
+                self.env['n8n.workflow.instance'].create(instance_values)
                 _logger.info(f"¡ÉXITO! Instancia para {product.name} creada para la orden {self.name}.")
 
             except requests.exceptions.RequestException as e:
