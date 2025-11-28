@@ -290,7 +290,50 @@ class SubscriptionPackage(models.Model):
             if existing_token and existing_token.provider_ref:
                 return existing_token.provider_ref
 
-        # Create new customer in Stripe
+        # Search for existing customer in Stripe by email
+        # This prevents creating duplicate customers for the same email
+        if self.partner_id.email:
+            try:
+                search_response = self.payment_provider_id._stripe_make_request(
+                    'customers/search',
+                    payload={'query': f'email:"{self.partner_id.email}"'},
+                    method='GET'
+                )
+
+                existing_customers = search_response.get('data', [])
+                if existing_customers:
+                    # Use the first matching customer
+                    customer_id = existing_customers[0].get('id')
+                    _logger.info(
+                        "Found existing Stripe customer %s for email %s (partner %s)",
+                        customer_id, self.partner_id.email, self.partner_id.id
+                    )
+
+                    # Update the customer metadata to link with this Odoo partner if not already linked
+                    if str(self.partner_id.id) not in existing_customers[0].get('metadata', {}).get('odoo_partner_id', ''):
+                        update_payload = {
+                            'metadata[odoo_partner_id]': str(self.partner_id.id),
+                            'description': f'Odoo Partner: {self.partner_id.name} (ID: {self.partner_id.id})',
+                        }
+                        self.payment_provider_id._stripe_make_request(
+                            f'customers/{customer_id}',
+                            payload=update_payload,
+                            method='POST'
+                        )
+                        _logger.info(
+                            "Updated Stripe customer %s metadata with Odoo partner %s",
+                            customer_id, self.partner_id.id
+                        )
+
+                    return customer_id
+            except Exception as e:
+                # Log the error but continue to create a new customer
+                _logger.warning(
+                    "Error searching for existing Stripe customer by email %s: %s",
+                    self.partner_id.email, str(e)
+                )
+
+        # Create new customer in Stripe only if none exists with this email
         customer_payload = {
             'name': self.partner_id.name,
             'email': self.partner_id.email or '',
