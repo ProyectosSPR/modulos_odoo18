@@ -3,5 +3,7 @@ access_ai_agent_profile_user,ai.agent.profile user,model_ai_agent_profile,base.g
 access_ai_agent_profile_system,ai.agent.profile system,model_ai_agent_profile,base.group_system,1,1,1,1
 access_ai_action_user,ai.action user,model_ai_action,base.group_user,1,1,1,1
 access_ai_action_system,ai.action system,model_ai_action,base.group_system,1,1,1,1
+access_ai_config_variable_user,ai.config.variable user,model_ai_config_variable,base.group_user,1,1,1,1
+access_ai_config_variable_system,ai.config.variable system,model_ai_config_variable,base.group_system,1,1,1,1
 access_ai_execution_log_user,ai.execution.log user,model_ai_execution_log,base.group_user,1,0,1,0
 access_ai_execution_log_system,ai.execution.log system,model_ai_execution_log,base.group_system,1,1,1,1

@@ -89,35 +89,6 @@ class AIAgentProfile(models.Model):
         help="Instrucciones de contexto adicionales que se añaden al prompt"
     )
 
-    model_provider = fields.Selection([
-        ('openai', 'OpenAI'),
-        ('anthropic', 'Anthropic (Claude)'),
-        ('google', 'Google (Gemini)'),
-        ('local', 'Modelo Local'),
-    ], string="Proveedor del Modelo",
-       default='anthropic',
-       required=True,
-       help="Proveedor de IA a utilizar"
-    )
-
-    model_name = fields.Char(
-        string="Nombre del Modelo",
-        default="claude-3-5-sonnet-20241022",
-        help="Nombre específico del modelo (ej: gpt-4, claude-3-5-sonnet, gemini-pro)"
-    )
-
-    temperature = fields.Float(
-        string="Temperature",
-        default=0.7,
-        help="Controla la creatividad (0.0 = determinista, 2.0 = muy creativo)"
-    )
-
-    max_tokens = fields.Integer(
-        string="Max Tokens",
-        default=4096,
-        help="Número máximo de tokens en la respuesta"
-    )
-
     # ========== RELACIONES ==========
     action_ids = fields.One2many(
         'ai.action',
@@ -130,6 +101,20 @@ class AIAgentProfile(models.Model):
         string="# Acciones",
         compute='_compute_action_count',
         store=True
+    )
+
+    variable_ids = fields.One2many(
+        'ai.config.variable',
+        'agent_profile_id',
+        string="Variables de Configuración",
+        help="Variables que se pasarán a N8N como config_variables en formato JSON"
+    )
+
+    config_variables_json = fields.Text(
+        string="Config Variables (JSON)",
+        compute='_compute_config_variables_json',
+        store=False,
+        help="JSON generado automáticamente a partir de las variables configuradas"
     )
 
     # ========== METADATOS Y ANALYTICS ==========
@@ -164,6 +149,17 @@ class AIAgentProfile(models.Model):
     def _compute_action_count(self):
         for record in self:
             record.action_count = len(record.action_ids)
+
+    @api.depends('variable_ids', 'variable_ids.name', 'variable_ids.value')
+    def _compute_config_variables_json(self):
+        """Construye el JSON de config_variables a partir de las variables configuradas"""
+        import json
+        for record in self:
+            if record.variable_ids:
+                config_vars = {var.name: var.value for var in record.variable_ids}
+                record.config_variables_json = json.dumps({"config_variables": config_vars}, indent=2)
+            else:
+                record.config_variables_json = json.dumps({"config_variables": {}}, indent=2)
 
     @api.depends('name', 'partner_id', 'shared_globally', 'is_template')
     def _compute_display_name_with_owner(self):
@@ -332,6 +328,9 @@ class AIAgentProfile(models.Model):
         """Formatea la configuración para respuesta de API"""
         self.ensure_one()
 
+        # Construir config_variables
+        config_vars = {var.name: var.value for var in self.variable_ids}
+
         return {
             'agent_profile': {
                 'id': self.id,
@@ -340,12 +339,9 @@ class AIAgentProfile(models.Model):
                 'description': self.description or '',
                 'system_prompt': self.system_prompt,
                 'context_instructions': self.context_instructions or '',
-                'model_provider': self.model_provider,
-                'model_name': self.model_name,
-                'temperature': self.temperature,
-                'max_tokens': self.max_tokens,
                 'is_template': self.is_template,
                 'is_shared': self.shared_globally,
             },
+            'config_variables': config_vars,
             'actions': [action._format_for_api() for action in self.action_ids if action.active]
         }

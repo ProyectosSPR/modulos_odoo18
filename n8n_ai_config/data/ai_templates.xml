@@ -11,10 +11,6 @@
             <field name="shared_globally" eval="True"/>
             <field name="is_template" eval="True"/>
             <field name="active" eval="True"/>
-            <field name="model_provider">anthropic</field>
-            <field name="model_name">claude-3-5-sonnet-20241022</field>
-            <field name="temperature">0.7</field>
-            <field name="max_tokens">4096</field>
             <field name="system_prompt">Eres un asistente útil y profesional.
 
 Tu objetivo es ayudar al usuario de la mejor manera posible usando las herramientas disponibles.

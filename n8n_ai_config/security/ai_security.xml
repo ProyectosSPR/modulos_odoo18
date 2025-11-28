@@ -74,6 +74,36 @@
         <field name="perm_unlink" eval="True"/>
     </record>
 
+    <!-- Regla para ai.config.variable: Ver variables de mis perfiles + compartidos -->
+    <record id="ai_config_variable_user_rule" model="ir.rule">
+        <field name="name">AI Config Variable: Multi-tenant Access</field>
+        <field name="model_id" ref="model_ai_config_variable"/>
+        <field name="domain_force">[
+            '|',
+            '|',
+            ('agent_profile_id.partner_id', '=', user.partner_id.id),
+            ('agent_profile_id.shared_globally', '=', True),
+            ('agent_profile_id.partner_id', '=', False)
+        ]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Regla para ai.config.variable: Escribir solo variables de mis perfiles -->
+    <record id="ai_config_variable_user_write_rule" model="ir.rule">
+        <field name="name">AI Config Variable: Write Own Variables</field>
+        <field name="model_id" ref="model_ai_config_variable"/>
+        <field name="domain_force">[('agent_profile_id.partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
     <!-- Regla para ai.execution.log: Ver solo mis logs -->
     <record id="ai_execution_log_user_rule" model="ir.rule">
         <field name="name">AI Execution Log: Own Logs</field>

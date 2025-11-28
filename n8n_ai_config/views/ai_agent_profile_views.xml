@@ -8,7 +8,6 @@
             <list string="Perfiles de Agente IA">
                 <field name="name"/>
                 <field name="code"/>
-                <field name="model_provider"/>
                 <field name="action_count" string="# Acciones"/>
                 <field name="is_template" invisible="1"/>
                 <field name="shared_globally" invisible="1"/>
@@ -74,16 +73,7 @@
                     </group>
 
                     <notebook>
-                        <page string="🤖 Configuración del Agente" name="config">
-                            <group>
-                                <group string="Modelo IA">
-                                    <field name="model_provider"/>
-                                    <field name="model_name" placeholder="ej: claude-3-5-sonnet-20241022"/>
-                                    <field name="temperature"/>
-                                    <field name="max_tokens"/>
-                                </group>
-                            </group>
-
+                        <page string="📝 Prompts e Instrucciones" name="prompts">
                             <group string="System Prompt">
                                 <field name="system_prompt" nolabel="1" placeholder="Eres un asistente experto en..."
                                        widget="text"/>
@@ -93,6 +83,26 @@
                                 <field name="context_instructions" nolabel="1"
                                        placeholder="Contexto adicional o reglas específicas..."
                                        widget="text"/>
+                            </group>
+                        </page>
+
+                        <page string="⚙️ Variables de Configuración" name="config_vars">
+                            <group>
+                                <p class="text-muted">
+                                    Define variables que se pasarán a N8N como config_variables en formato JSON.
+                                    Útil para configurar formatos de respuesta, límites, etc.
+                                </p>
+                            </group>
+                            <field name="variable_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name" placeholder="variable_name"/>
+                                    <field name="value" placeholder="valor"/>
+                                    <field name="description" optional="show"/>
+                                </list>
+                            </field>
+                            <group string="Vista Previa JSON" invisible="not variable_ids">
+                                <field name="config_variables_json" widget="ace" options="{'mode': 'json'}" nolabel="1" readonly="1"/>
                             </group>
                         </page>
 
@@ -131,7 +141,6 @@
             <kanban class="o_kanban_mobile">
                 <field name="name"/>
                 <field name="code"/>
-                <field name="model_provider"/>
                 <field name="action_count"/>
                 <field name="is_default"/>
                 <field name="shared_globally"/>
@@ -156,9 +165,6 @@
                                 <div>
                                     <i class="fa fa-cogs"/> <field name="action_count"/> acciones
                                 </div>
-                                <div>
-                                    <field name="model_provider"/>
-                                </div>
                             </div>
                         </div>
                     </t>
@@ -175,7 +181,6 @@
             <search string="Buscar Perfiles">
                 <field name="name"/>
                 <field name="code"/>
-                <field name="model_provider"/>
                 <filter string="Mis Configuraciones" name="my_configs"
                         domain="[('partner_id', '=', uid)]"/>
                 <filter string="Templates Compartidos" name="shared"
@@ -188,8 +193,6 @@
                 <filter string="Inactivos" name="inactive"
                         domain="[('active', '=', False)]"/>
                 <group expand="0" string="Agrupar Por">
-                    <filter string="Proveedor" name="group_provider"
-                            context="{'group_by': 'model_provider'}"/>
                     <filter string="Propietario" name="group_owner"
                             context="{'group_by': 'partner_id'}"/>
                 </group>
