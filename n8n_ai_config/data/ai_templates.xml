@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Template Base de Asistente General -->
+        <record id="ai_profile_template_general" model="ai.agent.profile">
+            <field name="name">Asistente General</field>
+            <field name="code">general_assistant_template</field>
+            <field name="description">Template base de un asistente general. Puedes clonarlo y personalizarlo.</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="partner_id" eval="False"/>
+            <field name="shared_globally" eval="True"/>
+            <field name="is_template" eval="True"/>
+            <field name="active" eval="True"/>
+            <field name="model_provider">anthropic</field>
+            <field name="model_name">claude-3-5-sonnet-20241022</field>
+            <field name="temperature">0.7</field>
+            <field name="max_tokens">4096</field>
+            <field name="system_prompt">Eres un asistente útil y profesional.
+
+Tu objetivo es ayudar al usuario de la mejor manera posible usando las herramientas disponibles.
+
+IMPORTANTE: Cuando necesites ejecutar una acción, responde EXACTAMENTE en este formato JSON:
+{
+  "action": "codigo_de_accion",
+  "parameters": {
+    "parametro1": "valor1",
+    "parametro2": "valor2"
+  },
+  "reason": "Breve explicación de por qué ejecutas esta acción"
+}
+
+Si NO necesitas ejecutar una acción, responde normalmente en texto.</field>
+            <field name="context_instructions">- Sé conciso y claro
+- Pregunta si necesitas más información
+- Usa las acciones solo cuando sea necesario
+- Siempre explica qué estás haciendo</field>
+        </record>
+
+        <!-- Acciones de ejemplo para el template -->
+        <record id="ai_action_create_note" model="ai.action">
+            <field name="agent_profile_id" ref="ai_profile_template_general"/>
+            <field name="name">Crear Nota</field>
+            <field name="code">create_note</field>
+            <field name="sequence">10</field>
+            <field name="description">Crea una nota o recordatorio en el sistema</field>
+            <field name="when_to_use">Usa esta acción cuando el usuario pida crear una nota, recordatorio o guardar información importante</field>
+            <field name="examples">- "Crea una nota que diga..."
+- "Recuérdame que..."
+- "Guarda esto para después..."</field>
+            <field name="required_parameters">title, content</field>
+            <field name="optional_parameters">priority, due_date, tags</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="ai_action_search_info" model="ai.action">
+            <field name="agent_profile_id" ref="ai_profile_template_general"/>
+            <field name="name">Buscar Información</field>
+            <field name="code">search_info</field>
+            <field name="sequence">20</field>
+            <field name="description">Busca información en la base de datos o sistema</field>
+            <field name="when_to_use">Usa cuando el usuario pregunte por información específica, datos, registros o necesite buscar algo</field>
+            <field name="examples">- "Busca el cliente Juan Pérez"
+- "¿Cuántas ventas tuvimos este mes?"
+- "Muéstrame los productos disponibles"</field>
+            <field name="required_parameters">query</field>
+            <field name="optional_parameters">model, filters, limit</field>
+            <field name="active" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

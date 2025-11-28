@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista Form de Acción -->
+    <record id="view_ai_action_form" model="ir.ui.view">
+        <field name="name">ai.action.form</field>
+        <field name="model">ai.action</field>
+        <field name="arch" type="xml">
+            <form string="Acción IA">
+                <header>
+                    <field name="active" widget="boolean_button" options="{'terminology': 'active'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nombre de la Acción"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="code" placeholder="codigo_unico"/>
+                            <field name="agent_profile_id" options="{'no_create': True}"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="requires_confirmation"/>
+                            <field name="usage_count" readonly="1"/>
+                            <field name="last_used_date" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="📝 Descripción" name="description">
+                            <group>
+                                <field name="description" nolabel="1" placeholder="Describe qué hace esta acción..."
+                                       widget="text"/>
+                            </group>
+                        </page>
+
+                        <page string="🎯 Cuándo Usar" name="when">
+                            <group>
+                                <field name="when_to_use" nolabel="1"
+                                       placeholder="Instrucciones de cuándo la IA debe usar esta acción..."
+                                       widget="text"/>
+                            </group>
+                        </page>
+
+                        <page string="💡 Ejemplos" name="examples">
+                            <group>
+                                <field name="examples" nolabel="1"
+                                       placeholder="Ejemplos de situaciones donde usar esta acción..."
+                                       widget="text"/>
+                            </group>
+                        </page>
+
+                        <page string="⚙️ Parámetros" name="parameters">
+                            <group string="Descripción de Parámetros">
+                                <field name="parameters_description" nolabel="1"
+                                       placeholder="JSON Schema o descripción de parámetros..."
+                                       widget="text"/>
+                            </group>
+                            <group>
+                                <group string="Obligatorios">
+                                    <field name="required_parameters" nolabel="1"
+                                           placeholder="name, email, phone"/>
+                                </group>
+                                <group string="Opcionales">
+                                    <field name="optional_parameters" nolabel="1"
+                                           placeholder="company, notes, tags"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

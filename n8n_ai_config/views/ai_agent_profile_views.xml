@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista Tree (Lista) -->
+    <record id="view_ai_agent_profile_tree" model="ir.ui.view">
+        <field name="name">ai.agent.profile.tree</field>
+        <field name="model">ai.agent.profile</field>
+        <field name="arch" type="xml">
+            <tree string="Perfiles de Agente IA">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="model_provider"/>
+                <field name="action_count" string="# Acciones"/>
+                <field name="is_template" invisible="1"/>
+                <field name="shared_globally" invisible="1"/>
+                <field name="is_default" widget="boolean_toggle"/>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="usage_count" optional="show"/>
+                <field name="last_used_date" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista Form -->
+    <record id="view_ai_agent_profile_form" model="ir.ui.view">
+        <field name="name">ai.agent.profile.form</field>
+        <field name="model">ai.agent.profile</field>
+        <field name="arch" type="xml">
+            <form string="Perfil de Agente IA">
+                <header>
+                    <button name="action_clone_template" string="Clonar Template" type="object"
+                            class="btn-primary" invisible="not shared_globally and not is_template"/>
+                    <button name="action_set_as_default" string="Usar por Defecto" type="object"
+                            class="btn-success" invisible="is_default or not partner_id"/>
+                    <field name="active" widget="boolean_button" options="{'terminology': 'active'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_actions" icon="fa-cogs">
+                            <field name="action_count" widget="statinfo" string="Acciones"/>
+                        </button>
+                    </div>
+
+                    <widget name="web_ribbon" title="Template Compartido" bg_color="bg-success"
+                            invisible="not shared_globally"/>
+                    <widget name="web_ribbon" title="Mi Config por Defecto" bg_color="bg-info"
+                            invisible="not is_default"/>
+
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nombre del Agente"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Identificación">
+                            <field name="code"/>
+                            <field name="description" placeholder="Descripción de qué hace este agente..."/>
+                        </group>
+                        <group string="Propietario">
+                            <field name="company_id" options="{'no_create': True}"/>
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="created_by" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Control">
+                        <group>
+                            <field name="is_default"/>
+                            <field name="is_template" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="shared_globally" groups="base.group_system"/>
+                            <field name="usage_count" readonly="1"/>
+                            <field name="last_used_date" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="🤖 Configuración del Agente" name="config">
+                            <group>
+                                <group string="Modelo IA">
+                                    <field name="model_provider"/>
+                                    <field name="model_name" placeholder="ej: claude-3-5-sonnet-20241022"/>
+                                    <field name="temperature"/>
+                                    <field name="max_tokens"/>
+                                </group>
+                            </group>
+
+                            <group string="System Prompt">
+                                <field name="system_prompt" nolabel="1" placeholder="Eres un asistente experto en..."
+                                       widget="text"/>
+                            </group>
+
+                            <group string="Instrucciones Adicionales">
+                                <field name="context_instructions" nolabel="1"
+                                       placeholder="Contexto adicional o reglas específicas..."
+                                       widget="text"/>
+                            </group>
+                        </page>
+
+                        <page string="⚡ Acciones" name="actions">
+                            <field name="action_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="description"/>
+                                    <field name="active" widget="boolean_toggle"/>
+                                    <field name="usage_count" optional="show"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="📊 Analytics" name="analytics" invisible="usage_count == 0">
+                            <group>
+                                <group>
+                                    <field name="usage_count" readonly="1"/>
+                                    <field name="last_used_date" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Kanban -->
+    <record id="view_ai_agent_profile_kanban" model="ir.ui.view">
+        <field name="name">ai.agent.profile.kanban</field>
+        <field name="model">ai.agent.profile</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="model_provider"/>
+                <field name="action_count"/>
+                <field name="is_default"/>
+                <field name="shared_globally"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title">
+                                        <t t-if="record.is_default.raw_value">⭐ </t>
+                                        <t t-if="record.shared_globally.raw_value">[Compartido] </t>
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_record_top_right">
+                                    <field name="active" widget="boolean_toggle"/>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <field name="code"/>
+                                <div>
+                                    <i class="fa fa-cogs"/> <field name="action_count"/> acciones
+                                </div>
+                                <div>
+                                    <field name="model_provider"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vista Search -->
+    <record id="view_ai_agent_profile_search" model="ir.ui.view">
+        <field name="name">ai.agent.profile.search</field>
+        <field name="model">ai.agent.profile</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Perfiles">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="model_provider"/>
+                <filter string="Mis Configuraciones" name="my_configs"
+                        domain="[('partner_id', '=', uid)]"/>
+                <filter string="Templates Compartidos" name="shared"
+                        domain="[('shared_globally', '=', True)]"/>
+                <filter string="Por Defecto" name="default"
+                        domain="[('is_default', '=', True)]"/>
+                <separator/>
+                <filter string="Activos" name="active"
+                        domain="[('active', '=', True)]"/>
+                <filter string="Inactivos" name="inactive"
+                        domain="[('active', '=', False)]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Proveedor" name="group_provider"
+                            context="{'group_by': 'model_provider'}"/>
+                    <filter string="Propietario" name="group_owner"
+                            context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción principal -->
+    <record id="action_ai_agent_profile" model="ir.actions.act_window">
+        <field name="name">Configuración IA</field>
+        <field name="res_model">ai.agent.profile</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_my_configs': 1, 'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea tu primer Perfil de Agente IA
+            </p>
+            <p>
+                Define cómo debe comportarse tu agente de IA, qué modelo usar,
+                y qué acciones puede ejecutar.
+            </p>
+        </field>
+    </record>
+
+</odoo>

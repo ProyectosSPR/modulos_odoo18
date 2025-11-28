@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========== REGLAS DE ACCESO (RECORD RULES) ========== -->
+
+    <!-- Regla para ai.agent.profile: Ver solo mis configs + compartidas globalmente -->
+    <record id="ai_agent_profile_user_rule" model="ir.rule">
+        <field name="name">AI Agent Profile: Multi-tenant Access</field>
+        <field name="model_id" ref="model_ai_agent_profile"/>
+        <field name="domain_force">[
+            '|',
+            '|',
+            ('partner_id', '=', user.partner_id.id),
+            ('shared_globally', '=', True),
+            ('partner_id', '=', False)
+        ]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Regla para ai.agent.profile: Escribir solo mis configs -->
+    <record id="ai_agent_profile_user_write_rule" model="ir.rule">
+        <field name="name">AI Agent Profile: Write Own Configs</field>
+        <field name="model_id" ref="model_ai_agent_profile"/>
+        <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Regla para administradores: Acceso total -->
+    <record id="ai_agent_profile_admin_rule" model="ir.rule">
+        <field name="name">AI Agent Profile: Admin Full Access</field>
+        <field name="model_id" ref="model_ai_agent_profile"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Regla para ai.action: Ver acciones de mis perfiles + compartidos -->
+    <record id="ai_action_user_rule" model="ir.rule">
+        <field name="name">AI Action: Multi-tenant Access</field>
+        <field name="model_id" ref="model_ai_action"/>
+        <field name="domain_force">[
+            '|',
+            '|',
+            ('agent_profile_id.partner_id', '=', user.partner_id.id),
+            ('agent_profile_id.shared_globally', '=', True),
+            ('agent_profile_id.partner_id', '=', False)
+        ]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Regla para ai.action: Escribir solo acciones de mis perfiles -->
+    <record id="ai_action_user_write_rule" model="ir.rule">
+        <field name="name">AI Action: Write Own Actions</field>
+        <field name="model_id" ref="model_ai_action"/>
+        <field name="domain_force">[('agent_profile_id.partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Regla para ai.execution.log: Ver solo mis logs -->
+    <record id="ai_execution_log_user_rule" model="ir.rule">
+        <field name="name">AI Execution Log: Own Logs</field>
+        <field name="model_id" ref="model_ai_execution_log"/>
+        <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Regla para ai.execution.log: Administradores ven todo -->
+    <record id="ai_execution_log_admin_rule" model="ir.rule">
+        <field name="name">AI Execution Log: Admin Full Access</field>
+        <field name="model_id" ref="model_ai_execution_log"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+</odoo>

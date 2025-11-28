@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menú principal -->
+    <menuitem id="menu_ai_root"
+              name="Configuración IA"
+              sequence="100"
+              web_icon="n8n_ai_config,static/description/icon.png"/>
+
+    <!-- Submenús -->
+    <menuitem id="menu_ai_config"
+              name="Configuración"
+              parent="menu_ai_root"
+              sequence="10"/>
+
+    <menuitem id="menu_ai_agent_profile"
+              name="Perfiles de Agente"
+              parent="menu_ai_config"
+              action="action_ai_agent_profile"
+              sequence="10"/>
+
+    <menuitem id="menu_ai_analytics"
+              name="Analytics"
+              parent="menu_ai_root"
+              sequence="20"/>
+
+    <menuitem id="menu_ai_execution_log"
+              name="Logs de Ejecución"
+              parent="menu_ai_analytics"
+              action="action_ai_execution_log"
+              sequence="10"/>
+
+</odoo>
