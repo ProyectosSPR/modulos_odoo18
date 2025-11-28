@@ -272,7 +272,7 @@ class AIAgentProfile(models.Model):
             'type': 'ir.actions.act_window',
             'name': f'Acciones de {self.name}',
             'res_model': 'ai.action',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('agent_profile_id', '=', self.id)],
             'context': {'default_agent_profile_id': self.id},
         }
