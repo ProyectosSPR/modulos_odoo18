@@ -58,6 +58,9 @@ class MxReconcileRuleTestWizard(models.TransientModel):
     # IDs de resultados para mostrar en vista
     matched_line_ids = fields.Many2many(
         'account.bank.statement.line',
+        'mx_rule_test_line_rel',
+        'wizard_id',
+        'line_id',
         string='Líneas con Match',
         readonly=True,
     )
