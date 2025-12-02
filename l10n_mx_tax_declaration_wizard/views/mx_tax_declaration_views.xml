@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista List de Declaraciones -->
+    <record id="view_mx_tax_declaration_list" model="ir.ui.view">
+        <field name="name">mx.tax.declaration.list</field>
+        <field name="model">mx.tax.declaration</field>
+        <field name="arch" type="xml">
+            <list string="Declaraciones Fiscales" decoration-info="state == 'draft'" decoration-success="state == 'paid'" decoration-warning="state in ('calculated', 'reviewed')" decoration-danger="state == 'cancel'">
+                <field name="name"/>
+                <field name="period_start"/>
+                <field name="period_end"/>
+                <field name="period_name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="obligation_count" string="Obligaciones"/>
+                <field name="invoice_count" string="Facturas"/>
+                <field name="total_payable" widget="monetary" sum="Total"/>
+                <field name="deadline_date"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'paid'" decoration-warning="state in ('calculated', 'reviewed')" decoration-danger="state == 'cancel'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista Form de Declaraciones -->
+    <record id="view_mx_tax_declaration_form" model="ir.ui.view">
+        <field name="name">mx.tax.declaration.form</field>
+        <field name="model">mx.tax.declaration</field>
+        <field name="arch" type="xml">
+            <form string="Declaración Fiscal">
+                <header>
+                    <button name="action_calculate" string="Calcular" type="object" class="btn-primary" invisible="state != 'draft'" icon="fa-calculator"/>
+                    <button name="action_review" string="Revisar" type="object" class="btn-primary" invisible="state != 'calculated'" icon="fa-check"/>
+                    <button name="action_file" string="Presentada al SAT" type="object" class="btn-success" invisible="state != 'reviewed'" icon="fa-send" confirm="¿Confirma que esta declaración fue presentada al SAT?"/>
+                    <button name="action_pay" string="Registrar Pago" type="object" class="btn-success" invisible="state != 'filed'" icon="fa-money" confirm="¿Confirma que esta declaración fue pagada?"/>
+                    <button name="action_reset_to_draft" string="Regresar a Borrador" type="object" invisible="state not in ('calculated', 'reviewed', 'cancel')"/>
+                    <button name="action_cancel" string="Cancelar" type="object" invisible="state in ('paid', 'cancel')" confirm="¿Está seguro de cancelar esta declaración?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,calculated,reviewed,filed,paid"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoices" type="object" class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="invoice_count" widget="statinfo" string="Facturas"/>
+                        </button>
+                        <button name="%(action_mx_tax_declaration_wizard)d" type="action" class="oe_stat_button" icon="fa-magic" invisible="state != 'draft'" string="Wizard"/>
+                    </div>
+
+                    <widget name="web_ribbon" title="Cancelada" bg_color="text-bg-danger" invisible="state != 'cancel'"/>
+                    <widget name="web_ribbon" title="Pagada" bg_color="text-bg-success" invisible="state != 'paid'"/>
+
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Información General">
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                            <field name="user_id" readonly="1"/>
+                            <field name="period_start" readonly="state != 'draft'"/>
+                            <field name="period_end" readonly="state != 'draft'"/>
+                            <field name="period_name" readonly="1"/>
+                        </group>
+                        <group string="Fechas Importantes">
+                            <field name="deadline_date" readonly="1"/>
+                            <field name="filed_date" readonly="1"/>
+                            <field name="payment_date" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Obligaciones Fiscales">
+                        <field name="obligation_ids" nolabel="1" readonly="state != 'draft'">
+                            <list>
+                                <field name="name"/>
+                                <field name="obligation_category"/>
+                                <field name="periodicity_id"/>
+                                <field name="deadline_day"/>
+                            </list>
+                        </field>
+                    </group>
+
+                    <notebook>
+                        <page string="Facturas" name="invoices">
+                            <field name="invoice_line_ids" nolabel="1" readonly="state not in ('draft', 'calculated')">
+                                <list editable="bottom" decoration-muted="not included">
+                                    <field name="included" widget="boolean_toggle"/>
+                                    <field name="invoice_date"/>
+                                    <field name="invoice_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="move_type"/>
+                                    <field name="l10n_mx_edi_cfdi_uuid" optional="show"/>
+                                    <field name="amount_untaxed" sum="Subtotal"/>
+                                    <field name="amount_tax" sum="Impuestos"/>
+                                    <field name="amount_total" sum="Total"/>
+                                    <field name="exclusion_reason" optional="hide"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Cálculos" name="calculations">
+                            <field name="calculation_result_ids" nolabel="1" readonly="state not in ('draft', 'calculated')">
+                                <list editable="bottom" decoration-bf="is_final_amount">
+                                    <field name="obligation_id" column_invisible="1"/>
+                                    <field name="sequence" column_invisible="1"/>
+                                    <field name="rule_name"/>
+                                    <field name="result" widget="monetary" sum="Total"/>
+                                    <field name="result_type"/>
+                                    <field name="is_final_amount" column_invisible="1"/>
+                                    <field name="show_in_report" optional="hide"/>
+                                    <field name="is_manual_override" optional="hide"/>
+                                    <field name="manual_reason" optional="hide"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Totales" name="totals">
+                            <group>
+                                <group string="Ingresos">
+                                    <field name="total_income" widget="monetary"/>
+                                    <field name="total_tax_collected" widget="monetary"/>
+                                </group>
+                                <group string="Egresos">
+                                    <field name="total_expense" widget="monetary"/>
+                                    <field name="total_tax_paid" widget="monetary"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Monto a Pagar">
+                                    <label for="total_payable" string="Total a Pagar al SAT"/>
+                                    <div>
+                                        <field name="total_payable" widget="monetary" class="oe_inline fw-bold text-danger"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Reportes" name="reports">
+                            <group string="Archivos Generados">
+                                <group>
+                                    <field name="report_pdf" filename="report_pdf_filename"/>
+                                    <field name="report_pdf_filename" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="report_excel" filename="report_excel_filename"/>
+                                    <field name="report_excel_filename" invisible="1"/>
+                                </group>
+                            </group>
+                            <group>
+                                <button name="action_generate_pdf" string="Generar PDF" type="object" class="btn-primary" icon="fa-file-pdf-o"/>
+                                <button name="action_generate_excel" string="Generar Excel" type="object" class="btn-primary" icon="fa-file-excel-o"/>
+                            </group>
+                        </page>
+
+                        <page string="Notas" name="notes">
+                            <field name="notes" nolabel="1" placeholder="Notas o comentarios sobre esta declaración..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Kanban de Declaraciones -->
+    <record id="view_mx_tax_declaration_kanban" model="ir.ui.view">
+        <field name="name">mx.tax.declaration.kanban</field>
+        <field name="model">mx.tax.declaration</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" default_group_by="state">
+                <field name="name"/>
+                <field name="period_name"/>
+                <field name="total_payable"/>
+                <field name="deadline_date"/>
+                <field name="state"/>
+                <field name="currency_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_content">
+                            <div class="o_kanban_record_title">
+                                <strong><field name="name"/></strong>
+                            </div>
+                            <div class="o_kanban_record_subtitle">
+                                <field name="period_name"/>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <div>Total: <field name="total_payable" widget="monetary"/></div>
+                                <div>Fecha límite: <field name="deadline_date"/></div>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="state" widget="label" decoration-info="state == 'draft'" decoration-success="state == 'paid'"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vista de Búsqueda -->
+    <record id="view_mx_tax_declaration_search" model="ir.ui.view">
+        <field name="name">mx.tax.declaration.search</field>
+        <field name="model">mx.tax.declaration</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Declaraciones">
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="obligation_ids"/>
+                <separator/>
+                <filter string="Borradores" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Calculadas" name="calculated" domain="[('state', '=', 'calculated')]"/>
+                <filter string="Revisadas" name="reviewed" domain="[('state', '=', 'reviewed')]"/>
+                <filter string="Presentadas" name="filed" domain="[('state', '=', 'filed')]"/>
+                <filter string="Pagadas" name="paid" domain="[('state', '=', 'paid')]"/>
+                <separator/>
+                <filter string="Vencidas" name="overdue" domain="[('deadline_date', '&lt;', context_today().strftime('%Y-%m-%d')), ('state', 'not in', ('paid', 'cancel'))]"/>
+                <filter string="Por Vencer (7 días)" name="due_soon" domain="[('deadline_date', '&lt;=', (context_today() + datetime.timedelta(days=7)).strftime('%Y-%m-%d')), ('deadline_date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('state', 'not in', ('paid', 'cancel'))]"/>
+                <separator/>
+                <filter string="Mes Actual" name="current_month" domain="[('period_start', '&gt;=', time.strftime('%Y-%m-01')), ('period_start', '&lt;', (datetime.date.today() + relativedelta(months=1, day=1)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Año Actual" name="current_year" domain="[('period_start', '&gt;=', time.strftime('%Y-01-01')), ('period_start', '&lt;=', time.strftime('%Y-12-31'))]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Compañía" name="group_company" context="{'group_by': 'company_id'}"/>
+                    <filter string="Mes Fiscal" name="group_month" context="{'group_by': 'period_start:month'}"/>
+                    <filter string="Año Fiscal" name="group_year" context="{'group_by': 'period_start:year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción principal -->
+    <record id="action_mx_tax_declaration" model="ir.actions.act_window">
+        <field name="name">Declaraciones Fiscales</field>
+        <field name="res_model">mx.tax.declaration</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_current_year': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea tu primera declaración fiscal
+            </p>
+            <p>
+                Utiliza el wizard guiado para crear declaraciones fiscales paso a paso.
+            </p>
+        </field>
+    </record>
+
+</odoo>

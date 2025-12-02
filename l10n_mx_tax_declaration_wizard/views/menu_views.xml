@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menú Principal (ya existe en el módulo base, solo agregamos items) -->
+
+    <!-- Submenú de Declaraciones -->
+    <menuitem
+        id="menu_mx_tax_declarations"
+        name="Declaraciones"
+        parent="l10n_mx_tax_declaration_base.menu_mx_tax_declaration_root"
+        sequence="10"/>
+
+    <!-- Item: Todas las Declaraciones -->
+    <menuitem
+        id="menu_mx_tax_declaration_all"
+        name="Todas las Declaraciones"
+        parent="menu_mx_tax_declarations"
+        action="action_mx_tax_declaration"
+        sequence="10"/>
+
+    <!-- Item: Crear Declaración (Wizard) -->
+    <menuitem
+        id="menu_mx_tax_declaration_wizard"
+        name="Crear Declaración (Wizard)"
+        parent="menu_mx_tax_declarations"
+        action="action_mx_tax_declaration_wizard"
+        sequence="20"/>
+
+    <!-- Separador -->
+    <menuitem
+        id="menu_mx_tax_declarations_separator"
+        parent="menu_mx_tax_declarations"
+        sequence="30"/>
+
+    <!-- Filtros rápidos por estado -->
+    <record id="action_mx_tax_declaration_draft" model="ir.actions.act_window">
+        <field name="name">Borradores</field>
+        <field name="res_model">mx.tax.declaration</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+        <field name="domain">[('state', '=', 'draft')]</field>
+    </record>
+
+    <menuitem
+        id="menu_mx_tax_declaration_draft"
+        name="Borradores"
+        parent="menu_mx_tax_declarations"
+        action="action_mx_tax_declaration_draft"
+        sequence="31"/>
+
+    <record id="action_mx_tax_declaration_pending" model="ir.actions.act_window">
+        <field name="name">Pendientes de Presentar</field>
+        <field name="res_model">mx.tax.declaration</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('state', 'in', ('calculated', 'reviewed'))]</field>
+    </record>
+
+    <menuitem
+        id="menu_mx_tax_declaration_pending"
+        name="Pendientes de Presentar"
+        parent="menu_mx_tax_declarations"
+        action="action_mx_tax_declaration_pending"
+        sequence="32"/>
+
+    <record id="action_mx_tax_declaration_filed" model="ir.actions.act_window">
+        <field name="name">Presentadas"</field>
+        <field name="res_model">mx.tax.declaration</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_filed': 1}</field>
+        <field name="domain">[('state', '=', 'filed')]</field>
+    </record>
+
+    <menuitem
+        id="menu_mx_tax_declaration_filed"
+        name="Presentadas"
+        parent="menu_mx_tax_declarations"
+        action="action_mx_tax_declaration_filed"
+        sequence="33"/>
+
+    <record id="action_mx_tax_declaration_overdue" model="ir.actions.act_window">
+        <field name="name">Vencidas</field>
+        <field name="res_model">mx.tax.declaration</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_overdue': 1}</field>
+    </record>
+
+    <menuitem
+        id="menu_mx_tax_declaration_overdue"
+        name="Vencidas"
+        parent="menu_mx_tax_declarations"
+        action="action_mx_tax_declaration_overdue"
+        sequence="34"/>
+
+</odoo>

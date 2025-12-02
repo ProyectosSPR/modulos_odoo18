@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Categoría de Módulo -->
+        <record id="module_category_mx_tax_declaration" model="ir.module.category">
+            <field name="name">Declaraciones Fiscales SAT</field>
+            <field name="description">Gestión de declaraciones fiscales ante el SAT en México</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Grupo: Usuario de Declaraciones -->
+        <record id="group_mx_tax_declaration_user" model="res.groups">
+            <field name="name">Usuario de Declaraciones</field>
+            <field name="category_id" ref="module_category_mx_tax_declaration"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Puede ver declaraciones y usar el wizard</field>
+        </record>
+
+        <!-- Grupo: Contador / Manager de Declaraciones -->
+        <record id="group_mx_tax_declaration_manager" model="res.groups">
+            <field name="name">Contador / Manager</field>
+            <field name="category_id" ref="module_category_mx_tax_declaration"/>
+            <field name="implied_ids" eval="[(4, ref('group_mx_tax_declaration_user'))]"/>
+            <field name="comment">Puede crear, editar y eliminar declaraciones</field>
+        </record>
+
+        <!-- Reglas de Registro: Declaraciones multi-compañía -->
+        <record id="mx_tax_declaration_rule_user" model="ir.rule">
+            <field name="name">Declaraciones de mi Compañía (Usuario)</field>
+            <field name="model_id" ref="model_mx_tax_declaration"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_mx_tax_declaration_user'))]"/>
+        </record>
+
+        <record id="mx_tax_declaration_rule_manager" model="ir.rule">
+            <field name="name">Declaraciones de mi Compañía (Manager)</field>
+            <field name="model_id" ref="model_mx_tax_declaration"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_mx_tax_declaration_manager'))]"/>
+        </record>
+
+        <!-- Reglas para líneas de facturas -->
+        <record id="mx_tax_declaration_invoice_line_rule" model="ir.rule">
+            <field name="name">Líneas de Declaración de mi Compañía</field>
+            <field name="model_id" ref="model_mx_tax_declaration_invoice_line"/>
+            <field name="domain_force">[('declaration_id.company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_mx_tax_declaration_user'))]"/>
+        </record>
+
+        <!-- Reglas para resultados de cálculos -->
+        <record id="mx_tax_declaration_calculation_result_rule" model="ir.rule">
+            <field name="name">Resultados de Cálculo de mi Compañía</field>
+            <field name="model_id" ref="model_mx_tax_declaration_calculation_result"/>
+            <field name="domain_force">[('declaration_id.company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_mx_tax_declaration_user'))]"/>
+        </record>
+
+    </data>
+</odoo>

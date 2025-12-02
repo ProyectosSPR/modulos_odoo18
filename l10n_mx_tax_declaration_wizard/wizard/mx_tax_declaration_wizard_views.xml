@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form del Wizard Multi-Paso -->
+    <record id="view_mx_tax_declaration_wizard_form" model="ir.ui.view">
+        <field name="name">mx.tax.declaration.wizard.form</field>
+        <field name="model">mx.tax.declaration.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Crear Declaración Fiscal">
+                <header>
+                    <!-- Barra de progreso con badges -->
+                    <div class="o_row">
+                        <button name="state" type="object" string="1. Configuración"
+                                class="btn btn-primary" disabled="1"
+                                invisible="state != 'step1_config'"/>
+                        <button name="state" type="object" string="1. Configuración"
+                                class="btn btn-secondary" disabled="1"
+                                invisible="state == 'step1_config'"/>
+
+                        <button name="state" type="object" string="2. Facturas"
+                                class="btn btn-primary" disabled="1"
+                                invisible="state != 'step2_invoices'"/>
+                        <button name="state" type="object" string="2. Facturas"
+                                class="btn btn-secondary" disabled="1"
+                                invisible="state == 'step2_invoices' or state == 'step1_config'"/>
+
+                        <button name="state" type="object" string="3. Conciliación"
+                                class="btn btn-primary" disabled="1"
+                                invisible="state != 'step3_reconcile'"/>
+                        <button name="state" type="object" string="3. Conciliación"
+                                class="btn btn-secondary" disabled="1"
+                                invisible="state == 'step3_reconcile' or state in ('step1_config', 'step2_invoices')"/>
+
+                        <button name="state" type="object" string="4. Cálculos"
+                                class="btn btn-primary" disabled="1"
+                                invisible="state != 'step4_calculate'"/>
+                        <button name="state" type="object" string="4. Cálculos"
+                                class="btn btn-secondary" disabled="1"
+                                invisible="state == 'step4_calculate' or state in ('step1_config', 'step2_invoices', 'step3_reconcile')"/>
+
+                        <button name="state" type="object" string="5. Revisión"
+                                class="btn btn-primary" disabled="1"
+                                invisible="state != 'step5_review'"/>
+                        <button name="state" type="object" string="5. Revisión"
+                                class="btn btn-secondary" disabled="1"
+                                invisible="state == 'step5_review' or state in ('step1_config', 'step2_invoices', 'step3_reconcile', 'step4_calculate')"/>
+
+                        <button name="state" type="object" string="6. Completado"
+                                class="btn btn-success" disabled="1"
+                                invisible="state != 'step6_done'"/>
+                    </div>
+                    <field name="state" invisible="1"/>
+                </header>
+
+                <sheet>
+                    <!-- ==================== -->
+                    <!-- PASO 1: CONFIGURACIÓN -->
+                    <!-- ==================== -->
+                    <div invisible="state != 'step1_config'">
+                        <div class="oe_title">
+                            <h1>Paso 1: Configuración de la Declaración</h1>
+                            <p>Seleccione el período fiscal y las obligaciones a declarar</p>
+                        </div>
+
+                        <group>
+                            <group string="Período Fiscal">
+                                <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                <field name="period_start" required="1"/>
+                                <field name="period_end" required="1"/>
+                            </group>
+                            <group string="Obligaciones Fiscales">
+                                <field name="obligation_ids" widget="many2many_tags" required="1"
+                                       options="{'no_create': True, 'no_create_edit': True}"/>
+                            </group>
+                        </group>
+
+                        <group string="Instrucciones">
+                            <p>
+                                Este asistente le guiará paso a paso para crear su declaración fiscal:
+                            </p>
+                            <ul>
+                                <li><strong>Paso 1:</strong> Configure el período y obligaciones</li>
+                                <li><strong>Paso 2:</strong> Revise y seleccione las facturas a incluir</li>
+                                <li><strong>Paso 3:</strong> Concilie pagos con facturas (opcional)</li>
+                                <li><strong>Paso 4:</strong> Ejecute los cálculos fiscales automáticos</li>
+                                <li><strong>Paso 5:</strong> Revise los resultados antes de guardar</li>
+                                <li><strong>Paso 6:</strong> Guarde su declaración</li>
+                            </ul>
+                        </group>
+                    </div>
+
+                    <!-- ==================== -->
+                    <!-- PASO 2: FACTURAS -->
+                    <!-- ==================== -->
+                    <div invisible="state != 'step2_invoices'">
+                        <div class="oe_title">
+                            <h1>Paso 2: Selección de Facturas</h1>
+                            <p>Revise las facturas que se incluirán en la declaración</p>
+                        </div>
+
+                        <group>
+                            <group>
+                                <label for="invoice_count" string="Total de Facturas"/>
+                                <div>
+                                    <field name="invoice_count" class="oe_inline"/>
+                                    <span> facturas seleccionadas</span>
+                                </div>
+                                <field name="total_invoiced" widget="monetary"/>
+                            </group>
+                            <group>
+                                <field name="filter_move_type"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Facturas Seleccionadas" name="invoices">
+                                <field name="invoice_ids" nolabel="1" widget="many2many">
+                                    <list editable="bottom">
+                                        <field name="invoice_date"/>
+                                        <field name="name"/>
+                                        <field name="partner_id"/>
+                                        <field name="move_type"/>
+                                        <field name="amount_untaxed" sum="Subtotal"/>
+                                        <field name="amount_tax" sum="Impuestos"/>
+                                        <field name="amount_total" sum="Total"/>
+                                        <field name="tax_declaration_status"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </div>
+
+                    <!-- ==================== -->
+                    <!-- PASO 3: CONCILIACIÓN -->
+                    <!-- ==================== -->
+                    <div invisible="state != 'step3_reconcile'">
+                        <div class="oe_title">
+                            <h1>Paso 3: Conciliación Bancaria</h1>
+                            <p>Concilie los pagos con las facturas (opcional)</p>
+                        </div>
+
+                        <group>
+                            <group>
+                                <label for="reconciled_count" string="Estado de Conciliación"/>
+                                <div>
+                                    <span class="text-success"><field name="reconciled_count" class="oe_inline"/> conciliadas</span>
+                                    <span> / </span>
+                                    <span class="text-danger"><field name="unreconciled_count" class="oe_inline"/> sin conciliar</span>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="skip_reconciliation"/>
+                            </group>
+                        </group>
+
+                        <div class="alert alert-info" role="alert" invisible="skip_reconciliation">
+                            <p>
+                                <i class="fa fa-info-circle"/> La conciliación bancaria permite:
+                            </p>
+                            <ul>
+                                <li>Identificar pagos recibidos y realizados</li>
+                                <li>Verificar facturas pagadas</li>
+                                <li>Detectar pagos sin factura</li>
+                            </ul>
+                            <p class="mb-0">
+                                Si no necesita conciliar, puede omitir este paso.
+                            </p>
+                        </div>
+
+                        <div class="alert alert-warning" role="alert" invisible="not skip_reconciliation or unreconciled_count == 0">
+                            <p>
+                                <i class="fa fa-warning"/> Tiene <field name="unreconciled_count" readonly="1"/> facturas sin conciliar.
+                            </p>
+                            <p class="mb-0">
+                                Puede continuar sin conciliar, pero se recomienda conciliar todas las facturas
+                                para una declaración más precisa.
+                            </p>
+                        </div>
+
+                        <group invisible="skip_reconciliation">
+                            <button name="action_open_reconcile_widget"
+                                    string="Abrir Herramienta de Conciliación"
+                                    type="object"
+                                    class="btn-primary"
+                                    icon="fa-link"/>
+                        </group>
+                    </div>
+
+                    <!-- ==================== -->
+                    <!-- PASO 4: CÁLCULOS -->
+                    <!-- ==================== -->
+                    <div invisible="state != 'step4_calculate'">
+                        <div class="oe_title">
+                            <h1>Paso 4: Cálculos Fiscales</h1>
+                            <p>Ejecute los cálculos automáticos para su declaración</p>
+                        </div>
+
+                        <div class="alert alert-info" role="alert" invisible="calculations_executed">
+                            <p>
+                                <i class="fa fa-calculator"/> Haga clic en "Ejecutar Cálculos" para calcular automáticamente:
+                            </p>
+                            <ul class="mb-0">
+                                <li>Bases gravables</li>
+                                <li>Impuestos causados</li>
+                                <li>Impuestos acreditables</li>
+                                <li>Montos a pagar</li>
+                            </ul>
+                        </div>
+
+                        <group invisible="not calculations_executed">
+                            <button name="action_execute_calculations"
+                                    string="Re-ejecutar Cálculos"
+                                    type="object"
+                                    class="btn-warning"
+                                    icon="fa-refresh"
+                                    confirm="¿Está seguro de re-ejecutar los cálculos? Los resultados anteriores se perderán."/>
+                        </group>
+
+                        <group invisible="calculations_executed">
+                            <button name="action_execute_calculations"
+                                    string="Ejecutar Cálculos"
+                                    type="object"
+                                    class="btn-primary"
+                                    icon="fa-play"/>
+                        </group>
+
+                        <field name="calculations_executed" invisible="1"/>
+
+                        <notebook invisible="not calculations_executed">
+                            <page string="Resultados por Obligación" name="calculations">
+                                <field name="calculation_ids" nolabel="1">
+                                    <list>
+                                        <field name="obligation_id" column_invisible="1"/>
+                                        <field name="sequence" column_invisible="1"/>
+                                        <field name="rule_name"/>
+                                        <field name="result" sum="Total" widget="monetary"/>
+                                        <field name="is_final_amount" string="¿Es monto final?"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+
+                        <div class="alert alert-success" role="alert" invisible="not calculations_executed">
+                            <p class="mb-0">
+                                <i class="fa fa-check-circle"/> Cálculos ejecutados correctamente.
+                                Revise los resultados antes de continuar.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ==================== -->
+                    <!-- PASO 5: REVISIÓN FINAL -->
+                    <!-- ==================== -->
+                    <div invisible="state != 'step5_review'">
+                        <div class="oe_title">
+                            <h1>Paso 5: Revisión Final</h1>
+                            <p>Revise el resumen antes de crear la declaración</p>
+                        </div>
+
+                        <group>
+                            <group string="Resumen del Período">
+                                <field name="period_start" readonly="1"/>
+                                <field name="period_end" readonly="1"/>
+                                <field name="company_id" readonly="1"/>
+                            </group>
+                            <group string="Totales">
+                                <field name="invoice_count" readonly="1"/>
+                                <label for="total_payable" string="Total a Pagar al SAT"/>
+                                <div>
+                                    <field name="total_payable" widget="monetary" class="oe_inline fw-bold text-danger" readonly="1"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </div>
+                            </group>
+                        </group>
+
+                        <group string="Obligaciones Fiscales">
+                            <field name="obligation_ids" nolabel="1" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="periodicity_id"/>
+                                    <field name="deadline_day"/>
+                                </list>
+                            </field>
+                        </group>
+
+                        <group string="Resultados de Cálculos">
+                            <field name="calculation_ids" nolabel="1" readonly="1">
+                                <list>
+                                    <field name="obligation_id"/>
+                                    <field name="rule_name"/>
+                                    <field name="result" widget="monetary"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </group>
+
+                        <group string="Notas Adicionales">
+                            <field name="notes" nolabel="1" placeholder="Agregue notas o comentarios sobre esta declaración..."/>
+                        </group>
+
+                        <div class="alert alert-warning" role="alert">
+                            <p>
+                                <i class="fa fa-exclamation-triangle"/> <strong>Importante:</strong>
+                            </p>
+                            <p class="mb-0">
+                                Una vez creada la declaración, se marcarán todas las facturas incluidas
+                                como "Declaradas" y no podrán ser modificadas.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ==================== -->
+                    <!-- PASO 6: COMPLETADO -->
+                    <!-- ==================== -->
+                    <div invisible="state != 'step6_done'">
+                        <div class="oe_title">
+                            <h1><i class="fa fa-check-circle text-success"/> ¡Declaración Creada Exitosamente!</h1>
+                        </div>
+
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading">Declaración generada correctamente</h4>
+                            <p>
+                                Su declaración fiscal ha sido creada y guardada.
+                            </p>
+                            <hr/>
+                            <p class="mb-0">
+                                <strong>Total a pagar:</strong>
+                                <field name="total_payable" widget="monetary" readonly="1"/>
+                                <field name="currency_id" invisible="1"/>
+                            </p>
+                        </div>
+
+                        <group>
+                            <button name="action_view_declaration"
+                                    string="Ver Declaración"
+                                    type="object"
+                                    class="btn-primary"
+                                    icon="fa-file-text-o"/>
+                        </group>
+
+                        <group string="Próximos Pasos">
+                            <ul>
+                                <li>Revise la declaración creada</li>
+                                <li>Genere los reportes PDF y Excel</li>
+                                <li>Presente la declaración en el portal del SAT</li>
+                                <li>Registre el pago cuando sea realizado</li>
+                            </ul>
+                        </group>
+                    </div>
+                </sheet>
+
+                <footer>
+                    <!-- Botones del Step 1 -->
+                    <button name="action_next_step1"
+                            string="Siguiente"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'step1_config'"/>
+
+                    <!-- Botones del Step 2 -->
+                    <button name="action_next_step2"
+                            string="Siguiente"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'step2_invoices'"/>
+                    <button name="action_back_step2"
+                            string="Anterior"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'step2_invoices'"/>
+
+                    <!-- Botones del Step 3 -->
+                    <button name="action_next_step3"
+                            string="Siguiente"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'step3_reconcile'"/>
+                    <button name="action_back_step3"
+                            string="Anterior"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'step3_reconcile'"/>
+
+                    <!-- Botones del Step 4 -->
+                    <button name="action_next_step4"
+                            string="Siguiente"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'step4_calculate'"/>
+                    <button name="action_back_step4"
+                            string="Anterior"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'step4_calculate'"/>
+
+                    <!-- Botones del Step 5 -->
+                    <button name="action_create_declaration"
+                            string="Crear Declaración"
+                            type="object"
+                            class="btn-success"
+                            invisible="state != 'step5_review'"
+                            confirm="¿Está seguro de crear esta declaración fiscal?"/>
+                    <button name="action_back_step5"
+                            string="Anterior"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'step5_review'"/>
+
+                    <!-- Botones del Step 6 -->
+                    <button name="action_view_declaration"
+                            string="Ver Declaración"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'step6_done'"/>
+                    <button name="action_close"
+                            string="Cerrar"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'step6_done'"/>
+
+                    <!-- Botón cancelar (disponible en todos los pasos excepto el último) -->
+                    <button string="Cancelar"
+                            special="cancel"
+                            class="btn-secondary"
+                            invisible="state == 'step6_done'"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción para abrir el wizard -->
+    <record id="action_mx_tax_declaration_wizard" model="ir.actions.act_window">
+        <field name="name">Crear Declaración Fiscal</field>
+        <field name="res_model">mx.tax.declaration.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_mx_tax_declaration"/>
+        <field name="binding_view_types">form</field>
+    </record>
+
+    <!-- Vista del wizard de confirmación -->
+    <record id="view_mx_tax_declaration_wizard_confirm_form" model="ir.ui.view">
+        <field name="name">mx.tax.declaration.wizard.confirm.form</field>
+        <field name="model">mx.tax.declaration.wizard.confirm</field>
+        <field name="arch" type="xml">
+            <form string="Confirmación">
+                <sheet>
+                    <div class="alert alert-warning" role="alert">
+                        <field name="message" readonly="1" nolabel="1"/>
+                    </div>
+                </sheet>
+                <footer>
+                    <button name="action_confirm" string="Continuar" type="object" class="btn-primary"/>
+                    <button name="action_cancel" string="Regresar" type="object" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
