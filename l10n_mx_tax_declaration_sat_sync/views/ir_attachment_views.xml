@@ -5,20 +5,23 @@
     <record id="view_ir_attachment_form_tax_declaration" model="ir.ui.view">
         <field name="name">ir.attachment.form.tax.declaration</field>
         <field name="model">ir.attachment</field>
-        <field name="inherit_id" ref="l10n_mx_sat_sync_itadmin.view_attachment_cfdi_form"/>
+        <field name="inherit_id" ref="l10n_mx_sat_sync_itadmin.view_ir_attachment_form_inherit_cfdi_account_files_invoice"/>
         <field name="arch" type="xml">
             <!-- Agregar botón para marcar facturas relacionadas -->
-            <xpath expr="//header" position="inside">
-                <button name="action_mark_related_invoices_for_declaration"
-                        string="Marcar para Declaración"
-                        type="object"
-                        class="btn-secondary"
-                        invisible="uuid == False"/>
+            <xpath expr="//form" position="inside">
+                <header>
+                    <button name="action_mark_related_invoices_for_declaration"
+                            string="Marcar para Declaración"
+                            type="object"
+                            class="btn-secondary"/>
+                </header>
             </xpath>
 
             <!-- Agregar campo de auto-marcado -->
-            <xpath expr="//field[@name='uuid']" position="after">
-                <field name="auto_mark_for_tax_declaration"/>
+            <xpath expr="//form" position="inside">
+                <group string="Declaraciones Fiscales">
+                    <field name="auto_mark_for_tax_declaration"/>
+                </group>
             </xpath>
         </field>
     </record>
