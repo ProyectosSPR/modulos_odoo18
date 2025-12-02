@@ -40,8 +40,8 @@
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
-        'data/mx_tax_obligation_type_data.xml',
         'data/mx_tax_periodicity_data.xml',
+        'data/mx_tax_obligation_type_data.xml',
         'views/mx_tax_obligation_views.xml',
         'views/mx_tax_calculation_rule_views.xml',
         'views/account_move_views.xml',
