@@ -60,7 +60,7 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='state']" position="after">
+            <xpath expr="//list" position="inside">
                 <field name="include_in_tax_declaration" optional="hide"/>
                 <field name="tax_declaration_status" optional="hide"/>
                 <field name="tax_declaration_period" optional="hide"/>
