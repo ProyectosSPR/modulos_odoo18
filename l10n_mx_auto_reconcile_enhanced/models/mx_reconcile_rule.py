@@ -39,24 +39,35 @@ class MxReconcileRule(models.Model):
         ('statement_line', 'Línea Bancaria'),
     ], string='Modelo Origen', required=True, default='statement_line')
 
-    source_field = fields.Selection([
-        ('ref', 'Referencia'),
-        ('payment_ref', 'Referencia de Pago'),
-        ('narration', 'Descripción'),
-        ('partner_name', 'Nombre del Partner'),
-    ], string='Campo Origen', required=True)
+    source_field_id = fields.Many2one(
+        'ir.model.fields',
+        string='Campo Origen',
+        required=True,
+        domain="[('model', '=', source_model_name), ('ttype', 'in', ['char', 'text', 'many2one'])]",
+        help='Campo del pago o línea bancaria a comparar',
+    )
+    
+    source_model_name = fields.Char(
+        compute='_compute_model_names',
+        store=True,
+    )
 
     target_model = fields.Selection([
         ('invoice', 'Factura'),
     ], string='Modelo Destino', required=True, default='invoice')
 
-    target_field = fields.Selection([
-        ('ref', 'Referencia'),
-        ('name', 'Número'),
-        ('l10n_mx_edi_cfdi_uuid', 'UUID Fiscal'),
-        ('partner_name', 'Nombre del Cliente/Proveedor'),
-        ('invoice_origin', 'Documento Origen'),
-    ], string='Campo Destino', required=True)
+    target_field_id = fields.Many2one(
+        'ir.model.fields',
+        string='Campo Destino',
+        required=True,
+        domain="[('model', '=', target_model_name), ('ttype', 'in', ['char', 'text', 'many2one'])]",
+        help='Campo de la factura a comparar',
+    )
+    
+    target_model_name = fields.Char(
+        compute='_compute_model_names',
+        store=True,
+    )
 
     # Tipo de comparación
     match_type = fields.Selection([
@@ -127,6 +138,21 @@ class MxReconcileRule(models.Model):
         help='Domain para filtrar automáticamente facturas. Ejemplo: [(\'move_type\', \'=\', \'out_invoice\')]',
     )
 
+    @api.depends('source_model', 'target_model')
+    def _compute_model_names(self):
+        for record in self:
+            if record.source_model == 'payment':
+                record.source_model_name = 'account.payment'
+            elif record.source_model == 'statement_line':
+                record.source_model_name = 'account.bank.statement.line'
+            else:
+                record.source_model_name = False
+                
+            if record.target_model == 'invoice':
+                record.target_model_name = 'account.move'
+            else:
+                record.target_model_name = False
+
     @api.constrains('min_similarity')
     def _check_min_similarity(self):
         for record in self:
@@ -168,14 +194,14 @@ class MxReconcileRule(models.Model):
                 _logger.warning(f"Error aplicando filtro de destino: {e}")
 
         for source in source_records:
-            source_value = self._get_field_value(source, self.source_field)
+            source_value = self._get_field_value(source, self.source_field_id)
             if not source_value:
                 continue
 
             source_value = self._normalize_value(source_value)
 
             for target in target_records:
-                target_value = self._get_field_value(target, self.target_field)
+                target_value = self._get_field_value(target, self.target_field_id)
                 if not target_value:
                     continue
 
@@ -223,10 +249,19 @@ class MxReconcileRule(models.Model):
                     return False
         return True
 
-    def _get_field_value(self, record, field_name):
-        """Obtener valor del campo, manejando campos especiales"""
-        if field_name == 'partner_name':
-            return record.partner_id.name if record.partner_id else ''
+    def _get_field_value(self, record, field_id):
+        """Obtener valor del campo dinámicamente"""
+        if not field_id:
+            return ''
+            
+        field_name = field_id.name
+        
+        # Manejar campos Many2one (obtener el nombre)
+        if field_id.ttype == 'many2one':
+            related_record = getattr(record, field_name, False)
+            return related_record.name if related_record else ''
+        
+        # Campos normales
         return getattr(record, field_name, '') or ''
 
     def _normalize_value(self, value):

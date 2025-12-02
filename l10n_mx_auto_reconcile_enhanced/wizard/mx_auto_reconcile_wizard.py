@@ -183,19 +183,63 @@ class MxAutoReconcileWizard(models.TransientModel):
 
     def _get_unreconciled_items(self):
         """Obtener items sin conciliar"""
-        domain = [
-            ('date', '>=', self.date_from),
-            ('date', '<=', self.date_to),
-            ('company_id', '=', self.company_id.id),
-        ]
+        items = self.env['account.bank.statement.line']
+        
+        if self.source_type in ('statement_lines', 'both'):
+            # Dominio para líneas bancarias
+            domain = [
+                ('date', '>=', self.date_from),
+                ('date', '<=', self.date_to),
+                ('company_id', '=', self.company_id.id),
+            ]
 
-        if self.only_unreconciled:
-            domain.append(('is_reconciled', '=', False))
+            if self.journal_ids:
+                domain.append(('journal_id', 'in', self.journal_ids.ids))
 
-        if self.journal_ids:
-            domain.append(('journal_id', 'in', self.journal_ids.ids))
+            # Buscar todas las líneas en el período
+            all_lines = self.env['account.bank.statement.line'].search(domain)
+            
+            _logger.info(f"Total de líneas bancarias en período: {len(all_lines)}")
+            
+            if self.only_unreconciled:
+                # Filtrar las que NO están conciliadas
+                # En Odoo 18, una línea está conciliada si tiene move_id y está reconciliada
+                unreconciled = all_lines.filtered(
+                    lambda line: not line.is_reconciled if hasattr(line, 'is_reconciled') 
+                    else (not line.move_id or line.move_id.state != 'posted' or 
+                          any(not l.reconciled for l in line.move_id.line_ids.filtered(lambda l: l.account_id.reconcile)))
+                )
+                _logger.info(f"Líneas sin conciliar: {len(unreconciled)}")
+                items |= unreconciled
+            else:
+                items |= all_lines
 
-        return self.env['account.bank.statement.line'].search(domain)
+        if self.source_type in ('payments', 'both'):
+            # Dominio para pagos
+            payment_domain = [
+                ('date', '>=', self.date_from),
+                ('date', '<=', self.date_to),
+                ('company_id', '=', self.company_id.id),
+                ('state', '=', 'posted'),
+            ]
+            
+            if self.journal_ids:
+                payment_domain.append(('journal_id', 'in', self.journal_ids.ids))
+            
+            payments = self.env['account.payment'].search(payment_domain)
+            _logger.info(f"Pagos encontrados: {len(payments)}")
+            
+            # Convertir pagos a líneas bancarias si tienen
+            for payment in payments:
+                if payment.line_ids:
+                    # Buscar la línea bancaria asociada
+                    stmt_line = self.env['account.bank.statement.line'].search([
+                        ('payment_id', '=', payment.id)
+                    ], limit=1)
+                    if stmt_line:
+                        items |= stmt_line
+
+        return items
 
     def _get_target_invoices(self):
         """Obtener facturas objetivo para conciliar"""

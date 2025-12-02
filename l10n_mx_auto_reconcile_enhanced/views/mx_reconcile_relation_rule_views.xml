@@ -19,18 +19,18 @@
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                         <group string="Extracción de Datos">
-                            <field name="payment_field"/>
+                            <field name="payment_field_id" options="{'no_create': True}"/>
                             <field name="extract_pattern" placeholder="Ej. ([A-Z]{2}\d{5})"/>
                         </group>
                     </group>
                     <group>
                         <group string="Búsqueda en Documento Relacionado">
                             <field name="relation_model"/>
-                            <field name="relation_search_field"/>
+                            <field name="relation_search_field_id" options="{'no_create': True}"/>
                             <field name="search_type"/>
                         </group>
                         <group string="Relación Final">
-                            <field name="invoice_relation_field"/>
+                            <field name="invoice_relation_field_id" options="{'no_create': True}"/>
                             <field name="auto_reconcile"/>
                         </group>
                     </group>

@@ -32,11 +32,13 @@ class MxReconcileRelationRule(models.Model):
     )
 
     # Campo en el pago/línea bancaria
-    payment_field = fields.Selection([
-        ('ref', 'Referencia'),
-        ('payment_ref', 'Referencia de Pago'),
-        ('narration', 'Descripción'),
-    ], string='Campo en Pago', required=True, default='payment_ref')
+    payment_field_id = fields.Many2one(
+        'ir.model.fields',
+        string='Campo en Pago',
+        required=True,
+        domain="[('model', 'in', ['account.payment', 'account.bank.statement.line']), ('ttype', 'in', ['char', 'text'])]",
+        help='Campo del pago o línea bancaria donde buscar la referencia',
+    )
 
     # Modelo intermedio
     relation_model = fields.Selection([
@@ -45,18 +47,22 @@ class MxReconcileRelationRule(models.Model):
         ('account.move', 'Factura'),
     ], string='Documento Intermedio', required=True)
 
-    relation_search_field = fields.Selection([
-        ('name', 'Número/Nombre'),
-        ('client_order_ref', 'Referencia del Cliente'),
-        ('partner_ref', 'Referencia del Partner'),
-        ('ref', 'Referencia'),
-    ], string='Campo de Búsqueda', required=True, default='name')
+    relation_search_field_id = fields.Many2one(
+        'ir.model.fields',
+        string='Campo de Búsqueda',
+        required=True,
+        domain="[('model', '=', relation_model), ('ttype', 'in', ['char', 'text', 'many2one'])]",
+        help='Campo del documento intermedio donde buscar la coincidencia',
+    )
 
     # Relación del modelo intermedio a la factura
-    invoice_relation_field = fields.Selection([
-        ('invoice_ids', 'Facturas (invoice_ids)'),
-        ('move_ids', 'Asientos (move_ids)'),
-    ], string='Campo de Relación a Factura', required=True, default='invoice_ids')
+    invoice_relation_field_id = fields.Many2one(
+        'ir.model.fields',
+        string='Campo de Relación a Factura',
+        required=True,
+        domain="[('model', '=', relation_model), ('ttype', 'in', ['one2many', 'many2many']), ('relation', '=', 'account.move')]",
+        help='Campo del documento intermedio que contiene las facturas relacionadas',
+    )
 
     # Opciones de búsqueda
     search_type = fields.Selection([
@@ -101,7 +107,7 @@ class MxReconcileRelationRule(models.Model):
 
         for source in source_records:
             # Obtener valor del campo en el pago
-            source_value = getattr(source, self.payment_field, '') or ''
+            source_value = self._get_field_value(source, self.payment_field_id)
             if not source_value:
                 continue
 
@@ -173,19 +179,19 @@ class MxReconcileRelationRule(models.Model):
 
     def _build_search_domain(self, reference):
         """Construir dominio de búsqueda según el tipo"""
-        field = self.relation_search_field
+        field_name = self.relation_search_field_id.name if self.relation_search_field_id else 'name'
 
         if self.search_type == 'exact':
-            return [(field, '=', reference)]
+            return [(field_name, '=', reference)]
         elif self.search_type == 'contains':
-            return [(field, 'ilike', reference)]
+            return [(field_name, 'ilike', reference)]
         elif self.search_type == 'like':
-            return [(field, 'like', f'%{reference}%')]
+            return [(field_name, 'like', f'%{reference}%')]
         elif self.search_type == 'regex':
             # Odoo no soporta regex directo, usar ilike como fallback
-            return [(field, 'ilike', reference)]
+            return [(field_name, 'ilike', reference)]
         
-        return [(field, '=', reference)]
+        return [(field_name, '=', reference)]
 
     def _get_invoices_from_relation(self, related_docs):
         """Obtener facturas desde documentos relacionados"""
@@ -193,20 +199,38 @@ class MxReconcileRelationRule(models.Model):
             return self.env['account.move']
 
         invoices = self.env['account.move']
+        relation_field_name = self.invoice_relation_field_id.name if self.invoice_relation_field_id else 'invoice_ids'
         
         for doc in related_docs:
             try:
                 # Obtener facturas según el campo de relación
-                if self.invoice_relation_field == 'invoice_ids':
-                    invoices |= doc.invoice_ids
-                elif self.invoice_relation_field == 'move_ids':
-                    # Filtrar solo facturas (no otros tipos de asientos)
-                    invoices |= doc.move_ids.filtered(
+                related_invoices = getattr(doc, relation_field_name, self.env['account.move'])
+                
+                # Filtrar solo facturas (no otros tipos de asientos)
+                if relation_field_name in ['move_ids', 'invoice_ids']:
+                    invoices |= related_invoices.filtered(
                         lambda m: m.move_type in ('out_invoice', 'in_invoice', 'out_refund', 'in_refund')
                     )
+                else:
+                    invoices |= related_invoices
             except Exception as e:
                 _logger.error(f"Error obteniendo facturas de {doc}: {e}")
                 continue
 
         return invoices
+
+    def _get_field_value(self, record, field_id):
+        """Obtener valor del campo dinámicamente"""
+        if not field_id:
+            return ''
+            
+        field_name = field_id.name
+        
+        # Manejar campos Many2one (obtener el nombre)
+        if field_id.ttype == 'many2one':
+            related_record = getattr(record, field_name, False)
+            return related_record.name if related_record else ''
+        
+        # Campos normales
+        return getattr(record, field_name, '') or ''
 

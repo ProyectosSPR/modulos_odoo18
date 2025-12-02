@@ -20,9 +20,11 @@
                         </group>
                         <group string="Mapeo de Campos">
                             <field name="source_model"/>
-                            <field name="source_field"/>
+                            <field name="source_model_name" invisible="1"/>
+                            <field name="source_field_id" options="{'no_create': True}"/>
                             <field name="target_model"/>
-                            <field name="target_field"/>
+                            <field name="target_model_name" invisible="1"/>
+                            <field name="target_field_id" options="{'no_create': True}"/>
                         </group>
                     </group>
                     <group>
@@ -83,8 +85,8 @@
             <list string="Reglas de Conciliación Directa">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
-                <field name="source_field"/>
-                <field name="target_field"/>
+                <field name="source_field_id"/>
+                <field name="target_field_id"/>
                 <field name="match_type"/>
                 <field name="priority" widget="priority"/>
                 <field name="auto_reconcile" widget="boolean_toggle"/>
