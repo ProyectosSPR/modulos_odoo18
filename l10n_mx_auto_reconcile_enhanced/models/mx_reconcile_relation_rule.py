@@ -91,6 +91,10 @@ class MxReconcileRelationRule(models.Model):
         ('low', 'Baja'),
     ], string='Prioridad', default='medium', required=True)
 
+    description = fields.Text(
+        string='Descripción',
+    )
+
     # Filtros Domain
     source_domain_filter = fields.Char(
         string='Filtro de Pagos',
