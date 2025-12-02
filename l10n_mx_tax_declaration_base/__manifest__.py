@@ -38,8 +38,8 @@
         'l10n_mx',
     ],
     'data': [
-        'security/ir.model.access.csv',
         'security/security.xml',
+        'security/ir.model.access.csv',
         'data/mx_tax_obligation_type_data.xml',
         'data/mx_tax_periodicity_data.xml',
         'views/mx_tax_obligation_views.xml',
