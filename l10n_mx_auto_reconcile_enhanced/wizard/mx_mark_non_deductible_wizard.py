@@ -46,38 +46,6 @@ class MxMarkNonDeductibleWizard(models.TransientModel):
         
         return res
 
-    def action_mark_selected(self):
-        """Marcar solo los pagos seleccionados como no deducibles"""
-        selected_payments = self.payment_ids.filtered(lambda p: p.mark_non_deductible)
-        
-        if not selected_payments:
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': 'Advertencia',
-                    'message': 'No se seleccionaron pagos para marcar',
-                    'type': 'warning',
-                }
-            }
-
-        selected_payments.write({
-            'is_deductible': False,
-            'deductible_reason': self.deductible_reason,
-            'non_deductible_notes': self.notes,
-        })
-
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': 'Éxito',
-                'message': f'{len(selected_payments)} pago(s) marcado(s) como no deducible(s)',
-                'type': 'success',
-                'sticky': False,
-            }
-        }
-
     def action_mark_all(self):
         """Marcar todos los pagos como no deducibles"""
         if not self.payment_ids:

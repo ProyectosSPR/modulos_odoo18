@@ -7,38 +7,30 @@
             <form string="Marcar Pagos No Deducibles">
                 <group>
                     <div class="alert alert-warning" role="alert">
-                        <strong>Atención:</strong> Los pagos marcados como no deducibles 
+                        <strong>Atención:</strong> Los pagos marcados como no deducibles
                         no se incluirán en los cálculos de la declaración fiscal.
                     </div>
                 </group>
-                
+
                 <group>
                     <field name="deductible_reason"/>
                     <field name="notes" placeholder="Justificación adicional (opcional)"/>
                 </group>
-                
+
                 <group string="Pagos a Marcar">
-                    <field name="payment_ids" nolabel="1">
-                        <tree editable="bottom" create="0">
-                            <field name="date"/>
-                            <field name="partner_id"/>
-                            <field name="payment_ref"/>
-                            <field name="amount"/>
-                            <field name="mark_non_deductible" widget="boolean_toggle"/>
-                        </tree>
-                    </field>
+                    <field name="payment_ids" nolabel="1" widget="many2many_tags"/>
                 </group>
-                
+
+                <group string="Líneas Bancarias" invisible="not statement_line_ids">
+                    <field name="statement_line_ids" nolabel="1" widget="many2many_tags"/>
+                </group>
+
                 <footer>
-                    <button name="action_mark_selected" 
-                            string="Marcar Seleccionados" 
-                            type="object" 
-                            class="btn-primary"/>
-                    <button name="action_mark_all" 
-                            string="Marcar Todos" 
-                            type="object" 
-                            class="btn-secondary"
-                            confirm="¿Estás seguro de marcar TODOS los pagos listados como no deducibles?"/>
+                    <button name="action_mark_all"
+                            string="Marcar como No Deducibles"
+                            type="object"
+                            class="btn-primary"
+                            confirm="¿Estás seguro de marcar estos pagos como no deducibles?"/>
                     <button string="Cancelar" special="cancel" class="btn-secondary"/>
                 </footer>
             </form>
