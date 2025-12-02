@@ -281,18 +281,6 @@ class MxTaxDeclarationWizard(models.TransientModel):
             raise UserError(_('Debe seleccionar al menos una factura.'))
 
         self.state = 'step3_reconcile'
-        
-        # Inicializar wizard de conciliación
-        if not self.reconcile_wizard_ids:
-            self.env['mx.auto.reconcile.wizard'].create({
-                'tax_declaration_wizard_id': self.id,
-                'date_from': self.period_start,
-                'date_to': self.period_end,
-                'company_id': self.company_id.id,
-                'source_type': 'statement_lines',
-                'only_unreconciled': True,
-            })
-        
         return self._reopen_wizard()
 
     def action_back_step2(self):
@@ -327,6 +315,25 @@ class MxTaxDeclarationWizard(models.TransientModel):
             'view_mode': 'list,form',
             'domain': [('id', 'in', self.invoice_ids.ids)],
             'target': 'current',
+        }
+
+    def action_run_auto_reconcile(self):
+        """Abrir wizard de conciliación automática"""
+        self.ensure_one()
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Conciliación Automática'),
+            'res_model': 'mx.auto.reconcile.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_date_from': self.period_start,
+                'default_date_to': self.period_end,
+                'default_company_id': self.company_id.id,
+                'default_source_type': 'statement_lines',
+                'default_only_unreconciled': True,
+            },
         }
 
     def action_next_step3(self):
