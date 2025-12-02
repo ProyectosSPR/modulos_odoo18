@@ -5,20 +5,29 @@
         <field name="model">account.bank.statement.line</field>
         <field name="inherit_id" ref="account_reconcile_oca.bank_statement_line_form_reconcile_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//header" position="inside">
+            <!-- Agregar botones en la barra de estado -->
+            <xpath expr="//div[@class='o_statusbar_buttons']" position="inside">
                 <button name="action_auto_reconcile"
                         string="Buscar Conciliación Automática"
                         type="object"
-                        class="btn-secondary"
+                        class="btn btn-secondary mx-1"
                         invisible="is_reconciled"/>
                 <button name="action_show_suggestions"
                         string="Ver Sugerencia"
                         type="object"
-                        class="btn-info"
+                        class="btn btn-info mx-1"
                         invisible="not suggested_invoice_id or is_reconciled"/>
             </xpath>
-            <xpath expr="//field[@name='payment_ref']" position="after">
+
+            <!-- Agregar campos después de payment_ref en la página Other Info -->
+            <xpath expr="//page[@name='narration']//field[@name='payment_ref']" position="after">
                 <field name="reconcile_match_score" widget="progressbar" invisible="not reconcile_match_score or is_reconciled"/>
+                <field name="suggested_invoice_id" invisible="not suggested_invoice_id"/>
+            </xpath>
+
+            <!-- Agregar campos invisibles al inicio del formulario -->
+            <xpath expr="//field[@name='is_reconciled']" position="after">
+                <field name="reconcile_match_score" invisible="1"/>
                 <field name="suggested_invoice_id" invisible="1"/>
             </xpath>
         </field>
