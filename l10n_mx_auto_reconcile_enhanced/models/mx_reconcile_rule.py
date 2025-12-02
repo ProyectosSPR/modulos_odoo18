@@ -112,6 +112,18 @@ class MxReconcileRule(models.Model):
         string='Descripción',
     )
 
+    # Filtros Domain
+    source_domain_filter = fields.Char(
+        string='Filtro Adicional de Origen',
+        default='[]',
+        help='Domain para filtrar automáticamente registros origen. Ejemplo: [(\'amount\', \'>\', 1000)]',
+    )
+    target_domain_filter = fields.Char(
+        string='Filtro Adicional de Facturas',
+        default='[]',
+        help='Domain para filtrar automáticamente facturas. Ejemplo: [(\'move_type\', \'=\', \'out_invoice\')]',
+    )
+
     @api.constrains('min_similarity')
     def _check_min_similarity(self):
         for record in self:
@@ -121,13 +133,28 @@ class MxReconcileRule(models.Model):
     def apply_rule(self, source_records, target_records):
         """
         Aplicar esta regla y retornar matches
-        
+
         :param source_records: Pagos o líneas bancarias
         :param target_records: Facturas
         :return: Lista de tuplas (source_record, target_record, score)
         """
         self.ensure_one()
         matches = []
+
+        # Aplicar filtros domain si existen
+        if self.source_domain_filter and self.source_domain_filter != '[]':
+            try:
+                domain_filter = eval(self.source_domain_filter)
+                source_records = source_records.filtered_domain(domain_filter)
+            except:
+                pass  # Si el domain es inválido, usar todos los registros
+
+        if self.target_domain_filter and self.target_domain_filter != '[]':
+            try:
+                domain_filter = eval(self.target_domain_filter)
+                target_records = target_records.filtered_domain(domain_filter)
+            except:
+                pass  # Si el domain es inválido, usar todos los registros
 
         for source in source_records:
             source_value = self._get_field_value(source, self.source_field)

@@ -43,6 +43,32 @@
                         </group>
                     </group>
                     <notebook>
+                        <page string="Filtros Automáticos" name="filters">
+                            <group>
+                                <group string="Filtro de Líneas Bancarias/Pagos">
+                                    <field name="source_domain_filter" widget="domain" nolabel="1"
+                                           placeholder="Ejemplo: [('amount', '>', 1000), ('is_reconciled', '=', False)]"/>
+                                    <div class="alert alert-info" role="alert">
+                                        <strong>Filtros comunes:</strong><br/>
+                                        • Solo no conciliados: <code>[('is_reconciled', '=', False)]</code><br/>
+                                        • Montos mayores a 1000: <code>[('amount', '>', 1000)]</code><br/>
+                                        • Con partner: <code>[('partner_id', '!=', False)]</code><br/>
+                                        • Combinados: <code>[('amount', '>', 1000), ('is_reconciled', '=', False)]</code>
+                                    </div>
+                                </group>
+                                <group string="Filtro de Facturas">
+                                    <field name="target_domain_filter" widget="domain" nolabel="1"
+                                           placeholder="Ejemplo: [('move_type', '=', 'out_invoice')]"/>
+                                    <div class="alert alert-info" role="alert">
+                                        <strong>Filtros comunes:</strong><br/>
+                                        • Facturas de cliente: <code>[('move_type', '=', 'out_invoice')]</code><br/>
+                                        • Facturas de proveedor: <code>[('move_type', 'in', ['in_invoice', 'in_refund'])]</code><br/>
+                                        • No pagadas: <code>[('payment_state', 'in', ['not_paid', 'partial'])]</code><br/>
+                                        • Por monto: <code>[('amount_total', '>', 5000)]</code>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
                         <page string="Descripción">
                             <field name="description" placeholder="Describe cómo funciona esta regla..."/>
                         </page>

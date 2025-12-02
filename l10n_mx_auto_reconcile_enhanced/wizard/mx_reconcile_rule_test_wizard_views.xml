@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mx_reconcile_rule_test_wizard_form" model="ir.ui.view">
+        <field name="name">mx.reconcile.rule.test.wizard.form</field>
+        <field name="model">mx.reconcile.rule.test.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Probar Regla de Conciliación">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="rule_id"/>
+                        <h1><field name="rule_id" readonly="1"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Período de Prueba">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group string="Estadísticas" invisible="total_source == 0">
+                            <field name="total_source"/>
+                            <field name="total_target"/>
+                            <field name="total_matches"/>
+                            <field name="match_percentage" widget="progressbar"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Filtros Personalizados" name="filters">
+                            <group>
+                                <group string="Filtro de Origen (Líneas Bancarias/Pagos)">
+                                    <field name="source_domain" widget="domain" nolabel="1"
+                                           placeholder="Ejemplo: [('amount', '>', 1000)]"/>
+                                    <div class="text-muted">
+                                        <strong>Ejemplos de filtros:</strong><br/>
+                                        - Por monto: <code>[('amount', '>', 1000)]</code><br/>
+                                        - Por partner: <code>[('partner_id', '!=', False)]</code><br/>
+                                        - Sin conciliar: <code>[('is_reconciled', '=', False)]</code><br/>
+                                        - Combinado: <code>[('amount', '>', 1000), ('is_reconciled', '=', False)]</code>
+                                    </div>
+                                </group>
+                                <group string="Filtro de Facturas">
+                                    <field name="target_domain" widget="domain" nolabel="1"
+                                           placeholder="Ejemplo: [('move_type', '=', 'out_invoice')]"/>
+                                    <div class="text-muted">
+                                        <strong>Ejemplos de filtros:</strong><br/>
+                                        - Facturas de cliente: <code>[('move_type', '=', 'out_invoice')]</code><br/>
+                                        - Facturas de proveedor: <code>[('move_type', 'in', ['in_invoice', 'in_refund'])]</code><br/>
+                                        - Por monto: <code>[('amount_total', '>', 5000)]</code><br/>
+                                        - Por cliente: <code>[('partner_id.name', 'ilike', 'ACME')]</code>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Resultados" name="results" invisible="total_matches == 0">
+                            <group>
+                                <div class="alert alert-success" role="alert" invisible="total_matches == 0">
+                                    <strong>¡Regla ejecutada con éxito!</strong><br/>
+                                    Se encontraron <field name="total_matches" readonly="1" class="oe_inline"/> coincidencias
+                                    de <field name="total_source" readonly="1" class="oe_inline"/> registros procesados
+                                    (<field name="match_percentage" readonly="1" class="oe_inline"/>%).
+                                </div>
+                            </group>
+
+                            <group>
+                                <button name="action_open_reconcile_view"
+                                        string="Ver en Vista de Conciliación OCA"
+                                        type="object"
+                                        class="btn-primary btn-lg"
+                                        icon="fa-eye"/>
+                            </group>
+
+                            <group string="Líneas con Match Encontrado">
+                                <field name="matched_line_ids" nolabel="1" readonly="1">
+                                    <tree>
+                                        <field name="date"/>
+                                        <field name="payment_ref"/>
+                                        <field name="partner_id"/>
+                                        <field name="amount"/>
+                                        <field name="suggested_invoice_id"/>
+                                        <field name="reconcile_match_score" widget="progressbar"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+
+                    <footer>
+                        <button name="action_test_rule"
+                                string="Ejecutar Prueba"
+                                type="object"
+                                class="btn-primary"/>
+                        <button name="action_open_reconcile_view"
+                                string="Ver Vista OCA"
+                                type="object"
+                                class="btn-secondary"
+                                invisible="total_matches == 0"/>
+                        <button string="Cerrar" special="cancel" class="btn-secondary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
