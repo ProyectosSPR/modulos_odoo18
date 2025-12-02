@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menú Principal de Declaraciones Fiscales -->
+    <menuitem id="menu_mx_tax_declaration_root"
+              name="Declaraciones Fiscales"
+              sequence="50"
+              web_icon="l10n_mx_tax_declaration_base,static/description/icon.png"/>
+
+    <!-- Configuración -->
+    <menuitem id="menu_mx_tax_declaration_config"
+              name="Configuración"
+              parent="menu_mx_tax_declaration_root"
+              sequence="90"/>
+
+    <menuitem id="menu_mx_tax_obligation_type"
+              name="Tipos de Obligación"
+              parent="menu_mx_tax_declaration_config"
+              action="action_mx_tax_obligation_type"
+              sequence="10"/>
+
+    <menuitem id="menu_mx_tax_periodicity"
+              name="Periodicidades"
+              parent="menu_mx_tax_declaration_config"
+              action="action_mx_tax_periodicity"
+              sequence="20"/>
+
+    <menuitem id="menu_mx_tax_obligation"
+              name="Obligaciones Fiscales"
+              parent="menu_mx_tax_declaration_root"
+              action="action_mx_tax_obligation"
+              sequence="10"/>
+
+    <menuitem id="menu_mx_tax_calculation_rule"
+              name="Reglas de Cálculo"
+              parent="menu_mx_tax_declaration_root"
+              action="action_mx_tax_calculation_rule"
+              sequence="20"/>
+
+</odoo>

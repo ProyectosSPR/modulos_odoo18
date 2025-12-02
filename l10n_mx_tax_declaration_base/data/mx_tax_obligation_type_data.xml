@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ========== IVA - Impuesto al Valor Agregado ========== -->
+        <record id="obligation_iva_mensual" model="mx.tax.obligation.type">
+            <field name="name">IVA - Declaración Mensual</field>
+            <field name="code">IVA-01</field>
+            <field name="category">iva</field>
+            <field name="sequence">10</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Declaración mensual del Impuesto al Valor Agregado para régimen general</field>
+        </record>
+
+        <record id="obligation_iva_trimestral" model="mx.tax.obligation.type">
+            <field name="name">IVA - Declaración Trimestral (RESICO)</field>
+            <field name="code">IVA-02</field>
+            <field name="category">iva</field>
+            <field name="sequence">11</field>
+            <field name="default_periodicity_id" ref="periodicity_03_quarterly"/>
+            <field name="description">Declaración trimestral del IVA para contribuyentes en RESICO</field>
+        </record>
+
+        <!-- ========== ISR - Impuesto Sobre la Renta ========== -->
+        <record id="obligation_isr_mensual_pm" model="mx.tax.obligation.type">
+            <field name="name">ISR - Pagos Provisionales Mensuales (Personas Morales)</field>
+            <field name="code">ISR-PM-01</field>
+            <field name="category">isr</field>
+            <field name="sequence">20</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Pagos provisionales mensuales de ISR para Personas Morales</field>
+        </record>
+
+        <record id="obligation_isr_anual_pm" model="mx.tax.obligation.type">
+            <field name="name">ISR - Declaración Anual (Personas Morales)</field>
+            <field name="code">ISR-PM-02</field>
+            <field name="category">isr</field>
+            <field name="sequence">21</field>
+            <field name="default_periodicity_id" ref="periodicity_06_annual"/>
+            <field name="description">Declaración anual de ISR para Personas Morales</field>
+        </record>
+
+        <record id="obligation_isr_mensual_pf" model="mx.tax.obligation.type">
+            <field name="name">ISR - Pagos Provisionales Mensuales (Personas Físicas)</field>
+            <field name="code">ISR-PF-01</field>
+            <field name="category">isr</field>
+            <field name="sequence">22</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Pagos provisionales mensuales de ISR para Personas Físicas con actividad empresarial</field>
+        </record>
+
+        <record id="obligation_isr_anual_pf" model="mx.tax.obligation.type">
+            <field name="name">ISR - Declaración Anual (Personas Físicas)</field>
+            <field name="code">ISR-PF-02</field>
+            <field name="category">isr</field>
+            <field name="sequence">23</field>
+            <field name="default_periodicity_id" ref="periodicity_06_annual"/>
+            <field name="description">Declaración anual de ISR para Personas Físicas</field>
+        </record>
+
+        <!-- ========== IEPS - Impuesto Especial sobre Producción y Servicios ========== -->
+        <record id="obligation_ieps_mensual" model="mx.tax.obligation.type">
+            <field name="name">IEPS - Declaración Mensual</field>
+            <field name="code">IEPS-01</field>
+            <field name="category">ieps</field>
+            <field name="sequence">30</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Declaración mensual del Impuesto Especial sobre Producción y Servicios</field>
+        </record>
+
+        <record id="obligation_ieps_bebidas" model="mx.tax.obligation.type">
+            <field name="name">IEPS - Bebidas Alcohólicas</field>
+            <field name="code">IEPS-02</field>
+            <field name="category">ieps</field>
+            <field name="sequence">31</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">IEPS aplicable a bebidas con contenido alcohólico</field>
+        </record>
+
+        <record id="obligation_ieps_tabaco" model="mx.tax.obligation.type">
+            <field name="name">IEPS - Tabacos Labrados</field>
+            <field name="code">IEPS-03</field>
+            <field name="category">ieps</field>
+            <field name="sequence">32</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">IEPS aplicable a tabacos labrados</field>
+        </record>
+
+        <record id="obligation_ieps_combustibles" model="mx.tax.obligation.type">
+            <field name="name">IEPS - Combustibles</field>
+            <field name="code">IEPS-04</field>
+            <field name="category">ieps</field>
+            <field name="sequence">33</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">IEPS aplicable a gasolinas, diesel y otros combustibles</field>
+        </record>
+
+        <!-- ========== IDE - Impuesto a los Depósitos en Efectivo ========== -->
+        <record id="obligation_ide_mensual" model="mx.tax.obligation.type">
+            <field name="name">IDE - Declaración Mensual</field>
+            <field name="code">IDE-01</field>
+            <field name="category">ide</field>
+            <field name="sequence">40</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Impuesto a los Depósitos en Efectivo (actualmente tasa 0%)</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <!-- ========== ISAN - Impuesto Sobre Automóviles Nuevos ========== -->
+        <record id="obligation_isan" model="mx.tax.obligation.type">
+            <field name="name">ISAN - Impuesto Sobre Automóviles Nuevos</field>
+            <field name="code">ISAN-01</field>
+            <field name="category">isan</field>
+            <field name="sequence">50</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Impuesto aplicable a la enajenación e importación de automóviles nuevos</field>
+        </record>
+
+        <!-- ========== ISN - Impuesto Sobre Nómina (Estatal) ========== -->
+        <record id="obligation_isn_mensual" model="mx.tax.obligation.type">
+            <field name="name">ISN - Impuesto Sobre Nómina</field>
+            <field name="code">ISN-01</field>
+            <field name="category">isn</field>
+            <field name="sequence">60</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Impuesto estatal sobre erogaciones por remuneraciones al trabajo personal</field>
+        </record>
+
+        <!-- ========== RESICO - Régimen Simplificado de Confianza ========== -->
+        <record id="obligation_resico_mensual" model="mx.tax.obligation.type">
+            <field name="name">RESICO - Pagos Mensuales</field>
+            <field name="code">RESICO-01</field>
+            <field name="category">resico</field>
+            <field name="sequence">70</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Régimen Simplificado de Confianza - Pagos mensuales definitivos</field>
+        </record>
+
+        <record id="obligation_resico_bimestral" model="mx.tax.obligation.type">
+            <field name="name">RESICO - Pagos Bimestrales</field>
+            <field name="code">RESICO-02</field>
+            <field name="category">resico</field>
+            <field name="sequence">71</field>
+            <field name="default_periodicity_id" ref="periodicity_02_bimonthly"/>
+            <field name="description">Régimen Simplificado de Confianza - Pagos bimestrales definitivos</field>
+        </record>
+
+        <!-- ========== RETENCIONES ========== -->
+        <record id="obligation_retencion_isr_salarios" model="mx.tax.obligation.type">
+            <field name="name">Retención ISR - Salarios</field>
+            <field name="code">RET-ISR-01</field>
+            <field name="category">retencion</field>
+            <field name="sequence">80</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Retenciones de ISR por salarios y asimilados</field>
+        </record>
+
+        <record id="obligation_retencion_isr_asimilados" model="mx.tax.obligation.type">
+            <field name="name">Retención ISR - Asimilados a Salarios</field>
+            <field name="code">RET-ISR-02</field>
+            <field name="category">retencion</field>
+            <field name="sequence">81</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Retenciones de ISR por honorarios asimilados a salarios</field>
+        </record>
+
+        <record id="obligation_retencion_isr_honorarios" model="mx.tax.obligation.type">
+            <field name="name">Retención ISR - Honorarios</field>
+            <field name="code">RET-ISR-03</field>
+            <field name="category">retencion</field>
+            <field name="sequence">82</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Retenciones de ISR por servicios profesionales (honorarios)</field>
+        </record>
+
+        <record id="obligation_retencion_isr_arrendamiento" model="mx.tax.obligation.type">
+            <field name="name">Retención ISR - Arrendamiento</field>
+            <field name="code">RET-ISR-04</field>
+            <field name="category">retencion</field>
+            <field name="sequence">83</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Retenciones de ISR por arrendamiento de inmuebles</field>
+        </record>
+
+        <record id="obligation_retencion_iva" model="mx.tax.obligation.type">
+            <field name="name">Retención IVA</field>
+            <field name="code">RET-IVA-01</field>
+            <field name="category">retencion</field>
+            <field name="sequence">90</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Retenciones de IVA al 4% o 6% según corresponda</field>
+        </record>
+
+        <!-- ========== DECLARACIONES INFORMATIVAS ========== -->
+        <record id="obligation_diot" model="mx.tax.obligation.type">
+            <field name="name">DIOT - Declaración Informativa de Operaciones con Terceros</field>
+            <field name="code">DIOT-01</field>
+            <field name="category">informativa</field>
+            <field name="sequence">100</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Declaración informativa mensual de operaciones con proveedores</field>
+            <field name="requires_electronic_accounting" eval="False"/>
+        </record>
+
+        <record id="obligation_dipas" model="mx.tax.obligation.type">
+            <field name="name">DIPAS - Declaración Informativa de Pagos y Retenciones</field>
+            <field name="code">DIPAS-01</field>
+            <field name="category">informativa</field>
+            <field name="sequence">101</field>
+            <field name="default_periodicity_id" ref="periodicity_06_annual"/>
+            <field name="description">Declaración anual informativa de pagos a residentes en el extranjero</field>
+        </record>
+
+        <record id="obligation_contabilidad_electronica" model="mx.tax.obligation.type">
+            <field name="name">Contabilidad Electrónica</field>
+            <field name="code">CONT-ELECT-01</field>
+            <field name="category">informativa</field>
+            <field name="sequence">110</field>
+            <field name="default_periodicity_id" ref="periodicity_01_monthly"/>
+            <field name="description">Envío mensual de contabilidad electrónica (balanza de comprobación, catálogo de cuentas, pólizas)</field>
+            <field name="requires_electronic_accounting" eval="True"/>
+        </record>
+
+        <!-- ========== OTROS ========== -->
+        <record id="obligation_cre" model="mx.tax.obligation.type">
+            <field name="name">CRE - Complemento de Recepción de Pagos</field>
+            <field name="code">CRE-01</field>
+            <field name="category">otros</field>
+            <field name="sequence">120</field>
+            <field name="default_periodicity_id" ref="periodicity_10_per_operation"/>
+            <field name="description">Generación de complemento de recepción de pagos para facturas con método PPD</field>
+            <field name="has_complement" eval="True"/>
+        </record>
+
+        <record id="obligation_cfdi_nomina" model="mx.tax.obligation.type">
+            <field name="name">CFDI de Nómina</field>
+            <field name="code">NOMINA-01</field>
+            <field name="category">otros</field>
+            <field name="sequence">121</field>
+            <field name="default_periodicity_id" ref="periodicity_10_per_operation"/>
+            <field name="description">Emisión de CFDI de nómina por cada pago a trabajadores</field>
+            <field name="has_complement" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extensión de la vista de compañía -->
+    <record id="view_res_company_form_tax_declaration" model="ir.ui.view">
+        <field name="name">res.company.form.tax.declaration</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <!-- Agregar botón en el button box -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_tax_obligations"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-file-text-o">
+                    <field name="tax_obligation_count" widget="statinfo"
+                           string="Obligaciones Fiscales"/>
+                </button>
+            </xpath>
+
+            <!-- Agregar página de configuración fiscal -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Declaraciones Fiscales" name="tax_declaration">
+                    <group>
+                        <group string="Configuración General">
+                            <field name="tax_declaration_auto_mark"/>
+                        </group>
+                    </group>
+                    <group string="Obligaciones Fiscales Configuradas">
+                        <field name="tax_obligation_ids" nolabel="1">
+                            <list string="Obligaciones">
+                                <field name="sequence" widget="handle"/>
+                                <field name="obligation_type_id"/>
+                                <field name="periodicity_id"/>
+                                <field name="deadline_day"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extensión de la vista de factura -->
+    <record id="view_account_move_form_tax_declaration" model="ir.ui.view">
+        <field name="name">account.move.form.tax.declaration</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Agregar grupo de Declaración Fiscal después del journal -->
+            <xpath expr="//field[@name='journal_id']" position="after">
+                <field name="include_in_tax_declaration"
+                       invisible="move_type not in ('out_invoice', 'in_invoice', 'out_refund', 'in_refund') or state != 'posted'"/>
+            </xpath>
+
+            <!-- Agregar notebook page para información fiscal -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Declaración Fiscal" name="tax_declaration"
+                      invisible="move_type not in ('out_invoice', 'in_invoice', 'out_refund', 'in_refund')">
+                    <group>
+                        <group>
+                            <field name="include_in_tax_declaration"/>
+                            <field name="tax_declaration_status"
+                                   invisible="not include_in_tax_declaration"/>
+                            <field name="tax_declaration_period"
+                                   invisible="not include_in_tax_declaration"/>
+                        </group>
+                        <group>
+                            <field name="tax_declaration_month"
+                                   invisible="not include_in_tax_declaration"/>
+                            <field name="tax_declaration_year"
+                                   invisible="not include_in_tax_declaration"/>
+                        </group>
+                    </group>
+                    <group string="Notas Fiscales">
+                        <field name="tax_declaration_notes" nolabel="1"
+                               placeholder="Notas o comentarios sobre esta factura para efectos fiscales..."/>
+                    </group>
+                    <div class="mt-3">
+                        <button name="action_include_in_declaration"
+                                string="Incluir en Declaración"
+                                type="object"
+                                class="btn-primary"
+                                invisible="include_in_tax_declaration or state != 'posted'"/>
+                        <button name="action_exclude_from_declaration"
+                                string="Excluir de Declaración"
+                                type="object"
+                                class="btn-secondary"
+                                invisible="not include_in_tax_declaration or state != 'posted'"
+                                confirm="¿Está seguro de excluir esta factura de las declaraciones fiscales?"/>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista de lista extendida -->
+    <record id="view_account_move_list_tax_declaration" model="ir.ui.view">
+        <field name="name">account.move.list.tax.declaration</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="include_in_tax_declaration" optional="hide"/>
+                <field name="tax_declaration_status" optional="hide"/>
+                <field name="tax_declaration_period" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda extendida -->
+    <record id="view_account_move_search_tax_declaration" model="ir.ui.view">
+        <field name="name">account.move.search.tax.declaration</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_move_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='posted']" position="after">
+                <separator/>
+                <filter string="Para Declarar" name="to_declare"
+                        domain="[('include_in_tax_declaration', '=', True), ('tax_declaration_status', '=', 'pending')]"/>
+                <filter string="Incluidas en Declaración" name="included"
+                        domain="[('include_in_tax_declaration', '=', True)]"/>
+                <filter string="Excluidas de Declaración" name="excluded"
+                        domain="[('tax_declaration_status', '=', 'excluded')]"/>
+                <filter string="Declaradas" name="declared"
+                        domain="[('tax_declaration_status', '=', 'declared')]"/>
+            </xpath>
+            <xpath expr="//group[@name='groupby']" position="inside">
+                <filter string="Estado Declaración" name="group_tax_status"
+                        context="{'group_by': 'tax_declaration_status'}"/>
+                <filter string="Período Fiscal (Mes)" name="group_tax_month"
+                        context="{'group_by': 'tax_declaration_month'}"/>
+                <filter string="Período Fiscal (Año)" name="group_tax_year"
+                        context="{'group_by': 'tax_declaration_year'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Acción para ver facturas para declarar -->
+    <record id="action_account_move_to_declare" model="ir.actions.act_window">
+        <field name="name">Facturas para Declarar</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('include_in_tax_declaration', '=', True), ('state', '=', 'posted')]</field>
+        <field name="context">{'search_default_to_declare': 1}</field>
+    </record>
+
+</odoo>

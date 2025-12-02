@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mx_tax_obligation_type_user,mx.tax.obligation.type user,model_mx_tax_obligation_type,group_mx_tax_declaration_user,1,0,0,0
+access_mx_tax_obligation_type_accountant,mx.tax.obligation.type accountant,model_mx_tax_obligation_type,group_mx_tax_declaration_accountant,1,0,0,0
+access_mx_tax_obligation_type_manager,mx.tax.obligation.type manager,model_mx_tax_obligation_type,group_mx_tax_declaration_manager,1,1,1,1
+access_mx_tax_periodicity_user,mx.tax.periodicity user,model_mx_tax_periodicity,group_mx_tax_declaration_user,1,0,0,0
+access_mx_tax_periodicity_accountant,mx.tax.periodicity accountant,model_mx_tax_periodicity,group_mx_tax_declaration_accountant,1,0,0,0
+access_mx_tax_periodicity_manager,mx.tax.periodicity manager,model_mx_tax_periodicity,group_mx_tax_declaration_manager,1,1,1,1
+access_mx_tax_obligation_user,mx.tax.obligation user,model_mx_tax_obligation,group_mx_tax_declaration_user,1,0,0,0
+access_mx_tax_obligation_accountant,mx.tax.obligation accountant,model_mx_tax_obligation,group_mx_tax_declaration_accountant,1,1,1,0
+access_mx_tax_obligation_manager,mx.tax.obligation manager,model_mx_tax_obligation,group_mx_tax_declaration_manager,1,1,1,1
+access_mx_tax_calculation_rule_user,mx.tax.calculation.rule user,model_mx_tax_calculation_rule,group_mx_tax_declaration_user,1,0,0,0
+access_mx_tax_calculation_rule_accountant,mx.tax.calculation.rule accountant,model_mx_tax_calculation_rule,group_mx_tax_declaration_accountant,1,1,1,0
+access_mx_tax_calculation_rule_manager,mx.tax.calculation.rule manager,model_mx_tax_calculation_rule,group_mx_tax_declaration_manager,1,1,1,1

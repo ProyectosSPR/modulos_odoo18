@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Periodicidades oficiales del SAT -->
+        <record id="periodicity_01_monthly" model="mx.tax.periodicity">
+            <field name="name">Mensual</field>
+            <field name="code">01</field>
+            <field name="sequence">10</field>
+            <field name="months">1</field>
+        </record>
+
+        <record id="periodicity_02_bimonthly" model="mx.tax.periodicity">
+            <field name="name">Bimestral</field>
+            <field name="code">02</field>
+            <field name="sequence">20</field>
+            <field name="months">2</field>
+        </record>
+
+        <record id="periodicity_03_quarterly" model="mx.tax.periodicity">
+            <field name="name">Trimestral</field>
+            <field name="code">03</field>
+            <field name="sequence">30</field>
+            <field name="months">3</field>
+        </record>
+
+        <record id="periodicity_04_four_monthly" model="mx.tax.periodicity">
+            <field name="name">Cuatrimestral</field>
+            <field name="code">04</field>
+            <field name="sequence">40</field>
+            <field name="months">4</field>
+        </record>
+
+        <record id="periodicity_05_semiannual" model="mx.tax.periodicity">
+            <field name="name">Semestral</field>
+            <field name="code">05</field>
+            <field name="sequence">50</field>
+            <field name="months">6</field>
+        </record>
+
+        <record id="periodicity_06_annual" model="mx.tax.periodicity">
+            <field name="name">Anual</field>
+            <field name="code">06</field>
+            <field name="sequence">60</field>
+            <field name="months">12</field>
+        </record>
+
+        <record id="periodicity_07_biannual" model="mx.tax.periodicity">
+            <field name="name">Bienal</field>
+            <field name="code">07</field>
+            <field name="sequence">70</field>
+            <field name="months">24</field>
+        </record>
+
+        <record id="periodicity_08_five_yearly" model="mx.tax.periodicity">
+            <field name="name">Quinquenal</field>
+            <field name="code">08</field>
+            <field name="sequence">80</field>
+            <field name="months">60</field>
+        </record>
+
+        <record id="periodicity_09_ten_yearly" model="mx.tax.periodicity">
+            <field name="name">Decenal</field>
+            <field name="code">09</field>
+            <field name="sequence">90</field>
+            <field name="months">120</field>
+        </record>
+
+        <record id="periodicity_10_per_operation" model="mx.tax.periodicity">
+            <field name="name">Por operación</field>
+            <field name="code">10</field>
+            <field name="sequence">100</field>
+            <field name="months">0</field>
+        </record>
+
+    </data>
+</odoo>

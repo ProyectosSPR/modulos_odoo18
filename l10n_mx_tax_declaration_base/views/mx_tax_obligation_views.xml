@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista List de Obligaciones Fiscales -->
+    <record id="view_mx_tax_obligation_list" model="ir.ui.view">
+        <field name="name">mx.tax.obligation.list</field>
+        <field name="model">mx.tax.obligation</field>
+        <field name="arch" type="xml">
+            <list string="Obligaciones Fiscales" create="true" edit="true" delete="true">
+                <field name="sequence" widget="handle"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="obligation_type_id"/>
+                <field name="obligation_category"/>
+                <field name="periodicity_id"/>
+                <field name="deadline_day"/>
+                <field name="auto_include_invoices"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista Form de Obligaciones Fiscales -->
+    <record id="view_mx_tax_obligation_form" model="ir.ui.view">
+        <field name="name">mx.tax.obligation.form</field>
+        <field name="model">mx.tax.obligation</field>
+        <field name="arch" type="xml">
+            <form string="Obligación Fiscal">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_mx_tax_calculation_rule)d"
+                                type="action"
+                                class="oe_stat_button"
+                                icon="fa-calculator"
+                                context="{'default_obligation_id': active_id}">
+                            <field name="calculation_rule_ids" widget="statinfo" string="Reglas"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Inactiva" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"
+                                   options="{'no_create': True}"/>
+                            <field name="obligation_type_id" options="{'no_create_edit': True}"/>
+                            <field name="obligation_category" readonly="1"/>
+                            <field name="obligation_code" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="periodicity_id" options="{'no_create_edit': True}"/>
+                            <field name="deadline_day"/>
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+                    <group string="Configuración de Auto-marcado">
+                        <group>
+                            <field name="auto_include_invoices"/>
+                            <field name="invoice_type_filter"
+                                   invisible="not auto_include_invoices"/>
+                        </group>
+                    </group>
+                    <group string="Notas">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Kanban de Obligaciones Fiscales -->
+    <record id="view_mx_tax_obligation_kanban" model="ir.ui.view">
+        <field name="name">mx.tax.obligation.kanban</field>
+        <field name="model">mx.tax.obligation</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="obligation_type_id"/>
+                <field name="periodicity_id"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_content">
+                            <div class="o_kanban_record_title">
+                                <field name="name"/>
+                            </div>
+                            <div class="o_kanban_record_subtitle">
+                                <field name="obligation_type_id"/>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <field name="periodicity_id"/> -
+                                Día límite: <field name="deadline_day"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vista de Búsqueda -->
+    <record id="view_mx_tax_obligation_search" model="ir.ui.view">
+        <field name="name">mx.tax.obligation.search</field>
+        <field name="model">mx.tax.obligation</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Obligaciones Fiscales">
+                <field name="name"/>
+                <field name="obligation_type_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter string="Activas" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactivas" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter string="IVA" name="iva" domain="[('obligation_category', '=', 'iva')]"/>
+                <filter string="ISR" name="isr" domain="[('obligation_category', '=', 'isr')]"/>
+                <filter string="IEPS" name="ieps" domain="[('obligation_category', '=', 'ieps')]"/>
+                <filter string="Retenciones" name="retencion"
+                        domain="[('obligation_category', '=', 'retencion')]"/>
+                <separator/>
+                <filter string="Auto-marcado Activo" name="auto_mark"
+                        domain="[('auto_include_invoices', '=', True)]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Compañía" name="group_company"
+                            context="{'group_by': 'company_id'}"/>
+                    <filter string="Tipo de Obligación" name="group_type"
+                            context="{'group_by': 'obligation_type_id'}"/>
+                    <filter string="Categoría" name="group_category"
+                            context="{'group_by': 'obligation_category'}"/>
+                    <filter string="Periodicidad" name="group_periodicity"
+                            context="{'group_by': 'periodicity_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción -->
+    <record id="action_mx_tax_obligation" model="ir.actions.act_window">
+        <field name="name">Obligaciones Fiscales</field>
+        <field name="res_model">mx.tax.obligation</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea tu primera obligación fiscal
+            </p>
+            <p>
+                Configura las obligaciones fiscales de tu empresa ante el SAT.
+                Cada obligación define qué impuestos debes declarar y con qué periodicidad.
+            </p>
+        </field>
+    </record>
+
+    <!-- Acción para Tipo de Obligación -->
+    <record id="action_mx_tax_obligation_type" model="ir.actions.act_window">
+        <field name="name">Tipos de Obligación Fiscal</field>
+        <field name="res_model">mx.tax.obligation.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+    <!-- Acción para Periodicidad -->
+    <record id="action_mx_tax_periodicity" model="ir.actions.act_window">
+        <field name="name">Periodicidades</field>
+        <field name="res_model">mx.tax.periodicity</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+</odoo>

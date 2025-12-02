@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extensión del wizard de importación de facturas -->
+    <record id="view_cfdi_invoice_attachment_form_tax_declaration" model="ir.ui.view">
+        <field name="name">cfdi.invoice.attachment.form.tax.declaration</field>
+        <field name="model">cfdi.invoice.attachment</field>
+        <field name="inherit_id" ref="l10n_mx_sat_sync_itadmin.view_cfdi_invoice_attachment_wizard"/>
+        <field name="arch" type="xml">
+            <!-- Agregar grupo de configuración fiscal -->
+            <xpath expr="//group[@name='config']" position="after">
+                <group string="Configuración de Declaraciones Fiscales" name="tax_declaration_config">
+                    <field name="auto_mark_for_declaration"/>
+                    <field name="tax_declaration_period"
+                           invisible="not auto_mark_for_declaration"
+                           placeholder="Dejar vacío para usar fecha de la factura"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
