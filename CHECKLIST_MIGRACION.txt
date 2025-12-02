@@ -1,0 +1,269 @@
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║     CHECKLIST DE MIGRACIÓN - DECLARACIONES FISCALES SAT         ║
+║                     Versión 1.0.0                                ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📋 PREPARACIÓN EN PC ORIGEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☐ 1. Ubicar directorio de módulos
+     Ruta: /home/sergio/modulos_odoo18/
+
+☐ 2. Verificar que módulos estén completos
+     ☐ l10n_mx_tax_declaration_base/ (17 archivos)
+     ☐ l10n_mx_tax_declaration_sat_sync/ (7 archivos)
+
+☐ 3. Copiar documentación
+     ☐ GUIA_COMPLETA_IMPLEMENTACION.md
+     ☐ DECLARACIONES_FISCALES_README.md
+     ☐ INICIO_RAPIDO.md
+     ☐ RESUMEN_TECNICO.md
+     ☐ CHECKLIST_MIGRACION.txt
+
+☐ 4. Crear archivo comprimido
+     Comando:
+     cd /home/sergio/modulos_odoo18/
+     tar -czf declaraciones_fiscales_v1.0.tar.gz \
+         l10n_mx_tax_declaration_base/ \
+         l10n_mx_tax_declaration_sat_sync/ \
+         *.md *.txt
+
+☐ 5. Verificar tamaño del archivo
+     Comando: ls -lh declaraciones_fiscales_v1.0.tar.gz
+     Tamaño esperado: ~200KB
+
+☐ 6. Opcional: Crear backup de BD
+     Comando: pg_dump nombre_db > backup_db.sql
+
+
+📦 TRANSFERENCIA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☐ Opción 1: USB/Disco Externo
+     cp declaraciones_fiscales_v1.0.tar.gz /media/usb/
+
+☐ Opción 2: SCP (si tienes acceso SSH)
+     scp declaraciones_fiscales_v1.0.tar.gz \
+         usuario@pc-destino:/tmp/
+
+☐ Opción 3: Git (recomendado para desarrollo)
+     git init
+     git add .
+     git commit -m "Initial commit"
+     git push origin main
+
+☐ Opción 4: Cloud (Google Drive, Dropbox, etc.)
+
+
+💻 INSTALACIÓN EN PC DESTINO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☐ 1. Ubicar directorio addons de Odoo
+     Ejemplos comunes:
+     - /mnt/extra-addons/
+     - /opt/odoo/custom/addons/
+     - ~/odoo/addons/
+
+☐ 2. Descomprimir módulos
+     cd /ruta/a/addons/
+     tar -xzf /tmp/declaraciones_fiscales_v1.0.tar.gz
+
+☐ 3. Verificar permisos
+     chown -R odoo:odoo l10n_mx_tax_declaration_*
+     chmod -R 755 l10n_mx_tax_declaration_*
+
+☐ 4. Verificar estructura
+     ls -la l10n_mx_tax_declaration_base/
+     Debe contener: __init__.py, __manifest__.py, models/, views/, etc.
+
+
+🔧 CONFIGURACIÓN DE ODOO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☐ 1. Verificar addons_path en odoo.conf
+     addons_path = /ruta/a/addons,/mnt/extra-addons
+
+☐ 2. Reiniciar servicio Odoo
+     sudo systemctl stop odoo
+     sudo systemctl start odoo
+     
+     Verificar:
+     sudo systemctl status odoo
+
+☐ 3. Ver logs para verificar que no hay errores
+     tail -f /var/log/odoo/odoo.log
+
+
+🌐 INSTALACIÓN EN ODOO WEB
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☐ 1. Acceder a Odoo
+     URL: http://tu-servidor:8069
+
+☐ 2. Activar modo desarrollador
+     Settings > Activate the developer mode
+
+☐ 3. Actualizar lista de aplicaciones
+     Apps > ⋮ (menú) > Update Apps List
+     
+☐ 4. Buscar módulo base
+     Buscar: "declaraciones fiscales"
+     
+☐ 5. Instalar "México - Declaraciones Fiscales SAT (Base)"
+     Clic en "Install"
+     Esperar 1-2 minutos
+
+☐ 6. Verificar instalación de módulo sync
+     Debería instalarse automáticamente
+     Si no: buscar "sat sync integration" e instalar
+
+
+✅ VERIFICACIÓN POST-INSTALACIÓN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☐ 1. Verificar menú principal
+     Debe aparecer: "Declaraciones Fiscales"
+
+☐ 2. Verificar submenús
+     ☐ Obligaciones Fiscales
+     ☐ Reglas de Cálculo
+     ☐ Configuración
+         ☐ Tipos de Obligación
+         ☐ Periodicidades
+
+☐ 3. Verificar tipos de obligación
+     Ir a: Configuración > Tipos de Obligación
+     Debe haber 22+ registros (IVA, ISR, IEPS, etc.)
+
+☐ 4. Verificar periodicidades
+     Ir a: Configuración > Periodicidades
+     Debe haber 10 registros (Mensual, Bimestral, etc.)
+
+☐ 5. Verificar extensión de facturas
+     Ir a: Contabilidad > Facturas > Abrir cualquiera
+     Debe tener tab: "Declaración Fiscal"
+
+☐ 6. Verificar filtros de búsqueda
+     En lista de facturas, buscar:
+     ☐ "Para Declarar"
+     ☐ "Incluidas en Declaración"
+     ☐ "Excluidas de Declaración"
+
+☐ 7. Verificar wizard de importación SAT
+     Si tienes l10n_mx_sat_sync_itadmin:
+     Debe tener grupo: "Configuración de Declaraciones Fiscales"
+
+
+🧪 PRUEBA BÁSICA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☐ 1. Crear obligación IVA de prueba
+     Declaraciones Fiscales > Obligaciones Fiscales > Crear
+     
+     Datos:
+     - Tipo: IVA - Declaración Mensual
+     - Periodicidad: Mensual
+     - Día Límite: 17
+     - Auto-incluir: ☑
+     
+     Guardar
+
+☐ 2. Crear regla de cálculo de prueba
+     Declaraciones Fiscales > Reglas de Cálculo > Crear
+     
+     Datos:
+     - Nombre: IVA Causado Test
+     - Obligación: IVA - Declaración Mensual
+     - Tipo: Suma con Filtros
+     - Campo: Impuestos
+     - Filtro: [('move_type', '=', 'out_invoice'), ('state', '=', 'posted')]
+     
+     Guardar
+
+☐ 3. Marcar una factura manualmente
+     Contabilidad > Facturas > Abrir una factura confirmada
+     Tab "Declaración Fiscal"
+     ☑ Incluir en Declaración
+     Guardar
+
+☐ 4. Verificar que aparece en filtros
+     Contabilidad > Facturas
+     Buscar > "Para Declarar"
+     Debe aparecer la factura marcada
+
+
+❌ SI HAY ERRORES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☐ 1. Revisar logs
+     tail -100 /var/log/odoo/odoo.log
+
+☐ 2. Error común: "External ID not found"
+     Solución: Verificar orden en __manifest__.py
+     'security/security.xml' debe estar ANTES de 'ir.model.access.csv'
+
+☐ 3. Error común: "xpath no se puede localizar"
+     Solución: Ya corregido en archivos actuales
+
+☐ 4. Error común: Módulo no aparece
+     Solución:
+     - Verificar addons_path
+     - Reiniciar Odoo
+     - Update Apps List
+
+☐ 5. Consultar documentación
+     Leer: GUIA_COMPLETA_IMPLEMENTACION.md
+     Sección: "Troubleshooting"
+
+
+📊 VERIFICACIÓN FINAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☐ Módulos instalados correctamente
+☐ Menús visibles
+☐ Datos maestros cargados
+☐ Vistas funcionando
+☐ Permisos configurados
+☐ Sin errores en logs
+☐ Prueba básica exitosa
+
+☐ Sistema listo para configuración de producción
+☐ Documentación disponible y leída
+☐ Backup de BD creado (si es producción)
+
+
+🎯 SIGUIENTE PASO: CONFIGURACIÓN DE PRODUCCIÓN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Leer: INICIO_RAPIDO.md - Sección "Configuración Inicial"
+
+Pasos recomendados:
+1. Configurar obligaciones fiscales de tu empresa
+2. Crear reglas de cálculo necesarias
+3. Configurar auto-marcado en importación SAT
+4. Importar facturas de prueba
+5. Verificar que se marcan automáticamente
+
+
+═══════════════════════════════════════════════════════════════════
+
+✅ MIGRACIÓN COMPLETADA EXITOSAMENTE
+
+Sistema de Declaraciones Fiscales SAT México está listo para usar.
+
+Para continuar desarrollo, leer:
+- GUIA_COMPLETA_IMPLEMENTACION.md (guía completa)
+- RESUMEN_TECNICO.md (detalles técnicos)
+
+Para implementar el wizard:
+Ver sección "PRÓXIMOS MÓDULOS" en GUIA_COMPLETA_IMPLEMENTACION.md
+
+═══════════════════════════════════════════════════════════════════
+
+Fecha de migración: _______________
+Migrado por: _______________
+PC destino: _______________
+Versión Odoo: _______________
+
