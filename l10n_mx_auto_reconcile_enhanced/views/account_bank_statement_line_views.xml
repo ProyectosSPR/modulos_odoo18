@@ -3,17 +3,17 @@
     <record id="view_bank_statement_line_form_inherit_auto_reconcile" model="ir.ui.view">
         <field name="name">account.bank.statement.line.form.inherit.auto.reconcile</field>
         <field name="model">account.bank.statement.line</field>
-        <field name="inherit_id" ref="account.view_bank_statement_line_form"/>
+        <field name="inherit_id" ref="account_reconcile_oca.bank_statement_line_form_reconcile_view"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <button name="action_auto_reconcile" 
-                        string="Buscar Conciliación Automática" 
-                        type="object" 
+                <button name="action_auto_reconcile"
+                        string="Buscar Conciliación Automática"
+                        type="object"
                         class="btn-secondary"
                         invisible="is_reconciled"/>
-                <button name="action_show_suggestions" 
-                        string="Ver Sugerencia" 
-                        type="object" 
+                <button name="action_show_suggestions"
+                        string="Ver Sugerencia"
+                        type="object"
                         class="btn-info"
                         invisible="not suggested_invoice_id or is_reconciled"/>
             </xpath>
