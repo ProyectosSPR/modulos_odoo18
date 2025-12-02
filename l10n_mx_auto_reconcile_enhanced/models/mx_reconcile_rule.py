@@ -43,6 +43,7 @@ class MxReconcileRule(models.Model):
         'ir.model.fields',
         string='Campo Origen',
         required=True,
+        ondelete='cascade',
         domain="[('model', '=', source_model_name), ('ttype', 'in', ['char', 'text', 'many2one'])]",
         help='Campo del pago o línea bancaria a comparar',
     )
@@ -60,6 +61,7 @@ class MxReconcileRule(models.Model):
         'ir.model.fields',
         string='Campo Destino',
         required=True,
+        ondelete='cascade',
         domain="[('model', '=', target_model_name), ('ttype', 'in', ['char', 'text', 'many2one'])]",
         help='Campo de la factura a comparar',
     )
