@@ -4,19 +4,20 @@
         <field name="name">mx.reconcile.rule.test.wizard.form</field>
         <field name="model">mx.reconcile.rule.test.wizard</field>
         <field name="arch" type="xml">
-            <form string="Probar Regla de Conciliación">
+            <form string="Laboratorio de Conciliación">
                 <sheet>
                     <div class="oe_title">
                         <label for="rule_id"/>
                         <h1><field name="rule_id" readonly="1"/></h1>
+                        <p class="text-muted">Experimente con diferentes configuraciones para ver qué coincide</p>
                     </div>
 
                     <group>
-                        <group string="Período de Prueba">
+                        <group string="Período">
                             <field name="date_from"/>
                             <field name="date_to"/>
                         </group>
-                        <group string="Estadísticas" invisible="total_source == 0">
+                        <group string="Estadísticas">
                             <field name="total_source"/>
                             <field name="total_target"/>
                             <field name="total_matches"/>
@@ -25,70 +26,106 @@
                     </group>
 
                     <notebook>
-                        <page string="Filtros Personalizados" name="filters">
+                        <page string="⚙️ Configuración" name="config">
                             <group>
-                                <group string="Filtro de Origen (Líneas Bancarias/Pagos)">
-                                    <field name="source_domain" widget="domain" nolabel="1"
-                                           placeholder="Ejemplo: [('amount', '>', 1000)]"/>
+                                <group string="¿Qué Comparar?">
+                                    <field name="source_field"/>
+                                    <field name="target_field"/>
+                                    <field name="match_type"/>
+                                </group>
+                                <group string="Opciones">
+                                    <field name="min_similarity" widget="progressbar"/>
+                                    <field name="case_sensitive"/>
+                                </group>
+                            </group>
+
+                            <group string="🔍 Filtros (Opcional)">
+                                <group>
+                                    <label for="source_domain" string="Filtrar Líneas Bancarias"/>
+                                    <field name="source_domain" nolabel="1" placeholder='Ejemplo: [("amount", ">", 1000)]'/>
                                     <div class="text-muted">
-                                        <strong>Ejemplos de filtros:</strong><br/>
-                                        - Por monto: <code>[('amount', '>', 1000)]</code><br/>
-                                        - Por partner: <code>[('partner_id', '!=', False)]</code><br/>
-                                        - Sin conciliar: <code>[('is_reconciled', '=', False)]</code><br/>
-                                        - Combinado: <code>[('amount', '>', 1000), ('is_reconciled', '=', False)]</code>
+                                        <small>
+                                            • Solo no conciliadas: [('is_reconciled', '=', False)]<br/>
+                                            • Montos mayores: [('amount', '>', 1000)]<br/>
+                                            • Con partner: [('partner_id', '!=', False)]
+                                        </small>
                                     </div>
                                 </group>
-                                <group string="Filtro de Facturas">
-                                    <field name="target_domain" widget="domain" nolabel="1"
-                                           placeholder="Ejemplo: [('move_type', '=', 'out_invoice')]"/>
+                                <group>
+                                    <label for="target_domain" string="Filtrar Facturas"/>
+                                    <field name="target_domain" nolabel="1" placeholder='Ejemplo: [("move_type", "=", "out_invoice")]'/>
                                     <div class="text-muted">
-                                        <strong>Ejemplos de filtros:</strong><br/>
-                                        - Facturas de cliente: <code>[('move_type', '=', 'out_invoice')]</code><br/>
-                                        - Facturas de proveedor: <code>[('move_type', 'in', ['in_invoice', 'in_refund'])]</code><br/>
-                                        - Por monto: <code>[('amount_total', '>', 5000)]</code><br/>
-                                        - Por cliente: <code>[('partner_id.name', 'ilike', 'ACME')]</code>
+                                        <small>
+                                            • Facturas cliente: [('move_type', '=', 'out_invoice')]<br/>
+                                            • No pagadas: [('payment_state', '=', 'not_paid')]<br/>
+                                            • Por monto: [('amount_total', '>', 5000)]
+                                        </small>
                                     </div>
                                 </group>
                             </group>
                         </page>
 
-                        <page string="Resultados" name="results" invisible="total_matches == 0">
-                            <group>
-                                <div class="alert alert-success" role="alert" invisible="total_matches == 0">
-                                    <strong>¡Regla ejecutada con éxito!</strong><br/>
-                                    Se encontraron <field name="total_matches" readonly="1" class="oe_inline"/> coincidencias
-                                    de <field name="total_source" readonly="1" class="oe_inline"/> registros procesados
-                                    (<field name="match_percentage" readonly="1" class="oe_inline"/>%).
+                        <page string="📊 Resultados" name="results">
+                            <group invisible="total_source == 0">
+                                <div class="alert alert-info" role="alert">
+                                    <strong>👉 Primero configure y haga clic en "Ejecutar Prueba"</strong>
                                 </div>
                             </group>
 
-                            <group>
+                            <group invisible="total_source == 0 or total_matches > 0">
+                                <div class="alert alert-warning" role="alert">
+                                    <strong>⚠️ No se encontraron coincidencias</strong><br/>
+                                    Se procesaron <field name="total_source" readonly="1" class="oe_inline"/> líneas bancarias
+                                    y <field name="total_target" readonly="1" class="oe_inline"/> facturas.<br/><br/>
+                                    <strong>Intente:</strong><br/>
+                                    • Cambiar el tipo de comparación (ej: "Contiene" en lugar de "Igualdad Exacta")<br/>
+                                    • Reducir la similitud mínima<br/>
+                                    • Cambiar los campos que se comparan<br/>
+                                    • Ajustar el período de fechas
+                                </div>
+                            </group>
+
+                            <group invisible="total_matches == 0">
+                                <div class="alert alert-success" role="alert">
+                                    <strong>✅ ¡Se encontraron coincidencias!</strong><br/>
+                                    <field name="total_matches" readonly="1" class="oe_inline"/> matches de
+                                    <field name="total_source" readonly="1" class="oe_inline"/> líneas
+                                    (<field name="match_percentage" readonly="1" class="oe_inline"/>%)
+                                </div>
+                            </group>
+
+                            <group invisible="total_matches == 0">
                                 <button name="action_open_reconcile_view"
-                                        string="Ver en Vista de Conciliación OCA"
+                                        string="🔍 Ver en Vista de Conciliación OCA"
                                         type="object"
                                         class="btn-primary btn-lg"
                                         icon="fa-eye"/>
                             </group>
 
-                            <group string="Líneas con Match Encontrado">
-                                <field name="matched_line_ids" nolabel="1" readonly="1" widget="many2many_tags"/>
+                            <group string="Detalles de Coincidencias" invisible="total_matches == 0">
+                                <field name="match_detail_ids" nolabel="1">
+                                    <tree create="0" delete="0">
+                                        <field name="line_date"/>
+                                        <field name="line_ref"/>
+                                        <field name="line_amount"/>
+                                        <field name="source_value" string="Valor Línea"/>
+                                        <field name="match_score" widget="progressbar"/>
+                                        <field name="invoice_name"/>
+                                        <field name="invoice_amount"/>
+                                        <field name="target_value" string="Valor Factura"/>
+                                    </tree>
+                                </field>
                             </group>
-                            <div class="alert alert-info" role="alert">
-                                <p>
-                                    <strong>Consejo:</strong> Usa el botón "Ver en Vista de Conciliación OCA"
-                                    para ver los detalles completos de cada línea con su factura sugerida y score.
-                                </p>
-                            </div>
                         </page>
                     </notebook>
 
                     <footer>
                         <button name="action_test_rule"
-                                string="Ejecutar Prueba"
+                                string="▶️ Ejecutar Prueba"
                                 type="object"
                                 class="btn-primary"/>
                         <button name="action_open_reconcile_view"
-                                string="Ver Vista OCA"
+                                string="Vista OCA"
                                 type="object"
                                 class="btn-secondary"
                                 invisible="total_matches == 0"/>

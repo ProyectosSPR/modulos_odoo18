@@ -16,7 +16,7 @@
                             <field name="date_from"/>
                             <field name="date_to"/>
                         </group>
-                        <group string="Estadísticas" invisible="total_source == 0">
+                        <group string="Estadísticas">
                             <field name="total_source"/>
                             <field name="total_target"/>
                             <field name="total_matches"/>
@@ -25,8 +25,27 @@
                     </group>
 
                     <notebook>
-                        <page string="Resultados" name="results" invisible="total_matches == 0">
-                            <group>
+                        <page string="Resultados" name="results">
+                            <group invisible="total_source == 0">
+                                <div class="alert alert-warning" role="alert">
+                                    <strong>No se han ejecutado pruebas aún.</strong><br/>
+                                    Haga clic en "Ejecutar Prueba" para comenzar.
+                                </div>
+                            </group>
+
+                            <group invisible="total_source == 0 or total_matches > 0">
+                                <div class="alert alert-warning" role="alert">
+                                    <strong>No se encontraron coincidencias</strong><br/>
+                                    Se procesaron <field name="total_source" readonly="1" class="oe_inline"/> líneas bancarias
+                                    y <field name="total_target" readonly="1" class="oe_inline"/> facturas, pero no se encontraron matches.<br/><br/>
+                                    <strong>Sugerencias:</strong><br/>
+                                    • Verifique que el patrón de extracción coincida con los datos<br/>
+                                    • Revise que existan documentos intermedios (órdenes de venta/compra)<br/>
+                                    • Ajuste el período de fechas para incluir más registros
+                                </div>
+                            </group>
+
+                            <group invisible="total_matches == 0">
                                 <div class="alert alert-success" role="alert">
                                     <strong>¡Regla ejecutada con éxito!</strong><br/>
                                     Se encontraron <field name="total_matches" readonly="1" class="oe_inline"/> coincidencias
