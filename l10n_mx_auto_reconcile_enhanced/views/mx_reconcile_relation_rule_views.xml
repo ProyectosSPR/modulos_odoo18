@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista Form -->
+    <record id="view_mx_reconcile_relation_rule_form" model="ir.ui.view">
+        <field name="name">mx.reconcile.relation.rule.form</field>
+        <field name="model">mx.reconcile.relation.rule</field>
+        <field name="arch" type="xml">
+            <form string="Regla de Conciliación por Relación">
+                <header>
+                    <button name="action_test_rule" string="Probar Regla" type="object" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Ej. Buscar por Orden de Venta"/></h1>
+                    </div>
+                    <group>
+                        <group string="Configuración Básica">
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="sequence"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Extracción de Datos">
+                            <field name="payment_field"/>
+                            <field name="extract_pattern" placeholder="Ej. ([A-Z]{2}\d{5})"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Búsqueda en Documento Relacionado">
+                            <field name="relation_model"/>
+                            <field name="relation_search_field"/>
+                            <field name="search_type"/>
+                        </group>
+                        <group string="Relación Final">
+                            <field name="invoice_relation_field"/>
+                            <field name="auto_reconcile"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Descripción">
+                            <field name="description" placeholder="Describe cómo funciona esta regla..."/>
+                            <div class="alert alert-info mt-3" role="alert">
+                                <strong>Ejemplo:</strong> Si el pago dice "Pago orden SO12345", puedes configurar:
+                                <ul>
+                                    <li>Campo en Pago: Referencia de Pago</li>
+                                    <li>Patrón de Extracción: (SO\d+)</li>
+                                    <li>Documento Intermedio: Orden de Venta</li>
+                                    <li>Campo de Búsqueda: Nombre/Número</li>
+                                    <li>Relación a Factura: Facturas (invoice_ids)</li>
+                                </ul>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Tree -->
+    <record id="view_mx_reconcile_relation_rule_tree" model="ir.ui.view">
+        <field name="name">mx.reconcile.relation.rule.tree</field>
+        <field name="model">mx.reconcile.relation.rule</field>
+        <field name="arch" type="xml">
+            <list string="Reglas de Conciliación por Relación">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="relation_model"/>
+                <field name="search_type"/>
+                <field name="priority" widget="priority"/>
+                <field name="auto_reconcile" widget="boolean_toggle"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Acción -->
+    <record id="action_mx_reconcile_relation_rule" model="ir.actions.act_window">
+        <field name="name">Reglas por Relación</field>
+        <field name="res_model">mx.reconcile.relation.rule</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea reglas para buscar a través de documentos relacionados
+            </p>
+            <p>
+                Útil cuando el pago hace referencia a una Orden de Venta o Compra en lugar de la factura.
+            </p>
+        </field>
+    </record>
+</odoo>

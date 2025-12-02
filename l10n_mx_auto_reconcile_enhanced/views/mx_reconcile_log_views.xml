@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista Form -->
+    <record id="view_mx_reconcile_log_form" model="ir.ui.view">
+        <field name="name">mx.reconcile.log.form</field>
+        <field name="model">mx.reconcile.log</field>
+        <field name="arch" type="xml">
+            <form string="Log de Conciliación" create="0" edit="0">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Detalles de Conciliación">
+                            <field name="date"/>
+                            <field name="user_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Regla Utilizada">
+                            <field name="rule_type"/>
+                            <field name="rule_id" invisible="rule_type != 'direct'"/>
+                            <field name="relation_rule_id" invisible="rule_type != 'relation'"/>
+                            <field name="match_score" widget="progressbar"/>
+                        </group>
+                    </group>
+                    <group string="Documentos">
+                        <group>
+                            <field name="statement_line_id" invisible="not statement_line_id"/>
+                            <field name="payment_id" invisible="not payment_id"/>
+                            <field name="source_field"/>
+                        </group>
+                        <group>
+                            <field name="invoice_id"/>
+                            <field name="target_field"/>
+                            <field name="related_document" invisible="not related_document"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notas">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Tree -->
+    <record id="view_mx_reconcile_log_tree" model="ir.ui.view">
+        <field name="name">mx.reconcile.log.tree</field>
+        <field name="model">mx.reconcile.log</field>
+        <field name="arch" type="xml">
+            <list string="Log de Conciliaciones" create="0" decoration-info="state == 'pending'" decoration-success="state == 'confirmed'" decoration-danger="state == 'rejected'">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="rule_type"/>
+                <field name="match_score" widget="progressbar"/>
+                <field name="state" widget="badge" decoration-info="state == 'pending'" decoration-success="state == 'confirmed'" decoration-danger="state == 'rejected'"/>
+                <field name="user_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Acción -->
+    <record id="action_mx_reconcile_log" model="ir.actions.act_window">
+        <field name="name">Log de Conciliaciones</field>
+        <field name="res_model">mx.reconcile.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Registro de auditoría de conciliaciones automáticas
+            </p>
+        </field>
+    </record>
+</odoo>

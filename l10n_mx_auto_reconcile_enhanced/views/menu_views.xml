@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menú Principal -->
+    <menuitem id="menu_mx_auto_reconcile_root"
+              name="Conciliación Automática"
+              parent="l10n_mx_tax_declaration_base.menu_mx_tax_declaration_root"
+              sequence="20"/>
+
+    <!-- Submenús -->
+    <menuitem id="menu_mx_auto_reconcile_wizard"
+              name="Ejecutar Conciliación"
+              parent="menu_mx_auto_reconcile_root"
+              action="action_mx_auto_reconcile_wizard"
+              sequence="10"/>
+
+    <menuitem id="menu_mx_reconcile_log"
+              name="Log de Conciliaciones"
+              parent="menu_mx_auto_reconcile_root"
+              action="action_mx_reconcile_log"
+              sequence="20"/>
+
+    <menuitem id="menu_mx_reconcile_config"
+              name="Configuración"
+              parent="menu_mx_auto_reconcile_root"
+              sequence="30"/>
+
+    <!-- Configuración -->
+    <menuitem id="menu_mx_reconcile_rule"
+              name="Reglas Directas"
+              parent="menu_mx_reconcile_config"
+              action="action_mx_reconcile_rule"
+              sequence="10"/>
+
+    <menuitem id="menu_mx_reconcile_relation_rule"
+              name="Reglas por Relación"
+              parent="menu_mx_reconcile_config"
+              action="action_mx_reconcile_relation_rule"
+              sequence="20"/>
+</odoo>

@@ -107,6 +107,12 @@ class MxTaxDeclarationWizard(models.TransientModel):
         compute='_compute_reconciliation_stats',
     )
 
+    reconcile_wizard_ids = fields.One2many(
+        'mx.auto.reconcile.wizard',
+        'tax_declaration_wizard_id',
+        string='Wizard de Conciliación',
+    )
+
     # ===================
     # PASO 4: CÁLCULOS
     # ===================
@@ -275,6 +281,18 @@ class MxTaxDeclarationWizard(models.TransientModel):
             raise UserError(_('Debe seleccionar al menos una factura.'))
 
         self.state = 'step3_reconcile'
+        
+        # Inicializar wizard de conciliación
+        if not self.reconcile_wizard_ids:
+            self.env['mx.auto.reconcile.wizard'].create({
+                'tax_declaration_wizard_id': self.id,
+                'date_from': self.period_start,
+                'date_to': self.period_end,
+                'company_id': self.company_id.id,
+                'source_type': 'statement_lines',
+                'only_unreconciled': True,
+            })
+        
         return self._reopen_wizard()
 
     def action_back_step2(self):

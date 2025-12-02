@@ -130,54 +130,94 @@
                     <div invisible="state != 'step3_reconcile'">
                         <div class="oe_title">
                             <h1>Paso 3: Conciliación Bancaria</h1>
-                            <p>Concilie los pagos con las facturas (opcional)</p>
+                            <p>Concilie los pagos con las facturas para asegurar la deducibilidad</p>
                         </div>
 
-                        <group>
-                            <group>
-                                <label for="reconciled_count" string="Estado de Conciliación"/>
-                                <div>
-                                    <span class="text-success"><field name="reconciled_count" class="oe_inline"/> conciliadas</span>
-                                    <span> / </span>
-                                    <span class="text-danger"><field name="unreconciled_count" class="oe_inline"/> sin conciliar</span>
-                                </div>
-                            </group>
-                            <group>
-                                <field name="skip_reconciliation"/>
-                            </group>
-                        </group>
+                        <field name="reconcile_wizard_ids" mode="kanban">
+                            <kanban create="0" delete="0">
+                                <field name="total_processed"/>
+                                <field name="total_matched"/>
+                                <field name="total_suggestions"/>
+                                <field name="total_unmatched"/>
+                                <field name="min_match_score"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                            <div class="oe_kanban_details">
+                                                <strong class="o_kanban_record_title">
+                                                    <span>Conciliación Automática</span>
+                                                </strong>
+                                                
+                                                <div class="row mt-3">
+                                                    <div class="col-6">
+                                                        <strong>Resultados:</strong><br/>
+                                                        <ul>
+                                                            <li>Procesados: <field name="total_processed"/></li>
+                                                            <li>Con Match: <field name="total_matched"/></li>
+                                                            <li>Sugerencias: <field name="total_suggestions"/></li>
+                                                            <li>Sin Match: <field name="total_unmatched"/></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <strong>Configuración:</strong><br/>
+                                                        Score Mínimo: <field name="min_match_score"/>%
+                                                    </div>
+                                                </div>
 
-                        <div class="alert alert-info" role="alert" invisible="skip_reconciliation">
+                                                <div class="row mt-3">
+                                                    <div class="col-12">
+                                                        <button name="action_run_reconciliation" type="object" class="btn btn-primary btn-sm me-1">
+                                                            Ejecutar Conciliación
+                                                        </button>
+                                                        <button name="action_review_suggestions" type="object" class="btn btn-info btn-sm me-1" invisible="total_suggestions == 0">
+                                                            Revisar Sugerencias
+                                                        </button>
+                                                        <button name="action_mark_non_deductible_wizard" type="object" class="btn btn-warning btn-sm me-1" invisible="total_unmatched == 0">
+                                                            No Deducibles
+                                                        </button>
+                                                        <button name="action_open_full_reconcile_view" type="object" class="btn btn-secondary btn-sm">
+                                                            Vista Completa
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                            <form>
+                                <header>
+                                    <button name="action_run_reconciliation" string="Ejecutar Conciliación" type="object" class="btn-primary"/>
+                                    <button name="action_open_full_reconcile_view" string="Abrir Vista Completa" type="object" class="btn-secondary"/>
+                                </header>
+                                <sheet>
+                                    <group>
+                                        <group string="Opciones">
+                                            <field name="apply_direct_rules"/>
+                                            <field name="apply_relation_rules"/>
+                                            <field name="min_match_score"/>
+                                        </group>
+                                        <group string="Resultados">
+                                            <field name="total_processed" readonly="1"/>
+                                            <field name="total_suggestions" readonly="1"/>
+                                            <field name="total_unmatched" readonly="1"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <button name="action_review_suggestions" string="Revisar Sugerencias" type="object" class="btn-info" invisible="total_suggestions == 0"/>
+                                        <button name="action_mark_non_deductible_wizard" string="Marcar No Deducibles" type="object" class="btn-warning" invisible="total_unmatched == 0"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+
+                        <div class="alert alert-info mt-3" role="alert">
                             <p>
-                                <i class="fa fa-info-circle"/> La conciliación bancaria permite:
-                            </p>
-                            <ul>
-                                <li>Identificar pagos recibidos y realizados</li>
-                                <li>Verificar facturas pagadas</li>
-                                <li>Detectar pagos sin factura</li>
-                            </ul>
-                            <p class="mb-0">
-                                Si no necesita conciliar, puede omitir este paso.
+                                <i class="fa fa-info-circle"/> <strong>Nota:</strong>
+                                Puede utilizar la "Vista Completa" para acceder a la interfaz avanzada de conciliación.
+                                Los pagos no conciliados pueden ser marcados como "No Deducibles" manualmente.
                             </p>
                         </div>
-
-                        <div class="alert alert-warning" role="alert" invisible="not skip_reconciliation or unreconciled_count == 0">
-                            <p>
-                                <i class="fa fa-warning"/> Tiene <field name="unreconciled_count" readonly="1"/> facturas sin conciliar.
-                            </p>
-                            <p class="mb-0">
-                                Puede continuar sin conciliar, pero se recomienda conciliar todas las facturas
-                                para una declaración más precisa.
-                            </p>
-                        </div>
-
-                        <group invisible="skip_reconciliation">
-                            <button name="action_open_reconcile_widget"
-                                    string="Abrir Herramienta de Conciliación"
-                                    type="object"
-                                    class="btn-primary"
-                                    icon="fa-link"/>
-                        </group>
                     </div>
 
                     <!-- ==================== -->

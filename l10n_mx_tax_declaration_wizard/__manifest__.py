@@ -41,10 +41,11 @@
     'website': 'www.itadmin.com.mx',
     'license': 'OPL-1',
     'depends': [
-        'l10n_mx_tax_declaration_base',
         'account',
-        'mail',
+        'l10n_mx_tax_declaration_base',
+        'l10n_mx_tax_declaration_sat_sync',
         'l10n_mx_sat_sync_itadmin',
+        'l10n_mx_auto_reconcile_enhanced',
     ],
     'data': [
         'security/security.xml',
