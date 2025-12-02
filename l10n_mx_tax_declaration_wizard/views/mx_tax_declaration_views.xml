@@ -43,7 +43,7 @@
                         <button name="action_view_invoices" type="object" class="oe_stat_button" icon="fa-file-text-o">
                             <field name="invoice_count" widget="statinfo" string="Facturas"/>
                         </button>
-                        <button name="%(action_mx_tax_declaration_wizard)d" type="action" class="oe_stat_button" icon="fa-magic" invisible="state != 'draft'" string="Wizard"/>
+                        <button name="%(l10n_mx_tax_declaration_wizard.action_mx_tax_declaration_wizard)d" type="action" class="oe_stat_button" icon="fa-magic" invisible="state != 'draft'" string="Wizard"/>
                     </div>
 
                     <widget name="web_ribbon" title="Cancelada" bg_color="text-bg-danger" invisible="state != 'cancel'"/>

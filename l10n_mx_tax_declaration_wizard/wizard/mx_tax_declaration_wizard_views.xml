@@ -8,46 +8,39 @@
         <field name="arch" type="xml">
             <form string="Crear Declaración Fiscal">
                 <header>
-                    <!-- Barra de progreso con badges -->
-                    <div class="o_row">
-                        <button name="state" type="object" string="1. Configuración"
-                                class="btn btn-primary" disabled="1"
-                                invisible="state != 'step1_config'"/>
-                        <button name="state" type="object" string="1. Configuración"
-                                class="btn btn-secondary" disabled="1"
-                                invisible="state == 'step1_config'"/>
+                    <!-- Barra de progreso visual -->
+                    <div class="o_wizard_progressbar">
+                        <span class="badge text-bg-primary" invisible="state != 'step1_config'">1. Configuración</span>
+                        <span class="badge text-bg-secondary" invisible="state == 'step1_config'">1. Configuración</span>
 
-                        <button name="state" type="object" string="2. Facturas"
-                                class="btn btn-primary" disabled="1"
-                                invisible="state != 'step2_invoices'"/>
-                        <button name="state" type="object" string="2. Facturas"
-                                class="btn btn-secondary" disabled="1"
-                                invisible="state == 'step2_invoices' or state == 'step1_config'"/>
+                        <span> → </span>
 
-                        <button name="state" type="object" string="3. Conciliación"
-                                class="btn btn-primary" disabled="1"
-                                invisible="state != 'step3_reconcile'"/>
-                        <button name="state" type="object" string="3. Conciliación"
-                                class="btn btn-secondary" disabled="1"
-                                invisible="state == 'step3_reconcile' or state in ('step1_config', 'step2_invoices')"/>
+                        <span class="badge text-bg-primary" invisible="state != 'step2_invoices'">2. Facturas</span>
+                        <span class="badge text-bg-secondary" invisible="state == 'step2_invoices' or state == 'step1_config'">2. Facturas</span>
+                        <span class="badge text-bg-light" invisible="state != 'step1_config'">2. Facturas</span>
 
-                        <button name="state" type="object" string="4. Cálculos"
-                                class="btn btn-primary" disabled="1"
-                                invisible="state != 'step4_calculate'"/>
-                        <button name="state" type="object" string="4. Cálculos"
-                                class="btn btn-secondary" disabled="1"
-                                invisible="state == 'step4_calculate' or state in ('step1_config', 'step2_invoices', 'step3_reconcile')"/>
+                        <span> → </span>
 
-                        <button name="state" type="object" string="5. Revisión"
-                                class="btn btn-primary" disabled="1"
-                                invisible="state != 'step5_review'"/>
-                        <button name="state" type="object" string="5. Revisión"
-                                class="btn btn-secondary" disabled="1"
-                                invisible="state == 'step5_review' or state in ('step1_config', 'step2_invoices', 'step3_reconcile', 'step4_calculate')"/>
+                        <span class="badge text-bg-primary" invisible="state != 'step3_reconcile'">3. Conciliación</span>
+                        <span class="badge text-bg-secondary" invisible="state == 'step3_reconcile' or state in ('step1_config', 'step2_invoices')">3. Conciliación</span>
+                        <span class="badge text-bg-light" invisible="state not in ('step1_config', 'step2_invoices')">3. Conciliación</span>
 
-                        <button name="state" type="object" string="6. Completado"
-                                class="btn btn-success" disabled="1"
-                                invisible="state != 'step6_done'"/>
+                        <span> → </span>
+
+                        <span class="badge text-bg-primary" invisible="state != 'step4_calculate'">4. Cálculos</span>
+                        <span class="badge text-bg-secondary" invisible="state == 'step4_calculate' or state in ('step1_config', 'step2_invoices', 'step3_reconcile')">4. Cálculos</span>
+                        <span class="badge text-bg-light" invisible="state not in ('step1_config', 'step2_invoices', 'step3_reconcile')">4. Cálculos</span>
+
+                        <span> → </span>
+
+                        <span class="badge text-bg-primary" invisible="state != 'step5_review'">5. Revisión</span>
+                        <span class="badge text-bg-secondary" invisible="state == 'step5_review' or state in ('step1_config', 'step2_invoices', 'step3_reconcile', 'step4_calculate')">5. Revisión</span>
+                        <span class="badge text-bg-light" invisible="state not in ('step1_config', 'step2_invoices', 'step3_reconcile', 'step4_calculate')">5. Revisión</span>
+
+                        <span> → </span>
+
+                        <span class="badge text-bg-success" invisible="state != 'step6_done'">6. Completado</span>
+                        <span class="badge text-bg-light" invisible="state == 'step6_done'">6. Completado</span>
                     </div>
                     <field name="state" invisible="1"/>
                 </header>
@@ -436,8 +429,6 @@
         <field name="res_model">mx.tax.declaration.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
-        <field name="binding_model_id" ref="model_mx_tax_declaration"/>
-        <field name="binding_view_types">form</field>
     </record>
 
     <!-- Vista del wizard de confirmación -->

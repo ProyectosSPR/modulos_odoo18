@@ -383,7 +383,6 @@ class MxTaxDeclarationWizard(models.TransientModel):
                     )
 
         self.calculations_executed = True
-        self.message_post(body=_('Cálculos fiscales ejecutados correctamente.'))
 
         return self._reopen_wizard()
 
