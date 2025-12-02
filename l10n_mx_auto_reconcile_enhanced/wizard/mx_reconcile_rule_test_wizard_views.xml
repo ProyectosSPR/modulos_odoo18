@@ -71,17 +71,14 @@
                             </group>
 
                             <group string="Líneas con Match Encontrado">
-                                <field name="matched_line_ids" nolabel="1" readonly="1">
-                                    <tree>
-                                        <field name="date"/>
-                                        <field name="payment_ref"/>
-                                        <field name="partner_id"/>
-                                        <field name="amount"/>
-                                        <field name="suggested_invoice_id"/>
-                                        <field name="reconcile_match_score" widget="progressbar"/>
-                                    </tree>
-                                </field>
+                                <field name="matched_line_ids" nolabel="1" readonly="1" widget="many2many_tags"/>
                             </group>
+                            <div class="alert alert-info" role="alert">
+                                <p>
+                                    <strong>Consejo:</strong> Usa el botón "Ver en Vista de Conciliación OCA"
+                                    para ver los detalles completos de cada línea con su factura sugerida y score.
+                                </p>
+                            </div>
                         </page>
                     </notebook>
 
