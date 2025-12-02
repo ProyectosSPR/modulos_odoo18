@@ -216,19 +216,19 @@
         action="base.action_partner_supplier_form"
         sequence="20"/>
 
-    <!-- CONCILIACIÓN BANCARIA -->
+    <!-- CONCILIACIÓN BANCARIA (OCA) -->
     <menuitem
         id="menu_mx_tax_quick_access_reconcile"
         name="Conciliación Bancaria"
         parent="menu_mx_tax_quick_access"
         sequence="40"/>
 
-    <!-- Conciliar Extractos Bancarios (OCA) -->
+    <!-- Conciliar Cuentas (OCA) -->
     <menuitem
-        id="menu_mx_tax_quick_bank_reconcile"
-        name="Conciliar Extractos"
+        id="menu_mx_tax_quick_account_reconcile"
+        name="Conciliar Cuentas"
         parent="menu_mx_tax_quick_access_reconcile"
-        action="account.action_bank_statement_tree"
+        action="account_reconcile_oca.account_account_reconcile_act_window"
         sequence="10"/>
 
     <!-- Extractos Bancarios -->
@@ -238,14 +238,6 @@
         parent="menu_mx_tax_quick_access_reconcile"
         action="account.action_bank_statement_tree"
         sequence="20"/>
-
-    <!-- Asientos Contables por Conciliar -->
-    <menuitem
-        id="menu_mx_tax_quick_reconcile_entries"
-        name="Asientos por Conciliar"
-        parent="menu_mx_tax_quick_access_reconcile"
-        action="account.action_move_line_select_reconcile_bank"
-        sequence="30"/>
 
     <!-- REPORTES -->
     <menuitem
@@ -261,21 +253,5 @@
         parent="menu_mx_tax_quick_access_reports"
         action="account.action_account_moves_all"
         sequence="10"/>
-
-    <!-- Balance General -->
-    <menuitem
-        id="menu_mx_tax_quick_balance_sheet"
-        name="Balance General"
-        parent="menu_mx_tax_quick_access_reports"
-        action="account.action_account_financial_report"
-        sequence="20"/>
-
-    <!-- Estado de Resultados -->
-    <menuitem
-        id="menu_mx_tax_quick_profit_loss"
-        name="Estado de Resultados"
-        parent="menu_mx_tax_quick_access_reports"
-        action="account.action_account_financial_report"
-        sequence="30"/>
 
 </odoo>
