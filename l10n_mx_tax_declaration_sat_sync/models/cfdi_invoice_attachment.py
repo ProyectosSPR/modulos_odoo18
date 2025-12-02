@@ -55,14 +55,24 @@ class CfdiInvoiceAttachment(models.TransientModel):
         attachments = self.env['ir.attachment'].browse(active_ids)
 
         # Buscar facturas relacionadas con estos attachments
-        invoices = self.env['account.move'].search([
+        # Filtrar attachments que tengan UUID
+        uuids = attachments.filtered(lambda a: a.cfdi_uuid).mapped('cfdi_uuid')
+
+        domain = [
             ('company_id', '=', self.company_id.id),
             ('state', '=', 'posted'),
             ('include_in_tax_declaration', '=', False),
-            '|',
-            ('folio_fiscal', 'in', attachments.mapped('uuid')),
-            ('message_main_attachment_id', 'in', attachments.ids),
-        ])
+        ]
+
+        # Buscar por UUID si existen
+        if uuids:
+            domain.append(('l10n_mx_edi_cfdi_uuid', 'in', uuids))
+        else:
+            # Si no hay UUIDs, no buscar facturas
+            invoices = self.env['account.move']
+            return
+
+        invoices = self.env['account.move'].search(domain)
 
         if not invoices:
             return

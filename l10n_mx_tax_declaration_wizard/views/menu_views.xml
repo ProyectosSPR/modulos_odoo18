@@ -63,7 +63,7 @@
         sequence="32"/>
 
     <record id="action_mx_tax_declaration_filed" model="ir.actions.act_window">
-        <field name="name">Presentadas"</field>
+        <field name="name">Presentadas</field>
         <field name="res_model">mx.tax.declaration</field>
         <field name="view_mode">list,kanban,form</field>
         <field name="context">{'search_default_filed': 1}</field>
