@@ -44,6 +44,7 @@
         'l10n_mx_tax_declaration_base',
         'account',
         'mail',
+        'l10n_mx_sat_sync_itadmin',
     ],
     'data': [
         'security/security.xml',
