@@ -230,17 +230,23 @@ class MxTaxDeclarationWizard(models.TransientModel):
     @api.onchange('filter_move_type')
     def _onchange_filter_move_type(self):
         """Filtrar facturas por tipo"""
+        if not self.period_start or not self.period_end or not self.company_id:
+            return
+
+        base_domain = [
+            ('include_in_tax_declaration', '=', True),
+            ('tax_declaration_period', '>=', self.period_start),
+            ('tax_declaration_period', '<=', self.period_end),
+            ('company_id', '=', self.company_id.id),
+            ('state', '=', 'posted'),
+        ]
+
+        # Agregar filtro por tipo si no es "all"
         if self.filter_move_type and self.filter_move_type != 'all':
-            base_domain = [
-                ('include_in_tax_declaration', '=', True),
-                ('tax_declaration_period', '>=', self.period_start),
-                ('tax_declaration_period', '<=', self.period_end),
-                ('company_id', '=', self.company_id.id),
-                ('state', '=', 'posted'),
-                ('move_type', '=', self.filter_move_type),
-            ]
-            invoices = self.env['account.move'].search(base_domain)
-            self.invoice_ids = [(6, 0, invoices.ids)]
+            base_domain.append(('move_type', '=', self.filter_move_type))
+
+        invoices = self.env['account.move'].search(base_domain)
+        self.invoice_ids = [(6, 0, invoices.ids)]
 
     def action_add_invoices(self):
         """Abrir selector para agregar más facturas"""

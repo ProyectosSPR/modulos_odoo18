@@ -91,4 +91,166 @@
         action="action_mx_tax_declaration_overdue"
         sequence="34"/>
 
+    <!-- ============================================= -->
+    <!-- ACCESOS RÁPIDOS A MÓDULOS RELACIONADOS -->
+    <!-- ============================================= -->
+
+    <!-- Submenú: Accesos Rápidos -->
+    <menuitem
+        id="menu_mx_tax_quick_access"
+        name="Accesos Rápidos"
+        parent="l10n_mx_tax_declaration_base.menu_mx_tax_declaration_root"
+        sequence="80"/>
+
+    <!-- FACTURACIÓN -->
+    <menuitem
+        id="menu_mx_tax_quick_access_invoicing"
+        name="Facturación"
+        parent="menu_mx_tax_quick_access"
+        sequence="10"/>
+
+    <!-- Facturas de Cliente -->
+    <menuitem
+        id="menu_mx_tax_quick_customer_invoices"
+        name="Facturas de Cliente"
+        parent="menu_mx_tax_quick_access_invoicing"
+        action="account.action_move_out_invoice_type"
+        sequence="10"/>
+
+    <!-- Facturas de Proveedor -->
+    <menuitem
+        id="menu_mx_tax_quick_vendor_bills"
+        name="Facturas de Proveedor"
+        parent="menu_mx_tax_quick_access_invoicing"
+        action="account.action_move_in_invoice_type"
+        sequence="20"/>
+
+    <!-- Facturas para Declarar -->
+    <menuitem
+        id="menu_mx_tax_quick_invoices_to_declare"
+        name="Facturas para Declarar"
+        parent="menu_mx_tax_quick_access_invoicing"
+        action="l10n_mx_tax_declaration_base.action_account_move_to_declare"
+        sequence="30"/>
+
+    <!-- SINCRONIZACIÓN SAT -->
+    <menuitem
+        id="menu_mx_tax_quick_access_sat_sync"
+        name="Sincronización SAT"
+        parent="menu_mx_tax_quick_access"
+        sequence="20"
+        groups="base.group_no_one"/>
+
+    <!-- Importar XMLs del SAT (si existe el módulo) -->
+    <menuitem
+        id="menu_mx_tax_quick_import_sat"
+        name="Importar XMLs del SAT"
+        parent="menu_mx_tax_quick_access_sat_sync"
+        action="l10n_mx_sat_sync_itadmin.action_attachment_emitidos"
+        sequence="10"
+        groups="base.group_no_one"/>
+
+    <!-- XMLs Emitidos -->
+    <menuitem
+        id="menu_mx_tax_quick_sat_emitidos"
+        name="XMLs Emitidos"
+        parent="menu_mx_tax_quick_access_sat_sync"
+        action="l10n_mx_sat_sync_itadmin.action_attachment_emitidos"
+        sequence="20"
+        groups="base.group_no_one"/>
+
+    <!-- XMLs Recibidos -->
+    <menuitem
+        id="menu_mx_tax_quick_sat_recibidos"
+        name="XMLs Recibidos"
+        parent="menu_mx_tax_quick_access_sat_sync"
+        action="l10n_mx_sat_sync_itadmin.action_attachment_recibidos"
+        sequence="30"
+        groups="base.group_no_one"/>
+
+    <!-- CONTACTOS -->
+    <menuitem
+        id="menu_mx_tax_quick_access_contacts"
+        name="Contactos"
+        parent="menu_mx_tax_quick_access"
+        sequence="30"/>
+
+    <!-- Clientes -->
+    <menuitem
+        id="menu_mx_tax_quick_customers"
+        name="Clientes"
+        parent="menu_mx_tax_quick_access_contacts"
+        action="base.action_partner_customer_form"
+        sequence="10"/>
+
+    <!-- Proveedores -->
+    <menuitem
+        id="menu_mx_tax_quick_vendors"
+        name="Proveedores"
+        parent="menu_mx_tax_quick_access_contacts"
+        action="base.action_partner_supplier_form"
+        sequence="20"/>
+
+    <!-- CONCILIACIÓN BANCARIA -->
+    <menuitem
+        id="menu_mx_tax_quick_access_reconcile"
+        name="Conciliación Bancaria"
+        parent="menu_mx_tax_quick_access"
+        sequence="40"/>
+
+    <!-- Conciliar Extractos Bancarios (OCA) -->
+    <menuitem
+        id="menu_mx_tax_quick_bank_reconcile"
+        name="Conciliar Extractos"
+        parent="menu_mx_tax_quick_access_reconcile"
+        action="account.action_bank_statement_tree"
+        sequence="10"/>
+
+    <!-- Extractos Bancarios -->
+    <menuitem
+        id="menu_mx_tax_quick_bank_statements"
+        name="Extractos Bancarios"
+        parent="menu_mx_tax_quick_access_reconcile"
+        action="account.action_bank_statement_tree"
+        sequence="20"/>
+
+    <!-- Asientos Contables por Conciliar -->
+    <menuitem
+        id="menu_mx_tax_quick_reconcile_entries"
+        name="Asientos por Conciliar"
+        parent="menu_mx_tax_quick_access_reconcile"
+        action="account.action_move_line_select_reconcile_bank"
+        sequence="30"/>
+
+    <!-- REPORTES -->
+    <menuitem
+        id="menu_mx_tax_quick_access_reports"
+        name="Reportes Contables"
+        parent="menu_mx_tax_quick_access"
+        sequence="50"/>
+
+    <!-- Libro Mayor -->
+    <menuitem
+        id="menu_mx_tax_quick_general_ledger"
+        name="Libro Mayor"
+        parent="menu_mx_tax_quick_access_reports"
+        action="account.action_account_moves_all"
+        sequence="10"/>
+
+    <!-- Balance General -->
+    <menuitem
+        id="menu_mx_tax_quick_balance_sheet"
+        name="Balance General"
+        parent="menu_mx_tax_quick_access_reports"
+        action="account.action_account_financial_report"
+        sequence="20"/>
+
+    <!-- Estado de Resultados -->
+    <menuitem
+        id="menu_mx_tax_quick_profit_loss"
+        name="Estado de Resultados"
+        parent="menu_mx_tax_quick_access_reports"
+        action="account.action_account_financial_report"
+        sequence="30"/>
+
 </odoo>
