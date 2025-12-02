@@ -97,6 +97,8 @@ class MxReconcileRelationRule(models.Model):
         self.ensure_one()
         matches = []
 
+        _logger.info(f"Aplicando regla por relación '{self.name}' - Source: {len(source_records)}, Target: {len(target_invoices)}")
+
         for source in source_records:
             # Obtener valor del campo en el pago
             source_value = getattr(source, self.payment_field, '') or ''
@@ -106,15 +108,22 @@ class MxReconcileRelationRule(models.Model):
             # Extraer referencia si hay patrón
             reference = self._extract_reference(source_value)
             if not reference:
+                _logger.debug(f"No se pudo extraer referencia de: {source_value}")
                 continue
+
+            _logger.debug(f"Referencia extraída: {reference}")
 
             # Buscar documentos relacionados
             related_docs = self._find_related_documents(reference)
             if not related_docs:
+                _logger.debug(f"No se encontraron documentos relacionados para: {reference}")
                 continue
+
+            _logger.debug(f"Documentos relacionados encontrados: {len(related_docs)}")
 
             # Obtener facturas desde documentos relacionados
             invoices = self._get_invoices_from_relation(related_docs)
+            _logger.debug(f"Facturas desde relación: {len(invoices)}")
             
             # Filtrar solo las facturas que están en target_invoices
             matching_invoices = invoices & target_invoices
@@ -122,8 +131,10 @@ class MxReconcileRelationRule(models.Model):
             for invoice in matching_invoices:
                 # Score basado en si encontramos el documento
                 score = 85.0  # Score alto pero no 100% para revisión
+                _logger.debug(f"Match por relación: {source.id} -> {invoice.id} (score: {score})")
                 matches.append((source, invoice, score, related_docs[0]))
 
+        _logger.info(f"Regla por relación '{self.name}' completada: {len(matches)} matches encontrados")
         return matches
 
     def _extract_reference(self, text):
@@ -199,13 +210,3 @@ class MxReconcileRelationRule(models.Model):
 
         return invoices
 
-    def action_test_rule(self):
-        """Probar la regla con datos de ejemplo"""
-        return {
-            'type': 'ir.actions.act_window',
-            'name': _('Probar Regla: %s') % self.name,
-            'res_model': 'mx.reconcile.relation.rule.test.wizard',
-            'view_mode': 'form',
-            'target': 'new',
-            'context': {'default_rule_id': self.id},
-        }

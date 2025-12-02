@@ -2,6 +2,9 @@
 
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class MxAutoReconcileWizard(models.TransientModel):
     """Wizard de conciliación automática"""
@@ -117,29 +120,55 @@ class MxAutoReconcileWizard(models.TransientModel):
         """Ejecutar proceso de conciliación automática"""
         self.ensure_one()
 
+        _logger.info("=" * 80)
+        _logger.info("INICIANDO PROCESO DE CONCILIACIÓN AUTOMÁTICA")
+        _logger.info(f"Período: {self.date_from} - {self.date_to}")
+        _logger.info(f"Compañía: {self.company_id.name}")
+        _logger.info("=" * 80)
+
         # Obtener items sin conciliar
         items = self._get_unreconciled_items()
+        _logger.info(f"Items sin conciliar encontrados: {len(items)}")
+        
         if not items:
-            raise UserError(_('No se encontraron items sin conciliar en el período seleccionado'))
+            raise UserError(_('No se encontraron items sin conciliar en el período seleccionado.\n\n'
+                            'Período: %s - %s\n'
+                            'Compañía: %s') % (self.date_from, self.date_to, self.company_id.name))
 
         # Obtener facturas objetivo
         invoices = self._get_target_invoices()
+        _logger.info(f"Facturas objetivo encontradas: {len(invoices)}")
+        
         if not invoices:
-            raise UserError(_('No se encontraron facturas para conciliar'))
+            raise UserError(_('No se encontraron facturas para conciliar.\n\n'
+                            'Verifique que existan facturas publicadas con estado de pago "No Pagado" o "Parcialmente Pagado".'))
 
         # Aplicar reglas
         all_matches = []
         
         if self.apply_direct_rules:
+            _logger.info("Aplicando reglas directas...")
             direct_matches = self._apply_direct_rules(items, invoices)
+            _logger.info(f"Reglas directas: {len(direct_matches)} matches encontrados")
             all_matches.extend(direct_matches)
 
         if self.apply_relation_rules:
+            _logger.info("Aplicando reglas por relación...")
             relation_matches = self._apply_relation_rules(items, invoices)
+            _logger.info(f"Reglas por relación: {len(relation_matches)} matches encontrados")
             all_matches.extend(relation_matches)
+
+        _logger.info(f"Total de matches encontrados: {len(all_matches)}")
 
         # Clasificar resultados
         self._classify_results(items, all_matches)
+
+        _logger.info("=" * 80)
+        _logger.info("PROCESO DE CONCILIACIÓN COMPLETADO")
+        _logger.info(f"Procesados: {self.total_processed}")
+        _logger.info(f"Sugerencias: {self.total_suggestions}")
+        _logger.info(f"Sin match: {self.total_unmatched}")
+        _logger.info("=" * 80)
 
         return {
             'type': 'ir.actions.client',

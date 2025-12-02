@@ -3,7 +3,10 @@
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
 import re
+import logging
 from difflib import SequenceMatcher
+
+_logger = logging.getLogger(__name__)
 
 class MxReconcileRule(models.Model):
     """Reglas de conciliación directa entre pagos y facturas"""
@@ -141,20 +144,28 @@ class MxReconcileRule(models.Model):
         self.ensure_one()
         matches = []
 
+        _logger.info(f"Aplicando regla '{self.name}' - Source: {len(source_records)}, Target: {len(target_records)}")
+
         # Aplicar filtros domain si existen
         if self.source_domain_filter and self.source_domain_filter != '[]':
             try:
                 domain_filter = eval(self.source_domain_filter)
-                source_records = source_records.filtered_domain(domain_filter)
-            except:
-                pass  # Si el domain es inválido, usar todos los registros
+                # Usar search en lugar de filtered_domain
+                filtered_ids = source_records.filtered(lambda r: self._match_domain(r, domain_filter))
+                source_records = filtered_ids
+                _logger.info(f"Filtro de origen aplicado: {len(source_records)} registros después del filtro")
+            except Exception as e:
+                _logger.warning(f"Error aplicando filtro de origen: {e}")
 
         if self.target_domain_filter and self.target_domain_filter != '[]':
             try:
                 domain_filter = eval(self.target_domain_filter)
-                target_records = target_records.filtered_domain(domain_filter)
-            except:
-                pass  # Si el domain es inválido, usar todos los registros
+                # Usar search en lugar de filtered_domain
+                filtered_ids = target_records.filtered(lambda r: self._match_domain(r, domain_filter))
+                target_records = filtered_ids
+                _logger.info(f"Filtro de destino aplicado: {len(target_records)} registros después del filtro")
+            except Exception as e:
+                _logger.warning(f"Error aplicando filtro de destino: {e}")
 
         for source in source_records:
             source_value = self._get_field_value(source, self.source_field)
@@ -172,9 +183,45 @@ class MxReconcileRule(models.Model):
 
                 score = self._compare_values(source_value, target_value)
                 if score >= self.min_similarity:
+                    _logger.debug(f"Match encontrado: {source.id} -> {target.id} (score: {score})")
                     matches.append((source, target, score))
 
+        _logger.info(f"Regla '{self.name}' completada: {len(matches)} matches encontrados")
         return matches
+
+    def _match_domain(self, record, domain):
+        """Evaluar si un registro cumple con un domain"""
+        for condition in domain:
+            if len(condition) != 3:
+                continue
+            field, operator, value = condition
+            record_value = getattr(record, field, None)
+            
+            if operator == '=':
+                if record_value != value:
+                    return False
+            elif operator == '!=':
+                if record_value == value:
+                    return False
+            elif operator == 'in':
+                if record_value not in value:
+                    return False
+            elif operator == 'not in':
+                if record_value in value:
+                    return False
+            elif operator == '>':
+                if not (record_value and record_value > value):
+                    return False
+            elif operator == '>=':
+                if not (record_value and record_value >= value):
+                    return False
+            elif operator == '<':
+                if not (record_value and record_value < value):
+                    return False
+            elif operator == '<=':
+                if not (record_value and record_value <= value):
+                    return False
+        return True
 
     def _get_field_value(self, record, field_name):
         """Obtener valor del campo, manejando campos especiales"""
@@ -245,13 +292,3 @@ class MxReconcileRule(models.Model):
 
         return 0.0
 
-    def action_test_rule(self):
-        """Probar la regla con datos de ejemplo"""
-        return {
-            'type': 'ir.actions.act_window',
-            'name': _('Probar Regla: %s') % self.name,
-            'res_model': 'mx.reconcile.rule.test.wizard',
-            'view_mode': 'form',
-            'target': 'new',
-            'context': {'default_rule_id': self.id},
-        }

@@ -6,9 +6,6 @@
         <field name="model">mx.reconcile.relation.rule</field>
         <field name="arch" type="xml">
             <form string="Regla de Conciliación por Relación">
-                <header>
-                    <button name="action_test_rule" string="Probar Regla" type="object" class="btn-secondary"/>
-                </header>
                 <sheet>
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only"/>
