@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mx_reconcile_relation_rule_test_wizard_form" model="ir.ui.view">
+        <field name="name">mx.reconcile.relation.rule.test.wizard.form</field>
+        <field name="model">mx.reconcile.relation.rule.test.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Probar Regla de Conciliación por Relación">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="rule_id"/>
+                        <h1><field name="rule_id" readonly="1"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Período de Prueba">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group string="Estadísticas" invisible="total_source == 0">
+                            <field name="total_source"/>
+                            <field name="total_target"/>
+                            <field name="total_matches"/>
+                            <field name="match_percentage" widget="progressbar"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Resultados" name="results" invisible="total_matches == 0">
+                            <group>
+                                <div class="alert alert-success" role="alert">
+                                    <strong>¡Regla ejecutada con éxito!</strong><br/>
+                                    Se encontraron <field name="total_matches" readonly="1" class="oe_inline"/> coincidencias
+                                    de <field name="total_source" readonly="1" class="oe_inline"/> registros procesados
+                                    (<field name="match_percentage" readonly="1" class="oe_inline"/>%).
+                                </div>
+                            </group>
+
+                            <group>
+                                <button name="action_open_reconcile_view"
+                                        string="Ver en Vista de Conciliación OCA"
+                                        type="object"
+                                        class="btn-primary btn-lg"
+                                        icon="fa-eye"/>
+                            </group>
+
+                            <group string="Líneas con Match Encontrado">
+                                <field name="matched_line_ids" nolabel="1" readonly="1" widget="many2many_tags"/>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                <p>
+                                    <strong>Consejo:</strong> Usa el botón "Ver en Vista de Conciliación OCA"
+                                    para ver los detalles completos de cada línea con su factura sugerida y score.
+                                </p>
+                            </div>
+                        </page>
+                    </notebook>
+
+                    <footer>
+                        <button name="action_test_rule"
+                                string="Ejecutar Prueba"
+                                type="object"
+                                class="btn-primary"/>
+                        <button name="action_open_reconcile_view"
+                                string="Ver Vista OCA"
+                                type="object"
+                                class="btn-secondary"
+                                invisible="total_matches == 0"/>
+                        <button string="Cerrar" special="cancel" class="btn-secondary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

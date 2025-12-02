@@ -45,6 +45,7 @@
         'wizard/mx_auto_reconcile_wizard_views.xml',
         'wizard/mx_mark_non_deductible_wizard_views.xml',
         'wizard/mx_reconcile_rule_test_wizard_views.xml',
+        'wizard/mx_reconcile_relation_rule_test_wizard_views.xml',
         'views/menu_views.xml',
     ],
     'installable': True,
