@@ -40,6 +40,7 @@ class MxTaxCalculationRule(models.Model):
         ('simple_subtract', 'Resta Simple'),
         ('filtered_sum', 'Suma con Filtros'),
         ('filtered_subtract', 'Resta con Filtros'),
+        ('subtract', 'Resta entre Reglas'),
         ('multiply', 'Multiplicación'),
         ('divide', 'División'),
         ('percentage', 'Porcentaje'),
@@ -184,6 +185,9 @@ class MxTaxCalculationRule(models.Model):
                 filtered_invoices = self._apply_domain_filter(invoices)
                 return self._calculate_simple_subtract(filtered_invoices)
 
+            elif self.calculation_type == 'subtract':
+                return self._calculate_subtract(rules_results)
+
             elif self.calculation_type == 'multiply':
                 return self._calculate_multiply(rules_results)
 
@@ -234,6 +238,17 @@ class MxTaxCalculationRule(models.Model):
         regular = invoices - refunds
 
         return sum(regular.mapped(self.field_to_sum)) - sum(refunds.mapped(self.field_to_sum))
+
+    def _calculate_subtract(self, rules_results):
+        """Restar dos operandos (Operando 1 - Operando 2)"""
+        if self.operand_1 and self.operand_2:
+            val1 = rules_results.get(self.operand_1.id, 0.0)
+            val2 = rules_results.get(self.operand_2.id, 0.0)
+            return val1 - val2
+        elif self.operand_1 and self.operand_value:
+            val1 = rules_results.get(self.operand_1.id, 0.0)
+            return val1 - self.operand_value
+        return 0.0
 
     def _calculate_multiply(self, rules_results):
         """Multiplicar dos operandos o un operando por un valor fijo"""

@@ -62,16 +62,35 @@
                                 </p>
                             </group>
 
+                            <!-- Resta entre Reglas -->
+                            <group string="Resta entre Reglas"
+                                   invisible="calculation_type != 'subtract'">
+                                <group>
+                                    <field name="operand_1"
+                                           domain="[('obligation_id', '=', obligation_id), ('id', '!=', id)]"
+                                           options="{'no_create_edit': True}"
+                                           required="calculation_type == 'subtract'"/>
+                                    <field name="operand_2"
+                                           domain="[('obligation_id', '=', obligation_id), ('id', '!=', id)]"
+                                           options="{'no_create_edit': True}"
+                                           required="calculation_type == 'subtract'"/>
+                                </group>
+                                <div class="alert alert-info" role="alert">
+                                    <strong>Cálculo:</strong> Operando 1 - Operando 2<br/>
+                                    Ejemplo: IVA Causado - IVA Acreditable = IVA a Pagar
+                                </div>
+                            </group>
+
                             <!-- Operaciones matemáticas -->
                             <group string="Operaciones Matemáticas"
                                    invisible="calculation_type not in ('multiply', 'divide', 'percentage')">
                                 <group>
                                     <field name="operand_1"
-                                           domain="[('obligation_id', '=', obligation_id)]"
+                                           domain="[('obligation_id', '=', obligation_id), ('id', '!=', id)]"
                                            options="{'no_create_edit': True}"/>
                                     <field name="operand_2"
                                            invisible="calculation_type == 'percentage'"
-                                           domain="[('obligation_id', '=', obligation_id)]"
+                                           domain="[('obligation_id', '=', obligation_id), ('id', '!=', id)]"
                                            options="{'no_create_edit': True}"/>
                                 </group>
                                 <group>
