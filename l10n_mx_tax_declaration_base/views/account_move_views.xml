@@ -74,7 +74,7 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_account_move_filter"/>
         <field name="arch" type="xml">
-            <xpath expr="//filter[@name='posted']" position="after">
+            <xpath expr="//search" position="inside">
                 <separator/>
                 <filter string="Para Declarar" name="to_declare"
                         domain="[('include_in_tax_declaration', '=', True), ('tax_declaration_status', '=', 'pending')]"/>
@@ -84,14 +84,14 @@
                         domain="[('tax_declaration_status', '=', 'excluded')]"/>
                 <filter string="Declaradas" name="declared"
                         domain="[('tax_declaration_status', '=', 'declared')]"/>
-            </xpath>
-            <xpath expr="//group[@name='groupby']" position="inside">
-                <filter string="Estado Declaración" name="group_tax_status"
-                        context="{'group_by': 'tax_declaration_status'}"/>
-                <filter string="Período Fiscal (Mes)" name="group_tax_month"
-                        context="{'group_by': 'tax_declaration_month'}"/>
-                <filter string="Período Fiscal (Año)" name="group_tax_year"
-                        context="{'group_by': 'tax_declaration_year'}"/>
+                <group expand="0" string="Agrupar Por Declaración">
+                    <filter string="Estado Declaración" name="group_tax_status"
+                            context="{'group_by': 'tax_declaration_status'}"/>
+                    <filter string="Período Fiscal (Mes)" name="group_tax_month"
+                            context="{'group_by': 'tax_declaration_month'}"/>
+                    <filter string="Período Fiscal (Año)" name="group_tax_year"
+                            context="{'group_by': 'tax_declaration_year'}"/>
+                </group>
             </xpath>
         </field>
     </record>
