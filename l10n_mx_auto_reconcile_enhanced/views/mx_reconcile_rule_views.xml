@@ -34,7 +34,18 @@
                             <field name="remove_spaces"/>
                             <field name="remove_special_chars"/>
                         </group>
-                        <group string="Opciones Avanzadas">
+                    </group>
+                    <group>
+                        <group string="Filtros de Origen (Domain)">
+                            <field name="source_domain_filter" widget="domain" options="{'model': 'account.bank.statement.line'}" invisible="source_model != 'statement_line'"/>
+                            <field name="source_domain_filter" widget="domain" options="{'model': 'account.payment'}" invisible="source_model != 'payment'"/>
+                        </group>
+                        <group string="Filtros de Destino (Domain)">
+                            <field name="target_domain_filter" widget="domain" options="{'model': 'account.move'}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Opciones de Coincidencia">
                             <field name="min_similarity" widget="progressbar"/>
                             <field name="regex_pattern" invisible="match_type != 'regex'" required="match_type == 'regex'"/>
                             <field name="auto_reconcile"/>

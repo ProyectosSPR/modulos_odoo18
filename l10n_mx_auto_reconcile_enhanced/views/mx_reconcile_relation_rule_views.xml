@@ -24,6 +24,16 @@
                         </group>
                     </group>
                     <group>
+                        <group string="Filtros de Origen (Domain)">
+                            <field name="source_domain_filter" widget="domain" options="{'model': 'account.payment'}"/>
+                        </group>
+                        <group string="Filtros de Documentos (Domain)">
+                            <field name="relation_domain_filter" widget="domain" options="{'model': 'sale.order'}" invisible="relation_model != 'sale.order'"/>
+                            <field name="relation_domain_filter" widget="domain" options="{'model': 'purchase.order'}" invisible="relation_model != 'purchase.order'"/>
+                            <field name="relation_domain_filter" widget="domain" options="{'model': 'account.move'}" invisible="relation_model != 'account.move'"/>
+                        </group>
+                    </group>
+                    <group>
                         <group string="Búsqueda en Documento Relacionado">
                             <field name="relation_model"/>
                             <field name="relation_search_field_id" options="{'no_create': True}"/>

@@ -91,9 +91,20 @@ class MxReconcileRelationRule(models.Model):
         ('low', 'Baja'),
     ], string='Prioridad', default='medium', required=True)
 
-    description = fields.Text(
-        string='Descripción',
+    # Filtros Domain
+    source_domain_filter = fields.Char(
+        string='Filtro de Pagos',
+        default='[]',
+        help='Domain para filtrar pagos/líneas bancarias',
     )
+    
+    relation_domain_filter = fields.Char(
+        string='Filtro de Documentos',
+        default='[]',
+        help='Domain para filtrar documentos intermedios (ej. solo órdenes confirmadas)',
+    )
+
+    @api.constrains('min_similarity')
 
     def apply_relation_rule(self, source_records, target_invoices):
         """
@@ -107,6 +118,16 @@ class MxReconcileRelationRule(models.Model):
         matches = []
 
         _logger.info(f"Aplicando regla por relación '{self.name}' - Source: {len(source_records)}, Target: {len(target_invoices)}")
+
+        # Aplicar filtro de pagos si existe
+        if self.source_domain_filter and self.source_domain_filter != '[]':
+            try:
+                domain_filter = eval(self.source_domain_filter)
+                # Usar search en lugar de filtered_domain
+                filtered_ids = source_records.filtered(lambda r: self._match_domain(r, domain_filter))
+                source_records = filtered_ids
+            except Exception as e:
+                _logger.warning(f"Error aplicando filtro de pagos: {e}")
 
         for source in source_records:
             # Obtener valor del campo en el pago
@@ -173,6 +194,14 @@ class MxReconcileRelationRule(models.Model):
 
         domain = self._build_search_domain(reference)
         
+        # Agregar filtro de documentos si existe
+        if self.relation_domain_filter and self.relation_domain_filter != '[]':
+            try:
+                extra_domain = eval(self.relation_domain_filter)
+                domain = domain + extra_domain
+            except Exception as e:
+                _logger.warning(f"Error aplicando filtro de documentos: {e}")
+        
         try:
             related_docs = self.env[self.relation_model].search(domain)
             return related_docs
@@ -222,18 +251,26 @@ class MxReconcileRelationRule(models.Model):
 
         return invoices
 
-    def _get_field_value(self, record, field_id):
-        """Obtener valor del campo dinámicamente"""
-        if not field_id:
-            return ''
+    def _match_domain(self, record, domain):
+        """Evaluar si un registro cumple con un domain (copiado de mx.reconcile.rule)"""
+        for condition in domain:
+            if len(condition) != 3:
+                continue
+            field, operator, value = condition
+            record_value = getattr(record, field, None)
             
-        field_name = field_id.name
-        
-        # Manejar campos Many2one (obtener el nombre)
-        if field_id.ttype == 'many2one':
-            related_record = getattr(record, field_name, False)
-            return related_record.name if related_record else ''
-        
-        # Campos normales
-        return getattr(record, field_name, '') or ''
+            if operator == '=':
+                if record_value != value:
+                    return False
+            elif operator == '!=':
+                if record_value == value:
+                    return False
+            elif operator == 'in':
+                if record_value not in value:
+                    return False
+            elif operator == 'not in':
+                if record_value in value:
+                    return False
+            # ... otros operadores básicos ...
+        return True
 
