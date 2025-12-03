@@ -28,6 +28,7 @@ class MxReconcileRuleUnified(models.Model):
         'ir.model.fields',
         string='Campo del Pago a Buscar',
         required=True,
+        ondelete='set null',
         domain="[('model', 'in', ['account.payment', 'account.bank.statement.line']), "
                "('ttype', 'in', ['char', 'text', 'many2one'])]",
         help='¿En qué campo del pago buscar? Ej: payment_ref, narration, ref',
@@ -49,6 +50,7 @@ class MxReconcileRuleUnified(models.Model):
     invoice_search_field_id = fields.Many2one(
         'ir.model.fields',
         string='Campo de la Factura',
+        ondelete='set null',
         domain="[('model', '=', 'account.move'), "
                "('ttype', 'in', ['char', 'text', 'many2one'])]",
         help='Campo de la factura donde buscar la coincidencia',
@@ -63,6 +65,7 @@ class MxReconcileRuleUnified(models.Model):
     relation_search_field_id = fields.Many2one(
         'ir.model.fields',
         string='Campo del Documento Intermedio',
+        ondelete='set null',
         domain="[('model', '=', relation_model)]",
         help='Campo del documento intermedio donde buscar. Ej: name, client_order_ref',
     )
