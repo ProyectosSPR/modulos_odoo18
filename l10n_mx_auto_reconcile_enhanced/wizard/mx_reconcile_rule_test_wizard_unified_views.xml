@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mx_reconcile_rule_test_wizard_unified_form" model="ir.ui.view">
+        <field name="name">mx.reconcile.rule.test.wizard.unified.form</field>
+        <field name="model">mx.reconcile.rule.test.wizard.unified</field>
+        <field name="arch" type="xml">
+            <form string="Probar Regla de Conciliación">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="rule_id"/>
+                        <h1><field name="rule_id" readonly="1"/></h1>
+                        <p class="text-muted">Prueba esta regla con un período específico para ver qué pagos coinciden con qué facturas</p>
+                    </div>
+
+                    <group>
+                        <group string="Período de Prueba">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group string="Estadísticas">
+                            <field name="total_payments"/>
+                            <field name="total_invoices"/>
+                            <field name="total_matches"/>
+                            <field name="match_percentage" widget="progressbar"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="📊 Resultados" name="results">
+                            <!-- No se ha ejecutado -->
+                            <group invisible="total_payments > 0">
+                                <div class="alert alert-info" role="alert">
+                                    <strong>👉 Haz clic en "Ejecutar Prueba" para comenzar</strong><br/>
+                                    Se buscarán pagos/líneas bancarias en el período seleccionado y se aplicará la regla de conciliación.
+                                </div>
+                            </group>
+
+                            <!-- Se ejecutó pero no hay matches -->
+                            <group invisible="total_payments == 0 or total_matches > 0">
+                                <div class="alert alert-warning" role="alert">
+                                    <strong>⚠️ No se encontraron coincidencias</strong><br/>
+                                    Se procesaron <field name="total_payments" readonly="1" class="oe_inline"/> pagos
+                                    y <field name="total_invoices" readonly="1" class="oe_inline"/> facturas, pero no hubo matches.<br/><br/>
+                                    <strong>Posibles razones:</strong><br/>
+                                    • Los valores buscados no existen en las facturas<br/>
+                                    • El patrón de extracción no coincide<br/>
+                                    • Los filtros son muy restrictivos<br/>
+                                    • El operador de comparación no es adecuado
+                                </div>
+                            </group>
+
+                            <!-- Hay matches -->
+                            <group invisible="total_matches == 0">
+                                <div class="alert alert-success" role="alert">
+                                    <strong>✅ ¡Éxito! Se encontraron coincidencias</strong><br/>
+                                    <field name="total_matches" readonly="1" class="oe_inline"/> matches de
+                                    <field name="total_payments" readonly="1" class="oe_inline"/> pagos procesados
+                                    (<field name="match_percentage" readonly="1" class="oe_inline"/>%)
+                                </div>
+                            </group>
+
+                            <!-- Botón para abrir vista OCA -->
+                            <group invisible="total_matches == 0">
+                                <button name="action_open_reconcile_view"
+                                        string="🔍 Ver en Vista de Conciliación OCA"
+                                        type="object"
+                                        class="btn-primary btn-lg"
+                                        icon="fa-external-link"/>
+                            </group>
+
+                            <!-- Tabla de detalles -->
+                            <group string="Detalles de Coincidencias" invisible="total_matches == 0">
+                                <field name="match_detail_ids" nolabel="1">
+                                    <tree create="0" delete="0" decoration-success="match_score &gt;= 90" decoration-info="match_score &lt; 90 and match_score &gt;= 70">
+                                        <field name="payment_date"/>
+                                        <field name="payment_ref"/>
+                                        <field name="payment_amount" sum="Total"/>
+                                        <field name="match_score" widget="progressbar"/>
+                                        <field name="invoice_name"/>
+                                        <field name="invoice_partner"/>
+                                        <field name="invoice_amount" sum="Total"/>
+                                        <field name="match_info"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+
+                    <footer>
+                        <button name="action_test_rule"
+                                string="▶️ Ejecutar Prueba"
+                                type="object"
+                                class="btn-primary"/>
+                        <button name="action_open_reconcile_view"
+                                string="Vista OCA"
+                                type="object"
+                                class="btn-secondary"
+                                invisible="total_matches == 0"/>
+                        <button string="Cerrar" special="cancel" class="btn-secondary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

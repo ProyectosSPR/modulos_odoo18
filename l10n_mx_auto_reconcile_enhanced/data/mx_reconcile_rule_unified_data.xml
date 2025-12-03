@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Ejemplo 1: Match directo por referencia bancaria = número de factura -->
+    <record id="rule_unified_direct_ref" model="mx.reconcile.rule.unified">
+        <field name="name">Match Directo: Referencia = Número Factura</field>
+        <field name="sequence">10</field>
+        <field name="priority">high</field>
+        <field name="active" eval="False"/>
+
+        <!-- PASO 1: Campo del pago a buscar -->
+        <field name="payment_search_field_id" ref="account.field_account_bank_statement_line__payment_ref"/>
+
+        <!-- PASO 2: Modo directo -->
+        <field name="match_mode">direct</field>
+        <field name="invoice_search_field_id" ref="account.field_account_move__name"/>
+
+        <!-- PASO 3: Comparación -->
+        <field name="comparison_operator">ilike</field>
+        <field name="case_sensitive" eval="False"/>
+        <field name="remove_spaces" eval="True"/>
+
+        <!-- PASO 4: Score -->
+        <field name="min_score">70.0</field>
+
+        <field name="description">Busca directamente si la referencia del pago contiene el número de la factura.
+        Ejemplo: Pago con referencia "INV/2024/00123" coincide con factura "INV/2024/00123"</field>
+    </record>
+
+    <!-- Ejemplo 2: Match por Orden de Venta -->
+    <record id="rule_unified_sale_order" model="mx.reconcile.rule.unified">
+        <field name="name">Match por Orden de Venta</field>
+        <field name="sequence">20</field>
+        <field name="priority">high</field>
+        <field name="active" eval="False"/>
+
+        <!-- PASO 1: Campo del pago -->
+        <field name="payment_search_field_id" ref="account.field_account_bank_statement_line__payment_ref"/>
+        <field name="extract_pattern">SO(\d+)</field>
+
+        <!-- PASO 2: Modo relación -->
+        <field name="match_mode">relation</field>
+        <field name="relation_model">sale.order</field>
+        <field name="relation_search_field_id" ref="sale.field_sale_order__name"/>
+        <field name="relation_to_invoice_field">invoice_ids</field>
+
+        <!-- PASO 3: Comparación -->
+        <field name="comparison_operator">ilike</field>
+        <field name="case_sensitive" eval="False"/>
+
+        <!-- PASO 4: Filtros y score -->
+        <field name="min_score">80.0</field>
+        <field name="relation_domain">[('state', '=', 'sale')]</field>
+
+        <field name="description">Extrae el número de orden del pago (ej. "SO001234" de "Pago SO001234"),
+busca esa orden de venta, y obtiene sus facturas relacionadas.
+
+Ejemplo:
+- Pago con referencia "Pago cliente SO001234"
+- Encuentra Orden de Venta SO001234
+- Obtiene las facturas de esa orden</field>
+    </record>
+
+    <!-- Ejemplo 3: Match por Orden de Compra -->
+    <record id="rule_unified_purchase_order" model="mx.reconcile.rule.unified">
+        <field name="name">Match por Orden de Compra</field>
+        <field name="sequence">30</field>
+        <field name="priority">medium</field>
+        <field name="active" eval="False"/>
+
+        <!-- PASO 1: Campo del pago -->
+        <field name="payment_search_field_id" ref="account.field_account_bank_statement_line__payment_ref"/>
+        <field name="extract_pattern">PO(\d+)</field>
+
+        <!-- PASO 2: Modo relación -->
+        <field name="match_mode">relation</field>
+        <field name="relation_model">purchase.order</field>
+        <field name="relation_search_field_id" ref="purchase.field_purchase_order__name"/>
+        <field name="relation_to_invoice_field">invoice_ids</field>
+
+        <!-- PASO 3: Comparación -->
+        <field name="comparison_operator">ilike</field>
+
+        <!-- PASO 4: Score -->
+        <field name="min_score">80.0</field>
+        <field name="relation_domain">[('state', 'in', ['purchase', 'done'])]</field>
+
+        <field name="description">Similar a órdenes de venta, pero para órdenes de compra.
+Busca facturas de proveedor a través de las órdenes de compra.</field>
+    </record>
+
+    <!-- Ejemplo 4: Match por Partner Name -->
+    <record id="rule_unified_partner_name" model="mx.reconcile.rule.unified">
+        <field name="name">Match Directo: Por Nombre de Partner</field>
+        <field name="sequence">40</field>
+        <field name="priority">low</field>
+        <field name="active" eval="False"/>
+
+        <!-- PASO 1: Campo del pago -->
+        <field name="payment_search_field_id" ref="account.field_account_bank_statement_line__partner_id"/>
+
+        <!-- PASO 2: Modo directo -->
+        <field name="match_mode">direct</field>
+        <field name="invoice_search_field_id" ref="account.field_account_move__partner_id"/>
+
+        <!-- PASO 3: Comparación -->
+        <field name="comparison_operator">=</field>
+
+        <!-- PASO 4: Score y filtros -->
+        <field name="min_score">60.0</field>
+        <field name="invoice_domain">[('payment_state', 'in', ['not_paid', 'partial'])]</field>
+
+        <field name="description">Coincide pagos con facturas del mismo partner.
+Score bajo porque puede haber múltiples facturas del mismo cliente.</field>
+    </record>
+
+    <!-- Ejemplo 5: Match Inverso - Desde Órdenes de Venta Facturadas -->
+    <record id="rule_unified_reverse_sale_order" model="mx.reconcile.rule.unified">
+        <field name="name">Match Inverso: Órdenes Facturadas → Pagos</field>
+        <field name="sequence">50</field>
+        <field name="priority">high</field>
+        <field name="active" eval="False"/>
+
+        <!-- PASO 1: Campo del pago donde buscar -->
+        <field name="payment_search_field_id" ref="account.field_account_bank_statement_line__payment_ref"/>
+        <field name="extract_pattern">SO(\d+)</field>
+
+        <!-- PASO 2: Modo inverso -->
+        <field name="match_mode">relation_reverse</field>
+        <field name="relation_model">sale.order</field>
+        <field name="relation_search_field_id" ref="sale.field_sale_order__name"/>
+        <field name="relation_to_invoice_field">invoice_ids</field>
+
+        <!-- PASO 3: Comparación -->
+        <field name="comparison_operator">ilike</field>
+        <field name="case_sensitive" eval="False"/>
+
+        <!-- PASO 4: Filtros y score -->
+        <field name="min_score">70.0</field>
+        <field name="relation_domain">[('state', '=', 'sale'), ('invoice_status', '=', 'invoiced')]</field>
+
+        <field name="description">🔄 BÚSQUEDA INVERSA: Desde Órdenes → Pagos
+
+Flujo:
+1. Busca Órdenes de Venta que estén confirmadas (state=sale) y facturadas (invoice_status=invoiced)
+2. Para cada orden (ej. SO001234), busca pagos que contengan "SO001234" en su referencia
+3. Concilia las facturas de esa orden con esos pagos
+
+Caso de uso:
+Tienes órdenes que ya fueron facturadas, y quieres encontrar automáticamente los pagos
+que los clientes hicieron referenciando el número de orden, para conciliar esas facturas.
+
+Ejemplo:
+- Orden SO001234 → Factura INV/2024/00123
+- Pago en el banco con referencia "Pago cliente SO001234"
+- Esta regla encuentra ese pago y lo concilia con la factura INV/2024/00123</field>
+    </record>
+
+    <!-- Ejemplo 6: Match Inverso - Desde Órdenes de Compra -->
+    <record id="rule_unified_reverse_purchase_order" model="mx.reconcile.rule.unified">
+        <field name="name">Match Inverso: Órdenes de Compra → Pagos</field>
+        <field name="sequence">60</field>
+        <field name="priority">medium</field>
+        <field name="active" eval="False"/>
+
+        <!-- PASO 1: Campo del pago -->
+        <field name="payment_search_field_id" ref="account.field_account_bank_statement_line__payment_ref"/>
+        <field name="extract_pattern">PO(\d+)</field>
+
+        <!-- PASO 2: Modo inverso -->
+        <field name="match_mode">relation_reverse</field>
+        <field name="relation_model">purchase.order</field>
+        <field name="relation_search_field_id" ref="purchase.field_purchase_order__name"/>
+        <field name="relation_to_invoice_field">invoice_ids</field>
+
+        <!-- PASO 3: Comparación -->
+        <field name="comparison_operator">ilike</field>
+
+        <!-- PASO 4: Score -->
+        <field name="min_score">70.0</field>
+        <field name="relation_domain">[('state', 'in', ['purchase', 'done']), ('invoice_status', '=', 'invoiced')]</field>
+
+        <field name="description">Similar al modo inverso para órdenes de venta, pero para órdenes de compra.
+Busca órdenes de compra facturadas, encuentra pagos que las referencian, y concilia las facturas de proveedor.</field>
+    </record>
+</odoo>

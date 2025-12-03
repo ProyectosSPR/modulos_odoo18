@@ -3,8 +3,12 @@ access_mx_reconcile_rule_user,mx.reconcile.rule user,model_mx_reconcile_rule,gro
 access_mx_reconcile_rule_manager,mx.reconcile.rule manager,model_mx_reconcile_rule,group_reconcile_manager,1,1,1,1
 access_mx_reconcile_relation_rule_user,mx.reconcile.relation.rule user,model_mx_reconcile_relation_rule,group_reconcile_user,1,0,0,0
 access_mx_reconcile_relation_rule_manager,mx.reconcile.relation.rule manager,model_mx_reconcile_relation_rule,group_reconcile_manager,1,1,1,1
+access_mx_reconcile_rule_unified_user,mx.reconcile.rule.unified user,model_mx_reconcile_rule_unified,group_reconcile_user,1,0,0,0
+access_mx_reconcile_rule_unified_manager,mx.reconcile.rule.unified manager,model_mx_reconcile_rule_unified,group_reconcile_manager,1,1,1,1
 access_mx_reconcile_log_user,mx.reconcile.log user,model_mx_reconcile_log,group_reconcile_user,1,1,1,0
 access_mx_reconcile_log_manager,mx.reconcile.log manager,model_mx_reconcile_log,group_reconcile_manager,1,1,1,1
 access_mx_auto_reconcile_wizard,mx.auto.reconcile.wizard,model_mx_auto_reconcile_wizard,group_reconcile_user,1,1,1,1
 access_mx_mark_non_deductible_wizard,mx.mark.non.deductible.wizard,model_mx_mark_non_deductible_wizard,group_reconcile_user,1,1,1,1
+access_mx_reconcile_rule_test_wizard_unified,mx.reconcile.rule.test.wizard.unified,model_mx_reconcile_rule_test_wizard_unified,group_reconcile_user,1,1,1,1
+access_mx_reconcile_rule_test_match_unified,mx.reconcile.rule.test.match.unified,model_mx_reconcile_rule_test_match_unified,group_reconcile_user,1,1,1,1
 

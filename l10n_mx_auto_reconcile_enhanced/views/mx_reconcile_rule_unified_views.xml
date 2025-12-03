@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista Form -->
+    <record id="view_mx_reconcile_rule_unified_form" model="ir.ui.view">
+        <field name="name">mx.reconcile.rule.unified.form</field>
+        <field name="model">mx.reconcile.rule.unified</field>
+        <field name="arch" type="xml">
+            <form string="Regla de Conciliación">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_test_rule"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-flask">
+                            <span>Probar Regla</span>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Ej: Conciliar por Orden de Venta"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Configuración Básica">
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="sequence"/>
+                            <field name="priority" widget="priority"/>
+                        </group>
+                        <group string="Puntuación">
+                            <field name="min_score" widget="progressbar"/>
+                            <field name="auto_reconcile"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="🔍 Configuración de Búsqueda" name="search_config">
+                            <group>
+                                <group string="PASO 1: ¿Qué campo del Pago buscar?">
+                                    <field name="payment_search_field_id"
+                                           options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="extract_pattern"
+                                           placeholder='Ej: r"SO(\d+)" para extraer números'/>
+                                    <div class="alert alert-info" role="alert">
+                                        <strong>Ejemplos de campos comunes:</strong><br/>
+                                        • <code>payment_ref</code>: Referencia de pago<br/>
+                                        • <code>narration</code>: Descripción/Narración<br/>
+                                        • <code>ref</code>: Referencia del extracto<br/>
+                                        • <code>partner_id</code>: Partner (Many2one)
+                                    </div>
+                                </group>
+
+                                <group string="PASO 2: ¿Buscar Directo o por Relación?">
+                                    <field name="match_mode" widget="radio"/>
+
+                                    <!-- Modo Directo -->
+                                    <div invisible="match_mode != 'direct'" class="o_row">
+                                        <label for="invoice_search_field_id" string="Campo de Factura"/>
+                                        <field name="invoice_search_field_id"
+                                               required="match_mode == 'direct'"
+                                               options="{'no_create': True, 'no_open': True}"/>
+                                    </div>
+
+                                    <!-- Modo Relación -->
+                                    <div invisible="match_mode not in ('relation', 'relation_reverse')">
+                                        <field name="relation_model"
+                                               required="match_mode in ('relation', 'relation_reverse')"/>
+                                        <field name="relation_search_field_id"
+                                               required="match_mode in ('relation', 'relation_reverse')"
+                                               options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="relation_to_invoice_field"
+                                               placeholder="invoice_ids"/>
+                                    </div>
+
+                                    <div class="alert alert-success" role="alert" invisible="match_mode != 'direct'">
+                                        <strong>🎯 Modo Directo:</strong> Compara directamente el campo del pago con el campo de la factura.<br/>
+                                        <strong>Flujo:</strong> Pago → Factura<br/>
+                                        <strong>Ejemplo:</strong> payment_ref = invoice.name
+                                    </div>
+
+                                    <div class="alert alert-success" role="alert" invisible="match_mode != 'relation'">
+                                        <strong>🔗 Modo Relación:</strong> Busca el valor del pago en un documento intermedio (Orden de Venta/Compra),
+                                        luego obtiene las facturas relacionadas a ese documento.<br/>
+                                        <strong>Flujo:</strong> Pago → Orden → Factura<br/>
+                                        <strong>Ejemplo:</strong> payment_ref contiene "SO001234" → buscar Orden SO001234 → obtener sus facturas
+                                    </div>
+
+                                    <div class="alert alert-warning" role="alert" invisible="match_mode != 'relation_reverse'">
+                                        <strong>🔄 Modo Relación Inversa:</strong> Busca órdenes primero, luego encuentra pagos que referencien esas órdenes,
+                                        y finalmente concilia las facturas de las órdenes con esos pagos.<br/>
+                                        <strong>Flujo:</strong> Orden → Pago → Conciliar Factura de Orden<br/>
+                                        <strong>Ejemplo:</strong><br/>
+                                        1. Busca Órdenes de Venta en estado "sale" (filtro en relation_domain)<br/>
+                                        2. Para cada orden (ej. SO001234), busca pagos que contengan "SO001234" en payment_ref<br/>
+                                        3. Concilia las facturas de esa orden con esos pagos<br/><br/>
+                                        <strong>💡 Caso de uso:</strong> Tienes órdenes facturadas y quieres encontrar automáticamente
+                                        los pagos que las referencian para conciliarlas.
+                                    </div>
+                                </group>
+                            </group>
+
+                            <group>
+                                <group string="PASO 3: ¿Cómo Comparar?">
+                                    <field name="comparison_operator"/>
+                                    <field name="case_sensitive"/>
+                                    <field name="remove_spaces"/>
+
+                                    <div class="alert alert-info" role="alert">
+                                        <strong>Operadores disponibles:</strong><br/>
+                                        • <code>=</code>: Igualdad exacta<br/>
+                                        • <code>ilike</code>: Contiene (insensible a mayúsculas)<br/>
+                                        • <code>like</code>: Patrón con %<br/>
+                                        • <code>in</code>: Está en lista<br/>
+                                        • <code>=ilike</code>: Igual O contiene
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="🎯 Filtros Adicionales" name="filters">
+                            <group>
+                                <group string="Filtrar Pagos/Líneas Bancarias">
+                                    <field name="payment_domain"
+                                           widget="domain"
+                                           options="{'model': 'account.bank.statement.line'}"
+                                           placeholder="[(&#39;amount&#39;, &#39;&gt;&#39;, 1000)]"/>
+                                    <div class="text-muted">
+                                        <small>
+                                            <strong>Ejemplos:</strong><br/>
+                                            • Solo no conciliados: <code>[('is_reconciled', '=', False)]</code><br/>
+                                            • Montos mayores: <code>[('amount', '>', 1000)]</code><br/>
+                                            • Con partner: <code>[('partner_id', '!=', False)]</code>
+                                        </small>
+                                    </div>
+                                </group>
+
+                                <group string="Filtrar Facturas">
+                                    <field name="invoice_domain"
+                                           widget="domain"
+                                           options="{'model': 'account.move'}"
+                                           placeholder="[(&#39;move_type&#39;, &#39;=&#39;, &#39;out_invoice&#39;)]"/>
+                                    <div class="text-muted">
+                                        <small>
+                                            <strong>Ejemplos:</strong><br/>
+                                            • Facturas cliente: <code>[('move_type', '=', 'out_invoice')]</code><br/>
+                                            • Facturas proveedor: <code>[('move_type', 'in', ['in_invoice', 'in_refund'])]</code><br/>
+                                            • No pagadas: <code>[('payment_state', '!=', 'paid')]</code>
+                                        </small>
+                                    </div>
+                                </group>
+
+                                <group string="Filtrar Documentos Intermedios" invisible="match_mode not in ('relation', 'relation_reverse')">
+                                    <field name="relation_domain"
+                                           placeholder="[(&#39;state&#39;, &#39;=&#39;, &#39;sale&#39;)]"/>
+                                    <div class="text-muted">
+                                        <small>
+                                            <strong>Ejemplos para Órdenes de Venta:</strong><br/>
+                                            • Solo confirmadas: <code>[('state', '=', 'sale')]</code><br/>
+                                            • Por partner: <code>[('partner_id', '=', partner_id)]</code><br/>
+                                            <br/>
+                                            <strong>Para Órdenes de Compra:</strong><br/>
+                                            • Solo confirmadas: <code>[('state', 'in', ['purchase', 'done'])]</code><br/>
+                                            <br/>
+                                            <strong class="text-warning">Para Modo Inverso (relation_reverse):</strong><br/>
+                                            Este filtro es <strong>REQUERIDO</strong> para definir qué órdenes buscar.<br/>
+                                            • Ej: <code>[('state', '=', 'sale'), ('invoice_status', '=', 'invoiced')]</code>
+                                        </small>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="📝 Descripción" name="description">
+                            <field name="description" placeholder="Describe cómo funciona esta regla y cuándo usarla..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Tree -->
+    <record id="view_mx_reconcile_rule_unified_tree" model="ir.ui.view">
+        <field name="name">mx.reconcile.rule.unified.tree</field>
+        <field name="model">mx.reconcile.rule.unified</field>
+        <field name="arch" type="xml">
+            <list string="Reglas de Conciliación">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="match_mode" widget="badge" decoration-info="match_mode == 'direct'" decoration-success="match_mode == 'relation'"/>
+                <field name="payment_search_field_id"/>
+                <field name="invoice_search_field_id" optional="hide"/>
+                <field name="relation_model" optional="hide"/>
+                <field name="comparison_operator"/>
+                <field name="min_score" widget="progressbar" optional="show"/>
+                <field name="priority" widget="priority"/>
+                <field name="auto_reconcile" widget="boolean_toggle" optional="show"/>
+                <field name="active" widget="boolean_toggle"/>
+                <button name="action_test_rule"
+                        type="object"
+                        icon="fa-flask"
+                        title="Probar Regla"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Acción -->
+    <record id="action_mx_reconcile_rule_unified" model="ir.actions.act_window">
+        <field name="name">Reglas de Conciliación</field>
+        <field name="res_model">mx.reconcile.rule.unified</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea tu primera regla de conciliación
+            </p>
+            <p>
+                Define reglas flexibles para relacionar pagos con facturas.<br/>
+                • <strong>Modo Directo:</strong> Compara campos directamente (pago → factura)<br/>
+                • <strong>Modo Relación:</strong> Busca a través de documentos intermedios (pago → orden → factura)
+            </p>
+        </field>
+    </record>
+</odoo>
