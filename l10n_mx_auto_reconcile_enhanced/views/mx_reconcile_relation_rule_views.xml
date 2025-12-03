@@ -31,6 +31,7 @@
                             <field name="relation_domain_filter" widget="domain" options="{'model': 'sale.order'}" invisible="relation_model != 'sale.order'"/>
                             <field name="relation_domain_filter" widget="domain" options="{'model': 'purchase.order'}" invisible="relation_model != 'purchase.order'"/>
                             <field name="relation_domain_filter" widget="domain" options="{'model': 'account.move'}" invisible="relation_model != 'account.move'"/>
+                        </group>
                         <group string="Búsqueda Avanzada (Python)">
                             <field name="python_match_domain" widget="ace" options="{'mode': 'python'}" placeholder="[('client_order_ref', '=', source.payment_ref)]"/>
                             <div class="alert alert-info" role="alert" colspan="2" invisible="not python_match_domain">
