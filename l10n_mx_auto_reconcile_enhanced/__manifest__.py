@@ -36,6 +36,7 @@
         'account_reconcile_oca',
         'l10n_mx_tax_declaration_base',
         'l10n_mx_sat_sync_itadmin',
+        'l10n_mx_edi',
     ],
     'data': [
         'security/security.xml',
