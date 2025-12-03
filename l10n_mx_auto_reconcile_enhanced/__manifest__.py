@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'México - Conciliación Automática Avanzada',
-    'version': '18.0.1.0.1',
+    'version': '18.0.1.0.2',
     'category': 'Accounting/Localizations',
     'summary': 'Conciliación automática inteligente con reglas personalizables y modo inverso',
     'description': '''
