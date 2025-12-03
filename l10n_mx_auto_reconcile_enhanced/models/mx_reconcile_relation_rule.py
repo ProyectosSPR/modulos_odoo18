@@ -36,6 +36,7 @@ class MxReconcileRelationRule(models.Model):
         'ir.model.fields',
         string='Campo en Pago',
         required=True,
+        ondelete='cascade',
         domain="[('model', 'in', ['account.payment', 'account.bank.statement.line']), ('ttype', 'in', ['char', 'text'])]",
         help='Campo del pago o línea bancaria donde buscar la referencia',
     )

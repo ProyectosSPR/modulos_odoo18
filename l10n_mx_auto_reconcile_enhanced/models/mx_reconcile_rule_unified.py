@@ -28,6 +28,7 @@ class MxReconcileRuleUnified(models.Model):
         'ir.model.fields',
         string='Campo del Pago a Buscar',
         required=True,
+        ondelete='cascade',
         domain="[('model', 'in', ['account.payment', 'account.bank.statement.line']), "
                "('ttype', 'in', ['char', 'text', 'many2one'])]",
         help='¿En qué campo del pago buscar? Ej: payment_ref, narration, ref',
