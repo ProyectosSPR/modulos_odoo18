@@ -2,18 +2,13 @@
 <odoo>
     <data noupdate="1">
 
-        <!-- ========================================= -->
-        <!-- REGLAS DE CONCILIACIÓN DIRECTA -->
-        <!-- ========================================= -->
-
-        <!-- Regla 1: Match exacto por referencia -->
         <record id="rule_exact_ref" model="mx.reconcile.rule">
             <field name="name">Match Exacto - Referencia</field>
             <field name="sequence">10</field>
             <field name="source_model">statement_line</field>
-            <field name="source_field">ref</field>
+            <field name="source_field_id" ref="account.field_account_bank_statement_line__ref"/>
             <field name="target_model">invoice</field>
-            <field name="target_field">ref</field>
+            <field name="target_field_id" ref="account.field_account_move__ref"/>
             <field name="match_type">equals</field>
             <field name="auto_reconcile">True</field>
             <field name="priority">high</field>
@@ -21,14 +16,13 @@
             <field name="description">Coincidencia exacta entre la referencia del pago y la referencia de la factura</field>
         </record>
 
-        <!-- Regla 2: UUID en descripción -->
         <record id="rule_uuid_in_narration" model="mx.reconcile.rule">
             <field name="name">UUID en Descripción</field>
             <field name="sequence">20</field>
             <field name="source_model">statement_line</field>
-            <field name="source_field">payment_ref</field>
+            <field name="source_field_id" ref="account.field_account_bank_statement_line__payment_ref"/>
             <field name="target_model">invoice</field>
-            <field name="target_field">l10n_mx_edi_cfdi_uuid</field>
+            <field name="target_field_id" ref="l10n_mx_edi.field_account_move__l10n_mx_edi_cfdi_uuid"/>
             <field name="match_type">contains</field>
             <field name="auto_reconcile">True</field>
             <field name="priority">high</field>
@@ -36,14 +30,13 @@
             <field name="description">Busca el UUID fiscal en la descripción del pago</field>
         </record>
 
-        <!-- Regla 3: Match por número de factura -->
         <record id="rule_invoice_number" model="mx.reconcile.rule">
             <field name="name">Número de Factura en Referencia</field>
             <field name="sequence">30</field>
             <field name="source_model">statement_line</field>
-            <field name="source_field">payment_ref</field>
+            <field name="source_field_id" ref="account.field_account_bank_statement_line__payment_ref"/>
             <field name="target_model">invoice</field>
-            <field name="target_field">name</field>
+            <field name="target_field_id" ref="account.field_account_move__name"/>
             <field name="match_type">contains</field>
             <field name="auto_reconcile">False</field>
             <field name="require_manual_review">True</field>
@@ -52,49 +45,41 @@
             <field name="description">Busca el número de factura en la referencia del pago</field>
         </record>
 
-        <!-- Regla 4: Match por partner -->
         <record id="rule_partner_name" model="mx.reconcile.rule">
             <field name="name">Coincidencia por Cliente/Proveedor</field>
             <field name="sequence">40</field>
             <field name="source_model">statement_line</field>
-            <field name="source_field">partner_name</field>
+            <field name="source_field_id" ref="account.field_account_bank_statement_line__partner_id"/>
             <field name="target_model">invoice</field>
-            <field name="target_field">partner_name</field>
-            <field name="match_type">like</field>
-            <field name="auto_reconcile">False</field>
+            <field name="target_field_id" ref="account.field_account_move__partner_id"/>
+            <field name="match_type">equals</field> <field name="auto_reconcile">False</field>
             <field name="require_manual_review">True</field>
             <field name="priority">low</field>
-            <field name="min_similarity">80.0</field>
-            <field name="description">Coincidencia por nombre del cliente o proveedor (requiere revisión)</field>
+            <field name="min_similarity">100.0</field>
+            <field name="description">Coincidencia por Cliente/Proveedor (requiere revisión)</field>
         </record>
 
-        <!-- ========================================= -->
-        <!-- REGLAS DE CONCILIACIÓN POR RELACIÓN -->
-        <!-- ========================================= -->
-
-        <!-- Regla 1: Por orden de venta -->
         <record id="relation_rule_sale_order" model="mx.reconcile.relation.rule">
             <field name="name">Buscar por Orden de Venta</field>
             <field name="sequence">10</field>
-            <field name="payment_field">payment_ref</field>
+            <field name="payment_field_id" ref="account.field_account_bank_statement_line__payment_ref"/>
             <field name="relation_model">sale.order</field>
-            <field name="relation_search_field">name</field>
-            <field name="invoice_relation_field">invoice_ids</field>
+            <field name="relation_search_field_id" ref="sale.field_sale_order__name"/>
+            <field name="invoice_relation_field_id" ref="sale.field_sale_order__invoice_ids"/>
             <field name="search_type">contains</field>
             <field name="extract_pattern">([A-Z]{2,4}\d{5,})</field>
             <field name="auto_reconcile">False</field>
             <field name="priority">medium</field>
-            <field name="description">Extrae el número de orden de venta (ej: SO12345, DML02542) y busca sus facturas relacionadas</field>
+            <field name="description">Extrae el número de orden de venta (ej: SO12345) y busca sus facturas relacionadas</field>
         </record>
 
-        <!-- Regla 2: Por referencia del cliente en orden de venta -->
         <record id="relation_rule_sale_client_ref" model="mx.reconcile.relation.rule">
             <field name="name">Buscar por Referencia del Cliente</field>
             <field name="sequence">20</field>
-            <field name="payment_field">payment_ref</field>
+            <field name="payment_field_id" ref="account.field_account_bank_statement_line__payment_ref"/>
             <field name="relation_model">sale.order</field>
-            <field name="relation_search_field">client_order_ref</field>
-            <field name="invoice_relation_field">invoice_ids</field>
+            <field name="relation_search_field_id" ref="sale.field_sale_order__client_order_ref"/>
+            <field name="invoice_relation_field_id" ref="sale.field_sale_order__invoice_ids"/>
             <field name="search_type">contains</field>
             <field name="extract_pattern">(\d{6,})</field>
             <field name="auto_reconcile">False</field>
@@ -102,14 +87,13 @@
             <field name="description">Busca la referencia del cliente en órdenes de venta (números de 6+ dígitos)</field>
         </record>
 
-        <!-- Regla 3: Por orden de compra -->
         <record id="relation_rule_purchase_order" model="mx.reconcile.relation.rule">
             <field name="name">Buscar por Orden de Compra</field>
             <field name="sequence">30</field>
-            <field name="payment_field">payment_ref</field>
+            <field name="payment_field_id" ref="account.field_account_bank_statement_line__payment_ref"/>
             <field name="relation_model">purchase.order</field>
-            <field name="relation_search_field">name</field>
-            <field name="invoice_relation_field">invoice_ids</field>
+            <field name="relation_search_field_id" ref="purchase.field_purchase_order__name"/>
+            <field name="invoice_relation_field_id" ref="purchase.field_purchase_order__invoice_ids"/>
             <field name="search_type">contains</field>
             <field name="extract_pattern">([A-Z]{2,4}\d{5,})</field>
             <field name="auto_reconcile">False</field>
@@ -117,14 +101,13 @@
             <field name="description">Extrae el número de orden de compra y busca sus facturas relacionadas</field>
         </record>
 
-        <!-- Regla 4: Por referencia del proveedor -->
         <record id="relation_rule_purchase_partner_ref" model="mx.reconcile.relation.rule">
             <field name="name">Buscar por Referencia del Proveedor</field>
             <field name="sequence">40</field>
-            <field name="payment_field">payment_ref</field>
+            <field name="payment_field_id" ref="account.field_account_bank_statement_line__payment_ref"/>
             <field name="relation_model">purchase.order</field>
-            <field name="relation_search_field">partner_ref</field>
-            <field name="invoice_relation_field">invoice_ids</field>
+            <field name="relation_search_field_id" ref="purchase.field_purchase_order__partner_ref"/>
+            <field name="invoice_relation_field_id" ref="purchase.field_purchase_order__invoice_ids"/>
             <field name="search_type">contains</field>
             <field name="auto_reconcile">False</field>
             <field name="priority">low</field>
