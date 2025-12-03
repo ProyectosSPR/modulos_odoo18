@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'México - Conciliación Automática Avanzada',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.1',
     'category': 'Accounting/Localizations',
-    'summary': 'Conciliación automática inteligente con reglas personalizables',
+    'summary': 'Conciliación automática inteligente con reglas personalizables y modo inverso',
     'description': '''
         Conciliación Automática Avanzada para México
         =============================================
@@ -18,9 +18,12 @@
         * Log completo de auditoría
         
         Características:
+        - Sistema unificado con 3 modos: Directo, Relación, Relación Inversa
         - Match exacto, contiene, like, regex
-        - Búsqueda en documentos relacionados
+        - Búsqueda en documentos relacionados (órdenes de venta/compra)
+        - Búsqueda inversa: desde órdenes hacia pagos
         - Score de confianza para cada match
+        - Wizard de prueba con tabla detallada de resultados
         - Vista embebida en wizard de declaraciones
         - Opción de vista completa de conciliación
         - Wizard para marcar no deducibles manualmente
