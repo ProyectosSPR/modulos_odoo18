@@ -108,6 +108,12 @@ class MxReconcileRelationRule(models.Model):
         help='Domain para filtrar documentos intermedios (ej. solo órdenes confirmadas)',
     )
 
+    python_match_domain = fields.Text(
+        string='Dominio Python Dinámico',
+        help='Dominio Python evaluado dinámicamente. Use "source" para referirse al registro de pago/línea.\n'
+             'Ejemplo: [("client_order_ref", "=", source.payment_ref)]',
+    )
+
     @api.constrains('min_similarity')
 
     def apply_relation_rule(self, source_records, target_invoices):
@@ -139,18 +145,46 @@ class MxReconcileRelationRule(models.Model):
             if not source_value:
                 continue
 
-            # Extraer referencia si hay patrón
-            reference = self._extract_reference(source_value)
-            if not reference:
-                _logger.debug(f"No se pudo extraer referencia de: {source_value}")
-                continue
+            # 2. Construir dominio de búsqueda
+            domain = []
+            if self.python_match_domain:
+                # Usar dominio python dinámico
+                try:
+                    # Contexto seguro para eval
+                    eval_context = {
+                        'source': source,
+                        'datetime': datetime,
+                        'time': time,
+                    }
+                    domain = eval(self.python_match_domain, eval_context)
+                    _logger.debug(f"Dominio dinámico generado: {domain}")
+                except Exception as e:
+                    _logger.error(f"Error evaluando dominio dinámico en regla {self.name}: {e}")
+                    # If dynamic domain fails for one source, we should skip this source, not return for all.
+                    continue 
+            else:
+                # Usar lógica estándar
+                # Extraer referencia si hay patrón
+                reference = self._extract_reference(source_value)
+                if not reference:
+                    _logger.debug(f"No se pudo extraer referencia de: {source_value}")
+                    continue
 
-            _logger.debug(f"Referencia extraída: {reference}")
-
+                _logger.debug(f"Referencia extraída: {reference}")
+                domain = self._build_search_domain(reference)
+            
+            # Agregar filtro de documentos si existe
+            if self.relation_domain_filter and self.relation_domain_filter != '[]':
+                try:
+                    extra_domain = eval(self.relation_domain_filter)
+                    domain = domain + extra_domain
+                except Exception as e:
+                    _logger.warning(f"Error aplicando filtro de documentos: {e}")
+            
             # Buscar documentos relacionados
-            related_docs = self._find_related_documents(reference)
+            related_docs = self.env[self.relation_model].search(domain)
             if not related_docs:
-                _logger.debug(f"No se encontraron documentos relacionados para: {reference}")
+                _logger.debug(f"No se encontraron documentos relacionados para el dominio: {domain}")
                 continue
 
             _logger.debug(f"Documentos relacionados encontrados: {len(related_docs)}")
