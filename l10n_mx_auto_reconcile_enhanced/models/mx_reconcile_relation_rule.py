@@ -52,6 +52,7 @@ class MxReconcileRelationRule(models.Model):
         'ir.model.fields',
         string='Campo de Búsqueda',
         required=True,
+        ondelete='cascade',
         domain="[('model', '=', relation_model), ('ttype', 'in', ['char', 'text', 'many2one'])]",
         help='Campo del documento intermedio donde buscar la coincidencia',
     )
@@ -61,6 +62,7 @@ class MxReconcileRelationRule(models.Model):
         'ir.model.fields',
         string='Campo de Relación a Factura',
         required=True,
+        ondelete='cascade',
         domain="[('model', '=', relation_model), ('ttype', 'in', ['one2many', 'many2many']), ('relation', '=', 'account.move')]",
         help='Campo del documento intermedio que contiene las facturas relacionadas',
     )
